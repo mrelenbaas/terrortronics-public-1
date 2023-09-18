@@ -1,0 +1,693 @@
+\doxysection{USB Class Reference}
+\hypertarget{class_u_s_b}{}\label{class_u_s_b}\index{USB@{USB}}
+
+
+The \doxylink{class_u_s_b}{USB} library.  
+
+
+Inheritance diagram for USB\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_u_s_b}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{Incoming\+Option}} \{ \mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a4859cf9c4171b469659f79568aa2149e}{Update\+Function}} = INCOMING\+\_\+\+IN\+\_\+\+UPDATE\+\_\+\+FUNCTION
+, \mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0}{Invoked\+Function}} = INCOMING\+\_\+\+IN\+\_\+\+INVOKED\+\_\+\+FUNTION
+, \mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264ad92f43bc4196acbb7032ddffd2ee3e45}{Threaded\+Function}} = INCOMING\+\_\+\+IN\+\_\+\+THREADED\+\_\+\+FUNCTION
+, \mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a159065b81da9dbcb1888bcc444a1c919}{User\+Interface\+Function}} = INCOMING\+\_\+\+IN\+\_\+\+USER\+\_\+\+INTERFACE\+\_\+\+FUNCTION
+ \}
+\begin{DoxyCompactList}\small\item\em Enum of options for how to receive incoming data. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages}} \{ \mbox{\hyperlink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684aa6122a65eaa676f700ae68d393054a37}{Start}} = OUTGOING\+\_\+\+START
+, \mbox{\hyperlink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684a526d688f37a86d3c3f27d0c5016eb71d}{Reset}} = OUTGOING\+\_\+\+RESET
+ \}
+\begin{DoxyCompactList}\small\item\em An enum of messages to be sent to any Arduino. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static Thread \mbox{\hyperlink{class_u_s_b_a525928a469d72fbf9f766192b850dd58}{threaded\+Function}}
+\begin{DoxyCompactList}\small\item\em A thread for \doxylink{class_u_s_b_ad68d4d9a86f38cf91b1494664b94766c}{Threaded\+Function()}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+static string\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_u_s_b_a1196930b8d2a8da157568eed9202846f}{Configs}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, private set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em A set of configs received from connected Arduinos. \end{DoxyCompactList}\item 
+static string \mbox{\hyperlink{class_u_s_b_a191f2d598a5179897302116d3963053f}{Incoming\+Data}} = \"{}\"{}\hspace{0.3cm}{\ttfamily  \mbox{[}get, private set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Incoming data from thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_u_s_b_a4a5bb3e6d9999a9b581f166610dcb35e}{Start}} ()
+\begin{DoxyCompactList}\small\item\em Pseudo-\/\+Constructor. Calls the \doxylink{class_u_s_b_a33335bf8eada8ceffce27bebbce556c1}{Connect\+Serial\+Ports()} function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_a964915b19a754db021e0a2ef30cfea1a}{On\+Application\+Quit}} ()
+\begin{DoxyCompactList}\small\item\em Pseudo-\/\+Destructor. Kills the \doxylink{class_u_s_b_a525928a469d72fbf9f766192b850dd58}{threaded\+Function} thread. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_a096de1e3afc25de0a85fcaed07f97e85}{On\+GUI}} ()
+\begin{DoxyCompactList}\small\item\em The user interface function. Receive incoming data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_ada3d1992a17aa6579834cd0c6de85974}{Update}} ()
+\begin{DoxyCompactList}\small\item\em The main function. Receive incoming data. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_u_s_b_afc3297680f6ba19b63b42a15d1867b0f}{Catenate\+Serial\+Prefix\+And\+Postfix}} (int postfix)
+\begin{DoxyCompactList}\small\item\em Catenates the platform specific prefix and the iterated postfix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_ae70a9981df4712e1e772ef9f60d76513}{Close\+Serial\+Ports}} ()
+\begin{DoxyCompactList}\small\item\em Close all serial ports. \end{DoxyCompactList}\item 
+Serial\+Port \mbox{\hyperlink{class_u_s_b_a60a480c69dc84371f578a904738edf39}{Connect\+Serial\+Port}} (int index, int baud\+Rate)
+\begin{DoxyCompactList}\small\item\em Open and return a single instance of Serial\+Port. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_a33335bf8eada8ceffce27bebbce556c1}{Connect\+Serial\+Ports}} ()
+\begin{DoxyCompactList}\small\item\em Connect to all possible Serial\+Port connections. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_adb36c1d30fc5dacb5efcd55fc4a42876}{Invoked\+Function\+Start}} ()
+\begin{DoxyCompactList}\small\item\em Start invoking the \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0}{Invoked\+Function()} function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_a06ffa22555e607510585c67d70c60805}{Invoked\+Function\+Stop}} ()
+\begin{DoxyCompactList}\small\item\em Stop invoking the \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0}{Invoked\+Function()} function. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_u_s_b_a5ea490f45886f9f08f44e372979837eb}{Outgoing\+Message\+To\+String}} (\mbox{\hyperlink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages}} message)
+\begin{DoxyCompactList}\small\item\em Transform \doxylink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages} enum into string. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_a992644c191d7927b39a9495946f52dea}{Receive\+Data}} (Serial\+Port serial\+Port, string catenated\+Serial\+Port, int config\+Index)
+\begin{DoxyCompactList}\small\item\em The Invoked function. Receive incoming data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_a784774f67f7b706bb8c93e64f8ffa13d}{Receive\+Datas}} ()
+\begin{DoxyCompactList}\small\item\em Starts one instance of \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0}{Invoked\+Function(\+Serial\+Port, string)} per \doxylink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports} member. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_u_s_b_ae70a1d1d64f20acbe6ec268c1942cf72}{Receive\+Option\+To\+String}} (\mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{Incoming\+Option}} option)
+\begin{DoxyCompactList}\small\item\em Transform \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{Receive\+Option} enum into string. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_a0d481998ee19b8ed56ebd15eab48b210}{Reset\+Arduinos}} ()
+\begin{DoxyCompactList}\small\item\em Call the reset() function on each connected Arduino. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_af1e09d1b806e14e4348def1f29491f26}{Teardown}} ()
+\begin{DoxyCompactList}\small\item\em Pseudo-\/\+Destructor. Stop repeating functions, and shutdown Arduinos. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_u_s_b_ad68d4d9a86f38cf91b1494664b94766c}{Threaded\+Function}} ()
+\begin{DoxyCompactList}\small\item\em The threaded function. Receive incoming data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_u_s_b_a469ede81e8936695a5eab3c007d73a45}{debug}} = false
+\begin{DoxyCompactList}\small\item\em Check to print debug tracers to console. \end{DoxyCompactList}\item 
+readonly int\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_u_s_b_a2a879579565f58b7b796189fc7324fe6}{serial\+Baud\+Rates}}
+\begin{DoxyCompactList}\small\item\em Baud rates (pair with Arduino). \end{DoxyCompactList}\item 
+Serial\+Port\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports}}
+\begin{DoxyCompactList}\small\item\em Successful serial port connections. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{Incoming\+Option}} \mbox{\hyperlink{class_u_s_b_a30066610b606432622adc4edf9e75298}{incoming\+Option}}
+\begin{DoxyCompactList}\small\item\em Choose when to receive incoming data. \end{DoxyCompactList}\item 
+readonly Mutex \mbox{\hyperlink{class_u_s_b_a94ba8e99b4dca1af9f54a76a76b06efe}{mutex}} = new Mutex()
+\begin{DoxyCompactList}\small\item\em A mutex. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_u_s_b_a90af54c9d84585f369f44572fa2d138d}{invoked\+Function\+Delay}} = 0.\+1f
+\begin{DoxyCompactList}\small\item\em Delay between \doxylink{class_u_s_b_a784774f67f7b706bb8c93e64f8ffa13d}{Invoked\+Function()} calls. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{class_u_s_b_aec789445fad3d64fd3c546dcc58598a5}{SERIAL\+\_\+\+TIMEOUT}} = 1000
+\begin{DoxyCompactList}\small\item\em Timeout for incoming data (milliseconds). \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_a75470fa001dbc1fa34c46c87b4a1a7bb}{SERIAL\+\_\+\+POSTFIX\+\_\+\+MIN\+\_\+\+WINDOWS}} = 0
+\begin{DoxyCompactList}\small\item\em Minimum COM port (Windows). \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_a568ae89b75213e21f97451399cdb16fb}{SERIAL\+\_\+\+POSTFIX\+\_\+\+MIN\+\_\+\+LINUX}} = 0
+\begin{DoxyCompactList}\small\item\em Minimum COM port (Linux). \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_af99a6af731bfd6fdaa4186454df7d064}{SERIAL\+\_\+\+POSTFIX\+\_\+\+MIN\+\_\+\+MAC}} = 0
+\begin{DoxyCompactList}\small\item\em Minimum COM port (Mac). \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_a7cb45e52b8c1c47a151afe6e677eac07}{SERIAL\+\_\+\+POSTFIX\+\_\+\+MAX\+\_\+\+WINDOWS}} = 256
+\begin{DoxyCompactList}\small\item\em Maximum COM port (Windows). \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_a1f222c3bd3b0b02edd490bd6e27e4a5f}{SERIAL\+\_\+\+POSTFIX\+\_\+\+MAX\+\_\+\+LINUX}} = 256
+\begin{DoxyCompactList}\small\item\em Maximum COM port (Linux). \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_aa4fcd70bcf5ace53199d833909d8f897}{SERIAL\+\_\+\+POSTFIX\+\_\+\+MAX\+\_\+\+MAC}} = 256
+\begin{DoxyCompactList}\small\item\em Maximum COM port (Mac). \end{DoxyCompactList}\item 
+const string \mbox{\hyperlink{class_u_s_b_a92c275897c78f09bb198324006086529}{SERIAL\+\_\+\+PREFIX\+\_\+\+WINDOWS}} = \"{}COM\"{}
+\begin{DoxyCompactList}\small\item\em The device prefix (Windows). \end{DoxyCompactList}\item 
+const string \mbox{\hyperlink{class_u_s_b_a0c46ecd178b3ce0f5a22e7de7bb8bea3}{SERIAL\+\_\+\+PREFIX\+\_\+\+LINUX}} = \"{}/dev/tty\+ACM\"{}
+\begin{DoxyCompactList}\small\item\em The device prefix (Linux). \end{DoxyCompactList}\item 
+const string \mbox{\hyperlink{class_u_s_b_acf358666d356850b63b33e8094575fe0}{SERIAL\+\_\+\+PREFIX\+\_\+\+MAC}} = \"{}\"{}
+\begin{DoxyCompactList}\small\item\em The device prefix (Mac). \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_a4deae3233be57fd25524f1a0f8970406}{INCOMING\+\_\+\+IN\+\_\+\+UPDATE\+\_\+\+FUNCTION}} = 0
+\begin{DoxyCompactList}\small\item\em Wait for incoming data using the \doxylink{class_u_s_b_ada3d1992a17aa6579834cd0c6de85974}{Update()} event function. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_a7285cba60151d35aa758024e1da5225c}{INCOMING\+\_\+\+IN\+\_\+\+INVOKED\+\_\+\+FUNTION}} = 1
+\begin{DoxyCompactList}\small\item\em Wait for incoming data using Invoke\+Repeating(string). \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_a84b3801b86b09e2327bd880de18443fa}{INCOMING\+\_\+\+IN\+\_\+\+THREADED\+\_\+\+FUNCTION}} = 2
+\begin{DoxyCompactList}\small\item\em Wait for incoming data on a new thread. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_a9d2f1e5e6f5defd6fbb990b3e395a646}{INCOMING\+\_\+\+IN\+\_\+\+USER\+\_\+\+INTERFACE\+\_\+\+FUNCTION}} = 3
+\begin{DoxyCompactList}\small\item\em Wait for incoming data on the UI thread. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_ac42e6fc6f70512ea3fec0dfe3927ed10}{OUTGOING\+\_\+\+START}} = 0
+\begin{DoxyCompactList}\small\item\em Calls the Arduino\textquotesingle{}s start() function. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_u_s_b_a602a0850a2c2c4f54433ea10cc49f3b8}{OUTGOING\+\_\+\+RESET}} = 1
+\begin{DoxyCompactList}\small\item\em Calls the Arduino\textquotesingle{}s reset() function. \end{DoxyCompactList}\item 
+const string \mbox{\hyperlink{class_u_s_b_a87d684022e3f5960e459c2c114472851}{INVOKED\+\_\+\+FUNCTION}} = \"{}Receive\+Datas\"{}
+\begin{DoxyCompactList}\small\item\em For use with Invoke\+Repeating(string, float, float) and Cancel\+Invoke(string) functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_u_s_b}{USB} library. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}\label{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264} 
+\index{USB@{USB}!IncomingOption@{IncomingOption}}
+\index{IncomingOption@{IncomingOption}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{IncomingOption}{IncomingOption}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{USB.\+Incoming\+Option}}}
+
+
+
+Enum of options for how to receive incoming data. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UpdateFunction@{UpdateFunction}!USB@{USB}}\index{USB@{USB}!UpdateFunction@{UpdateFunction}}}\Hypertarget{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a4859cf9c4171b469659f79568aa2149e}\label{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a4859cf9c4171b469659f79568aa2149e} 
+Update\+Function&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvokedFunction@{InvokedFunction}!USB@{USB}}\index{USB@{USB}!InvokedFunction@{InvokedFunction}}}\Hypertarget{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0}\label{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0} 
+Invoked\+Function&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ThreadedFunction@{ThreadedFunction}!USB@{USB}}\index{USB@{USB}!ThreadedFunction@{ThreadedFunction}}}\Hypertarget{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264ad92f43bc4196acbb7032ddffd2ee3e45}\label{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264ad92f43bc4196acbb7032ddffd2ee3e45} 
+Threaded\+Function&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UserInterfaceFunction@{UserInterfaceFunction}!USB@{USB}}\index{USB@{USB}!UserInterfaceFunction@{UserInterfaceFunction}}}\Hypertarget{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a159065b81da9dbcb1888bcc444a1c919}\label{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a159065b81da9dbcb1888bcc444a1c919} 
+User\+Interface\+Function&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}\label{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684} 
+\index{USB@{USB}!OutgoingMessages@{OutgoingMessages}}
+\index{OutgoingMessages@{OutgoingMessages}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{OutgoingMessages}{OutgoingMessages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{USB.\+Outgoing\+Messages}}}
+
+
+
+An enum of messages to be sent to any Arduino. 
+
+Max range of 256. Must be paired with a similar enum on Arduino. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Start@{Start}!USB@{USB}}\index{USB@{USB}!Start@{Start}}}\Hypertarget{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684aa6122a65eaa676f700ae68d393054a37}\label{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684aa6122a65eaa676f700ae68d393054a37} 
+Start&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Reset@{Reset}!USB@{USB}}\index{USB@{USB}!Reset@{Reset}}}\Hypertarget{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684a526d688f37a86d3c3f27d0c5016eb71d}\label{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684a526d688f37a86d3c3f27d0c5016eb71d} 
+Reset&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_u_s_b_afc3297680f6ba19b63b42a15d1867b0f}\label{class_u_s_b_afc3297680f6ba19b63b42a15d1867b0f} 
+\index{USB@{USB}!CatenateSerialPrefixAndPostfix@{CatenateSerialPrefixAndPostfix}}
+\index{CatenateSerialPrefixAndPostfix@{CatenateSerialPrefixAndPostfix}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{CatenateSerialPrefixAndPostfix()}{CatenateSerialPrefixAndPostfix()}}
+{\footnotesize\ttfamily string USB.\+Catenate\+Serial\+Prefix\+And\+Postfix (\begin{DoxyParamCaption}\item[{int}]{postfix }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Catenates the platform specific prefix and the iterated postfix. 
+
+Warning\+: In a UNITY\+\_\+\+EDITOR\+\_\+\+WIN build, the UNITY\+\_\+\+STANDALONE\+\_\+\+WIN section is being reached erroneously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em postfix} & The iterated postfix.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the catenated sum of the platform specific prefix and the iterated postfix. 
+\end{DoxyReturn}
+\Hypertarget{class_u_s_b_ae70a9981df4712e1e772ef9f60d76513}\label{class_u_s_b_ae70a9981df4712e1e772ef9f60d76513} 
+\index{USB@{USB}!CloseSerialPorts@{CloseSerialPorts}}
+\index{CloseSerialPorts@{CloseSerialPorts}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{CloseSerialPorts()}{CloseSerialPorts()}}
+{\footnotesize\ttfamily void USB.\+Close\+Serial\+Ports (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Close all serial ports. 
+
+\Hypertarget{class_u_s_b_a60a480c69dc84371f578a904738edf39}\label{class_u_s_b_a60a480c69dc84371f578a904738edf39} 
+\index{USB@{USB}!ConnectSerialPort@{ConnectSerialPort}}
+\index{ConnectSerialPort@{ConnectSerialPort}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{ConnectSerialPort()}{ConnectSerialPort()}}
+{\footnotesize\ttfamily Serial\+Port USB.\+Connect\+Serial\+Port (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{int}]{baud\+Rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Open and return a single instance of Serial\+Port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The serial port index.\\
+\hline
+{\em baud\+Rate} & The serial baud rate.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of Serial\+Port.
+\end{DoxyReturn}
+\Hypertarget{class_u_s_b_a33335bf8eada8ceffce27bebbce556c1}\label{class_u_s_b_a33335bf8eada8ceffce27bebbce556c1} 
+\index{USB@{USB}!ConnectSerialPorts@{ConnectSerialPorts}}
+\index{ConnectSerialPorts@{ConnectSerialPorts}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{ConnectSerialPorts()}{ConnectSerialPorts()}}
+{\footnotesize\ttfamily void USB.\+Connect\+Serial\+Ports (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Connect to all possible Serial\+Port connections. 
+
+Cross-\/\+Platform Steps\+: 
+\begin{DoxyItemize}
+\item Count the connected devices. 
+\item Use count to define the size of \doxylink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports} and \doxylink{class_u_s_b_a1196930b8d2a8da157568eed9202846f}{configs}. 
+\item Populate \doxylink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports} and \doxylink{class_u_s_b_a1196930b8d2a8da157568eed9202846f}{configs}. 
+\item Start a function to receive incoming data. 
+\end{DoxyItemize}Warnings\+:  In C, the namespace Connect is already taken. \Hypertarget{class_u_s_b_adb36c1d30fc5dacb5efcd55fc4a42876}\label{class_u_s_b_adb36c1d30fc5dacb5efcd55fc4a42876} 
+\index{USB@{USB}!InvokedFunctionStart@{InvokedFunctionStart}}
+\index{InvokedFunctionStart@{InvokedFunctionStart}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{InvokedFunctionStart()}{InvokedFunctionStart()}}
+{\footnotesize\ttfamily void USB.\+Invoked\+Function\+Start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Start invoking the \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0}{Invoked\+Function()} function. 
+
+\Hypertarget{class_u_s_b_a06ffa22555e607510585c67d70c60805}\label{class_u_s_b_a06ffa22555e607510585c67d70c60805} 
+\index{USB@{USB}!InvokedFunctionStop@{InvokedFunctionStop}}
+\index{InvokedFunctionStop@{InvokedFunctionStop}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{InvokedFunctionStop()}{InvokedFunctionStop()}}
+{\footnotesize\ttfamily void USB.\+Invoked\+Function\+Stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Stop invoking the \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0}{Invoked\+Function()} function. 
+
+\Hypertarget{class_u_s_b_a964915b19a754db021e0a2ef30cfea1a}\label{class_u_s_b_a964915b19a754db021e0a2ef30cfea1a} 
+\index{USB@{USB}!OnApplicationQuit@{OnApplicationQuit}}
+\index{OnApplicationQuit@{OnApplicationQuit}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{OnApplicationQuit()}{OnApplicationQuit()}}
+{\footnotesize\ttfamily void USB.\+On\+Application\+Quit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Pseudo-\/\+Destructor. Kills the \doxylink{class_u_s_b_a525928a469d72fbf9f766192b850dd58}{threaded\+Function} thread. 
+
+\Hypertarget{class_u_s_b_a096de1e3afc25de0a85fcaed07f97e85}\label{class_u_s_b_a096de1e3afc25de0a85fcaed07f97e85} 
+\index{USB@{USB}!OnGUI@{OnGUI}}
+\index{OnGUI@{OnGUI}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{OnGUI()}{OnGUI()}}
+{\footnotesize\ttfamily void USB.\+On\+GUI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+The user interface function. Receive incoming data. 
+
+\Hypertarget{class_u_s_b_a5ea490f45886f9f08f44e372979837eb}\label{class_u_s_b_a5ea490f45886f9f08f44e372979837eb} 
+\index{USB@{USB}!OutgoingMessageToString@{OutgoingMessageToString}}
+\index{OutgoingMessageToString@{OutgoingMessageToString}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{OutgoingMessageToString()}{OutgoingMessageToString()}}
+{\footnotesize\ttfamily string USB.\+Outgoing\+Message\+To\+String (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages}}}]{message }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Transform \doxylink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages} enum into string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & \doxylink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages} member to transform. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string transformed from a \doxylink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages} member. 
+\end{DoxyReturn}
+\Hypertarget{class_u_s_b_a992644c191d7927b39a9495946f52dea}\label{class_u_s_b_a992644c191d7927b39a9495946f52dea} 
+\index{USB@{USB}!ReceiveData@{ReceiveData}}
+\index{ReceiveData@{ReceiveData}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{ReceiveData()}{ReceiveData()}}
+{\footnotesize\ttfamily void USB.\+Receive\+Data (\begin{DoxyParamCaption}\item[{Serial\+Port}]{serial\+Port,  }\item[{string}]{catenated\+Serial\+Port,  }\item[{int}]{config\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+The Invoked function. Receive incoming data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em serial\+Port} & A member of \doxylink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports}.\\
+\hline
+{\em catenated\+Serial\+Port} & A member of \doxylink{}{config} paired with a member of \doxylink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_u_s_b_a784774f67f7b706bb8c93e64f8ffa13d}\label{class_u_s_b_a784774f67f7b706bb8c93e64f8ffa13d} 
+\index{USB@{USB}!ReceiveDatas@{ReceiveDatas}}
+\index{ReceiveDatas@{ReceiveDatas}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{ReceiveDatas()}{ReceiveDatas()}}
+{\footnotesize\ttfamily void USB.\+Receive\+Datas (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Starts one instance of \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0}{Invoked\+Function(\+Serial\+Port, string)} per \doxylink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports} member. 
+
+\Hypertarget{class_u_s_b_ae70a1d1d64f20acbe6ec268c1942cf72}\label{class_u_s_b_ae70a1d1d64f20acbe6ec268c1942cf72} 
+\index{USB@{USB}!ReceiveOptionToString@{ReceiveOptionToString}}
+\index{ReceiveOptionToString@{ReceiveOptionToString}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{ReceiveOptionToString()}{ReceiveOptionToString()}}
+{\footnotesize\ttfamily string USB.\+Receive\+Option\+To\+String (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{Incoming\+Option}}}]{option }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Transform \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{Receive\+Option} enum into string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em option} & \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{Receive\+Option} member to transform. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string transformed from a \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{Receive\+Option} member. 
+\end{DoxyReturn}
+\Hypertarget{class_u_s_b_a0d481998ee19b8ed56ebd15eab48b210}\label{class_u_s_b_a0d481998ee19b8ed56ebd15eab48b210} 
+\index{USB@{USB}!ResetArduinos@{ResetArduinos}}
+\index{ResetArduinos@{ResetArduinos}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{ResetArduinos()}{ResetArduinos()}}
+{\footnotesize\ttfamily void USB.\+Reset\+Arduinos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Call the reset() function on each connected Arduino. 
+
+Cannot be named Reset. \Hypertarget{class_u_s_b_a4a5bb3e6d9999a9b581f166610dcb35e}\label{class_u_s_b_a4a5bb3e6d9999a9b581f166610dcb35e} 
+\index{USB@{USB}!Start@{Start}}
+\index{Start@{Start}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{Start()}{Start()}}
+{\footnotesize\ttfamily void USB.\+Start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Pseudo-\/\+Constructor. Calls the \doxylink{class_u_s_b_a33335bf8eada8ceffce27bebbce556c1}{Connect\+Serial\+Ports()} function. 
+
+\Hypertarget{class_u_s_b_af1e09d1b806e14e4348def1f29491f26}\label{class_u_s_b_af1e09d1b806e14e4348def1f29491f26} 
+\index{USB@{USB}!Teardown@{Teardown}}
+\index{Teardown@{Teardown}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{Teardown()}{Teardown()}}
+{\footnotesize\ttfamily void USB.\+Teardown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Pseudo-\/\+Destructor. Stop repeating functions, and shutdown Arduinos. 
+
+\Hypertarget{class_u_s_b_ad68d4d9a86f38cf91b1494664b94766c}\label{class_u_s_b_ad68d4d9a86f38cf91b1494664b94766c} 
+\index{USB@{USB}!ThreadedFunction@{ThreadedFunction}}
+\index{ThreadedFunction@{ThreadedFunction}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{ThreadedFunction()}{ThreadedFunction()}}
+{\footnotesize\ttfamily void USB.\+Threaded\+Function (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+The threaded function. Receive incoming data. 
+
+\Hypertarget{class_u_s_b_ada3d1992a17aa6579834cd0c6de85974}\label{class_u_s_b_ada3d1992a17aa6579834cd0c6de85974} 
+\index{USB@{USB}!Update@{Update}}
+\index{Update@{Update}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{Update()}{Update()}}
+{\footnotesize\ttfamily void USB.\+Update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+The main function. Receive incoming data. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_u_s_b_a469ede81e8936695a5eab3c007d73a45}\label{class_u_s_b_a469ede81e8936695a5eab3c007d73a45} 
+\index{USB@{USB}!debug@{debug}}
+\index{debug@{debug}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{debug}{debug}}
+{\footnotesize\ttfamily bool USB.\+debug = false\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Check to print debug tracers to console. 
+
+\Hypertarget{class_u_s_b_a7285cba60151d35aa758024e1da5225c}\label{class_u_s_b_a7285cba60151d35aa758024e1da5225c} 
+\index{USB@{USB}!INCOMING\_IN\_INVOKED\_FUNTION@{INCOMING\_IN\_INVOKED\_FUNTION}}
+\index{INCOMING\_IN\_INVOKED\_FUNTION@{INCOMING\_IN\_INVOKED\_FUNTION}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{INCOMING\_IN\_INVOKED\_FUNTION}{INCOMING\_IN\_INVOKED\_FUNTION}}
+{\footnotesize\ttfamily const int USB.\+INCOMING\+\_\+\+IN\+\_\+\+INVOKED\+\_\+\+FUNTION = 1\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Wait for incoming data using Invoke\+Repeating(string). 
+
+\Hypertarget{class_u_s_b_a84b3801b86b09e2327bd880de18443fa}\label{class_u_s_b_a84b3801b86b09e2327bd880de18443fa} 
+\index{USB@{USB}!INCOMING\_IN\_THREADED\_FUNCTION@{INCOMING\_IN\_THREADED\_FUNCTION}}
+\index{INCOMING\_IN\_THREADED\_FUNCTION@{INCOMING\_IN\_THREADED\_FUNCTION}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{INCOMING\_IN\_THREADED\_FUNCTION}{INCOMING\_IN\_THREADED\_FUNCTION}}
+{\footnotesize\ttfamily const int USB.\+INCOMING\+\_\+\+IN\+\_\+\+THREADED\+\_\+\+FUNCTION = 2\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Wait for incoming data on a new thread. 
+
+\Hypertarget{class_u_s_b_a4deae3233be57fd25524f1a0f8970406}\label{class_u_s_b_a4deae3233be57fd25524f1a0f8970406} 
+\index{USB@{USB}!INCOMING\_IN\_UPDATE\_FUNCTION@{INCOMING\_IN\_UPDATE\_FUNCTION}}
+\index{INCOMING\_IN\_UPDATE\_FUNCTION@{INCOMING\_IN\_UPDATE\_FUNCTION}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{INCOMING\_IN\_UPDATE\_FUNCTION}{INCOMING\_IN\_UPDATE\_FUNCTION}}
+{\footnotesize\ttfamily const int USB.\+INCOMING\+\_\+\+IN\+\_\+\+UPDATE\+\_\+\+FUNCTION = 0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Wait for incoming data using the \doxylink{class_u_s_b_ada3d1992a17aa6579834cd0c6de85974}{Update()} event function. 
+
+\Hypertarget{class_u_s_b_a9d2f1e5e6f5defd6fbb990b3e395a646}\label{class_u_s_b_a9d2f1e5e6f5defd6fbb990b3e395a646} 
+\index{USB@{USB}!INCOMING\_IN\_USER\_INTERFACE\_FUNCTION@{INCOMING\_IN\_USER\_INTERFACE\_FUNCTION}}
+\index{INCOMING\_IN\_USER\_INTERFACE\_FUNCTION@{INCOMING\_IN\_USER\_INTERFACE\_FUNCTION}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{INCOMING\_IN\_USER\_INTERFACE\_FUNCTION}{INCOMING\_IN\_USER\_INTERFACE\_FUNCTION}}
+{\footnotesize\ttfamily const int USB.\+INCOMING\+\_\+\+IN\+\_\+\+USER\+\_\+\+INTERFACE\+\_\+\+FUNCTION = 3\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Wait for incoming data on the UI thread. 
+
+\Hypertarget{class_u_s_b_a30066610b606432622adc4edf9e75298}\label{class_u_s_b_a30066610b606432622adc4edf9e75298} 
+\index{USB@{USB}!incomingOption@{incomingOption}}
+\index{incomingOption@{incomingOption}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{incomingOption}{incomingOption}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264}{Incoming\+Option}} USB.\+incoming\+Option\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Choose when to receive incoming data. 
+
+\Hypertarget{class_u_s_b_a87d684022e3f5960e459c2c114472851}\label{class_u_s_b_a87d684022e3f5960e459c2c114472851} 
+\index{USB@{USB}!INVOKED\_FUNCTION@{INVOKED\_FUNCTION}}
+\index{INVOKED\_FUNCTION@{INVOKED\_FUNCTION}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{INVOKED\_FUNCTION}{INVOKED\_FUNCTION}}
+{\footnotesize\ttfamily const string USB.\+INVOKED\+\_\+\+FUNCTION = \"{}Receive\+Datas\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+For use with Invoke\+Repeating(string, float, float) and Cancel\+Invoke(string) functions. 
+
+\Hypertarget{class_u_s_b_a90af54c9d84585f369f44572fa2d138d}\label{class_u_s_b_a90af54c9d84585f369f44572fa2d138d} 
+\index{USB@{USB}!invokedFunctionDelay@{invokedFunctionDelay}}
+\index{invokedFunctionDelay@{invokedFunctionDelay}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{invokedFunctionDelay}{invokedFunctionDelay}}
+{\footnotesize\ttfamily float USB.\+invoked\+Function\+Delay = 0.\+1f\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Delay between \doxylink{class_u_s_b_a784774f67f7b706bb8c93e64f8ffa13d}{Invoked\+Function()} calls. 
+
+\Hypertarget{class_u_s_b_a94ba8e99b4dca1af9f54a76a76b06efe}\label{class_u_s_b_a94ba8e99b4dca1af9f54a76a76b06efe} 
+\index{USB@{USB}!mutex@{mutex}}
+\index{mutex@{mutex}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{mutex}{mutex}}
+{\footnotesize\ttfamily readonly Mutex USB.\+mutex = new Mutex()\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A mutex. 
+
+\Hypertarget{class_u_s_b_a602a0850a2c2c4f54433ea10cc49f3b8}\label{class_u_s_b_a602a0850a2c2c4f54433ea10cc49f3b8} 
+\index{USB@{USB}!OUTGOING\_RESET@{OUTGOING\_RESET}}
+\index{OUTGOING\_RESET@{OUTGOING\_RESET}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_RESET}{OUTGOING\_RESET}}
+{\footnotesize\ttfamily const int USB.\+OUTGOING\+\_\+\+RESET = 1\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Calls the Arduino\textquotesingle{}s reset() function. 
+
+\Hypertarget{class_u_s_b_ac42e6fc6f70512ea3fec0dfe3927ed10}\label{class_u_s_b_ac42e6fc6f70512ea3fec0dfe3927ed10} 
+\index{USB@{USB}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const int USB.\+OUTGOING\+\_\+\+START = 0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Calls the Arduino\textquotesingle{}s start() function. 
+
+\Hypertarget{class_u_s_b_a1f222c3bd3b0b02edd490bd6e27e4a5f}\label{class_u_s_b_a1f222c3bd3b0b02edd490bd6e27e4a5f} 
+\index{USB@{USB}!SERIAL\_POSTFIX\_MAX\_LINUX@{SERIAL\_POSTFIX\_MAX\_LINUX}}
+\index{SERIAL\_POSTFIX\_MAX\_LINUX@{SERIAL\_POSTFIX\_MAX\_LINUX}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_POSTFIX\_MAX\_LINUX}{SERIAL\_POSTFIX\_MAX\_LINUX}}
+{\footnotesize\ttfamily const int USB.\+SERIAL\+\_\+\+POSTFIX\+\_\+\+MAX\+\_\+\+LINUX = 256\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Maximum COM port (Linux). 
+
+\Hypertarget{class_u_s_b_aa4fcd70bcf5ace53199d833909d8f897}\label{class_u_s_b_aa4fcd70bcf5ace53199d833909d8f897} 
+\index{USB@{USB}!SERIAL\_POSTFIX\_MAX\_MAC@{SERIAL\_POSTFIX\_MAX\_MAC}}
+\index{SERIAL\_POSTFIX\_MAX\_MAC@{SERIAL\_POSTFIX\_MAX\_MAC}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_POSTFIX\_MAX\_MAC}{SERIAL\_POSTFIX\_MAX\_MAC}}
+{\footnotesize\ttfamily const int USB.\+SERIAL\+\_\+\+POSTFIX\+\_\+\+MAX\+\_\+\+MAC = 256\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Maximum COM port (Mac). 
+
+\Hypertarget{class_u_s_b_a7cb45e52b8c1c47a151afe6e677eac07}\label{class_u_s_b_a7cb45e52b8c1c47a151afe6e677eac07} 
+\index{USB@{USB}!SERIAL\_POSTFIX\_MAX\_WINDOWS@{SERIAL\_POSTFIX\_MAX\_WINDOWS}}
+\index{SERIAL\_POSTFIX\_MAX\_WINDOWS@{SERIAL\_POSTFIX\_MAX\_WINDOWS}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_POSTFIX\_MAX\_WINDOWS}{SERIAL\_POSTFIX\_MAX\_WINDOWS}}
+{\footnotesize\ttfamily const int USB.\+SERIAL\+\_\+\+POSTFIX\+\_\+\+MAX\+\_\+\+WINDOWS = 256\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Maximum COM port (Windows). 
+
+\Hypertarget{class_u_s_b_a568ae89b75213e21f97451399cdb16fb}\label{class_u_s_b_a568ae89b75213e21f97451399cdb16fb} 
+\index{USB@{USB}!SERIAL\_POSTFIX\_MIN\_LINUX@{SERIAL\_POSTFIX\_MIN\_LINUX}}
+\index{SERIAL\_POSTFIX\_MIN\_LINUX@{SERIAL\_POSTFIX\_MIN\_LINUX}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_POSTFIX\_MIN\_LINUX}{SERIAL\_POSTFIX\_MIN\_LINUX}}
+{\footnotesize\ttfamily const int USB.\+SERIAL\+\_\+\+POSTFIX\+\_\+\+MIN\+\_\+\+LINUX = 0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Minimum COM port (Linux). 
+
+\Hypertarget{class_u_s_b_af99a6af731bfd6fdaa4186454df7d064}\label{class_u_s_b_af99a6af731bfd6fdaa4186454df7d064} 
+\index{USB@{USB}!SERIAL\_POSTFIX\_MIN\_MAC@{SERIAL\_POSTFIX\_MIN\_MAC}}
+\index{SERIAL\_POSTFIX\_MIN\_MAC@{SERIAL\_POSTFIX\_MIN\_MAC}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_POSTFIX\_MIN\_MAC}{SERIAL\_POSTFIX\_MIN\_MAC}}
+{\footnotesize\ttfamily const int USB.\+SERIAL\+\_\+\+POSTFIX\+\_\+\+MIN\+\_\+\+MAC = 0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Minimum COM port (Mac). 
+
+\Hypertarget{class_u_s_b_a75470fa001dbc1fa34c46c87b4a1a7bb}\label{class_u_s_b_a75470fa001dbc1fa34c46c87b4a1a7bb} 
+\index{USB@{USB}!SERIAL\_POSTFIX\_MIN\_WINDOWS@{SERIAL\_POSTFIX\_MIN\_WINDOWS}}
+\index{SERIAL\_POSTFIX\_MIN\_WINDOWS@{SERIAL\_POSTFIX\_MIN\_WINDOWS}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_POSTFIX\_MIN\_WINDOWS}{SERIAL\_POSTFIX\_MIN\_WINDOWS}}
+{\footnotesize\ttfamily const int USB.\+SERIAL\+\_\+\+POSTFIX\+\_\+\+MIN\+\_\+\+WINDOWS = 0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Minimum COM port (Windows). 
+
+\Hypertarget{class_u_s_b_a0c46ecd178b3ce0f5a22e7de7bb8bea3}\label{class_u_s_b_a0c46ecd178b3ce0f5a22e7de7bb8bea3} 
+\index{USB@{USB}!SERIAL\_PREFIX\_LINUX@{SERIAL\_PREFIX\_LINUX}}
+\index{SERIAL\_PREFIX\_LINUX@{SERIAL\_PREFIX\_LINUX}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_PREFIX\_LINUX}{SERIAL\_PREFIX\_LINUX}}
+{\footnotesize\ttfamily const string USB.\+SERIAL\+\_\+\+PREFIX\+\_\+\+LINUX = \"{}/dev/tty\+ACM\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The device prefix (Linux). 
+
+\Hypertarget{class_u_s_b_acf358666d356850b63b33e8094575fe0}\label{class_u_s_b_acf358666d356850b63b33e8094575fe0} 
+\index{USB@{USB}!SERIAL\_PREFIX\_MAC@{SERIAL\_PREFIX\_MAC}}
+\index{SERIAL\_PREFIX\_MAC@{SERIAL\_PREFIX\_MAC}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_PREFIX\_MAC}{SERIAL\_PREFIX\_MAC}}
+{\footnotesize\ttfamily const string USB.\+SERIAL\+\_\+\+PREFIX\+\_\+\+MAC = \"{}\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The device prefix (Mac). 
+
+\Hypertarget{class_u_s_b_a92c275897c78f09bb198324006086529}\label{class_u_s_b_a92c275897c78f09bb198324006086529} 
+\index{USB@{USB}!SERIAL\_PREFIX\_WINDOWS@{SERIAL\_PREFIX\_WINDOWS}}
+\index{SERIAL\_PREFIX\_WINDOWS@{SERIAL\_PREFIX\_WINDOWS}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_PREFIX\_WINDOWS}{SERIAL\_PREFIX\_WINDOWS}}
+{\footnotesize\ttfamily const string USB.\+SERIAL\+\_\+\+PREFIX\+\_\+\+WINDOWS = \"{}COM\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The device prefix (Windows). 
+
+\Hypertarget{class_u_s_b_aec789445fad3d64fd3c546dcc58598a5}\label{class_u_s_b_aec789445fad3d64fd3c546dcc58598a5} 
+\index{USB@{USB}!SERIAL\_TIMEOUT@{SERIAL\_TIMEOUT}}
+\index{SERIAL\_TIMEOUT@{SERIAL\_TIMEOUT}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_TIMEOUT}{SERIAL\_TIMEOUT}}
+{\footnotesize\ttfamily const int USB.\+SERIAL\+\_\+\+TIMEOUT = 1000\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Timeout for incoming data (milliseconds). 
+
+\Hypertarget{class_u_s_b_a2a879579565f58b7b796189fc7324fe6}\label{class_u_s_b_a2a879579565f58b7b796189fc7324fe6} 
+\index{USB@{USB}!serialBaudRates@{serialBaudRates}}
+\index{serialBaudRates@{serialBaudRates}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{serialBaudRates}{serialBaudRates}}
+{\footnotesize\ttfamily readonly int \mbox{[}$\,$\mbox{]} USB.\+serial\+Baud\+Rates\hspace{0.3cm}{\ttfamily [private]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 9600,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 14400,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 19200,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 28800,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 31250,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 38400,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 57600,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 115200,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 300,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 600,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1200,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 2400,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 4800,}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Baud rates (pair with Arduino). 
+
+\Hypertarget{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}\label{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870} 
+\index{USB@{USB}!serialPorts@{serialPorts}}
+\index{serialPorts@{serialPorts}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{serialPorts}{serialPorts}}
+{\footnotesize\ttfamily Serial\+Port \mbox{[}$\,$\mbox{]} USB.\+serial\+Ports\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Successful serial port connections. 
+
+\Hypertarget{class_u_s_b_a525928a469d72fbf9f766192b850dd58}\label{class_u_s_b_a525928a469d72fbf9f766192b850dd58} 
+\index{USB@{USB}!threadedFunction@{threadedFunction}}
+\index{threadedFunction@{threadedFunction}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{threadedFunction}{threadedFunction}}
+{\footnotesize\ttfamily Thread USB.\+threaded\+Function\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+A thread for \doxylink{class_u_s_b_ad68d4d9a86f38cf91b1494664b94766c}{Threaded\+Function()}. 
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_u_s_b_a1196930b8d2a8da157568eed9202846f}\label{class_u_s_b_a1196930b8d2a8da157568eed9202846f} 
+\index{USB@{USB}!Configs@{Configs}}
+\index{Configs@{Configs}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{Configs}{Configs}}
+{\footnotesize\ttfamily string \mbox{[}$\,$\mbox{]} USB.\+Configs\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}, {\ttfamily [private set]}}
+
+
+
+A set of configs received from connected Arduinos. 
+
+\Hypertarget{class_u_s_b_a191f2d598a5179897302116d3963053f}\label{class_u_s_b_a191f2d598a5179897302116d3963053f} 
+\index{USB@{USB}!IncomingData@{IncomingData}}
+\index{IncomingData@{IncomingData}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{IncomingData}{IncomingData}}
+{\footnotesize\ttfamily string USB.\+Incoming\+Data = \"{}\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}, {\ttfamily [private set]}}
+
+
+
+Incoming data from thread. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_u_s_b_8cs}{USB.\+cs}}\end{DoxyCompactItemize}
