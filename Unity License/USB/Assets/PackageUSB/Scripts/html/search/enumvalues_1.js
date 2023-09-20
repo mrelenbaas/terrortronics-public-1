@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['reset_0',['Reset',['../class_u_s_b.html#a3d5360eace44d73d0c63dae8206e4684a526d688f37a86d3c3f27d0c5016eb71d',1,'USB']]]
+  ['invokedfunction_0',['InvokedFunction',['../class_u_s_b.html#aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0',1,'USB']]]
 ];

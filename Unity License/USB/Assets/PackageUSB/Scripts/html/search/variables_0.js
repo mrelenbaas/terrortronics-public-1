@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['debug_0',['debug',['../class_u_s_b.html#a469ede81e8936695a5eab3c007d73a45',1,'USB']]]
+  ['baudrate_0',['baudRate',['../struct_u_s_b_1_1_receive_data_job.html#ac90a78184b33f7d0b8b05ff19d05b408',1,'USB::ReceiveDataJob']]]
 ];

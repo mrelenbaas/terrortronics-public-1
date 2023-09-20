@@ -2,7 +2,7 @@
  * Title: USB file.
  * Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
  * Version: 2
- * Date: September 15, 2023
+ * Date: September 19, 2023
  * 
  * Intellectual Property:
  * Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
@@ -12,23 +12,33 @@
  * This file observes the Unity License.
  */
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.IO.Ports;
+using System.Linq;
 using System.Text;
 using System.Threading;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.VersionControl;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 /// <summary>
 /// The USB library.
 /// </summary>
+/// <details>
+/// <listheader>Unit Tests</listheader>
+/// <list type="table">
+/// <item><description>Priority 1</description><term>Test each receive option.</term></item>
+/// </list>
+/// </details>
 public class USB : MonoBehaviour
 {
+    #region Singleton Variables
+    /// <summary>
+    /// A singleton instance of the <see cref="USB">USB</see> class.
+    /// </summary>
+    public static USB Instance { set; get; }
+    #endregion
+
     #region Debug Variables
     /// <summary>
     /// Check to print debug tracers to console.
@@ -100,9 +110,29 @@ public class USB : MonoBehaviour
     /// Successful serial port connections.
     /// </summary>
     private SerialPort[] serialPorts;
+    /// <summary>
+    /// Check to use HID input instead of traditional Arduino serial input.
+    /// </summary>
+    [SerializeField, Tooltip("Check to use HID input instead of traditional Arduino serial input.")]
+    private bool isIncomingDataHID;
+    /// <summary>
+    /// Check to disable Rx.
+    /// </summary>
+    [SerializeField, Tooltip("Check to disable Rx.")]
+    private bool isReadingDisabled;
+    /// <summary>
+    /// Check to disable Tx.
+    /// </summary>
+    [SerializeField, Tooltip("Check to disable Tx.")]
+    private bool isWritingDisabled;
     #endregion
 
     #region Incoming Data
+    /// <summary>
+    /// When using HID input, this StringBuilder populates one character at a time until a newline
+    /// is reached.
+    /// </summary>
+    private StringBuilder incomingDataHIDCurrent = new StringBuilder();
     /// <summary>
     /// A set of configs received from connected Arduinos.
     /// </summary>
@@ -124,6 +154,14 @@ public class USB : MonoBehaviour
     /// </summary>
     private const int INCOMING_IN_USER_INTERFACE_FUNCTION = 3;
     /// <summary>
+    /// Wait for incoming data in a coroutine.
+    /// </summary>
+    private const int INCOMING_IN_COROUTINE_FUNCTION = 4;
+    /// <summary>
+    /// Wait for incoming data in a Job System function.
+    /// </summary>
+    private const int INCOMING_IN_JOB_SYSTEM_FUNCTION = 5;
+    /// <summary>
     /// Enum of options for how to receive incoming data.
     /// </summary>
     public enum IncomingOption
@@ -132,6 +170,8 @@ public class USB : MonoBehaviour
         InvokedFunction = INCOMING_IN_INVOKED_FUNTION,
         ThreadedFunction = INCOMING_IN_THREADED_FUNCTION,
         UserInterfaceFunction = INCOMING_IN_USER_INTERFACE_FUNCTION,
+        CoroutineFunction = INCOMING_IN_COROUTINE_FUNCTION,
+        JobSystemFunction = INCOMING_IN_JOB_SYSTEM_FUNCTION,
     };
     /// <summary>
     /// Choose when to receive incoming data.
@@ -172,13 +212,20 @@ public class USB : MonoBehaviour
     #region Main Loop
     #endregion
 
+    #region Invoked Function Variables
+    /// <summary>
+    /// For use with InvokeRepeating(string, float, float) and CancelInvoke(string) functions.
+    /// </summary>
+    private const string INVOKED_FUNCTION = "ReceiveDatas";
+    #endregion
+
     #region Thread Function Variables
     /// <summary>
     /// Incoming data from thread.
     /// </summary>
     public static string IncomingData { get; private set; } = "";
     /// <summary>
-    /// A thread for <see cref="ThreadedFunction">ThreadedFunction()</see>.
+    /// A thread for <see cref="ReceiveDataThreaded">ReceiveDataThreaded()</see>.
     /// </summary>
     public static Thread threadedFunction;
     /// <summary>
@@ -187,28 +234,139 @@ public class USB : MonoBehaviour
     private readonly Mutex mutex = new Mutex();
     #endregion
 
-    #region Invoked Function Variables
+    #region Job System Variables
+    // Create a native array of a single float to store the result. Using a 
+    // NativeArray is the only way you can get the results of the job, whether
+    // you're getting one value or an array of values.
+    private NativeArray<char> result;
+    // Create a JobHandle for the job
+    private JobHandle handle;
+    // Set up the job
+    private int jobIndex;
+
     /// <summary>
-    /// For use with InvokeRepeating(string, float, float) and CancelInvoke(string) functions.
+    /// A struct dedicated to the job of receiving data.
     /// </summary>
-    private const string INVOKED_FUNCTION = "ReceiveDatas";
+    /// <remarks>
+    /// <listheader>Warnings</listheader>
+    /// <list type="bullet">
+    /// <item>The job needs to open and close a single port at a time.</item>
+    /// <item>The Burst compiler does not allow SerialPort and other non-atomics.</item>
+    /// </list>
+    /// </remarks>
+    private struct ReceiveDataJob : IJob
+    {
+        #region Public Variables
+        /// <summary>
+        /// The incoming data.
+        /// </summary>
+        public NativeArray<char> receivedResult;
+        /// <summary>
+        /// The device name of a serial port to open in <see cref="Execute(void)">Execute()</see>.
+        /// </summary>
+        public NativeArray<char> serialPort;
+        /// <summary>
+        /// The baud rate of a serial port to open in <see cref="Execute(void)">Execute()</see>.
+        /// </summary>
+        public int baudRate;
+        /// <summary>
+        /// The timeout of a serial port to open in <see cref="Execute(void)">Execute()</see>.
+        /// </summary>
+        public int timeout;
+        #endregion
+
+        #region Public Functions
+        /// <summary>
+        /// The Job System function.
+        /// Receive incoming data.
+        /// </summary>
+        public void Execute()
+        {
+            SerialPort sp = new SerialPort(
+                new StringBuilder()
+                    .Append(serialPort[0])
+                    .Append(serialPort[1])
+                    .Append(serialPort[2])
+                    .Append(serialPort[3])
+                    .Append(serialPort[4])
+                    .ToString(),
+                baudRate);
+            sp.ReadTimeout = timeout;
+            sp.Open();
+            var incomingMessage = sp.ReadLine();
+            sp.Close();
+            foreach (char c in incomingMessage)
+            {
+                receivedResult.Append(c);
+            }
+            var i = 0;
+            try
+            {
+                do
+                {
+                    receivedResult[i] = incomingMessage[i];
+                    i++;
+                } while (i < 10);
+            }
+            catch (System.Exception e)
+            {
+                receivedResult[i - 1] = '\0';
+            }
+        }
+        #endregion
+    }
+
+    #endregion
+
+    #region Delegate Function Variables
     /// <summary>
-    /// Delay between <see cref="ReceiveDatas">InvokedFunction()</see> calls.
+    /// A template of a delegate function to be reassigned.
     /// </summary>
-    [SerializeField, Tooltip("Delay between InvokedFunction() calls.")]
-    private float invokedFunctionDelay = 0.1f;
+    public delegate void delegateFunctionTemplate();
+    /// <summary>
+    /// An instance of a delegate function to be reassigned.
+    /// </summary>
+    public event delegateFunctionTemplate DelegateFunctionInstance;
     #endregion
 
     #region Unity Event Functions
+    /// <summary>
+    /// Pseudo-Constructor.
+    /// Ensures that the <see cref="USB">USB</see> class is a singleton.
+    /// </summary>
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     /// <summary>
     /// Pseudo-Constructor.
     /// Calls the <see cref="ConnectSerialPorts">ConnectSerialPorts()</see> function.
     /// </summary>
     void Start()
     {
-        EditorApplication.quitting += CloseSerialPorts;
+        USB.Instance.DelegateFunctionInstance = DelegateFunction;
         Application.targetFrameRate = 100000000;
         ConnectSerialPorts();
+        switch (incomingOption)
+        {
+            case IncomingOption.UpdateFunction:
+            case IncomingOption.InvokedFunction:
+            case IncomingOption.ThreadedFunction:
+            case IncomingOption.UserInterfaceFunction:
+            case IncomingOption.CoroutineFunction:
+                break;
+            case IncomingOption.JobSystemFunction:
+                CloseSerialPorts();
+                break;
+        }
     }
 
     /// <summary>
@@ -217,7 +375,6 @@ public class USB : MonoBehaviour
     /// </summary>
     private void OnApplicationQuit()
     {
-        print("OnApplicationQuit");
         Teardown();
     }
 
@@ -234,11 +391,15 @@ public class USB : MonoBehaviour
             case IncomingOption.InvokedFunction:
                 break;
             case IncomingOption.ThreadedFunction:
-                threadedFunction = new Thread(ThreadedFunction);
+                threadedFunction = new Thread(ReceiveDataThreaded);
                 threadedFunction.Start();
                 break;
             case IncomingOption.UserInterfaceFunction:
                 InvokedFunctionStart();
+                break;
+            case IncomingOption.CoroutineFunction:
+                break;
+            case IncomingOption.JobSystemFunction:
                 break;
         }
     }
@@ -254,7 +415,7 @@ public class USB : MonoBehaviour
             case IncomingOption.UpdateFunction:
                 for (var i = 0; i < serialPorts.Length; i++)
                 {
-                    ReceiveData(serialPorts[i], Configs[i], i);
+                    ReceiveHIDOrUSB(i);
                 }
                 break;
             case IncomingOption.InvokedFunction:
@@ -263,6 +424,24 @@ public class USB : MonoBehaviour
                 break;
             case IncomingOption.UserInterfaceFunction:
                 break;
+            case IncomingOption.CoroutineFunction:
+                break;
+            case IncomingOption.JobSystemFunction:
+                result = new NativeArray<char>(10, Allocator.TempJob);
+                NativeArray<char> tempSerialPort = new NativeArray<char>(serialPorts[jobIndex].PortName.Length, Allocator.TempJob);
+                for (int i = 0; i < serialPorts[jobIndex].PortName.Length; i++)
+                {
+                    tempSerialPort[i] = serialPorts[jobIndex].PortName[i];
+                }
+                ReceiveDataJob jobData = new ReceiveDataJob
+                {
+                    receivedResult = result,
+                    serialPort = tempSerialPort,
+                    baudRate = serialPorts[0].BaudRate,
+                    timeout = SERIAL_TIMEOUT
+};
+                handle = jobData.Schedule();
+                break;
         }
         if (debug)
         {
@@ -270,6 +449,48 @@ public class USB : MonoBehaviour
                 .Append("SUCCESS: incomingData: ")
                 .Append(IncomingData)
                 .ToString());
+        }
+    }
+
+    /// <summary>
+    /// Received data from a job started in Update().
+    /// </summary>
+    private void LateUpdate()
+    {
+        switch (incomingOption)
+        {
+            case IncomingOption.UpdateFunction:
+                break;
+            case IncomingOption.InvokedFunction:
+                break;
+            case IncomingOption.ThreadedFunction:
+                break;
+            case IncomingOption.UserInterfaceFunction:
+                break;
+            case IncomingOption.CoroutineFunction:
+                break;
+            case IncomingOption.JobSystemFunction:
+                handle.Complete();
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < result.Length; i++)
+                {
+                    stringBuilder.Append(result[i]);
+                }
+                IncomingData = stringBuilder.ToString();
+                /*
+                if (debug)
+                {
+                    print(IncomingData);
+                }
+                */
+                USB.Instance.DelegateFunctionInstance();
+                jobIndex++;
+                if (jobIndex >= serialPorts.Length)
+                {
+                    jobIndex = 0;
+                }
+                result.Dispose();
+                break;
         }
     }
     #endregion
@@ -392,7 +613,7 @@ public class USB : MonoBehaviour
                 {
                     serialPorts[serialPortIndex] = ConnectSerialPort(i, serialBaudRates[j]);
                     serialPorts[serialPortIndex].ReadTimeout = SERIAL_TIMEOUT;
-                    serialPorts[serialPortIndex].Write(OutgoingMessageToString(OutgoingMessages.Start));
+                    SendData(serialPorts[serialPortIndex], OutgoingMessageToString(OutgoingMessages.Start));
                     Configs[serialPortIndex] = new StringBuilder()
                         .Append("comPortIndex:")
                         .Append(i)
@@ -424,7 +645,19 @@ public class USB : MonoBehaviour
                 break;
             case IncomingOption.UserInterfaceFunction:
                 break;
+            case IncomingOption.CoroutineFunction:
+                StartCoroutine(ReceiveDataCoroutine());
+                break;
+            case IncomingOption.JobSystemFunction:
+                break;
         }
+    }
+
+    /// <summary>
+    /// A stub function to be replaced replaced by another class.
+    /// </summary>
+    private void DelegateFunction()
+    {
     }
 
     /// <summary>
@@ -432,7 +665,7 @@ public class USB : MonoBehaviour
     /// </summary>
     private void InvokedFunctionStart()
     {
-        InvokeRepeating(INVOKED_FUNCTION, 0f, invokedFunctionDelay);
+        InvokeRepeating(INVOKED_FUNCTION, 0f, 0.0f);
     }
 
     /// <summary>
@@ -460,16 +693,20 @@ public class USB : MonoBehaviour
     }
 
     /// <summary>
-    /// The Invoked function.
+    /// The Invoked function, but used by other receive options as well.
     /// Receive incoming data.
     /// </summary>
-    /// <param name="serialPort">A member of <see cref="serialPorts">serialPorts</see>.</param>
+    /// <param name="serialPort">An element of <see cref="serialPorts">serialPorts</see>.</param>
     /// <param name="catenatedSerialPort">
-    /// A member of <see cref="config">config</see> paired with a member of 
+    /// An element of <see cref="config">config</see> paired with an element of 
     /// <see cref="serialPorts">serialPorts</see>.
     /// </param>
-    private void ReceiveData(SerialPort serialPort, string catenatedSerialPort, int configIndex)
+    private void ReceiveDataUSB(SerialPort serialPort, string catenatedSerialPort, int configIndex)
     {
+        if (isReadingDisabled)
+        {
+            return;
+        }
         try
         {
             var incomingMessage = serialPort.ReadLine();
@@ -482,8 +719,6 @@ public class USB : MonoBehaviour
             }
             if (incomingMessage.Contains("type:config"))
             {
-                print("HERE: " + incomingMessage);
-                //var temp = catenatedSerialPort;
                 Configs[configIndex] = new StringBuilder()
                     .Append(catenatedSerialPort)
                     .Append(",")
@@ -491,9 +726,145 @@ public class USB : MonoBehaviour
                     .ToString();
             }
             IncomingData = incomingMessage;
+            DelegateFunctionInstance();
+            switch (incomingOption)
+            {
+                case IncomingOption.UpdateFunction:
+                    break;
+                case IncomingOption.InvokedFunction:
+                    InvokedFunctionStart();
+                    break;
+                case IncomingOption.ThreadedFunction:
+                    break;
+                case IncomingOption.UserInterfaceFunction:
+                    break;
+                case IncomingOption.CoroutineFunction:
+                    break;
+                case IncomingOption.JobSystemFunction:
+                    break;
+            }
         }
         catch (System.Exception e)
         {
+        }
+    }
+
+    /// <summary>
+    /// The coroutine function.
+    /// Receive incoming data.
+    /// </summary>
+    /// <returns>Ignore. Used by Unity.</returns>
+    IEnumerator ReceiveDataCoroutine()
+    {
+        while(true)
+        {
+            for (var i = 0; i < serialPorts.Length; i++)
+            {
+                ReceiveHIDOrUSB(i);
+            }
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Receive incoming data from either a generic HID source, or a traditional Arduino serial source.
+    /// </summary>
+    /// <param name="index">
+    /// The index of the <see cref="serialPorts">serialPorts</see>
+    /// and <see cref="Config">Config</see> to be passed to 
+    /// <see cref="ReceiveDataUSB(SerialPort, string, int)">ReceiveDataUSB(SerialPort, string, int)</see>
+    /// </param>
+    private void ReceiveHIDOrUSB(int index)
+    {
+        if (isIncomingDataHID)
+        {
+            ReceiveDataHID();
+        }
+        else
+        {
+            ReceiveDataUSB(serialPorts[index], Configs[index], index);
+        }
+    }
+
+    /// <summary>
+    /// The Rx HID function.
+    /// Receive incoming data.
+    /// </summary>
+    private void ReceiveDataHID()
+    {
+        if (isReadingDisabled)
+        {
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.A)) incomingDataHIDCurrent.Append("a");
+        else if (Input.GetKeyDown(KeyCode.B)) incomingDataHIDCurrent.Append("b");
+        else if (Input.GetKeyDown(KeyCode.C)) incomingDataHIDCurrent.Append("c");
+        else if (Input.GetKeyDown(KeyCode.D)) incomingDataHIDCurrent.Append("d");
+        else if (Input.GetKeyDown(KeyCode.E)) incomingDataHIDCurrent.Append("e");
+        else if (Input.GetKeyDown(KeyCode.F)) incomingDataHIDCurrent.Append("f");
+        else if (Input.GetKeyDown(KeyCode.G)) incomingDataHIDCurrent.Append("g");
+        else if (Input.GetKeyDown(KeyCode.H)) incomingDataHIDCurrent.Append("h");
+        else if (Input.GetKeyDown(KeyCode.I)) incomingDataHIDCurrent.Append("i");
+        else if (Input.GetKeyDown(KeyCode.J)) incomingDataHIDCurrent.Append("j");
+        else if (Input.GetKeyDown(KeyCode.K)) incomingDataHIDCurrent.Append("k");
+        else if (Input.GetKeyDown(KeyCode.L)) incomingDataHIDCurrent.Append("l");
+        else if (Input.GetKeyDown(KeyCode.M)) incomingDataHIDCurrent.Append("m");
+        else if (Input.GetKeyDown(KeyCode.N)) incomingDataHIDCurrent.Append("n");
+        else if (Input.GetKeyDown(KeyCode.O)) incomingDataHIDCurrent.Append("o");
+        else if (Input.GetKeyDown(KeyCode.P)) incomingDataHIDCurrent.Append("p");
+        else if (Input.GetKeyDown(KeyCode.Q)) incomingDataHIDCurrent.Append("q");
+        else if (Input.GetKeyDown(KeyCode.R)) incomingDataHIDCurrent.Append("r");
+        else if (Input.GetKeyDown(KeyCode.S)) incomingDataHIDCurrent.Append("s");
+        else if (Input.GetKeyDown(KeyCode.T)) incomingDataHIDCurrent.Append("t");
+        else if (Input.GetKeyDown(KeyCode.U)) incomingDataHIDCurrent.Append("u");
+        else if (Input.GetKeyDown(KeyCode.V)) incomingDataHIDCurrent.Append("v");
+        else if (Input.GetKeyDown(KeyCode.W)) incomingDataHIDCurrent.Append("w");
+        else if (Input.GetKeyDown(KeyCode.X)) incomingDataHIDCurrent.Append("x");
+        else if (Input.GetKeyDown(KeyCode.Y)) incomingDataHIDCurrent.Append("y");
+        else if (Input.GetKeyDown(KeyCode.Z)) incomingDataHIDCurrent.Append("z");
+        else if (Input.GetKeyDown(KeyCode.Alpha0)) incomingDataHIDCurrent.Append("0");
+        else if (Input.GetKeyDown(KeyCode.Alpha1)) incomingDataHIDCurrent.Append("1");
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) incomingDataHIDCurrent.Append("2");
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) incomingDataHIDCurrent.Append("3");
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) incomingDataHIDCurrent.Append("4");
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) incomingDataHIDCurrent.Append("5");
+        else if (Input.GetKeyDown(KeyCode.Alpha6)) incomingDataHIDCurrent.Append("6");
+        else if (Input.GetKeyDown(KeyCode.Alpha7)) incomingDataHIDCurrent.Append("7");
+        else if (Input.GetKeyDown(KeyCode.Alpha8)) incomingDataHIDCurrent.Append("8");
+        else if (Input.GetKeyDown(KeyCode.Alpha9)) incomingDataHIDCurrent.Append("9");
+        else if (Input.GetKeyDown(KeyCode.Space)) incomingDataHIDCurrent.Append(" ");
+        else if (Input.GetKeyDown(KeyCode.Comma)) incomingDataHIDCurrent.Append(",");
+        else if (Input.GetKeyDown(KeyCode.Semicolon)) incomingDataHIDCurrent.Append(";");
+        else if (Input.GetKeyDown(KeyCode.Colon)) incomingDataHIDCurrent.Append(":");
+        else if (Input.GetKeyDown(KeyCode.Underscore)) incomingDataHIDCurrent.Append("_");
+        else if (Input.anyKeyDown)
+        {
+            incomingDataHIDCurrent.Append("\n");
+            IncomingData = incomingDataHIDCurrent.ToString();
+            incomingDataHIDCurrent.Clear();
+        }
+    }
+
+    /// <summary>
+    /// The threaded function.
+    /// Receive incoming data.
+    /// </summary>
+    private void ReceiveDataThreaded()
+    {
+        while (true)
+        {
+            mutex.WaitOne();
+            try
+            {
+                for (var i = 0; i < serialPorts.Length; i++)
+                {
+                    ReceiveHIDOrUSB(i);
+                }
+            }
+            catch (System.Exception e)
+            {
+            }
+            mutex.ReleaseMutex();
         }
     }
 
@@ -504,10 +875,28 @@ public class USB : MonoBehaviour
     /// </summary>
     private void ReceiveDatas()
     {
+        if (isReadingDisabled)
+        {
+            return;
+        }
         for (var i = 0; i < serialPorts.Length; i++)
         {
-            ReceiveData(serialPorts[i], Configs[i], i);
+            ReceiveHIDOrUSB(i);
         }
+    }
+
+    /// <summary>
+    /// Send outgoing data.
+    /// </summary>
+    /// <param name="serialPort">An element of <see cref="serialPorts">serialPorts</see>.</param>
+    /// <param name="message">A string to send out to an Arduino.</param>
+    private void SendData(SerialPort serialPort, string message)
+    {
+        if (isWritingDisabled)
+        {
+            return;
+        }
+        serialPort.Write(message);
     }
 
     /// <summary>
@@ -536,10 +925,13 @@ public class USB : MonoBehaviour
     {
         for (var i = 0; i < serialPorts.Length; i++)
         {
-            print(Configs[i]);
+            if (debug)
+            {
+                print(Configs[i]);
+            }
             if (Configs[i].Contains("type:config") && Configs[i].Contains("function:reset"))
             {
-                serialPorts[i].Write(OutgoingMessageToString(OutgoingMessages.Reset));
+                SendData(serialPorts[i], OutgoingMessageToString(OutgoingMessages.Reset));
             }
         }
     }
@@ -559,37 +951,17 @@ public class USB : MonoBehaviour
                 break;
             case IncomingOption.ThreadedFunction:
                 threadedFunction.Abort();
-                print("THREAD ABORTED");
                 break;
             case IncomingOption.UserInterfaceFunction:
+                break;
+            case IncomingOption.CoroutineFunction:
+                StopCoroutine(ReceiveDataCoroutine());
+                break;
+            case IncomingOption.JobSystemFunction:
                 break;
         }
         ResetArduinos();
         CloseSerialPorts();
-    }
-
-    /// <summary>
-    /// The threaded function.
-    /// Receive incoming data.
-    /// </summary>
-    private void ThreadedFunction()
-    {
-        while (true)
-        {
-            mutex.WaitOne();
-            try
-            {
-                for (var i = 0; i < serialPorts.Length; i++)
-                {
-                    ReceiveData(serialPorts[i], Configs[i], i);
-                }
-            }
-            catch (System.Exception e)
-            {
-                //print("ERROR");
-            }
-            mutex.ReleaseMutex();
-        }
     }
     #endregion
 }
