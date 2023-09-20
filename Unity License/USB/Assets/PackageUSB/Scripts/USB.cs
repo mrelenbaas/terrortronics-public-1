@@ -36,7 +36,7 @@ public class USB : MonoBehaviour
     /// <summary>
     /// A singleton instance of the <see cref="USB">USB</see> class.
     /// </summary>
-    public static USB Instance { set; get; }
+    public static USB Instance { get; private set; }
     #endregion
 
     #region Debug Variables
@@ -129,14 +129,14 @@ public class USB : MonoBehaviour
 
     #region Incoming Data
     /// <summary>
+    /// A set of configs received from connected Arduinos.
+    /// </summary>
+    public static string[] Configs { get; private set; }
+    /// <summary>
     /// When using HID input, this StringBuilder populates one character at a time until a newline
     /// is reached.
     /// </summary>
     private StringBuilder incomingDataHIDCurrent = new StringBuilder();
-    /// <summary>
-    /// A set of configs received from connected Arduinos.
-    /// </summary>
-    public static string[] Configs { get; private set; }
     /// <summary>
     /// Wait for incoming data using the Update() event function.
     /// </summary>
@@ -495,9 +495,6 @@ public class USB : MonoBehaviour
     }
     #endregion
 
-    #region Public Functions
-    #endregion
-
     #region Private Functions
     /// <summary>
     /// Catenates the platform specific prefix and the iterated postfix.
@@ -527,18 +524,22 @@ public class USB : MonoBehaviour
 #if UNITY_EDITOR_OSX
         Debug.Log("UNITY_EDITOR_OSX");
         // TODO: Add OSX implementation.
+        return "";
 #endif
 #if UNITY_STANDALONE_OSX
         Debug.Log("UNITY_STANDALONE_OSX");
         // TODO: Add OSX implementation.
+        return "";
 #endif
 #if UNITY_EDITOR_LINUX
         Debug.Log("UNITY_EDITOR_LINUX");
         // TODO: Add Linux implementation.
+        return "";
 #endif
 #if UNITY_STANDALONE_LINUX
         Debug.Log("UNITY_STANDALONE_LINUX");
         // TODO: Add Linux implementation.
+        return "";
 #endif
     }
 
