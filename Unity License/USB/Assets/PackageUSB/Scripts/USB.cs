@@ -477,12 +477,6 @@ public class USB : MonoBehaviour
                     stringBuilder.Append(result[i]);
                 }
                 IncomingData = stringBuilder.ToString();
-                /*
-                if (debug)
-                {
-                    print(IncomingData);
-                }
-                */
                 USB.Instance.DelegateFunctionInstance();
                 jobIndex++;
                 if (jobIndex >= serialPorts.Length)
@@ -532,14 +526,17 @@ public class USB : MonoBehaviour
         return "";
 #endif
 #if UNITY_EDITOR_LINUX
-        Debug.Log("UNITY_EDITOR_LINUX");
-        // TODO: Add Linux implementation.
-        return "";
+        return new StringBuilder()
+            .Append("/dev/ttyACM")
+            .Append(postfix)
+            .ToString();
+        
 #endif
 #if UNITY_STANDALONE_LINUX
-        Debug.Log("UNITY_STANDALONE_LINUX");
-        // TODO: Add Linux implementation.
-        return "";
+        return new StringBuilder()
+            .Append(SERIAL_PREFIX_LINUX)
+            .Append(postfix)
+            .ToString();
 #endif
     }
 
