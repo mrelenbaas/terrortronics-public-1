@@ -11,5 +11,7 @@ var searchData=
   ['invoked_5ffunction_8',['INVOKED_FUNCTION',['../class_u_s_b.html#a87d684022e3f5960e459c2c114472851',1,'USB']]],
   ['isincomingdatahid_9',['isIncomingDataHID',['../class_u_s_b.html#aa0cd8546f05ef8a9df29eb9e8638b652',1,'USB']]],
   ['isreadingdisabled_10',['isReadingDisabled',['../class_u_s_b.html#a1087e0a8362cf19db1255a64ff6efa89',1,'USB']]],
-  ['iswritingdisabled_11',['isWritingDisabled',['../class_u_s_b.html#a56d5fee70056f7539d163b460cca6def',1,'USB']]]
+  ['isreceivedatacoroutineactive_11',['isReceiveDataCoroutineActive',['../class_u_s_b.html#aab23e2e4131d4d4fb7936eae24bc35c6',1,'USB']]],
+  ['isreceivedatathreadedactive_12',['isReceiveDataThreadedActive',['../class_u_s_b.html#a8c9b107dc5acb03f6decb65d6e54669c',1,'USB']]],
+  ['iswritingdisabled_13',['isWritingDisabled',['../class_u_s_b.html#a56d5fee70056f7539d163b460cca6def',1,'USB']]]
 ];

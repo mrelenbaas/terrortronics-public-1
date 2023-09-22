@@ -196,9 +196,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a5ea490f45886f9f08f44e372979837eb"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a5ea490f45886f9f08f44e372979837eb">OutgoingMessageToString</a> (<a class="el" href="class_u_s_b.html#a3d5360eace44d73d0c63dae8206e4684">OutgoingMessages</a> message)</td></tr>
 <tr class="memdesc:a5ea490f45886f9f08f44e372979837eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform <a class="el" href="class_u_s_b.html#a3d5360eace44d73d0c63dae8206e4684">OutgoingMessages</a> enum into string.  <br /></td></tr>
 <tr class="separator:a5ea490f45886f9f08f44e372979837eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea2cadbbe2f314bed60b664778c6d379"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#aea2cadbbe2f314bed60b664778c6d379">PopulateResources</a> ()</td></tr>
-<tr class="memdesc:aea2cadbbe2f314bed60b664778c6d379"><td class="mdescLeft">&#160;</td><td class="mdescRight">Populate the <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a> variable.  <br /></td></tr>
-<tr class="separator:aea2cadbbe2f314bed60b664778c6d379"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5531903a8acd0ef5faf86b7fbc91a387"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a5531903a8acd0ef5faf86b7fbc91a387">PopulateResources</a> (int min, int max)</td></tr>
+<tr class="memdesc:a5531903a8acd0ef5faf86b7fbc91a387"><td class="mdescLeft">&#160;</td><td class="mdescRight">Populate the <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a> variable.  <br /></td></tr>
+<tr class="separator:a5531903a8acd0ef5faf86b7fbc91a387"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fa29d810bf88c45d391b71fc5671231"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a5fa29d810bf88c45d391b71fc5671231">ReceiveDataUSB</a> (SerialPort serialPort, string catenatedSerialPort, int configIndex)</td></tr>
 <tr class="memdesc:a5fa29d810bf88c45d391b71fc5671231"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Invoked function, but used by other receive options as well. Receive incoming data.  <br /></td></tr>
 <tr class="separator:a5fa29d810bf88c45d391b71fc5671231"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -259,6 +259,12 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a94ba8e99b4dca1af9f54a76a76b06efe"><td class="memItemLeft" align="right" valign="top">readonly Mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a94ba8e99b4dca1af9f54a76a76b06efe">mutex</a> = new Mutex()</td></tr>
 <tr class="memdesc:a94ba8e99b4dca1af9f54a76a76b06efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">A mutex.  <br /></td></tr>
 <tr class="separator:a94ba8e99b4dca1af9f54a76a76b06efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c9b107dc5acb03f6decb65d6e54669c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a8c9b107dc5acb03f6decb65d6e54669c">isReceiveDataThreadedActive</a></td></tr>
+<tr class="memdesc:a8c9b107dc5acb03f6decb65d6e54669c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the loop in the <a class="el" href="class_u_s_b.html#a82b66c4efed62bdb1035b8027675eedb">ReceiveDataThreaded()</a> active?  <br /></td></tr>
+<tr class="separator:a8c9b107dc5acb03f6decb65d6e54669c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab23e2e4131d4d4fb7936eae24bc35c6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#aab23e2e4131d4d4fb7936eae24bc35c6">isReceiveDataCoroutineActive</a></td></tr>
+<tr class="memdesc:aab23e2e4131d4d4fb7936eae24bc35c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the loop in the <a class="el" href="class_u_s_b.html#ad7192f7d93bf17c49cfe1828f0317012">ReceiveDataCoroutine()</a> active?  <br /></td></tr>
+<tr class="separator:aab23e2e4131d4d4fb7936eae24bc35c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6829dae3facb782bfa58da5846a511f9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a6829dae3facb782bfa58da5846a511f9">RESULT_SIZE</a> = 10</td></tr>
 <tr class="memdesc:a6829dae3facb782bfa58da5846a511f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of <a class="el" href="class_u_s_b.html#acc574883ef6dbe4b0ce3f103f3f12646">result</a>  <br /></td></tr>
 <tr class="separator:a6829dae3facb782bfa58da5846a511f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -641,6 +647,12 @@ Details</summary>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of found serial ports.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">FormatException</td><td>FormatException</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -814,8 +826,8 @@ Details</summary>
 
 </div>
 </div>
-<a id="aea2cadbbe2f314bed60b664778c6d379" name="aea2cadbbe2f314bed60b664778c6d379"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea2cadbbe2f314bed60b664778c6d379">&#9670;&#160;</a></span>PopulateResources()</h2>
+<a id="a5531903a8acd0ef5faf86b7fbc91a387" name="a5531903a8acd0ef5faf86b7fbc91a387"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5531903a8acd0ef5faf86b7fbc91a387">&#9670;&#160;</a></span>PopulateResources()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -826,8 +838,19 @@ Details</summary>
         <tr>
           <td class="memname">void USB.PopulateResources </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -838,6 +861,12 @@ Details</summary>
 </div><div class="memdoc">
 
 <p>Populate the <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a> variable. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">FormatException</td><td>FormatException</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -947,6 +976,13 @@ Details</summary>
 </div><div class="memdoc">
 
 <p>The threaded function. Receive incoming data. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">FormatException</td><td>FormatException</td></tr>
+    <tr><td class="paramname">Exception</td><td>Exception</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1001,6 +1037,13 @@ incomingMessage isoftype Pointer </li>
   <table class="params">
     <tr><td class="paramname">serialPort</td><td>An element of <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a>.</td></tr>
     <tr><td class="paramname">catenatedSerialPort</td><td>An element of <a class="el" href="">config</a> paired with an element of <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">FormatException</td><td>FormatException</td></tr>
+    <tr><td class="paramname">Exception</td><td>Exception</td></tr>
   </table>
   </dd>
 </dl>
@@ -1541,6 +1584,54 @@ Cannot be named Reset. </li>
 </div><div class="memdoc">
 
 <p>Check to disable Rx. </p>
+
+</div>
+</div>
+<a id="aab23e2e4131d4d4fb7936eae24bc35c6" name="aab23e2e4131d4d4fb7936eae24bc35c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab23e2e4131d4d4fb7936eae24bc35c6">&#9670;&#160;</a></span>isReceiveDataCoroutineActive</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool USB.isReceiveDataCoroutineActive</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is the loop in the <a class="el" href="class_u_s_b.html#ad7192f7d93bf17c49cfe1828f0317012">ReceiveDataCoroutine()</a> active? </p>
+
+</div>
+</div>
+<a id="a8c9b107dc5acb03f6decb65d6e54669c" name="a8c9b107dc5acb03f6decb65d6e54669c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c9b107dc5acb03f6decb65d6e54669c">&#9670;&#160;</a></span>isReceiveDataThreadedActive</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool USB.isReceiveDataThreadedActive</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is the loop in the <a class="el" href="class_u_s_b.html#a82b66c4efed62bdb1035b8027675eedb">ReceiveDataThreaded()</a> active? </p>
 
 </div>
 </div>

@@ -18,15 +18,16 @@
 
 /*
  * TODO: Update to work on Mac.
- * TODO: Replace while(True) loops with while(exitFlag) loops.
+ * TODO: C#. The Job System Function is still struggling, and needs to be better.
  * TODO: Refactor the namespace "serial port" to the namespace "port". Do this with Python code.
- * TODO: Remove bare exceptions.
- * TODO: XML document exceptions.
  */
 
+using System;
 using System.Collections;
+using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using Unity.Collections;
@@ -239,7 +240,7 @@ public class USB : MonoBehaviour
     private const string INVOKED_FUNCTION = "ReceiveDatas";
     #endregion
 
-    #region Thread Function Variables
+    #region Threaded Function Variables
     /// <summary>
     /// Incoming data from thread.
     /// </summary>
@@ -252,6 +253,17 @@ public class USB : MonoBehaviour
     /// A mutex.
     /// </summary>
     private readonly Mutex mutex = new Mutex();
+    /// <summary>
+    /// Is the loop in the <see cref="ReceiveDataThreaded">ReceiveDataThreaded()</see> active?
+    /// </summary>
+    private bool isReceiveDataThreadedActive;
+    #endregion
+
+    #region Coroutine Function Variables
+    /// <summary>
+    /// Is the loop in the <see cref="ReceiveDataCoroutine">ReceiveDataCoroutine()</see> active?
+    /// </summary>
+    private bool isReceiveDataCoroutineActive;
     #endregion
 
     #region Job System Variables
@@ -304,6 +316,8 @@ public class USB : MonoBehaviour
         /// The Job System function.
         /// Receive incoming data.
         /// </summary>
+        /// <exception cref="FormatException">FormatException</exception>
+        /// <exception cref="Exception">Exception</exception>
         public void Execute()
         {
             SerialPort sp = new SerialPort(
@@ -332,9 +346,17 @@ public class USB : MonoBehaviour
                     i++;
                 } while (i < 10);
             }
-            catch (System.Exception e)
+            catch (System.Exception ex)
             {
                 receivedResult[i - 1] = '\0';
+                if (ex is FormatException)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
         #endregion
@@ -382,6 +404,12 @@ public class USB : MonoBehaviour
         ConnectSerialPorts();
         switch (incomingOption)
         {
+            case IncomingOption.ThreadedFunction:
+                isReceiveDataThreadedActive = true;
+                break;
+            case IncomingOption.CoroutineFunction:
+                isReceiveDataCoroutineActive = true;
+                break;
             case IncomingOption.JobSystemFunction:
                 CloseSerialPorts();
                 break;
@@ -636,6 +664,7 @@ public class USB : MonoBehaviour
     /// <param name="min">The minimum possible port.</param>
     /// <param name="max">The maximum possible port.</param>
     /// <returns>The number of found serial ports.</returns>
+    /// <exception cref="FormatException">FormatException</exception>
     private int DiscoverDevices(int min, int max)
     {
         var count = 0;
@@ -647,9 +676,16 @@ public class USB : MonoBehaviour
                 port.Close();
                 count++;
             }
-            catch (System.Exception e)
+            catch (System.Exception ex)
             {
-                continue;
+                if (ex is FormatException)
+                {
+                    throw;
+                }
+                else
+                {
+                    continue;
+                }
             }
         }
         return count;
@@ -690,6 +726,7 @@ public class USB : MonoBehaviour
     /// <summary>
     /// Populate the <see cref="serialPorts">serialPorts</see> variable.
     /// </summary>
+    /// <exception cref="FormatException">FormatException</exception>
     private void PopulateResources(int min, int max)
     {
         var serialPortIndex = 0;
@@ -717,9 +754,16 @@ public class USB : MonoBehaviour
                     }
                     serialPortIndex++;
                 }
-                catch (System.Exception e)
+                catch (System.Exception ex)
                 {
-                    continue;
+                    if (ex is FormatException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
             }
         }
@@ -741,6 +785,8 @@ public class USB : MonoBehaviour
     /// An element of <see cref="config">config</see> paired with an element of 
     /// <see cref="serialPorts">serialPorts</see>.
     /// </param>
+    /// <exception cref="FormatException">FormatException</exception>
+    /// <exception cref="Exception">Exception</exception>
     private void ReceiveDataUSB(SerialPort serialPort, string catenatedSerialPort, int configIndex)
     {
         if (isReadingDisabled)
@@ -776,8 +822,16 @@ public class USB : MonoBehaviour
                     break;
             }
         }
-        catch (System.Exception e)
+        catch (System.Exception ex)
         {
+            if (ex is FormatException)
+            {
+                throw;
+            }
+            else
+            {
+                throw;
+            }
         }
     }
 
@@ -788,7 +842,7 @@ public class USB : MonoBehaviour
     /// <returns>Ignore. Used by Unity.</returns>
     IEnumerator ReceiveDataCoroutine()
     {
-        while(true)
+        while (isReceiveDataCoroutineActive)
         {
             for (var i = 0; i < serialPorts.Length; i++)
             {
@@ -881,9 +935,11 @@ public class USB : MonoBehaviour
     /// The threaded function.
     /// Receive incoming data.
     /// </summary>
+    /// <exception cref="FormatException">FormatException</exception>
+    /// <exception cref="Exception">Exception</exception>
     private void ReceiveDataThreaded()
     {
-        while (true)
+        while (isReceiveDataThreadedActive)
         {
             mutex.WaitOne();
             try
@@ -893,8 +949,16 @@ public class USB : MonoBehaviour
                     ReceiveHIDOrUSB(i);
                 }
             }
-            catch (System.Exception e)
+            catch (System.Exception ex)
             {
+                if (ex is FormatException)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw;
+                }
             }
             mutex.ReleaseMutex();
         }

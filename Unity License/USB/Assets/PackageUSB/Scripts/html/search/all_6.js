@@ -8,8 +8,8 @@ var searchData=
   ['incoming_5fin_5fuser_5finterface_5ffunction_5',['INCOMING_IN_USER_INTERFACE_FUNCTION',['../class_u_s_b.html#a9d2f1e5e6f5defd6fbb990b3e395a646',1,'USB']]],
   ['incomingdata_6',['IncomingData',['../class_u_s_b.html#a191f2d598a5179897302116d3963053f',1,'USB']]],
   ['incomingdatahidcurrent_7',['incomingDataHIDCurrent',['../class_u_s_b.html#afa08bc445941b114314558b1366247d2',1,'USB']]],
-  ['incomingoption_8',['IncomingOption',['../class_u_s_b.html#aeedbd6ee0425cda2b1a40e6520725264',1,'USB']]],
-  ['incomingoption_9',['incomingOption',['../class_u_s_b.html#a30066610b606432622adc4edf9e75298',1,'USB']]],
+  ['incomingoption_8',['incomingOption',['../class_u_s_b.html#a30066610b606432622adc4edf9e75298',1,'USB']]],
+  ['incomingoption_9',['IncomingOption',['../class_u_s_b.html#aeedbd6ee0425cda2b1a40e6520725264',1,'USB']]],
   ['instance_10',['Instance',['../class_u_s_b.html#a0c8e42ee1f2f9ec271feeaed7981f54c',1,'USB']]],
   ['invoked_5ffunction_11',['INVOKED_FUNCTION',['../class_u_s_b.html#a87d684022e3f5960e459c2c114472851',1,'USB']]],
   ['invokedfunction_12',['InvokedFunction',['../class_u_s_b.html#aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0',1,'USB']]],
@@ -17,5 +17,7 @@ var searchData=
   ['invokedfunctionstop_14',['InvokedFunctionStop',['../class_u_s_b.html#a06ffa22555e607510585c67d70c60805',1,'USB']]],
   ['isincomingdatahid_15',['isIncomingDataHID',['../class_u_s_b.html#aa0cd8546f05ef8a9df29eb9e8638b652',1,'USB']]],
   ['isreadingdisabled_16',['isReadingDisabled',['../class_u_s_b.html#a1087e0a8362cf19db1255a64ff6efa89',1,'USB']]],
-  ['iswritingdisabled_17',['isWritingDisabled',['../class_u_s_b.html#a56d5fee70056f7539d163b460cca6def',1,'USB']]]
+  ['isreceivedatacoroutineactive_17',['isReceiveDataCoroutineActive',['../class_u_s_b.html#aab23e2e4131d4d4fb7936eae24bc35c6',1,'USB']]],
+  ['isreceivedatathreadedactive_18',['isReceiveDataThreadedActive',['../class_u_s_b.html#a8c9b107dc5acb03f6decb65d6e54669c',1,'USB']]],
+  ['iswritingdisabled_19',['isWritingDisabled',['../class_u_s_b.html#a56d5fee70056f7539d163b460cca6def',1,'USB']]]
 ];

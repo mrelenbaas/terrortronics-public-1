@@ -90,7 +90,7 @@ void \mbox{\hyperlink{class_u_s_b_a06ffa22555e607510585c67d70c60805}{Invoked\+Fu
 \begin{DoxyCompactList}\small\item\em Stop invoking the \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0}{Invoked\+Function()} function. \end{DoxyCompactList}\item 
 string \mbox{\hyperlink{class_u_s_b_a5ea490f45886f9f08f44e372979837eb}{Outgoing\+Message\+To\+String}} (\mbox{\hyperlink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages}} message)
 \begin{DoxyCompactList}\small\item\em Transform \doxylink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages} enum into string. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_u_s_b_aea2cadbbe2f314bed60b664778c6d379}{Populate\+Resources}} ()
+void \mbox{\hyperlink{class_u_s_b_a5531903a8acd0ef5faf86b7fbc91a387}{Populate\+Resources}} (int min, int max)
 \begin{DoxyCompactList}\small\item\em Populate the \doxylink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports} variable. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_u_s_b_a5fa29d810bf88c45d391b71fc5671231}{Receive\+Data\+USB}} (Serial\+Port serial\+Port, string catenated\+Serial\+Port, int config\+Index)
 \begin{DoxyCompactList}\small\item\em The Invoked function, but used by other receive options as well. Receive incoming data. \end{DoxyCompactList}\item 
@@ -133,6 +133,10 @@ String\+Builder \mbox{\hyperlink{class_u_s_b_afa08bc445941b114314558b1366247d2}{
 \begin{DoxyCompactList}\small\item\em Choose when to receive incoming data. \end{DoxyCompactList}\item 
 readonly Mutex \mbox{\hyperlink{class_u_s_b_a94ba8e99b4dca1af9f54a76a76b06efe}{mutex}} = new Mutex()
 \begin{DoxyCompactList}\small\item\em A mutex. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_u_s_b_a8c9b107dc5acb03f6decb65d6e54669c}{is\+Receive\+Data\+Threaded\+Active}}
+\begin{DoxyCompactList}\small\item\em Is the loop in the \doxylink{class_u_s_b_a82b66c4efed62bdb1035b8027675eedb}{Receive\+Data\+Threaded()} active? \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_u_s_b_aab23e2e4131d4d4fb7936eae24bc35c6}{is\+Receive\+Data\+Coroutine\+Active}}
+\begin{DoxyCompactList}\small\item\em Is the loop in the \doxylink{class_u_s_b_ad7192f7d93bf17c49cfe1828f0317012}{Receive\+Data\+Coroutine()} active? \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{class_u_s_b_a6829dae3facb782bfa58da5846a511f9}{RESULT\+\_\+\+SIZE}} = 10
 \begin{DoxyCompactList}\small\item\em The size of \doxylink{class_u_s_b_acc574883ef6dbe4b0ce3f103f3f12646}{result} \end{DoxyCompactList}\item 
 Native\+Array$<$ char $>$ \mbox{\hyperlink{class_u_s_b_acc574883ef6dbe4b0ce3f103f3f12646}{result}}
@@ -370,6 +374,11 @@ Check all serial ports looking for any connection.
 \begin{DoxyReturn}{Returns}
 The number of found serial ports.
 \end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Format\+Exception} & Format\+Exception\\
+\hline
+\end{DoxyExceptions}
 \Hypertarget{class_u_s_b_adb36c1d30fc5dacb5efcd55fc4a42876}\label{class_u_s_b_adb36c1d30fc5dacb5efcd55fc4a42876} 
 \index{USB@{USB}!InvokedFunctionStart@{InvokedFunctionStart}}
 \index{InvokedFunctionStart@{InvokedFunctionStart}!USB@{USB}}
@@ -438,16 +447,21 @@ Transform \doxylink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Mes
 \begin{DoxyReturn}{Returns}
 A string transformed from a \doxylink{class_u_s_b_a3d5360eace44d73d0c63dae8206e4684}{Outgoing\+Messages} member. 
 \end{DoxyReturn}
-\Hypertarget{class_u_s_b_aea2cadbbe2f314bed60b664778c6d379}\label{class_u_s_b_aea2cadbbe2f314bed60b664778c6d379} 
+\Hypertarget{class_u_s_b_a5531903a8acd0ef5faf86b7fbc91a387}\label{class_u_s_b_a5531903a8acd0ef5faf86b7fbc91a387} 
 \index{USB@{USB}!PopulateResources@{PopulateResources}}
 \index{PopulateResources@{PopulateResources}!USB@{USB}}
 \doxysubsubsection{\texorpdfstring{PopulateResources()}{PopulateResources()}}
-{\footnotesize\ttfamily void USB.\+Populate\+Resources (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+{\footnotesize\ttfamily void USB.\+Populate\+Resources (\begin{DoxyParamCaption}\item[{int}]{min,  }\item[{int}]{max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
 
 
 Populate the \doxylink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports} variable. 
 
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Format\+Exception} & Format\+Exception\\
+\hline
+\end{DoxyExceptions}
 \Hypertarget{class_u_s_b_ad7192f7d93bf17c49cfe1828f0317012}\label{class_u_s_b_ad7192f7d93bf17c49cfe1828f0317012} 
 \index{USB@{USB}!ReceiveDataCoroutine@{ReceiveDataCoroutine}}
 \index{ReceiveDataCoroutine@{ReceiveDataCoroutine}!USB@{USB}}
@@ -491,6 +505,13 @@ Starts one instance of \doxylink{class_u_s_b_aeedbd6ee0425cda2b1a40e6520725264a2
 
 The threaded function. Receive incoming data. 
 
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Format\+Exception} & Format\+Exception\\
+\hline
+{\em Exception} & Exception\\
+\hline
+\end{DoxyExceptions}
 \Hypertarget{class_u_s_b_a5fa29d810bf88c45d391b71fc5671231}\label{class_u_s_b_a5fa29d810bf88c45d391b71fc5671231} 
 \index{USB@{USB}!ReceiveDataUSB@{ReceiveDataUSB}}
 \index{ReceiveDataUSB@{ReceiveDataUSB}!USB@{USB}}
@@ -514,6 +535,13 @@ RUSCAL
 {\em catenated\+Serial\+Port} & An element of \doxylink{}{config} paired with an element of \doxylink{class_u_s_b_a120de5a7f929eef408aa4df3d5d1a870}{serial\+Ports}. \\
 \hline
 \end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Format\+Exception} & Format\+Exception\\
+\hline
+{\em Exception} & Exception\\
+\hline
+\end{DoxyExceptions}
 \Hypertarget{class_u_s_b_aa9eb7493c97922460ac83341870fda14}\label{class_u_s_b_aa9eb7493c97922460ac83341870fda14} 
 \index{USB@{USB}!ReceiveHIDOrUSB@{ReceiveHIDOrUSB}}
 \index{ReceiveHIDOrUSB@{ReceiveHIDOrUSB}!USB@{USB}}
@@ -735,6 +763,26 @@ Check to use HID input instead of traditional Arduino serial input.
 
 
 Check to disable Rx. 
+
+\Hypertarget{class_u_s_b_aab23e2e4131d4d4fb7936eae24bc35c6}\label{class_u_s_b_aab23e2e4131d4d4fb7936eae24bc35c6} 
+\index{USB@{USB}!isReceiveDataCoroutineActive@{isReceiveDataCoroutineActive}}
+\index{isReceiveDataCoroutineActive@{isReceiveDataCoroutineActive}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{isReceiveDataCoroutineActive}{isReceiveDataCoroutineActive}}
+{\footnotesize\ttfamily bool USB.\+is\+Receive\+Data\+Coroutine\+Active\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Is the loop in the \doxylink{class_u_s_b_ad7192f7d93bf17c49cfe1828f0317012}{Receive\+Data\+Coroutine()} active? 
+
+\Hypertarget{class_u_s_b_a8c9b107dc5acb03f6decb65d6e54669c}\label{class_u_s_b_a8c9b107dc5acb03f6decb65d6e54669c} 
+\index{USB@{USB}!isReceiveDataThreadedActive@{isReceiveDataThreadedActive}}
+\index{isReceiveDataThreadedActive@{isReceiveDataThreadedActive}!USB@{USB}}
+\doxysubsubsection{\texorpdfstring{isReceiveDataThreadedActive}{isReceiveDataThreadedActive}}
+{\footnotesize\ttfamily bool USB.\+is\+Receive\+Data\+Threaded\+Active\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Is the loop in the \doxylink{class_u_s_b_a82b66c4efed62bdb1035b8027675eedb}{Receive\+Data\+Threaded()} active? 
 
 \Hypertarget{class_u_s_b_a56d5fee70056f7539d163b460cca6def}\label{class_u_s_b_a56d5fee70056f7539d163b460cca6def} 
 \index{USB@{USB}!isWritingDisabled@{isWritingDisabled}}

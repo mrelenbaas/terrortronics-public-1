@@ -408,7 +408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5746214503956326524, guid: e045fd7dba5c28d40bc0df4863bc6cd0, type: 3}
       propertyPath: incomingOption
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5746214503956326524, guid: e045fd7dba5c28d40bc0df4863bc6cd0, type: 3}
       propertyPath: isReadingDisabled
