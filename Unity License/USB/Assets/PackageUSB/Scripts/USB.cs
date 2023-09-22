@@ -13,7 +13,8 @@
  */
 
 /*
- * Unit Test: 
+ * Unit Test #1: Does each IncomingOption work with the Ultrasonic Sensor controller?
+ * Unit Test #2: Does Unit Test #1 work with Windows, Mac, and Linux?
  */
 
 /*
@@ -24,15 +25,12 @@
 
 using System;
 using System.Collections;
-using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading;
 using Unity.Collections;
 using Unity.Jobs;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
