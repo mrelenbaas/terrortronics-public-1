@@ -56,7 +56,7 @@ public class USB : MonoBehaviour
     /// Check to print debug tracers to console.
     /// </summary>
     [SerializeField, Tooltip("Check to print debug tracers to console.")]
-    private bool debug = false;
+    private bool debug;
     #endregion
 
     #region Serial Variables
@@ -105,7 +105,7 @@ public class USB : MonoBehaviour
     /// <summary>
     /// Maximum COM port (Mac).
     /// </summary>
-    private const int SERIAL_POSTFIX_MAX_MAC = 256;
+    private const int SERIAL_POSTFIX_MAX_MAC = 10000000;
     /// <summary>
     /// The device prefix (Windows).
     /// </summary>
@@ -117,7 +117,11 @@ public class USB : MonoBehaviour
     /// <summary>
     /// The device prefix (Mac).
     /// </summary>
-    private const string SERIAL_PREFIX_MAC = "/dev/cu.usbserial-";
+    private const string SERIAL_PREFIX_MAC_MICRO_OR_UNO = "/dev/cu.usbmodem-";
+    /// <summary>
+    /// The device prefix (Mac).
+    /// </summary>
+    private const string SERIAL_PREFIX_MAC_NANO = "/dev/cu.usbserial-";
     /// <summary>
     /// Successful serial port connections.
     /// </summary>
@@ -530,7 +534,7 @@ public class USB : MonoBehaviour
     /// <returns>
     /// Returns the catenated sum of the platform specific prefix and the iterated postfix.
     /// </returns>
-    private string CatenateSerialPrefixAndPostfix(int postfix)
+    private string CatenateSerialPrefixAndPostfix(int postfix, bool isNano = false)
     {
 #if UNITY_EDITOR_WIN
         return new StringBuilder()
@@ -545,16 +549,36 @@ public class USB : MonoBehaviour
             .ToString();
 #endif
 #if UNITY_EDITOR_OSX
-        return new StringBuilder()
-            .Append(SERIAL_PREFIX_MAC)
-            .Append(postfix)
-            .ToString();
+        if (isNano)
+        {
+            return new StringBuilder()
+                .Append(SERIAL_PREFIX_MAC_NANO)
+                .Append(postfix)
+                .ToString();
+        }
+        else
+        {
+            return new StringBuilder()
+                .Append(SERIAL_PREFIX_MAC_MICRO_OR_UNO)
+                .Append(postfix)
+                .ToString();
+        }
 #endif
 #if UNITY_STANDALONE_OSX
-        return new StringBuilder()
-            .Append(SERIAL_PREFIX_MAC)
-            .Append(postfix)
-            .ToString();
+        if (isNano)
+        {
+            return new StringBuilder()
+                .Append(SERIAL_PREFIX_MAC_NANO)
+                .Append(postfix)
+                .ToString();
+        }
+        else
+        {
+            return new StringBuilder()
+                .Append(SERIAL_PREFIX_MAC_MICRO_OR_UNO)
+                .Append(postfix)
+                .ToString();
+        }
 #endif
 #if UNITY_EDITOR_LINUX
         return new StringBuilder()
@@ -605,7 +629,10 @@ public class USB : MonoBehaviour
         count = DiscoverDevices(SERIAL_POSTFIX_MIN_WINDOWS, SERIAL_POSTFIX_MAX_WINDOWS);
 #endif
 #if UNITY_STANDALONE_WIN
-        count = DiscoverDevices(SERIAL_POSTFIX_MIN_WINDOWS, SERIAL_POSTFIX_MAX_WINDOWS);
+        if (count == 0)
+        {
+            count = DiscoverDevices(SERIAL_POSTFIX_MIN_WINDOWS, SERIAL_POSTFIX_MAX_WINDOWS);
+        }
 #endif
 #if UNITY_EDITOR_OSX
         count = DiscoverDevices(SERIAL_POSTFIX_MIN_MAC, SERIAL_POSTFIX_MAX_MAC);
@@ -674,6 +701,7 @@ public class USB : MonoBehaviour
             {
                 var port = ConnectSerialPort(i, serialBaudRates[0]);
                 port.Close();
+                print("SerialPort(" + i + ", " + serialBaudRates[0] + ")");
                 count++;
             }
             catch (System.Exception ex)
