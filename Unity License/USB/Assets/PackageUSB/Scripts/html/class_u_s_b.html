@@ -133,7 +133,7 @@ Static Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:a0c8e42ee1f2f9ec271feeaed7981f54c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_u_s_b.html">USB</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a0c8e42ee1f2f9ec271feeaed7981f54c">Instance</a><code> [get, set]</code></td></tr>
+<tr class="memitem:a0c8e42ee1f2f9ec271feeaed7981f54c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_u_s_b.html">USB</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a0c8e42ee1f2f9ec271feeaed7981f54c">Instance</a><code> [get, private set]</code></td></tr>
 <tr class="memdesc:a0c8e42ee1f2f9ec271feeaed7981f54c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A singleton instance of the <a class="el" href="class_u_s_b.html">USB</a> class.  <br /></td></tr>
 <tr class="separator:a0c8e42ee1f2f9ec271feeaed7981f54c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1196930b8d2a8da157568eed9202846f"><td class="memItemLeft" align="right" valign="top">static string[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a1196930b8d2a8da157568eed9202846f">Configs</a><code> [get, private set]</code></td></tr>
@@ -184,6 +184,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:abb729e3a95c124aec0f51c4526b0cf29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#abb729e3a95c124aec0f51c4526b0cf29">DelegateFunction</a> ()</td></tr>
 <tr class="memdesc:abb729e3a95c124aec0f51c4526b0cf29"><td class="mdescLeft">&#160;</td><td class="mdescRight">A stub function to be replaced replaced by another class.  <br /></td></tr>
 <tr class="separator:abb729e3a95c124aec0f51c4526b0cf29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab43814abe8a91a3dc375dbc50aed3047"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#ab43814abe8a91a3dc375dbc50aed3047">DiscoverDevices</a> (int min, int max)</td></tr>
+<tr class="memdesc:ab43814abe8a91a3dc375dbc50aed3047"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check all serial ports looking for any connection.  <br /></td></tr>
+<tr class="separator:ab43814abe8a91a3dc375dbc50aed3047"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb36c1d30fc5dacb5efcd55fc4a42876"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#adb36c1d30fc5dacb5efcd55fc4a42876">InvokedFunctionStart</a> ()</td></tr>
 <tr class="memdesc:adb36c1d30fc5dacb5efcd55fc4a42876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start invoking the <a class="el" href="class_u_s_b.html#aeedbd6ee0425cda2b1a40e6520725264a231b632776989f8d4fefb7d77071beb0">InvokedFunction()</a> function.  <br /></td></tr>
 <tr class="separator:adb36c1d30fc5dacb5efcd55fc4a42876"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,6 +196,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a5ea490f45886f9f08f44e372979837eb"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a5ea490f45886f9f08f44e372979837eb">OutgoingMessageToString</a> (<a class="el" href="class_u_s_b.html#a3d5360eace44d73d0c63dae8206e4684">OutgoingMessages</a> message)</td></tr>
 <tr class="memdesc:a5ea490f45886f9f08f44e372979837eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform <a class="el" href="class_u_s_b.html#a3d5360eace44d73d0c63dae8206e4684">OutgoingMessages</a> enum into string.  <br /></td></tr>
 <tr class="separator:a5ea490f45886f9f08f44e372979837eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea2cadbbe2f314bed60b664778c6d379"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#aea2cadbbe2f314bed60b664778c6d379">PopulateResources</a> ()</td></tr>
+<tr class="memdesc:aea2cadbbe2f314bed60b664778c6d379"><td class="mdescLeft">&#160;</td><td class="mdescRight">Populate the <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a> variable.  <br /></td></tr>
+<tr class="separator:aea2cadbbe2f314bed60b664778c6d379"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fa29d810bf88c45d391b71fc5671231"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a5fa29d810bf88c45d391b71fc5671231">ReceiveDataUSB</a> (SerialPort serialPort, string catenatedSerialPort, int configIndex)</td></tr>
 <tr class="memdesc:a5fa29d810bf88c45d391b71fc5671231"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Invoked function, but used by other receive options as well. Receive incoming data.  <br /></td></tr>
 <tr class="separator:a5fa29d810bf88c45d391b71fc5671231"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -226,12 +232,6 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:acc574883ef6dbe4b0ce3f103f3f12646"><td class="memItemLeft" align="right" valign="top">NativeArray&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#acc574883ef6dbe4b0ce3f103f3f12646">result</a></td></tr>
-<tr class="separator:acc574883ef6dbe4b0ce3f103f3f12646"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a406953ecefe49a11320028905648cb1f"><td class="memItemLeft" align="right" valign="top">JobHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a406953ecefe49a11320028905648cb1f">handle</a></td></tr>
-<tr class="separator:a406953ecefe49a11320028905648cb1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ed544e411c51c0dc486cb2be6e345a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a8ed544e411c51c0dc486cb2be6e345a2">jobIndex</a></td></tr>
-<tr class="separator:a8ed544e411c51c0dc486cb2be6e345a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a469ede81e8936695a5eab3c007d73a45"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a469ede81e8936695a5eab3c007d73a45">debug</a> = false</td></tr>
 <tr class="memdesc:a469ede81e8936695a5eab3c007d73a45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check to print debug tracers to console.  <br /></td></tr>
 <tr class="separator:a469ede81e8936695a5eab3c007d73a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -259,6 +259,15 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a94ba8e99b4dca1af9f54a76a76b06efe"><td class="memItemLeft" align="right" valign="top">readonly Mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a94ba8e99b4dca1af9f54a76a76b06efe">mutex</a> = new Mutex()</td></tr>
 <tr class="memdesc:a94ba8e99b4dca1af9f54a76a76b06efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">A mutex.  <br /></td></tr>
 <tr class="separator:a94ba8e99b4dca1af9f54a76a76b06efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6829dae3facb782bfa58da5846a511f9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a6829dae3facb782bfa58da5846a511f9">RESULT_SIZE</a> = 10</td></tr>
+<tr class="memdesc:a6829dae3facb782bfa58da5846a511f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of <a class="el" href="class_u_s_b.html#acc574883ef6dbe4b0ce3f103f3f12646">result</a>  <br /></td></tr>
+<tr class="separator:a6829dae3facb782bfa58da5846a511f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc574883ef6dbe4b0ce3f103f3f12646"><td class="memItemLeft" align="right" valign="top">NativeArray&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#acc574883ef6dbe4b0ce3f103f3f12646">result</a></td></tr>
+<tr class="separator:acc574883ef6dbe4b0ce3f103f3f12646"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a406953ecefe49a11320028905648cb1f"><td class="memItemLeft" align="right" valign="top">JobHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a406953ecefe49a11320028905648cb1f">handle</a></td></tr>
+<tr class="separator:a406953ecefe49a11320028905648cb1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ed544e411c51c0dc486cb2be6e345a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a8ed544e411c51c0dc486cb2be6e345a2">jobIndex</a></td></tr>
+<tr class="separator:a8ed544e411c51c0dc486cb2be6e345a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
@@ -292,6 +301,9 @@ Static Private Attributes</h2></td></tr>
 <tr class="memitem:acf358666d356850b63b33e8094575fe0"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#acf358666d356850b63b33e8094575fe0">SERIAL_PREFIX_MAC</a> = &quot;&quot;</td></tr>
 <tr class="memdesc:acf358666d356850b63b33e8094575fe0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The device prefix (Mac).  <br /></td></tr>
 <tr class="separator:acf358666d356850b63b33e8094575fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5794cdb5e88778bc9bae0ea54db6205f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a5794cdb5e88778bc9bae0ea54db6205f">TARGET_FPS</a> = 100000000</td></tr>
+<tr class="memdesc:a5794cdb5e88778bc9bae0ea54db6205f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum frame rate.  <br /></td></tr>
+<tr class="separator:a5794cdb5e88778bc9bae0ea54db6205f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4deae3233be57fd25524f1a0f8970406"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_b.html#a4deae3233be57fd25524f1a0f8970406">INCOMING_IN_UPDATE_FUNCTION</a> = 0</td></tr>
 <tr class="memdesc:a4deae3233be57fd25524f1a0f8970406"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for incoming data using the <a class="el" href="class_u_s_b.html#ada3d1992a17aa6579834cd0c6de85974" title="The main function. Receive incoming data.">Update()</a> event function.  <br /></td></tr>
 <tr class="separator:a4deae3233be57fd25524f1a0f8970406"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -537,17 +549,6 @@ Details</summary>
 </div><div class="memdoc">
 
 <p>Connect to all possible SerialPort connections. </p>
-<p>Cross-Platform Steps: </p><ul>
-<li>
-Count the connected devices. </li>
-<li>
-Use count to define the size of <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a> and <a class="el" href="class_u_s_b.html#a1196930b8d2a8da157568eed9202846f">configs</a>. </li>
-<li>
-Populate <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a> and <a class="el" href="class_u_s_b.html#a1196930b8d2a8da157568eed9202846f">configs</a>. </li>
-<li>
-Start a function to receive incoming data. </li>
-</ul>
-<p>Warnings:  In C, the namespace Connect is already taken. </p>
 
 </div>
 </div>
@@ -594,6 +595,52 @@ Start a function to receive incoming data. </li>
 </div><div class="memdoc">
 
 <p>A template of a delegate function to be reassigned. </p>
+
+</div>
+</div>
+<a id="ab43814abe8a91a3dc375dbc50aed3047" name="ab43814abe8a91a3dc375dbc50aed3047"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab43814abe8a91a3dc375dbc50aed3047">&#9670;&#160;</a></span>DiscoverDevices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int USB.DiscoverDevices </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check all serial ports looking for any connection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">min</td><td>The minimum possible port.</td></tr>
+    <tr><td class="paramname">max</td><td>The maximum possible port.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of found serial ports.</dd></dl>
 
 </div>
 </div>
@@ -767,6 +814,33 @@ Start a function to receive incoming data. </li>
 
 </div>
 </div>
+<a id="aea2cadbbe2f314bed60b664778c6d379" name="aea2cadbbe2f314bed60b664778c6d379"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea2cadbbe2f314bed60b664778c6d379">&#9670;&#160;</a></span>PopulateResources()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void USB.PopulateResources </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Populate the <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a> variable. </p>
+
+</div>
+</div>
 <a id="ad7192f7d93bf17c49cfe1828f0317012" name="ad7192f7d93bf17c49cfe1828f0317012"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad7192f7d93bf17c49cfe1828f0317012">&#9670;&#160;</a></span>ReceiveDataCoroutine()</h2>
 
@@ -917,6 +991,12 @@ Start a function to receive incoming data. </li>
 </div><div class="memdoc">
 
 <p>The Invoked function, but used by other receive options as well. Receive incoming data. </p>
+<p>RUSCAL </p><ul>
+<li>
+... </li>
+<li>
+incomingMessage isoftype Pointer </li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">serialPort</td><td>An element of <a class="el" href="class_u_s_b.html#a120de5a7f929eef408aa4df3d5d1a870">serialPorts</a>.</td></tr>
@@ -1020,7 +1100,10 @@ Start a function to receive incoming data. </li>
 </div><div class="memdoc">
 
 <p>Call the reset() function on each connected Arduino. </p>
-<p>Cannot be named Reset. </p>
+<p>Warnings: </p><ul>
+<li>
+Cannot be named Reset. </li>
+</ul>
 
 </div>
 </div>
@@ -1601,6 +1684,30 @@ Start a function to receive incoming data. </li>
 
 </div>
 </div>
+<a id="a6829dae3facb782bfa58da5846a511f9" name="a6829dae3facb782bfa58da5846a511f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6829dae3facb782bfa58da5846a511f9">&#9670;&#160;</a></span>RESULT_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int USB.RESULT_SIZE = 10</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The size of <a class="el" href="class_u_s_b.html#acc574883ef6dbe4b0ce3f103f3f12646">result</a> </p>
+
+</div>
+</div>
 <a id="a1f222c3bd3b0b02edd490bd6e27e4a5f" name="a1f222c3bd3b0b02edd490bd6e27e4a5f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1f222c3bd3b0b02edd490bd6e27e4a5f">&#9670;&#160;</a></span>SERIAL_POSTFIX_MAX_LINUX</h2>
 
@@ -1904,6 +2011,30 @@ Start a function to receive incoming data. </li>
 
 </div>
 </div>
+<a id="a5794cdb5e88778bc9bae0ea54db6205f" name="a5794cdb5e88778bc9bae0ea54db6205f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5794cdb5e88778bc9bae0ea54db6205f">&#9670;&#160;</a></span>TARGET_FPS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int USB.TARGET_FPS = 100000000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The maximum frame rate. </p>
+
+</div>
+</div>
 <a id="a525928a469d72fbf9f766192b850dd58" name="a525928a469d72fbf9f766192b850dd58"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a525928a469d72fbf9f766192b850dd58">&#9670;&#160;</a></span>threadedFunction</h2>
 
@@ -1992,7 +2123,7 @@ Start a function to receive incoming data. </li>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span><span class="mlabel">private set</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

@@ -12,6 +12,18 @@
  * This file observes the Unity License.
  */
 
+/*
+ * Unit Test: 
+ */
+
+/*
+ * TODO: Update to work on Mac.
+ * TODO: Replace while(True) loops with while(exitFlag) loops.
+ * TODO: Refactor the namespace "serial port" to the namespace "port". Do this with Python code.
+ * TODO: Remove bare exceptions.
+ * TODO: XML document exceptions.
+ */
+
 using System.Collections;
 using System.IO.Ports;
 using System.Linq;
@@ -19,6 +31,7 @@ using System.Text;
 using System.Threading;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -125,6 +138,13 @@ public class USB : MonoBehaviour
     /// </summary>
     [SerializeField, Tooltip("Check to disable Tx.")]
     private bool isWritingDisabled;
+    #endregion
+
+    #region FPS Variables
+    /// <summary>
+    /// The maximum frame rate.
+    /// </summary>
+    private const int TARGET_FPS = 100000000;
     #endregion
 
     #region Incoming Data
@@ -235,6 +255,10 @@ public class USB : MonoBehaviour
     #endregion
 
     #region Job System Variables
+    /// <summary>
+    /// The size of <see cref="result">result</see>
+    /// </summary>
+    private int RESULT_SIZE = 10;
     // Create a native array of a single float to store the result. Using a 
     // NativeArray is the only way you can get the results of the job, whether
     // you're getting one value or an array of values.
@@ -346,6 +370,7 @@ public class USB : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     /// <summary>
     /// Pseudo-Constructor.
     /// Calls the <see cref="ConnectSerialPorts">ConnectSerialPorts()</see> function.
@@ -353,18 +378,14 @@ public class USB : MonoBehaviour
     void Start()
     {
         USB.Instance.DelegateFunctionInstance = DelegateFunction;
-        Application.targetFrameRate = 100000000;
+        Application.targetFrameRate = TARGET_FPS;
         ConnectSerialPorts();
         switch (incomingOption)
         {
-            case IncomingOption.UpdateFunction:
-            case IncomingOption.InvokedFunction:
-            case IncomingOption.ThreadedFunction:
-            case IncomingOption.UserInterfaceFunction:
-            case IncomingOption.CoroutineFunction:
-                break;
             case IncomingOption.JobSystemFunction:
                 CloseSerialPorts();
+                break;
+            default:
                 break;
         }
     }
@@ -386,10 +407,6 @@ public class USB : MonoBehaviour
     {
         switch (incomingOption)
         {
-            case IncomingOption.UpdateFunction:
-                break;
-            case IncomingOption.InvokedFunction:
-                break;
             case IncomingOption.ThreadedFunction:
                 threadedFunction = new Thread(ReceiveDataThreaded);
                 threadedFunction.Start();
@@ -397,9 +414,7 @@ public class USB : MonoBehaviour
             case IncomingOption.UserInterfaceFunction:
                 InvokedFunctionStart();
                 break;
-            case IncomingOption.CoroutineFunction:
-                break;
-            case IncomingOption.JobSystemFunction:
+            default:
                 break;
         }
     }
@@ -418,29 +433,25 @@ public class USB : MonoBehaviour
                     ReceiveHIDOrUSB(i);
                 }
                 break;
-            case IncomingOption.InvokedFunction:
-                break;
-            case IncomingOption.ThreadedFunction:
-                break;
-            case IncomingOption.UserInterfaceFunction:
-                break;
-            case IncomingOption.CoroutineFunction:
-                break;
             case IncomingOption.JobSystemFunction:
-                result = new NativeArray<char>(10, Allocator.TempJob);
-                NativeArray<char> tempSerialPort = new NativeArray<char>(serialPorts[jobIndex].PortName.Length, Allocator.TempJob);
+                result = new NativeArray<char>(RESULT_SIZE, Allocator.TempJob);
+                NativeArray<char> tempSerialPort = new NativeArray<char>(
+                    serialPorts[jobIndex].PortName.Length,
+                    Allocator.TempJob);
                 for (int i = 0; i < serialPorts[jobIndex].PortName.Length; i++)
                 {
                     tempSerialPort[i] = serialPorts[jobIndex].PortName[i];
+                    ReceiveDataJob jobData = new ReceiveDataJob
+                    {
+                        receivedResult = result,
+                        serialPort = tempSerialPort,
+                        baudRate = serialPorts[jobIndex].BaudRate,
+                        timeout = SERIAL_TIMEOUT
+                    };
+                    handle = jobData.Schedule();
                 }
-                ReceiveDataJob jobData = new ReceiveDataJob
-                {
-                    receivedResult = result,
-                    serialPort = tempSerialPort,
-                    baudRate = serialPorts[0].BaudRate,
-                    timeout = SERIAL_TIMEOUT
-};
-                handle = jobData.Schedule();
+                break;
+            default:
                 break;
         }
         if (debug)
@@ -459,16 +470,6 @@ public class USB : MonoBehaviour
     {
         switch (incomingOption)
         {
-            case IncomingOption.UpdateFunction:
-                break;
-            case IncomingOption.InvokedFunction:
-                break;
-            case IncomingOption.ThreadedFunction:
-                break;
-            case IncomingOption.UserInterfaceFunction:
-                break;
-            case IncomingOption.CoroutineFunction:
-                break;
             case IncomingOption.JobSystemFunction:
                 handle.Complete();
                 StringBuilder stringBuilder = new StringBuilder();
@@ -484,6 +485,8 @@ public class USB : MonoBehaviour
                     jobIndex = 0;
                 }
                 result.Dispose();
+                break;
+            default:
                 break;
         }
     }
@@ -530,7 +533,6 @@ public class USB : MonoBehaviour
             .Append("/dev/ttyACM")
             .Append(postfix)
             .ToString();
-        
 #endif
 #if UNITY_STANDALONE_LINUX
         return new StringBuilder()
@@ -568,24 +570,76 @@ public class USB : MonoBehaviour
     /// <summary>
     /// Connect to all possible SerialPort connections.
     /// </summary>
-    /// <remarks>
-    /// <listheader>Cross-Platform Steps:</listheader>
-    /// <list type="bullet">
-    /// <item>Count the connected devices.</item>
-    /// <item>Use count to define the size of <see cref="serialPorts">serialPorts</see> and
-    /// <see cref="Configs">configs</see>.</item>
-    /// <item>Populate <see cref="serialPorts">serialPorts</see> and
-    /// <see cref="Configs">configs</see>.
-    /// <item>Start a function to receive incoming data.</item>
-    /// </list>
-    /// <listheader>Warnings:</listheader>
-    /// <item> In C, the namespace Connect is already taken.</item>
-    /// </remarks>
     private void ConnectSerialPorts()
     {
-        // Count the connected devices.
+        int count;
+#if UNITY_EDITOR_WIN
+        count = DiscoverDevices(SERIAL_POSTFIX_MIN_WINDOWS, SERIAL_POSTFIX_MAX_WINDOWS);
+#endif
+#if UNITY_STANDALONE_WIN
+        count = DiscoverDevices(SERIAL_POSTFIX_MIN_WINDOWS, SERIAL_POSTFIX_MAX_WINDOWS);
+#endif
+#if UNITY_EDITOR_OSX
+        count = DiscoverDevices(SERIAL_POSTFIX_MIN_MAC, SERIAL_POSTFIX_MAX_MAC);
+#endif
+#if UNITY_STANDALONE_OSX
+        count = DiscoverDevices(SERIAL_POSTFIX_MIN_MAC, SERIAL_POSTFIX_MAX_MAC);
+#endif
+#if UNITY_EDITOR_LINUX
+        count = DiscoverDevices(SERIAL_POSTFIX_MIN_LINUX, SERIAL_POSTFIX_MAX_LINUX);
+#endif
+#if UNITY_STANDALONE_LINUX
+        count = DiscoverDevices(SERIAL_POSTFIX_MIN_LINUX, SERIAL_POSTFIX_MAX_LINUX);
+#endif
+
+        serialPorts = new SerialPort[count];
+        Configs = new string[count];
+#if UNITY_EDITOR_WIN
+        PopulateResources(SERIAL_POSTFIX_MIN_WINDOWS, SERIAL_POSTFIX_MAX_WINDOWS);
+#endif
+#if UNITY_STANDALONE_WIN
+        PopulateResources(SERIAL_POSTFIX_MIN_WINDOWS, SERIAL_POSTFIX_MAX_WINDOWS);
+#endif
+#if UNITY_EDITOR_OSX
+        PopulateResources(SERIAL_POSTFIX_MIN_MAC, SERIAL_POSTFIX_MAX_MAC);
+#endif
+#if UNITY_STANDALONE_OSX
+        PopulateResources(SERIAL_POSTFIX_MIN_MAC, SERIAL_POSTFIX_MAX_MAC);
+#endif
+#if UNITY_EDITOR_LINUX
+        PopulateResources(SERIAL_POSTFIX_MIN_LINUX, SERIAL_POSTFIX_MAX_LINUX);
+#endif
+#if UNITY_STANDALONE_LINUX
+        PopulateResources(SERIAL_POSTFIX_MIN_LINUX, SERIAL_POSTFIX_MAX_LINUX);
+#endif
+        switch (incomingOption)
+        {
+            case IncomingOption.InvokedFunction:
+                InvokedFunctionStart();
+                break;
+            case IncomingOption.CoroutineFunction:
+                StartCoroutine(ReceiveDataCoroutine());
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// A stub function to be replaced replaced by another class.
+    /// </summary>
+    private void DelegateFunction() {}
+
+    /// <summary>
+    /// Check all serial ports looking for any connection.
+    /// </summary>
+    /// <param name="min">The minimum possible port.</param>
+    /// <param name="max">The maximum possible port.</param>
+    /// <returns>The number of found serial ports.</returns>
+    private int DiscoverDevices(int min, int max)
+    {
         var count = 0;
-        for (var i = SERIAL_POSTFIX_MIN_WINDOWS; i < SERIAL_POSTFIX_MAX_WINDOWS; i++)
+        for (var i = min; i < max; i++)
         {
             try
             {
@@ -598,64 +652,7 @@ public class USB : MonoBehaviour
                 continue;
             }
         }
-        // Use count to define the size of serialPorts and configs.
-        serialPorts = new SerialPort[count];
-        Configs = new string[count];
-        // Populate serialPorts and configs.
-        var serialPortIndex = 0;
-        for (var i = SERIAL_POSTFIX_MIN_WINDOWS; i < SERIAL_POSTFIX_MAX_WINDOWS; i++)
-        {
-            for (var j = 0; j < serialBaudRates.Length; j++)
-            {
-                try
-                {
-                    serialPorts[serialPortIndex] = ConnectSerialPort(i, serialBaudRates[j]);
-                    serialPorts[serialPortIndex].ReadTimeout = SERIAL_TIMEOUT;
-                    SendData(serialPorts[serialPortIndex], OutgoingMessageToString(OutgoingMessages.Start));
-                    Configs[serialPortIndex] = new StringBuilder()
-                        .Append("comPortIndex:")
-                        .Append(i)
-                        .ToString();
-                    if (debug)
-                    {
-                        print(new StringBuilder()
-                            .Append("SUCCESS: Connection made at: ")
-                            .Append(CatenateSerialPrefixAndPostfix(i))
-                            .ToString());
-                    }
-                    serialPortIndex++;
-                }
-                catch (System.Exception e)
-                {
-                    continue;
-                }
-            }
-        }
-        // Start a function to receive incoming data.
-        switch (incomingOption)
-        {
-            case IncomingOption.UpdateFunction:
-                break;
-            case IncomingOption.InvokedFunction:
-                InvokedFunctionStart();
-                break;
-            case IncomingOption.ThreadedFunction:
-                break;
-            case IncomingOption.UserInterfaceFunction:
-                break;
-            case IncomingOption.CoroutineFunction:
-                StartCoroutine(ReceiveDataCoroutine());
-                break;
-            case IncomingOption.JobSystemFunction:
-                break;
-        }
-    }
-
-    /// <summary>
-    /// A stub function to be replaced replaced by another class.
-    /// </summary>
-    private void DelegateFunction()
-    {
+        return count;
     }
 
     /// <summary>
@@ -691,9 +688,54 @@ public class USB : MonoBehaviour
     }
 
     /// <summary>
+    /// Populate the <see cref="serialPorts">serialPorts</see> variable.
+    /// </summary>
+    private void PopulateResources(int min, int max)
+    {
+        var serialPortIndex = 0;
+        for (var i = min; i < max; i++)
+        {
+            for (var j = 0; j < serialBaudRates.Length; j++)
+            {
+                try
+                {
+                    serialPorts[serialPortIndex] = ConnectSerialPort(i, serialBaudRates[j]);
+                    serialPorts[serialPortIndex].ReadTimeout = SERIAL_TIMEOUT;
+                    SendData(
+                        serialPorts[serialPortIndex],
+                        OutgoingMessageToString(OutgoingMessages.Start));
+                    Configs[serialPortIndex] = new StringBuilder()
+                        .Append("serialPortIndex:")
+                        .Append(i)
+                        .ToString();
+                    if (debug)
+                    {
+                        print(new StringBuilder()
+                            .Append("SUCCESS: Connection made at: ")
+                            .Append(CatenateSerialPrefixAndPostfix(i))
+                            .ToString());
+                    }
+                    serialPortIndex++;
+                }
+                catch (System.Exception e)
+                {
+                    continue;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// The Invoked function, but used by other receive options as well.
     /// Receive incoming data.
     /// </summary>
+    /// <remarks>
+    /// <listheader>RUSCAL</listheader>
+    /// <list type="bullet">
+    /// <item>...</item>
+    /// <item>incomingMessage isoftype Pointer</item>
+    /// </list>
+    /// </remarks>
     /// <param name="serialPort">An element of <see cref="serialPorts">serialPorts</see>.</param>
     /// <param name="catenatedSerialPort">
     /// An element of <see cref="config">config</see> paired with an element of 
@@ -727,18 +769,10 @@ public class USB : MonoBehaviour
             DelegateFunctionInstance();
             switch (incomingOption)
             {
-                case IncomingOption.UpdateFunction:
-                    break;
                 case IncomingOption.InvokedFunction:
                     InvokedFunctionStart();
                     break;
-                case IncomingOption.ThreadedFunction:
-                    break;
-                case IncomingOption.UserInterfaceFunction:
-                    break;
-                case IncomingOption.CoroutineFunction:
-                    break;
-                case IncomingOption.JobSystemFunction:
+                default:
                     break;
             }
         }
@@ -917,7 +951,10 @@ public class USB : MonoBehaviour
     /// Call the reset() function on each connected Arduino.
     /// </summary>
     /// <remarks>
-    /// Cannot be named Reset.
+    /// <listheader>Warnings:</listheader>
+    /// <list type="bullet">
+    /// <item>Cannot be named Reset.</item>
+    /// </list>
     /// </remarks>
     private void ResetArduinos()
     {
@@ -942,20 +979,16 @@ public class USB : MonoBehaviour
     {
         switch (incomingOption)
         {
-            case IncomingOption.UpdateFunction:
-                break;
             case IncomingOption.InvokedFunction:
                 InvokedFunctionStop();
                 break;
             case IncomingOption.ThreadedFunction:
                 threadedFunction.Abort();
                 break;
-            case IncomingOption.UserInterfaceFunction:
-                break;
             case IncomingOption.CoroutineFunction:
                 StopCoroutine(ReceiveDataCoroutine());
                 break;
-            case IncomingOption.JobSystemFunction:
+            default:
                 break;
         }
         ResetArduinos();

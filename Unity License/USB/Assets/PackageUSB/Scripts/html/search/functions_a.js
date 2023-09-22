@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['update_0',['Update',['../class_u_s_b.html#ada3d1992a17aa6579834cd0c6de85974',1,'USB']]]
+  ['teardown_0',['Teardown',['../class_u_s_b.html#af1e09d1b806e14e4348def1f29491f26',1,'USB']]]
 ];
