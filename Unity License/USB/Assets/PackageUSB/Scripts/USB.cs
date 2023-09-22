@@ -117,7 +117,7 @@ public class USB : MonoBehaviour
     /// <summary>
     /// The device prefix (Mac).
     /// </summary>
-    private const string SERIAL_PREFIX_MAC = "";
+    private const string SERIAL_PREFIX_MAC = "/dev/cu.usbserial-";
     /// <summary>
     /// Successful serial port connections.
     /// </summary>
@@ -545,14 +545,16 @@ public class USB : MonoBehaviour
             .ToString();
 #endif
 #if UNITY_EDITOR_OSX
-        Debug.Log("UNITY_EDITOR_OSX");
-        // TODO: Add OSX implementation.
-        return "";
+        return new StringBuilder()
+            .Append(SERIAL_PREFIX_MAC)
+            .Append(postfix)
+            .ToString();
 #endif
 #if UNITY_STANDALONE_OSX
-        Debug.Log("UNITY_STANDALONE_OSX");
-        // TODO: Add OSX implementation.
-        return "";
+        return new StringBuilder()
+            .Append(SERIAL_PREFIX_MAC)
+            .Append(postfix)
+            .ToString();
 #endif
 #if UNITY_EDITOR_LINUX
         return new StringBuilder()
