@@ -18,9 +18,9 @@
  */
 
 /*
- * TODO: Update to work on Mac.
+ * TODO: This works on the Mac, but scraping too many ports in one frame freezes the Unity editor.
  * TODO: C#. The Job System Function is still struggling, and needs to be better.
- * TODO: Refactor the namespace "serial port" to the namespace "port". Do this with Python code.
+ * TODO: Refactor the namespace "serial port" to the namespace "port". Do this when you revise Python code. This issue will reoccur with the Python row width limit.
  */
 
 using System;
@@ -91,9 +91,13 @@ public class USB : MonoBehaviour
     /// </summary>
     private const int SERIAL_POSTFIX_MIN_LINUX = 0;
     /// <summary>
-    /// Minimum COM port (Mac).
+    /// Minimum COM port (Mac), for Arduino Micro or Uno.
     /// </summary>
-    private const int SERIAL_POSTFIX_MIN_MAC = 0;
+    private const int SERIAL_POSTFIX_MIN_MAC_MICRO_OR_UNO = 2900000;
+    /// <summary>
+    /// Minimum COM port (Mac), for Arduino Nano.
+    /// </summary>
+    private const int SERIAL_POSTFIX_MIN_MAC_NANO = 1000;
     /// <summary>
     /// Maximum COM port (Windows).
     /// </summary>
@@ -103,9 +107,13 @@ public class USB : MonoBehaviour
     /// </summary>
     private const int SERIAL_POSTFIX_MAX_LINUX = 256;
     /// <summary>
-    /// Maximum COM port (Mac).
+    /// Maximum COM port (Mac), for Arduino Micro or Uno.
     /// </summary>
-    private const int SERIAL_POSTFIX_MAX_MAC = 10000000;
+    private const int SERIAL_POSTFIX_MAX_MAC_MICRO_OR_UNO = 3000000;
+    /// <summary>
+    /// Maximum COM port (Mac), for Arduino Nano.
+    /// </summary>
+    private const int SERIAL_POSTFIX_MAX_MAC_NANO = 2000;
     /// <summary>
     /// The device prefix (Windows).
     /// </summary>
@@ -115,11 +123,11 @@ public class USB : MonoBehaviour
     /// </summary>
     private const string SERIAL_PREFIX_LINUX = "/dev/ttyACM";
     /// <summary>
-    /// The device prefix (Mac).
+    /// The device prefix (Mac), for Micro or Uno.
     /// </summary>
     private const string SERIAL_PREFIX_MAC_MICRO_OR_UNO = "/dev/cu.usbmodem-";
     /// <summary>
-    /// The device prefix (Mac).
+    /// The device prefix (Mac), for Nano.
     /// </summary>
     private const string SERIAL_PREFIX_MAC_NANO = "/dev/cu.usbserial-";
     /// <summary>
@@ -635,10 +643,24 @@ public class USB : MonoBehaviour
         }
 #endif
 #if UNITY_EDITOR_OSX
-        count = DiscoverDevices(SERIAL_POSTFIX_MIN_MAC, SERIAL_POSTFIX_MAX_MAC);
+        if (isNano)
+        {
+            count = DiscoverDevices(SERIAL_POSTFIX_MIN_MAC_NANO, SERIAL_POSTFIX_MAX_MAC_NANO);
+        }
+        else
+        {
+            count = DiscoverDevices(SERIAL_POSTFIX_MIN_MAC_MICRO_OR_UNO, SERIAL_POSTFIX_MAX_MAC_MICRO_OR_UNO);
+        }
 #endif
 #if UNITY_STANDALONE_OSX
-        count = DiscoverDevices(SERIAL_POSTFIX_MIN_MAC, SERIAL_POSTFIX_MAX_MAC);
+        if (isNano)
+        {
+            count = DiscoverDevices(SERIAL_POSTFIX_MIN_MAC_NANO, SERIAL_POSTFIX_MAX_MAC_NANO);
+        }
+        else
+        {
+            count = DiscoverDevices(SERIAL_POSTFIX_MIN_MAC_MICRO_OR_UNO, SERIAL_POSTFIX_MAX_MAC_MICRO_OR_UNO);
+        }
 #endif
 #if UNITY_EDITOR_LINUX
         count = DiscoverDevices(SERIAL_POSTFIX_MIN_LINUX, SERIAL_POSTFIX_MAX_LINUX);
@@ -657,9 +679,21 @@ public class USB : MonoBehaviour
 #endif
 #if UNITY_EDITOR_OSX
         PopulateResources(SERIAL_POSTFIX_MIN_MAC, SERIAL_POSTFIX_MAX_MAC);
+        if (isNano)
+        {
+        }
+        else
+        {
+        }
 #endif
 #if UNITY_STANDALONE_OSX
         PopulateResources(SERIAL_POSTFIX_MIN_MAC, SERIAL_POSTFIX_MAX_MAC);
+        if (isNano)
+        {
+        }
+        else
+        {
+        }
 #endif
 #if UNITY_EDITOR_LINUX
         PopulateResources(SERIAL_POSTFIX_MIN_LINUX, SERIAL_POSTFIX_MAX_LINUX);
@@ -1010,20 +1044,6 @@ public class USB : MonoBehaviour
     }
 
     /// <summary>
-    /// Send outgoing data.
-    /// </summary>
-    /// <param name="serialPort">An element of <see cref="serialPorts">serialPorts</see>.</param>
-    /// <param name="message">A string to send out to an Arduino.</param>
-    private void SendData(SerialPort serialPort, string message)
-    {
-        if (isWritingDisabled)
-        {
-            return;
-        }
-        serialPort.Write(message);
-    }
-
-    /// <summary>
     /// Transform <see cref="IncomingOption">ReceiveOption</see> enum into string.
     /// </summary>
     /// <param name="option">
@@ -1061,6 +1081,20 @@ public class USB : MonoBehaviour
                 SendData(serialPorts[i], OutgoingMessageToString(OutgoingMessages.Reset));
             }
         }
+    }
+
+    /// <summary>
+    /// Send outgoing data.
+    /// </summary>
+    /// <param name="serialPort">An element of <see cref="serialPorts">serialPorts</see>.</param>
+    /// <param name="message">A string to send out to an Arduino.</param>
+    private void SendData(SerialPort serialPort, string message)
+    {
+        if (isWritingDisabled)
+        {
+            return;
+        }
+        serialPort.Write(message);
     }
 
     /// <summary>
