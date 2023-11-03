@@ -1,0 +1,104 @@
+\doxysection{usb\+\_\+forms.\+ino File Reference}
+\hypertarget{usb__forms_8ino}{}\label{usb__forms_8ino}\index{usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{usb__forms_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{usb__forms_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{usb__forms_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{usb__forms_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{usb__forms_8ino_a028cd75ee72b8958a9baa6d608714bb9}{Led\+Pin}} = 2
+\item 
+int \mbox{\hyperlink{usb__forms_8ino_a6bca96572a37f9b51ccae0fa72f57aba}{led\+State}} = 0
+\item 
+const String \mbox{\hyperlink{usb__forms_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:ultrasonic\+\_\+sensor,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{usb__forms_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{usb\_forms.ino@{usb\_forms.ino}!messages@{messages}}
+\index{messages@{messages}!usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!usb\_forms.ino@{usb\_forms.ino}}\index{usb\_forms.ino@{usb\_forms.ino}!startMessage@{startMessage}}}\Hypertarget{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!usb\_forms.ino@{usb\_forms.ino}}\index{usb\_forms.ino@{usb\_forms.ino}!resetMessage@{resetMessage}}}\Hypertarget{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{usb__forms_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{usb__forms_8ino_afe461d27b9c48d5921c00d521181f12f}\label{usb__forms_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{usb\_forms.ino@{usb\_forms.ino}!loop@{loop}}
+\index{loop@{loop}!usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{usb__forms_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{usb__forms_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{usb\_forms.ino@{usb\_forms.ino}!reset@{reset}}
+\index{reset@{reset}!usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{usb__forms_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{usb__forms_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{usb\_forms.ino@{usb\_forms.ino}!setup@{setup}}
+\index{setup@{setup}!usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{usb__forms_8ino_a60de64d75454385b23995437f1d72669}\label{usb__forms_8ino_a60de64d75454385b23995437f1d72669} 
+\index{usb\_forms.ino@{usb\_forms.ino}!start@{start}}
+\index{start@{start}!usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{usb__forms_8ino_aefabcf199f0c73d02251076be65451d4}\label{usb__forms_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{usb\_forms.ino@{usb\_forms.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{usb__forms_8ino_a028cd75ee72b8958a9baa6d608714bb9}\label{usb__forms_8ino_a028cd75ee72b8958a9baa6d608714bb9} 
+\index{usb\_forms.ino@{usb\_forms.ino}!LedPin@{LedPin}}
+\index{LedPin@{LedPin}!usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection{\texorpdfstring{LedPin}{LedPin}}
+{\footnotesize\ttfamily const int Led\+Pin = 2}
+
+\Hypertarget{usb__forms_8ino_a6bca96572a37f9b51ccae0fa72f57aba}\label{usb__forms_8ino_a6bca96572a37f9b51ccae0fa72f57aba} 
+\index{usb\_forms.ino@{usb\_forms.ino}!ledState@{ledState}}
+\index{ledState@{ledState}!usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection{\texorpdfstring{ledState}{ledState}}
+{\footnotesize\ttfamily int led\+State = 0}
+
+\Hypertarget{usb__forms_8ino_a8377abe943283ac9ea19351c7d355866}\label{usb__forms_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{usb\_forms.ino@{usb\_forms.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!usb\_forms.ino@{usb\_forms.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:ultrasonic\+\_\+sensor,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
