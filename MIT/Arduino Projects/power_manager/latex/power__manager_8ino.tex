@@ -1,0 +1,264 @@
+\doxysection{power\+\_\+manager.\+ino File Reference}
+\hypertarget{power__manager_8ino}{}\label{power__manager_8ino}\index{power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{power__manager_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{power__manager_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{power__manager_8ino_a5d4144b4b65f8754cde6a9d06dcce521}{power\+On}} ()
+\item 
+void \mbox{\hyperlink{power__manager_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{power__manager_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{power__manager_8ino_a799de9c46efe68a74d1a79c080150921}{DELAY}} = 1000
+\item 
+const int \mbox{\hyperlink{power__manager_8ino_ab733b123f2b56da4445fb54cd9bb3dfc}{PIN\+\_\+\+ONE\+\_\+\+OUT}} = 2
+\item 
+const int \mbox{\hyperlink{power__manager_8ino_af363f0b63daec9ba50cf75c053d274bd}{PIN\+\_\+\+TWO\+\_\+\+OUT}} = 3
+\item 
+const int \mbox{\hyperlink{power__manager_8ino_a9a5151f5f56369075f07cecddc2e45a6}{PIN\+\_\+\+THREE\+\_\+\+OUT}} = 4
+\item 
+const int \mbox{\hyperlink{power__manager_8ino_a97cd94c316af436c824692533c61b70b}{PIN\+\_\+\+ONE\+\_\+\+IN}} = 5
+\item 
+const int \mbox{\hyperlink{power__manager_8ino_a598ff7dbe853926d8ae8619e0153b052}{PIN\+\_\+\+TWO\+\_\+\+IN}} = 6
+\item 
+const int \mbox{\hyperlink{power__manager_8ino_a489561711c0b62377419f32f34db42d9}{PIN\+\_\+\+THREE\+\_\+\+IN}} = 7
+\item 
+const int \mbox{\hyperlink{power__manager_8ino_ae3df9894637e9b52a844f3dc86fda023}{PIN\+\_\+\+WINDOWS\+\_\+\+PHOTODIODE}} = A0
+\item 
+int const \mbox{\hyperlink{power__manager_8ino_a5845786be2d88b66676c5d3187738832}{PIN\+\_\+\+WINDOWS\+\_\+\+PHOTODIODE\+\_\+\+SIZE}} = 20
+\item 
+const float \mbox{\hyperlink{power__manager_8ino_ae78e79f567e481daa86d3b2967e8ef64}{PIN\+\_\+\+WINDOWS\+\_\+\+PHOTODIODE\+\_\+\+THRESHOLD}} = 20.\+0f
+\item 
+int \mbox{\hyperlink{power__manager_8ino_a0edc03cf1fcf548bd62221410a425a19}{pin\+Windows\+Photodiode\+History}} \mbox{[}\mbox{\hyperlink{power__manager_8ino_a5845786be2d88b66676c5d3187738832}{PIN\+\_\+\+WINDOWS\+\_\+\+PHOTODIODE\+\_\+\+SIZE}}\mbox{]}
+\item 
+int \mbox{\hyperlink{power__manager_8ino_a40282bb745acadd09f085204dda0198d}{pin\+Windows\+Photodiode\+Index}}
+\item 
+float \mbox{\hyperlink{power__manager_8ino_a323a7aa49ce97fcd0d07fc85800710f9}{pin\+Windows\+Photodiode\+Average}}
+\item 
+float \mbox{\hyperlink{power__manager_8ino_a8bd65894f3c9567f3ab4fc7e8553736b}{pin\+Windows\+Photodiode\+Reference}}
+\item 
+long \mbox{\hyperlink{power__manager_8ino_a63b668b9772d147e9406807109b73e2a}{time\+At\+Reference}}
+\item 
+long const \mbox{\hyperlink{power__manager_8ino_a4b32a6ce80e4a32d62c7f738dca695e9}{CONFIRMATION\+\_\+\+PERIOD}} = 10000
+\item 
+const int \mbox{\hyperlink{power__manager_8ino_a50e5f11a5f12ffa89e9786d978bda69a}{BUAD\+\_\+\+RATE}} = 9600
+\item 
+int \mbox{\hyperlink{power__manager_8ino_a446580c9ebb1b6c08c3fa8cfe11e69ac}{hot\+Keyboard}} \mbox{[}$\,$\mbox{]} = \{ -\/1, -\/1, -\/1 \}
+\item 
+int \mbox{\hyperlink{power__manager_8ino_accc0c3f890194cda401a16f5f54e43cb}{current\+Out}} = -\/1
+\item 
+bool \mbox{\hyperlink{power__manager_8ino_ac85060c846a7b5d03ec64330f0acf802}{is\+Power\+On}}
+\item 
+bool \mbox{\hyperlink{power__manager_8ino_af64e2710197f58f3c19e1c45fbd7e0d3}{is\+Power\+On\+Confirmed}}
+\item 
+const String \mbox{\hyperlink{power__manager_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:power\+\_\+manager,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{power__manager_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{power\_manager.ino@{power\_manager.ino}!messages@{messages}}
+\index{messages@{messages}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!power\_manager.ino@{power\_manager.ino}}\index{power\_manager.ino@{power\_manager.ino}!startMessage@{startMessage}}}\Hypertarget{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!power\_manager.ino@{power\_manager.ino}}\index{power\_manager.ino@{power\_manager.ino}!resetMessage@{resetMessage}}}\Hypertarget{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{power__manager_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{power__manager_8ino_afe461d27b9c48d5921c00d521181f12f}\label{power__manager_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{power\_manager.ino@{power\_manager.ino}!loop@{loop}}
+\index{loop@{loop}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{power__manager_8ino_a5d4144b4b65f8754cde6a9d06dcce521}\label{power__manager_8ino_a5d4144b4b65f8754cde6a9d06dcce521} 
+\index{power\_manager.ino@{power\_manager.ino}!powerOn@{powerOn}}
+\index{powerOn@{powerOn}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{powerOn()}{powerOn()}}
+{\footnotesize\ttfamily void power\+On (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{power__manager_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{power__manager_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{power\_manager.ino@{power\_manager.ino}!reset@{reset}}
+\index{reset@{reset}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{power__manager_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{power__manager_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{power\_manager.ino@{power\_manager.ino}!setup@{setup}}
+\index{setup@{setup}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{power__manager_8ino_a60de64d75454385b23995437f1d72669}\label{power__manager_8ino_a60de64d75454385b23995437f1d72669} 
+\index{power\_manager.ino@{power\_manager.ino}!start@{start}}
+\index{start@{start}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{power__manager_8ino_a50e5f11a5f12ffa89e9786d978bda69a}\label{power__manager_8ino_a50e5f11a5f12ffa89e9786d978bda69a} 
+\index{power\_manager.ino@{power\_manager.ino}!BUAD\_RATE@{BUAD\_RATE}}
+\index{BUAD\_RATE@{BUAD\_RATE}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{BUAD\_RATE}{BUAD\_RATE}}
+{\footnotesize\ttfamily const int BUAD\+\_\+\+RATE = 9600}
+
+\Hypertarget{power__manager_8ino_a4b32a6ce80e4a32d62c7f738dca695e9}\label{power__manager_8ino_a4b32a6ce80e4a32d62c7f738dca695e9} 
+\index{power\_manager.ino@{power\_manager.ino}!CONFIRMATION\_PERIOD@{CONFIRMATION\_PERIOD}}
+\index{CONFIRMATION\_PERIOD@{CONFIRMATION\_PERIOD}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{CONFIRMATION\_PERIOD}{CONFIRMATION\_PERIOD}}
+{\footnotesize\ttfamily long const CONFIRMATION\+\_\+\+PERIOD = 10000}
+
+\Hypertarget{power__manager_8ino_accc0c3f890194cda401a16f5f54e43cb}\label{power__manager_8ino_accc0c3f890194cda401a16f5f54e43cb} 
+\index{power\_manager.ino@{power\_manager.ino}!currentOut@{currentOut}}
+\index{currentOut@{currentOut}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{currentOut}{currentOut}}
+{\footnotesize\ttfamily int current\+Out = -\/1}
+
+\Hypertarget{power__manager_8ino_a799de9c46efe68a74d1a79c080150921}\label{power__manager_8ino_a799de9c46efe68a74d1a79c080150921} 
+\index{power\_manager.ino@{power\_manager.ino}!DELAY@{DELAY}}
+\index{DELAY@{DELAY}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{DELAY}{DELAY}}
+{\footnotesize\ttfamily const int DELAY = 1000}
+
+\Hypertarget{power__manager_8ino_a446580c9ebb1b6c08c3fa8cfe11e69ac}\label{power__manager_8ino_a446580c9ebb1b6c08c3fa8cfe11e69ac} 
+\index{power\_manager.ino@{power\_manager.ino}!hotKeyboard@{hotKeyboard}}
+\index{hotKeyboard@{hotKeyboard}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{hotKeyboard}{hotKeyboard}}
+{\footnotesize\ttfamily int hot\+Keyboard\mbox{[}$\,$\mbox{]} = \{ -\/1, -\/1, -\/1 \}}
+
+\Hypertarget{power__manager_8ino_aefabcf199f0c73d02251076be65451d4}\label{power__manager_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{power\_manager.ino@{power\_manager.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{power__manager_8ino_ac85060c846a7b5d03ec64330f0acf802}\label{power__manager_8ino_ac85060c846a7b5d03ec64330f0acf802} 
+\index{power\_manager.ino@{power\_manager.ino}!isPowerOn@{isPowerOn}}
+\index{isPowerOn@{isPowerOn}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{isPowerOn}{isPowerOn}}
+{\footnotesize\ttfamily bool is\+Power\+On}
+
+\Hypertarget{power__manager_8ino_af64e2710197f58f3c19e1c45fbd7e0d3}\label{power__manager_8ino_af64e2710197f58f3c19e1c45fbd7e0d3} 
+\index{power\_manager.ino@{power\_manager.ino}!isPowerOnConfirmed@{isPowerOnConfirmed}}
+\index{isPowerOnConfirmed@{isPowerOnConfirmed}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{isPowerOnConfirmed}{isPowerOnConfirmed}}
+{\footnotesize\ttfamily bool is\+Power\+On\+Confirmed}
+
+\Hypertarget{power__manager_8ino_a8377abe943283ac9ea19351c7d355866}\label{power__manager_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{power\_manager.ino@{power\_manager.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:power\+\_\+manager,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{power__manager_8ino_a97cd94c316af436c824692533c61b70b}\label{power__manager_8ino_a97cd94c316af436c824692533c61b70b} 
+\index{power\_manager.ino@{power\_manager.ino}!PIN\_ONE\_IN@{PIN\_ONE\_IN}}
+\index{PIN\_ONE\_IN@{PIN\_ONE\_IN}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{PIN\_ONE\_IN}{PIN\_ONE\_IN}}
+{\footnotesize\ttfamily const int PIN\+\_\+\+ONE\+\_\+\+IN = 5}
+
+\Hypertarget{power__manager_8ino_ab733b123f2b56da4445fb54cd9bb3dfc}\label{power__manager_8ino_ab733b123f2b56da4445fb54cd9bb3dfc} 
+\index{power\_manager.ino@{power\_manager.ino}!PIN\_ONE\_OUT@{PIN\_ONE\_OUT}}
+\index{PIN\_ONE\_OUT@{PIN\_ONE\_OUT}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{PIN\_ONE\_OUT}{PIN\_ONE\_OUT}}
+{\footnotesize\ttfamily const int PIN\+\_\+\+ONE\+\_\+\+OUT = 2}
+
+\Hypertarget{power__manager_8ino_a489561711c0b62377419f32f34db42d9}\label{power__manager_8ino_a489561711c0b62377419f32f34db42d9} 
+\index{power\_manager.ino@{power\_manager.ino}!PIN\_THREE\_IN@{PIN\_THREE\_IN}}
+\index{PIN\_THREE\_IN@{PIN\_THREE\_IN}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{PIN\_THREE\_IN}{PIN\_THREE\_IN}}
+{\footnotesize\ttfamily const int PIN\+\_\+\+THREE\+\_\+\+IN = 7}
+
+\Hypertarget{power__manager_8ino_a9a5151f5f56369075f07cecddc2e45a6}\label{power__manager_8ino_a9a5151f5f56369075f07cecddc2e45a6} 
+\index{power\_manager.ino@{power\_manager.ino}!PIN\_THREE\_OUT@{PIN\_THREE\_OUT}}
+\index{PIN\_THREE\_OUT@{PIN\_THREE\_OUT}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{PIN\_THREE\_OUT}{PIN\_THREE\_OUT}}
+{\footnotesize\ttfamily const int PIN\+\_\+\+THREE\+\_\+\+OUT = 4}
+
+\Hypertarget{power__manager_8ino_a598ff7dbe853926d8ae8619e0153b052}\label{power__manager_8ino_a598ff7dbe853926d8ae8619e0153b052} 
+\index{power\_manager.ino@{power\_manager.ino}!PIN\_TWO\_IN@{PIN\_TWO\_IN}}
+\index{PIN\_TWO\_IN@{PIN\_TWO\_IN}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{PIN\_TWO\_IN}{PIN\_TWO\_IN}}
+{\footnotesize\ttfamily const int PIN\+\_\+\+TWO\+\_\+\+IN = 6}
+
+\Hypertarget{power__manager_8ino_af363f0b63daec9ba50cf75c053d274bd}\label{power__manager_8ino_af363f0b63daec9ba50cf75c053d274bd} 
+\index{power\_manager.ino@{power\_manager.ino}!PIN\_TWO\_OUT@{PIN\_TWO\_OUT}}
+\index{PIN\_TWO\_OUT@{PIN\_TWO\_OUT}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{PIN\_TWO\_OUT}{PIN\_TWO\_OUT}}
+{\footnotesize\ttfamily const int PIN\+\_\+\+TWO\+\_\+\+OUT = 3}
+
+\Hypertarget{power__manager_8ino_ae3df9894637e9b52a844f3dc86fda023}\label{power__manager_8ino_ae3df9894637e9b52a844f3dc86fda023} 
+\index{power\_manager.ino@{power\_manager.ino}!PIN\_WINDOWS\_PHOTODIODE@{PIN\_WINDOWS\_PHOTODIODE}}
+\index{PIN\_WINDOWS\_PHOTODIODE@{PIN\_WINDOWS\_PHOTODIODE}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{PIN\_WINDOWS\_PHOTODIODE}{PIN\_WINDOWS\_PHOTODIODE}}
+{\footnotesize\ttfamily const int PIN\+\_\+\+WINDOWS\+\_\+\+PHOTODIODE = A0}
+
+\Hypertarget{power__manager_8ino_a5845786be2d88b66676c5d3187738832}\label{power__manager_8ino_a5845786be2d88b66676c5d3187738832} 
+\index{power\_manager.ino@{power\_manager.ino}!PIN\_WINDOWS\_PHOTODIODE\_SIZE@{PIN\_WINDOWS\_PHOTODIODE\_SIZE}}
+\index{PIN\_WINDOWS\_PHOTODIODE\_SIZE@{PIN\_WINDOWS\_PHOTODIODE\_SIZE}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{PIN\_WINDOWS\_PHOTODIODE\_SIZE}{PIN\_WINDOWS\_PHOTODIODE\_SIZE}}
+{\footnotesize\ttfamily int const PIN\+\_\+\+WINDOWS\+\_\+\+PHOTODIODE\+\_\+\+SIZE = 20}
+
+\Hypertarget{power__manager_8ino_ae78e79f567e481daa86d3b2967e8ef64}\label{power__manager_8ino_ae78e79f567e481daa86d3b2967e8ef64} 
+\index{power\_manager.ino@{power\_manager.ino}!PIN\_WINDOWS\_PHOTODIODE\_THRESHOLD@{PIN\_WINDOWS\_PHOTODIODE\_THRESHOLD}}
+\index{PIN\_WINDOWS\_PHOTODIODE\_THRESHOLD@{PIN\_WINDOWS\_PHOTODIODE\_THRESHOLD}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{PIN\_WINDOWS\_PHOTODIODE\_THRESHOLD}{PIN\_WINDOWS\_PHOTODIODE\_THRESHOLD}}
+{\footnotesize\ttfamily const float PIN\+\_\+\+WINDOWS\+\_\+\+PHOTODIODE\+\_\+\+THRESHOLD = 20.\+0f}
+
+\Hypertarget{power__manager_8ino_a323a7aa49ce97fcd0d07fc85800710f9}\label{power__manager_8ino_a323a7aa49ce97fcd0d07fc85800710f9} 
+\index{power\_manager.ino@{power\_manager.ino}!pinWindowsPhotodiodeAverage@{pinWindowsPhotodiodeAverage}}
+\index{pinWindowsPhotodiodeAverage@{pinWindowsPhotodiodeAverage}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{pinWindowsPhotodiodeAverage}{pinWindowsPhotodiodeAverage}}
+{\footnotesize\ttfamily float pin\+Windows\+Photodiode\+Average}
+
+\Hypertarget{power__manager_8ino_a0edc03cf1fcf548bd62221410a425a19}\label{power__manager_8ino_a0edc03cf1fcf548bd62221410a425a19} 
+\index{power\_manager.ino@{power\_manager.ino}!pinWindowsPhotodiodeHistory@{pinWindowsPhotodiodeHistory}}
+\index{pinWindowsPhotodiodeHistory@{pinWindowsPhotodiodeHistory}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{pinWindowsPhotodiodeHistory}{pinWindowsPhotodiodeHistory}}
+{\footnotesize\ttfamily int pin\+Windows\+Photodiode\+History\mbox{[}\mbox{\hyperlink{power__manager_8ino_a5845786be2d88b66676c5d3187738832}{PIN\+\_\+\+WINDOWS\+\_\+\+PHOTODIODE\+\_\+\+SIZE}}\mbox{]}}
+
+\Hypertarget{power__manager_8ino_a40282bb745acadd09f085204dda0198d}\label{power__manager_8ino_a40282bb745acadd09f085204dda0198d} 
+\index{power\_manager.ino@{power\_manager.ino}!pinWindowsPhotodiodeIndex@{pinWindowsPhotodiodeIndex}}
+\index{pinWindowsPhotodiodeIndex@{pinWindowsPhotodiodeIndex}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{pinWindowsPhotodiodeIndex}{pinWindowsPhotodiodeIndex}}
+{\footnotesize\ttfamily int pin\+Windows\+Photodiode\+Index}
+
+\Hypertarget{power__manager_8ino_a8bd65894f3c9567f3ab4fc7e8553736b}\label{power__manager_8ino_a8bd65894f3c9567f3ab4fc7e8553736b} 
+\index{power\_manager.ino@{power\_manager.ino}!pinWindowsPhotodiodeReference@{pinWindowsPhotodiodeReference}}
+\index{pinWindowsPhotodiodeReference@{pinWindowsPhotodiodeReference}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{pinWindowsPhotodiodeReference}{pinWindowsPhotodiodeReference}}
+{\footnotesize\ttfamily float pin\+Windows\+Photodiode\+Reference}
+
+\Hypertarget{power__manager_8ino_a63b668b9772d147e9406807109b73e2a}\label{power__manager_8ino_a63b668b9772d147e9406807109b73e2a} 
+\index{power\_manager.ino@{power\_manager.ino}!timeAtReference@{timeAtReference}}
+\index{timeAtReference@{timeAtReference}!power\_manager.ino@{power\_manager.ino}}
+\doxysubsubsection{\texorpdfstring{timeAtReference}{timeAtReference}}
+{\footnotesize\ttfamily long time\+At\+Reference}
+

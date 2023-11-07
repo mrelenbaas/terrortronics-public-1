@@ -1,0 +1,327 @@
+\doxysection{rotary\+\_\+encoder\+\_\+rgb.\+ino File Reference}
+\hypertarget{rotary__encoder__rgb_8ino}{}\label{rotary__encoder__rgb_8ino}\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+{\ttfamily \#include $<$Pin\+Change\+Int.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a1a881bcd0c5643369d771c894877f8c5}{ROT\+\_\+\+LEDG}}~A1
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a0ae7db83c966745f6191da39d75d35de}{ROT\+\_\+B}}~A3
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_af7320482b0b1a3a8e680d8e4a734d34c}{ROT\+\_\+A}}~3
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a5b38cc0c5ff2acaf983476b632a6b9af}{ROT\+\_\+\+SW}}~4
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a8a58a5df94c5eb972b26a716fb8f1e36}{ROT\+\_\+\+LEDB}}~5
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a2a8fcd187adce644145da870fb6da6c5}{ROT\+\_\+\+LEDR}}~10
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_af2c3728e2cab6cc43f6cde3e34732fba}{LED\+\_\+R}}~9
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a10508cee43bdf782fe54028e56c39421}{LED\+\_\+G}}~A5
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a2d0969469518b59d85bfa78504cffef9}{LED\+\_\+B}}~6
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a29e413f6725b2ba32d165ffaa35b01e5}{OFF}}~B111
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a8d23feea868a983c8c2b661e1e16972f}{RED}}~B110
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_acfbc006ea433ad708fdee3e82996e721}{GREEN}}~B101
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_abf681265909adf3d3e8116c93c0ba179}{YELLOW}}~B100
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a79d10e672abb49ad63eeaa8aaef57c38}{BLUE}}~B011
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a0bb0b009e7a7390473ace4d98bd843c0}{PURPLE}}~B010
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_ad243f93c16bc4c1d3e0a13b84421d760}{CYAN}}~B001
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rgb_8ino_a87b537f5fa5c109d3c05c13d6b18f382}{WHITE}}~B000
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{rotary__encoder__rgb_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rgb_8ino_a914e9a4020fe7d1e2386ee346b0490e3}{button\+IRQ}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rgb_8ino_a6bd5bd4073d2d75134aec5618c44a93d}{rotary\+IRQ}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rgb_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rgb_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rgb_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rgb_8ino_af228602f9d247c733b4a72a7e654b870}{set\+LED}} (unsigned char color)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile int \mbox{\hyperlink{rotary__encoder__rgb_8ino_a72271ac12e4dfc6d5cebea47b73affc9}{rotary\+\_\+counter}} = 0
+\item 
+volatile boolean \mbox{\hyperlink{rotary__encoder__rgb_8ino_a05a8b9e7b18ebfbbb28012eb606fa16b}{rotary\+\_\+change}} = false
+\item 
+volatile boolean \mbox{\hyperlink{rotary__encoder__rgb_8ino_ac827209a303a66ae2af3445672a313bb}{button\+\_\+pressed}} = false
+\item 
+volatile boolean \mbox{\hyperlink{rotary__encoder__rgb_8ino_ae98579f9ccacbc232f29996883a0d30c}{button\+\_\+released}} = false
+\item 
+volatile unsigned long \mbox{\hyperlink{rotary__encoder__rgb_8ino_ab6fe65f81705a6597ff7eefd263d8974}{button\+\_\+downtime}} = 0L
+\item 
+static unsigned char \mbox{\hyperlink{rotary__encoder__rgb_8ino_ac1d1eed6a8bbca26af335b9682a6475e}{x}} = 0
+\item 
+static boolean \mbox{\hyperlink{rotary__encoder__rgb_8ino_a0e16e01904576e2f258aaf1a0885b512}{button\+\_\+down}} = false
+\item 
+static unsigned long int \mbox{\hyperlink{rotary__encoder__rgb_8ino_a19b806a7ee70350c1a587e686e9800c1}{button\+\_\+down\+\_\+start}}
+\item 
+static unsigned long int \mbox{\hyperlink{rotary__encoder__rgb_8ino_acfcc274eaebab12bf188a3ed20e877c0}{button\+\_\+down\+\_\+time}}
+\item 
+const String \mbox{\hyperlink{rotary__encoder__rgb_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:rotary\+\_\+encoder\+\_\+rgb,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rgb_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{rotary__encoder__rgb_8ino_a79d10e672abb49ad63eeaa8aaef57c38}\label{rotary__encoder__rgb_8ino_a79d10e672abb49ad63eeaa8aaef57c38} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!BLUE@{BLUE}}
+\index{BLUE@{BLUE}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{BLUE}{BLUE}}
+{\footnotesize\ttfamily \#define BLUE~B011}
+
+\Hypertarget{rotary__encoder__rgb_8ino_ad243f93c16bc4c1d3e0a13b84421d760}\label{rotary__encoder__rgb_8ino_ad243f93c16bc4c1d3e0a13b84421d760} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!CYAN@{CYAN}}
+\index{CYAN@{CYAN}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{CYAN}{CYAN}}
+{\footnotesize\ttfamily \#define CYAN~B001}
+
+\Hypertarget{rotary__encoder__rgb_8ino_acfbc006ea433ad708fdee3e82996e721}\label{rotary__encoder__rgb_8ino_acfbc006ea433ad708fdee3e82996e721} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!GREEN@{GREEN}}
+\index{GREEN@{GREEN}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{GREEN}{GREEN}}
+{\footnotesize\ttfamily \#define GREEN~B101}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a2d0969469518b59d85bfa78504cffef9}\label{rotary__encoder__rgb_8ino_a2d0969469518b59d85bfa78504cffef9} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!LED\_B@{LED\_B}}
+\index{LED\_B@{LED\_B}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{LED\_B}{LED\_B}}
+{\footnotesize\ttfamily \#define LED\+\_\+B~6}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a10508cee43bdf782fe54028e56c39421}\label{rotary__encoder__rgb_8ino_a10508cee43bdf782fe54028e56c39421} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!LED\_G@{LED\_G}}
+\index{LED\_G@{LED\_G}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{LED\_G}{LED\_G}}
+{\footnotesize\ttfamily \#define LED\+\_\+G~A5}
+
+\Hypertarget{rotary__encoder__rgb_8ino_af2c3728e2cab6cc43f6cde3e34732fba}\label{rotary__encoder__rgb_8ino_af2c3728e2cab6cc43f6cde3e34732fba} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!LED\_R@{LED\_R}}
+\index{LED\_R@{LED\_R}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{LED\_R}{LED\_R}}
+{\footnotesize\ttfamily \#define LED\+\_\+R~9}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a29e413f6725b2ba32d165ffaa35b01e5}\label{rotary__encoder__rgb_8ino_a29e413f6725b2ba32d165ffaa35b01e5} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!OFF@{OFF}}
+\index{OFF@{OFF}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{OFF}{OFF}}
+{\footnotesize\ttfamily \#define OFF~B111}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a0bb0b009e7a7390473ace4d98bd843c0}\label{rotary__encoder__rgb_8ino_a0bb0b009e7a7390473ace4d98bd843c0} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!PURPLE@{PURPLE}}
+\index{PURPLE@{PURPLE}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{PURPLE}{PURPLE}}
+{\footnotesize\ttfamily \#define PURPLE~B010}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a8d23feea868a983c8c2b661e1e16972f}\label{rotary__encoder__rgb_8ino_a8d23feea868a983c8c2b661e1e16972f} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!RED@{RED}}
+\index{RED@{RED}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{RED}{RED}}
+{\footnotesize\ttfamily \#define RED~B110}
+
+\Hypertarget{rotary__encoder__rgb_8ino_af7320482b0b1a3a8e680d8e4a734d34c}\label{rotary__encoder__rgb_8ino_af7320482b0b1a3a8e680d8e4a734d34c} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!ROT\_A@{ROT\_A}}
+\index{ROT\_A@{ROT\_A}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{ROT\_A}{ROT\_A}}
+{\footnotesize\ttfamily \#define ROT\+\_\+A~3}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a0ae7db83c966745f6191da39d75d35de}\label{rotary__encoder__rgb_8ino_a0ae7db83c966745f6191da39d75d35de} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!ROT\_B@{ROT\_B}}
+\index{ROT\_B@{ROT\_B}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{ROT\_B}{ROT\_B}}
+{\footnotesize\ttfamily \#define ROT\+\_\+B~A3}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a8a58a5df94c5eb972b26a716fb8f1e36}\label{rotary__encoder__rgb_8ino_a8a58a5df94c5eb972b26a716fb8f1e36} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!ROT\_LEDB@{ROT\_LEDB}}
+\index{ROT\_LEDB@{ROT\_LEDB}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{ROT\_LEDB}{ROT\_LEDB}}
+{\footnotesize\ttfamily \#define ROT\+\_\+\+LEDB~5}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a1a881bcd0c5643369d771c894877f8c5}\label{rotary__encoder__rgb_8ino_a1a881bcd0c5643369d771c894877f8c5} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!ROT\_LEDG@{ROT\_LEDG}}
+\index{ROT\_LEDG@{ROT\_LEDG}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{ROT\_LEDG}{ROT\_LEDG}}
+{\footnotesize\ttfamily \#define ROT\+\_\+\+LEDG~A1}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a2a8fcd187adce644145da870fb6da6c5}\label{rotary__encoder__rgb_8ino_a2a8fcd187adce644145da870fb6da6c5} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!ROT\_LEDR@{ROT\_LEDR}}
+\index{ROT\_LEDR@{ROT\_LEDR}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{ROT\_LEDR}{ROT\_LEDR}}
+{\footnotesize\ttfamily \#define ROT\+\_\+\+LEDR~10}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a5b38cc0c5ff2acaf983476b632a6b9af}\label{rotary__encoder__rgb_8ino_a5b38cc0c5ff2acaf983476b632a6b9af} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!ROT\_SW@{ROT\_SW}}
+\index{ROT\_SW@{ROT\_SW}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{ROT\_SW}{ROT\_SW}}
+{\footnotesize\ttfamily \#define ROT\+\_\+\+SW~4}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a87b537f5fa5c109d3c05c13d6b18f382}\label{rotary__encoder__rgb_8ino_a87b537f5fa5c109d3c05c13d6b18f382} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!WHITE@{WHITE}}
+\index{WHITE@{WHITE}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{WHITE}{WHITE}}
+{\footnotesize\ttfamily \#define WHITE~B000}
+
+\Hypertarget{rotary__encoder__rgb_8ino_abf681265909adf3d3e8116c93c0ba179}\label{rotary__encoder__rgb_8ino_abf681265909adf3d3e8116c93c0ba179} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!YELLOW@{YELLOW}}
+\index{YELLOW@{YELLOW}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{YELLOW}{YELLOW}}
+{\footnotesize\ttfamily \#define YELLOW~B100}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!messages@{messages}}
+\index{messages@{messages}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!startMessage@{startMessage}}}\Hypertarget{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!resetMessage@{resetMessage}}}\Hypertarget{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{rotary__encoder__rgb_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{rotary__encoder__rgb_8ino_a914e9a4020fe7d1e2386ee346b0490e3}\label{rotary__encoder__rgb_8ino_a914e9a4020fe7d1e2386ee346b0490e3} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!buttonIRQ@{buttonIRQ}}
+\index{buttonIRQ@{buttonIRQ}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{buttonIRQ()}{buttonIRQ()}}
+{\footnotesize\ttfamily void button\+IRQ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{rotary__encoder__rgb_8ino_afe461d27b9c48d5921c00d521181f12f}\label{rotary__encoder__rgb_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!loop@{loop}}
+\index{loop@{loop}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{rotary__encoder__rgb_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{rotary__encoder__rgb_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!reset@{reset}}
+\index{reset@{reset}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a6bd5bd4073d2d75134aec5618c44a93d}\label{rotary__encoder__rgb_8ino_a6bd5bd4073d2d75134aec5618c44a93d} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!rotaryIRQ@{rotaryIRQ}}
+\index{rotaryIRQ@{rotaryIRQ}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{rotaryIRQ()}{rotaryIRQ()}}
+{\footnotesize\ttfamily void rotary\+IRQ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{rotary__encoder__rgb_8ino_af228602f9d247c733b4a72a7e654b870}\label{rotary__encoder__rgb_8ino_af228602f9d247c733b4a72a7e654b870} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!setLED@{setLED}}
+\index{setLED@{setLED}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{setLED()}{setLED()}}
+{\footnotesize\ttfamily void set\+LED (\begin{DoxyParamCaption}\item[{unsigned char}]{color }\end{DoxyParamCaption})}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{rotary__encoder__rgb_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!setup@{setup}}
+\index{setup@{setup}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a60de64d75454385b23995437f1d72669}\label{rotary__encoder__rgb_8ino_a60de64d75454385b23995437f1d72669} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!start@{start}}
+\index{start@{start}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{rotary__encoder__rgb_8ino_a0e16e01904576e2f258aaf1a0885b512}\label{rotary__encoder__rgb_8ino_a0e16e01904576e2f258aaf1a0885b512} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!button\_down@{button\_down}}
+\index{button\_down@{button\_down}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{button\_down}{button\_down}}
+{\footnotesize\ttfamily boolean button\+\_\+down = false\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a19b806a7ee70350c1a587e686e9800c1}\label{rotary__encoder__rgb_8ino_a19b806a7ee70350c1a587e686e9800c1} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!button\_down\_start@{button\_down\_start}}
+\index{button\_down\_start@{button\_down\_start}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{button\_down\_start}{button\_down\_start}}
+{\footnotesize\ttfamily unsigned long int button\+\_\+down\+\_\+start\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{rotary__encoder__rgb_8ino_acfcc274eaebab12bf188a3ed20e877c0}\label{rotary__encoder__rgb_8ino_acfcc274eaebab12bf188a3ed20e877c0} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!button\_down\_time@{button\_down\_time}}
+\index{button\_down\_time@{button\_down\_time}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{button\_down\_time}{button\_down\_time}}
+{\footnotesize\ttfamily unsigned long int button\+\_\+down\+\_\+time\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{rotary__encoder__rgb_8ino_ab6fe65f81705a6597ff7eefd263d8974}\label{rotary__encoder__rgb_8ino_ab6fe65f81705a6597ff7eefd263d8974} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!button\_downtime@{button\_downtime}}
+\index{button\_downtime@{button\_downtime}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{button\_downtime}{button\_downtime}}
+{\footnotesize\ttfamily volatile unsigned long button\+\_\+downtime = 0L}
+
+\Hypertarget{rotary__encoder__rgb_8ino_ac827209a303a66ae2af3445672a313bb}\label{rotary__encoder__rgb_8ino_ac827209a303a66ae2af3445672a313bb} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!button\_pressed@{button\_pressed}}
+\index{button\_pressed@{button\_pressed}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{button\_pressed}{button\_pressed}}
+{\footnotesize\ttfamily volatile boolean button\+\_\+pressed = false}
+
+\Hypertarget{rotary__encoder__rgb_8ino_ae98579f9ccacbc232f29996883a0d30c}\label{rotary__encoder__rgb_8ino_ae98579f9ccacbc232f29996883a0d30c} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!button\_released@{button\_released}}
+\index{button\_released@{button\_released}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{button\_released}{button\_released}}
+{\footnotesize\ttfamily volatile boolean button\+\_\+released = false}
+
+\Hypertarget{rotary__encoder__rgb_8ino_aefabcf199f0c73d02251076be65451d4}\label{rotary__encoder__rgb_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a8377abe943283ac9ea19351c7d355866}\label{rotary__encoder__rgb_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:rotary\+\_\+encoder\+\_\+rgb,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a05a8b9e7b18ebfbbb28012eb606fa16b}\label{rotary__encoder__rgb_8ino_a05a8b9e7b18ebfbbb28012eb606fa16b} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!rotary\_change@{rotary\_change}}
+\index{rotary\_change@{rotary\_change}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{rotary\_change}{rotary\_change}}
+{\footnotesize\ttfamily volatile boolean rotary\+\_\+change = false}
+
+\Hypertarget{rotary__encoder__rgb_8ino_a72271ac12e4dfc6d5cebea47b73affc9}\label{rotary__encoder__rgb_8ino_a72271ac12e4dfc6d5cebea47b73affc9} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!rotary\_counter@{rotary\_counter}}
+\index{rotary\_counter@{rotary\_counter}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{rotary\_counter}{rotary\_counter}}
+{\footnotesize\ttfamily volatile int rotary\+\_\+counter = 0}
+
+\Hypertarget{rotary__encoder__rgb_8ino_ac1d1eed6a8bbca26af335b9682a6475e}\label{rotary__encoder__rgb_8ino_ac1d1eed6a8bbca26af335b9682a6475e} 
+\index{rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}!x@{x}}
+\index{x@{x}!rotary\_encoder\_rgb.ino@{rotary\_encoder\_rgb.ino}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily unsigned char x = 0\hspace{0.3cm}{\ttfamily [static]}}
+

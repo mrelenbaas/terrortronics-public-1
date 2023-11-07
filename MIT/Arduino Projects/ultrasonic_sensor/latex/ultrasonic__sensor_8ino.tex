@@ -1,0 +1,303 @@
+\doxysection{ultrasonic\+\_\+sensor.\+ino File Reference}
+\hypertarget{ultrasonic__sensor_8ino}{}\label{ultrasonic__sensor_8ino}\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+{\ttfamily \#include $<$New\+Ping.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_adacee581176b7076b7baf0f72d81460f}{TRIGGER\+\_\+\+PIN}}~11
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_acea96cea4a13b6cb38e57a86788adf90}{ECHO\+\_\+\+PIN}}~12
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_a63f0ece45ec7b0012c5e60d82361586d}{TRIGGER\+\_\+\+PIN\+\_\+1}}~9
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_a8997cc1953099f9e1743111b13d40cac}{ECHO\+\_\+\+PIN\+\_\+1}}~10
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_a2ebe7d7386d76e0ccf07e935112d8d30}{TRIGGER\+\_\+\+PIN\+\_\+2}}~7
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_a5768eb2e2fd5502fb3393706d3865d70}{ECHO\+\_\+\+PIN\+\_\+2}}~8
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_a7dde7bdeec5d5d00920c73e948a79bda}{TRIGGER\+\_\+\+PIN\+\_\+3}}~5
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_acba404c49caf6469fb6d13c2c1fb4cbe}{ECHO\+\_\+\+PIN\+\_\+3}}~6
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_a867de4213189bee40f53ae9c849a16b0}{TRIGGER\+\_\+\+PIN\+\_\+4}}~3
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_af6ca8cd7450a57da9576826ffb682f12}{ECHO\+\_\+\+PIN\+\_\+4}}~4
+\item 
+\#define \mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}}~200
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+New\+Ping \mbox{\hyperlink{ultrasonic__sensor_8ino_a9a97a20c8deb22c7db7d5cbd5d10a98f}{sonar}} (\mbox{\hyperlink{ultrasonic__sensor_8ino_adacee581176b7076b7baf0f72d81460f}{TRIGGER\+\_\+\+PIN}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_acea96cea4a13b6cb38e57a86788adf90}{ECHO\+\_\+\+PIN}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}})
+\item 
+New\+Ping \mbox{\hyperlink{ultrasonic__sensor_8ino_a2913644c1eb1ec0cea1726b2a0555414}{sonar1}} (\mbox{\hyperlink{ultrasonic__sensor_8ino_a63f0ece45ec7b0012c5e60d82361586d}{TRIGGER\+\_\+\+PIN\+\_\+1}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_a8997cc1953099f9e1743111b13d40cac}{ECHO\+\_\+\+PIN\+\_\+1}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}})
+\item 
+New\+Ping \mbox{\hyperlink{ultrasonic__sensor_8ino_ab78367235cf9749bbcea98aa839628a8}{sonar2}} (\mbox{\hyperlink{ultrasonic__sensor_8ino_a2ebe7d7386d76e0ccf07e935112d8d30}{TRIGGER\+\_\+\+PIN\+\_\+2}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_a5768eb2e2fd5502fb3393706d3865d70}{ECHO\+\_\+\+PIN\+\_\+2}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}})
+\item 
+New\+Ping \mbox{\hyperlink{ultrasonic__sensor_8ino_a661db6f200e604411729b73fdc694e12}{sonar3}} (\mbox{\hyperlink{ultrasonic__sensor_8ino_a7dde7bdeec5d5d00920c73e948a79bda}{TRIGGER\+\_\+\+PIN\+\_\+3}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_acba404c49caf6469fb6d13c2c1fb4cbe}{ECHO\+\_\+\+PIN\+\_\+3}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}})
+\item 
+New\+Ping \mbox{\hyperlink{ultrasonic__sensor_8ino_aa0780ad05c3a51f7b0940420fa6092d9}{sonar4}} (\mbox{\hyperlink{ultrasonic__sensor_8ino_a867de4213189bee40f53ae9c849a16b0}{TRIGGER\+\_\+\+PIN\+\_\+4}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_af6ca8cd7450a57da9576826ffb682f12}{ECHO\+\_\+\+PIN\+\_\+4}}, \mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}})
+\item 
+void \mbox{\hyperlink{ultrasonic__sensor_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{ultrasonic__sensor_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{ultrasonic__sensor_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{ultrasonic__sensor_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{ultrasonic__sensor_8ino_ac3b5a466147b592c5687f17e014c51fc}{SERIAL\+\_\+\+BAUD\+\_\+\+RATE}} = 9600
+\item 
+int \mbox{\hyperlink{ultrasonic__sensor_8ino_a389a4ee0bbc11314ab1349b3ed1d2d43}{sonar\+Index}} = 0
+\item 
+const int \mbox{\hyperlink{ultrasonic__sensor_8ino_a38fa771c2d2d1d5065d9b8556b54fda8}{SONAR\+\_\+\+MAX}} = 5
+\item 
+const long \mbox{\hyperlink{ultrasonic__sensor_8ino_a7c782d2254b918788a207fa0305085d9}{PERIOD}} = 1000
+\item 
+long \mbox{\hyperlink{ultrasonic__sensor_8ino_a27574e6f7e05717b30fd179f10b2d769}{time\+Previous}}
+\item 
+long \mbox{\hyperlink{ultrasonic__sensor_8ino_a164b43225105667b32691dcdd85d7901}{time\+Current}}
+\item 
+long \mbox{\hyperlink{ultrasonic__sensor_8ino_a2c4f36f2f21aa36baf0ab78c97a98ba7}{time\+Delta}}
+\item 
+long \mbox{\hyperlink{ultrasonic__sensor_8ino_a1afc782d4cd472fee1fb96524c9c6a09}{time\+This\+Second}}
+\item 
+unsigned long \mbox{\hyperlink{ultrasonic__sensor_8ino_af2413f6ce79d113c880132898140f6b8}{fps\+Previous}}
+\item 
+unsigned long \mbox{\hyperlink{ultrasonic__sensor_8ino_a012f4d3a9227f147da7bb30a06184eea}{fps\+Current}}
+\item 
+const String \mbox{\hyperlink{ultrasonic__sensor_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:joystick\+\_\+manager,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{ultrasonic__sensor_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ultrasonic__sensor_8ino_acea96cea4a13b6cb38e57a86788adf90}\label{ultrasonic__sensor_8ino_acea96cea4a13b6cb38e57a86788adf90} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!ECHO\_PIN@{ECHO\_PIN}}
+\index{ECHO\_PIN@{ECHO\_PIN}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{ECHO\_PIN}{ECHO\_PIN}}
+{\footnotesize\ttfamily \#define ECHO\+\_\+\+PIN~12}
+
+\Hypertarget{ultrasonic__sensor_8ino_a8997cc1953099f9e1743111b13d40cac}\label{ultrasonic__sensor_8ino_a8997cc1953099f9e1743111b13d40cac} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!ECHO\_PIN\_1@{ECHO\_PIN\_1}}
+\index{ECHO\_PIN\_1@{ECHO\_PIN\_1}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{ECHO\_PIN\_1}{ECHO\_PIN\_1}}
+{\footnotesize\ttfamily \#define ECHO\+\_\+\+PIN\+\_\+1~10}
+
+\Hypertarget{ultrasonic__sensor_8ino_a5768eb2e2fd5502fb3393706d3865d70}\label{ultrasonic__sensor_8ino_a5768eb2e2fd5502fb3393706d3865d70} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!ECHO\_PIN\_2@{ECHO\_PIN\_2}}
+\index{ECHO\_PIN\_2@{ECHO\_PIN\_2}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{ECHO\_PIN\_2}{ECHO\_PIN\_2}}
+{\footnotesize\ttfamily \#define ECHO\+\_\+\+PIN\+\_\+2~8}
+
+\Hypertarget{ultrasonic__sensor_8ino_acba404c49caf6469fb6d13c2c1fb4cbe}\label{ultrasonic__sensor_8ino_acba404c49caf6469fb6d13c2c1fb4cbe} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!ECHO\_PIN\_3@{ECHO\_PIN\_3}}
+\index{ECHO\_PIN\_3@{ECHO\_PIN\_3}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{ECHO\_PIN\_3}{ECHO\_PIN\_3}}
+{\footnotesize\ttfamily \#define ECHO\+\_\+\+PIN\+\_\+3~6}
+
+\Hypertarget{ultrasonic__sensor_8ino_af6ca8cd7450a57da9576826ffb682f12}\label{ultrasonic__sensor_8ino_af6ca8cd7450a57da9576826ffb682f12} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!ECHO\_PIN\_4@{ECHO\_PIN\_4}}
+\index{ECHO\_PIN\_4@{ECHO\_PIN\_4}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{ECHO\_PIN\_4}{ECHO\_PIN\_4}}
+{\footnotesize\ttfamily \#define ECHO\+\_\+\+PIN\+\_\+4~4}
+
+\Hypertarget{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}\label{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!MAX\_DISTANCE@{MAX\_DISTANCE}}
+\index{MAX\_DISTANCE@{MAX\_DISTANCE}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{MAX\_DISTANCE}{MAX\_DISTANCE}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+DISTANCE~200}
+
+\Hypertarget{ultrasonic__sensor_8ino_adacee581176b7076b7baf0f72d81460f}\label{ultrasonic__sensor_8ino_adacee581176b7076b7baf0f72d81460f} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!TRIGGER\_PIN@{TRIGGER\_PIN}}
+\index{TRIGGER\_PIN@{TRIGGER\_PIN}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{TRIGGER\_PIN}{TRIGGER\_PIN}}
+{\footnotesize\ttfamily \#define TRIGGER\+\_\+\+PIN~11}
+
+\Hypertarget{ultrasonic__sensor_8ino_a63f0ece45ec7b0012c5e60d82361586d}\label{ultrasonic__sensor_8ino_a63f0ece45ec7b0012c5e60d82361586d} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!TRIGGER\_PIN\_1@{TRIGGER\_PIN\_1}}
+\index{TRIGGER\_PIN\_1@{TRIGGER\_PIN\_1}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{TRIGGER\_PIN\_1}{TRIGGER\_PIN\_1}}
+{\footnotesize\ttfamily \#define TRIGGER\+\_\+\+PIN\+\_\+1~9}
+
+\Hypertarget{ultrasonic__sensor_8ino_a2ebe7d7386d76e0ccf07e935112d8d30}\label{ultrasonic__sensor_8ino_a2ebe7d7386d76e0ccf07e935112d8d30} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!TRIGGER\_PIN\_2@{TRIGGER\_PIN\_2}}
+\index{TRIGGER\_PIN\_2@{TRIGGER\_PIN\_2}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{TRIGGER\_PIN\_2}{TRIGGER\_PIN\_2}}
+{\footnotesize\ttfamily \#define TRIGGER\+\_\+\+PIN\+\_\+2~7}
+
+\Hypertarget{ultrasonic__sensor_8ino_a7dde7bdeec5d5d00920c73e948a79bda}\label{ultrasonic__sensor_8ino_a7dde7bdeec5d5d00920c73e948a79bda} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!TRIGGER\_PIN\_3@{TRIGGER\_PIN\_3}}
+\index{TRIGGER\_PIN\_3@{TRIGGER\_PIN\_3}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{TRIGGER\_PIN\_3}{TRIGGER\_PIN\_3}}
+{\footnotesize\ttfamily \#define TRIGGER\+\_\+\+PIN\+\_\+3~5}
+
+\Hypertarget{ultrasonic__sensor_8ino_a867de4213189bee40f53ae9c849a16b0}\label{ultrasonic__sensor_8ino_a867de4213189bee40f53ae9c849a16b0} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!TRIGGER\_PIN\_4@{TRIGGER\_PIN\_4}}
+\index{TRIGGER\_PIN\_4@{TRIGGER\_PIN\_4}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{TRIGGER\_PIN\_4}{TRIGGER\_PIN\_4}}
+{\footnotesize\ttfamily \#define TRIGGER\+\_\+\+PIN\+\_\+4~3}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!messages@{messages}}
+\index{messages@{messages}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!startMessage@{startMessage}}}\Hypertarget{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!resetMessage@{resetMessage}}}\Hypertarget{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{ultrasonic__sensor_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ultrasonic__sensor_8ino_afe461d27b9c48d5921c00d521181f12f}\label{ultrasonic__sensor_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!loop@{loop}}
+\index{loop@{loop}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{ultrasonic__sensor_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{ultrasonic__sensor_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!reset@{reset}}
+\index{reset@{reset}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{ultrasonic__sensor_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{ultrasonic__sensor_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!setup@{setup}}
+\index{setup@{setup}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{ultrasonic__sensor_8ino_a9a97a20c8deb22c7db7d5cbd5d10a98f}\label{ultrasonic__sensor_8ino_a9a97a20c8deb22c7db7d5cbd5d10a98f} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!sonar@{sonar}}
+\index{sonar@{sonar}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{sonar()}{sonar()}}
+{\footnotesize\ttfamily New\+Ping sonar (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_adacee581176b7076b7baf0f72d81460f}{TRIGGER\+\_\+\+PIN}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_acea96cea4a13b6cb38e57a86788adf90}{ECHO\+\_\+\+PIN}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{ultrasonic__sensor_8ino_a2913644c1eb1ec0cea1726b2a0555414}\label{ultrasonic__sensor_8ino_a2913644c1eb1ec0cea1726b2a0555414} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!sonar1@{sonar1}}
+\index{sonar1@{sonar1}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{sonar1()}{sonar1()}}
+{\footnotesize\ttfamily New\+Ping sonar1 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a63f0ece45ec7b0012c5e60d82361586d}{TRIGGER\+\_\+\+PIN\+\_\+1}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a8997cc1953099f9e1743111b13d40cac}{ECHO\+\_\+\+PIN\+\_\+1}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{ultrasonic__sensor_8ino_ab78367235cf9749bbcea98aa839628a8}\label{ultrasonic__sensor_8ino_ab78367235cf9749bbcea98aa839628a8} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!sonar2@{sonar2}}
+\index{sonar2@{sonar2}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{sonar2()}{sonar2()}}
+{\footnotesize\ttfamily New\+Ping sonar2 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a2ebe7d7386d76e0ccf07e935112d8d30}{TRIGGER\+\_\+\+PIN\+\_\+2}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a5768eb2e2fd5502fb3393706d3865d70}{ECHO\+\_\+\+PIN\+\_\+2}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{ultrasonic__sensor_8ino_a661db6f200e604411729b73fdc694e12}\label{ultrasonic__sensor_8ino_a661db6f200e604411729b73fdc694e12} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!sonar3@{sonar3}}
+\index{sonar3@{sonar3}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{sonar3()}{sonar3()}}
+{\footnotesize\ttfamily New\+Ping sonar3 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a7dde7bdeec5d5d00920c73e948a79bda}{TRIGGER\+\_\+\+PIN\+\_\+3}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_acba404c49caf6469fb6d13c2c1fb4cbe}{ECHO\+\_\+\+PIN\+\_\+3}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{ultrasonic__sensor_8ino_aa0780ad05c3a51f7b0940420fa6092d9}\label{ultrasonic__sensor_8ino_aa0780ad05c3a51f7b0940420fa6092d9} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!sonar4@{sonar4}}
+\index{sonar4@{sonar4}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{sonar4()}{sonar4()}}
+{\footnotesize\ttfamily New\+Ping sonar4 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a867de4213189bee40f53ae9c849a16b0}{TRIGGER\+\_\+\+PIN\+\_\+4}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_af6ca8cd7450a57da9576826ffb682f12}{ECHO\+\_\+\+PIN\+\_\+4}}}]{,  }\item[{\mbox{\hyperlink{ultrasonic__sensor_8ino_a08e4da5f3d0c7936fa52467f40e4b6aa}{MAX\+\_\+\+DISTANCE}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{ultrasonic__sensor_8ino_a60de64d75454385b23995437f1d72669}\label{ultrasonic__sensor_8ino_a60de64d75454385b23995437f1d72669} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!start@{start}}
+\index{start@{start}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{ultrasonic__sensor_8ino_a012f4d3a9227f147da7bb30a06184eea}\label{ultrasonic__sensor_8ino_a012f4d3a9227f147da7bb30a06184eea} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!fpsCurrent@{fpsCurrent}}
+\index{fpsCurrent@{fpsCurrent}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{fpsCurrent}{fpsCurrent}}
+{\footnotesize\ttfamily unsigned long fps\+Current}
+
+\Hypertarget{ultrasonic__sensor_8ino_af2413f6ce79d113c880132898140f6b8}\label{ultrasonic__sensor_8ino_af2413f6ce79d113c880132898140f6b8} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!fpsPrevious@{fpsPrevious}}
+\index{fpsPrevious@{fpsPrevious}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{fpsPrevious}{fpsPrevious}}
+{\footnotesize\ttfamily unsigned long fps\+Previous}
+
+\Hypertarget{ultrasonic__sensor_8ino_aefabcf199f0c73d02251076be65451d4}\label{ultrasonic__sensor_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{ultrasonic__sensor_8ino_a8377abe943283ac9ea19351c7d355866}\label{ultrasonic__sensor_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:joystick\+\_\+manager,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{ultrasonic__sensor_8ino_a7c782d2254b918788a207fa0305085d9}\label{ultrasonic__sensor_8ino_a7c782d2254b918788a207fa0305085d9} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!PERIOD@{PERIOD}}
+\index{PERIOD@{PERIOD}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{PERIOD}{PERIOD}}
+{\footnotesize\ttfamily const long PERIOD = 1000}
+
+\Hypertarget{ultrasonic__sensor_8ino_ac3b5a466147b592c5687f17e014c51fc}\label{ultrasonic__sensor_8ino_ac3b5a466147b592c5687f17e014c51fc} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!SERIAL\_BAUD\_RATE@{SERIAL\_BAUD\_RATE}}
+\index{SERIAL\_BAUD\_RATE@{SERIAL\_BAUD\_RATE}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_BAUD\_RATE}{SERIAL\_BAUD\_RATE}}
+{\footnotesize\ttfamily const int SERIAL\+\_\+\+BAUD\+\_\+\+RATE = 9600}
+
+\Hypertarget{ultrasonic__sensor_8ino_a38fa771c2d2d1d5065d9b8556b54fda8}\label{ultrasonic__sensor_8ino_a38fa771c2d2d1d5065d9b8556b54fda8} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!SONAR\_MAX@{SONAR\_MAX}}
+\index{SONAR\_MAX@{SONAR\_MAX}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{SONAR\_MAX}{SONAR\_MAX}}
+{\footnotesize\ttfamily const int SONAR\+\_\+\+MAX = 5}
+
+\Hypertarget{ultrasonic__sensor_8ino_a389a4ee0bbc11314ab1349b3ed1d2d43}\label{ultrasonic__sensor_8ino_a389a4ee0bbc11314ab1349b3ed1d2d43} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!sonarIndex@{sonarIndex}}
+\index{sonarIndex@{sonarIndex}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{sonarIndex}{sonarIndex}}
+{\footnotesize\ttfamily int sonar\+Index = 0}
+
+\Hypertarget{ultrasonic__sensor_8ino_a164b43225105667b32691dcdd85d7901}\label{ultrasonic__sensor_8ino_a164b43225105667b32691dcdd85d7901} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!timeCurrent@{timeCurrent}}
+\index{timeCurrent@{timeCurrent}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{timeCurrent}{timeCurrent}}
+{\footnotesize\ttfamily long time\+Current}
+
+\Hypertarget{ultrasonic__sensor_8ino_a2c4f36f2f21aa36baf0ab78c97a98ba7}\label{ultrasonic__sensor_8ino_a2c4f36f2f21aa36baf0ab78c97a98ba7} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!timeDelta@{timeDelta}}
+\index{timeDelta@{timeDelta}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{timeDelta}{timeDelta}}
+{\footnotesize\ttfamily long time\+Delta}
+
+\Hypertarget{ultrasonic__sensor_8ino_a27574e6f7e05717b30fd179f10b2d769}\label{ultrasonic__sensor_8ino_a27574e6f7e05717b30fd179f10b2d769} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!timePrevious@{timePrevious}}
+\index{timePrevious@{timePrevious}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{timePrevious}{timePrevious}}
+{\footnotesize\ttfamily long time\+Previous}
+
+\Hypertarget{ultrasonic__sensor_8ino_a1afc782d4cd472fee1fb96524c9c6a09}\label{ultrasonic__sensor_8ino_a1afc782d4cd472fee1fb96524c9c6a09} 
+\index{ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}!timeThisSecond@{timeThisSecond}}
+\index{timeThisSecond@{timeThisSecond}!ultrasonic\_sensor.ino@{ultrasonic\_sensor.ino}}
+\doxysubsubsection{\texorpdfstring{timeThisSecond}{timeThisSecond}}
+{\footnotesize\ttfamily long time\+This\+Second}
+

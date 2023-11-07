@@ -1,0 +1,168 @@
+\doxysection{Timer Class Reference}
+\hypertarget{class_timer}{}\label{class_timer}\index{Timer@{Timer}}
+
+
+{\ttfamily \#include $<$timer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_timer_a2aeae96f6681e81e4800b8ec5aa8fbcd}{updater}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{class_timer_a05379217a3a7b0af96cb71ed4bdaf1ac}{ANALOG\+\_\+\+PIN}} = 10
+\begin{DoxyCompactList}\small\item\em Pin for FPS display. \end{DoxyCompactList}\item 
+const float \mbox{\hyperlink{class_timer_a75b2ba02c4e07d8039acce4170dccc76}{ANALOG\+\_\+\+STEP\+\_\+\+MAX}} = 255.\+0f
+\begin{DoxyCompactList}\small\item\em Analog range max. \end{DoxyCompactList}\item 
+const float \mbox{\hyperlink{class_timer_a2acbbcff57f46c4cc7e6fa2579f724c9}{ANALOG\+\_\+\+VOLT\+\_\+\+MAX}} = 5.\+0f
+\begin{DoxyCompactList}\small\item\em Analog volt max. \end{DoxyCompactList}\item 
+const float \mbox{\hyperlink{class_timer_a1969296a972e3a313ad8bdf72920bac3}{FPS\+\_\+\+MAX}} = 40000.\+0f
+\begin{DoxyCompactList}\small\item\em Estimated FPS max. \end{DoxyCompactList}\item 
+const long \mbox{\hyperlink{class_timer_ae8ef32df522b300621a9aaebf05c735a}{PERIOD}} = 1000L
+\begin{DoxyCompactList}\small\item\em Milliseconds in a second. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{class_timer_a52eecb3d0fbcf9b11f89ce190b3e1753}{fps\+\_\+to\+\_\+percentage}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+long \mbox{\hyperlink{class_timer_a37a2a0ce03e0cfe3180159e35eebf60e}{count}}
+\begin{DoxyCompactList}\small\item\em Frames counted during current second. \end{DoxyCompactList}\item 
+long \mbox{\hyperlink{class_timer_a882750b02a1d8a2bcfce40d7bccba3d4}{current}}
+\begin{DoxyCompactList}\small\item\em Time (milliseconds) since start of second. \end{DoxyCompactList}\item 
+long \mbox{\hyperlink{class_timer_a8efbd772379e62bf3950bc43291b56aa}{fps}}
+\begin{DoxyCompactList}\small\item\em Frames counted during previous second. \end{DoxyCompactList}\item 
+long \mbox{\hyperlink{class_timer_ab19f1c9387ea26ac6e9661a1de37bd48}{now}}
+\begin{DoxyCompactList}\small\item\em Time (milliseconds) since start of Arduino. \end{DoxyCompactList}\item 
+long \mbox{\hyperlink{class_timer_a5f85331446c28290c004ceeb21c780e1}{previous}}
+\begin{DoxyCompactList}\small\item\em Time (milliseconds) at previous update. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Counts FPS. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_timer_a52eecb3d0fbcf9b11f89ce190b3e1753}\label{class_timer_a52eecb3d0fbcf9b11f89ce190b3e1753} 
+\index{Timer@{Timer}!fps\_to\_percentage@{fps\_to\_percentage}}
+\index{fps\_to\_percentage@{fps\_to\_percentage}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{fps\_to\_percentage()}{fps\_to\_percentage()}}
+{\footnotesize\ttfamily float Timer\+::fps\+\_\+to\+\_\+percentage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Converts FPS to percentage (for analog output). \Hypertarget{class_timer_a2aeae96f6681e81e4800b8ec5aa8fbcd}\label{class_timer_a2aeae96f6681e81e4800b8ec5aa8fbcd} 
+\index{Timer@{Timer}!updater@{updater}}
+\index{updater@{updater}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{updater()}{updater()}}
+{\footnotesize\ttfamily void Timer\+::updater (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Counts frames for 1 second, then resets. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_timer_a05379217a3a7b0af96cb71ed4bdaf1ac}\label{class_timer_a05379217a3a7b0af96cb71ed4bdaf1ac} 
+\index{Timer@{Timer}!ANALOG\_PIN@{ANALOG\_PIN}}
+\index{ANALOG\_PIN@{ANALOG\_PIN}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{ANALOG\_PIN}{ANALOG\_PIN}}
+{\footnotesize\ttfamily const int Timer\+::\+ANALOG\+\_\+\+PIN = 10}
+
+
+
+Pin for FPS display. 
+
+\Hypertarget{class_timer_a75b2ba02c4e07d8039acce4170dccc76}\label{class_timer_a75b2ba02c4e07d8039acce4170dccc76} 
+\index{Timer@{Timer}!ANALOG\_STEP\_MAX@{ANALOG\_STEP\_MAX}}
+\index{ANALOG\_STEP\_MAX@{ANALOG\_STEP\_MAX}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{ANALOG\_STEP\_MAX}{ANALOG\_STEP\_MAX}}
+{\footnotesize\ttfamily const float Timer\+::\+ANALOG\+\_\+\+STEP\+\_\+\+MAX = 255.\+0f}
+
+
+
+Analog range max. 
+
+\Hypertarget{class_timer_a2acbbcff57f46c4cc7e6fa2579f724c9}\label{class_timer_a2acbbcff57f46c4cc7e6fa2579f724c9} 
+\index{Timer@{Timer}!ANALOG\_VOLT\_MAX@{ANALOG\_VOLT\_MAX}}
+\index{ANALOG\_VOLT\_MAX@{ANALOG\_VOLT\_MAX}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{ANALOG\_VOLT\_MAX}{ANALOG\_VOLT\_MAX}}
+{\footnotesize\ttfamily const float Timer\+::\+ANALOG\+\_\+\+VOLT\+\_\+\+MAX = 5.\+0f}
+
+
+
+Analog volt max. 
+
+\Hypertarget{class_timer_a37a2a0ce03e0cfe3180159e35eebf60e}\label{class_timer_a37a2a0ce03e0cfe3180159e35eebf60e} 
+\index{Timer@{Timer}!count@{count}}
+\index{count@{count}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{count}{count}}
+{\footnotesize\ttfamily long Timer\+::count\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Frames counted during current second. 
+
+\Hypertarget{class_timer_a882750b02a1d8a2bcfce40d7bccba3d4}\label{class_timer_a882750b02a1d8a2bcfce40d7bccba3d4} 
+\index{Timer@{Timer}!current@{current}}
+\index{current@{current}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{current}{current}}
+{\footnotesize\ttfamily long Timer\+::current\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Time (milliseconds) since start of second. 
+
+\Hypertarget{class_timer_a8efbd772379e62bf3950bc43291b56aa}\label{class_timer_a8efbd772379e62bf3950bc43291b56aa} 
+\index{Timer@{Timer}!fps@{fps}}
+\index{fps@{fps}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{fps}{fps}}
+{\footnotesize\ttfamily long Timer\+::fps\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Frames counted during previous second. 
+
+\Hypertarget{class_timer_a1969296a972e3a313ad8bdf72920bac3}\label{class_timer_a1969296a972e3a313ad8bdf72920bac3} 
+\index{Timer@{Timer}!FPS\_MAX@{FPS\_MAX}}
+\index{FPS\_MAX@{FPS\_MAX}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{FPS\_MAX}{FPS\_MAX}}
+{\footnotesize\ttfamily const float Timer\+::\+FPS\+\_\+\+MAX = 40000.\+0f}
+
+
+
+Estimated FPS max. 
+
+\Hypertarget{class_timer_ab19f1c9387ea26ac6e9661a1de37bd48}\label{class_timer_ab19f1c9387ea26ac6e9661a1de37bd48} 
+\index{Timer@{Timer}!now@{now}}
+\index{now@{now}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{now}{now}}
+{\footnotesize\ttfamily long Timer\+::now\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Time (milliseconds) since start of Arduino. 
+
+\Hypertarget{class_timer_ae8ef32df522b300621a9aaebf05c735a}\label{class_timer_ae8ef32df522b300621a9aaebf05c735a} 
+\index{Timer@{Timer}!PERIOD@{PERIOD}}
+\index{PERIOD@{PERIOD}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{PERIOD}{PERIOD}}
+{\footnotesize\ttfamily const long Timer\+::\+PERIOD = 1000L}
+
+
+
+Milliseconds in a second. 
+
+\Hypertarget{class_timer_a5f85331446c28290c004ceeb21c780e1}\label{class_timer_a5f85331446c28290c004ceeb21c780e1} 
+\index{Timer@{Timer}!previous@{previous}}
+\index{previous@{previous}!Timer@{Timer}}
+\doxysubsubsection{\texorpdfstring{previous}{previous}}
+{\footnotesize\ttfamily long Timer\+::previous\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Time (milliseconds) at previous update. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{timer_8h}{timer.\+h}}\end{DoxyCompactItemize}

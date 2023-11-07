@@ -1,0 +1,195 @@
+\doxysection{go\+\_\+karts.\+ino File Reference}
+\hypertarget{go__karts_8ino}{}\label{go__karts_8ino}\index{go\_karts.ino@{go\_karts.ino}}
+{\ttfamily \#include \"{}Keyboard.\+h\"{}}\newline
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{go__karts_8ino_a622389f581a96b36ebd74538332f85d2}{open\+New\+Terminal}} ()
+\item 
+void \mbox{\hyperlink{go__karts_8ino_a30b1d0835d8ca8e60719f38f7e6624dc}{press\+Keys}} (String keys)
+\item 
+void \mbox{\hyperlink{go__karts_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{go__karts_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{go__karts_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{go__karts_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{go__karts_8ino_a099368f63734667872da59b279871bdb}{ORANGE}} = 2
+\item 
+const int \mbox{\hyperlink{go__karts_8ino_a05bf83136788998dddf9143bcc8d4cbd}{GREEN}} = 3
+\item 
+const int \mbox{\hyperlink{go__karts_8ino_ac040bf1abf23dbf23b239c89db4f8a59}{PURPLE}} = 4
+\item 
+const int \mbox{\hyperlink{go__karts_8ino_a6fdc54ca55874b2959f7d77967f78dc2}{WHITE}} = 5
+\item 
+int \mbox{\hyperlink{go__karts_8ino_af768dfde54b0bb743a08b26309efbc47}{PINS}} \mbox{[}$\,$\mbox{]}
+\item 
+const long \mbox{\hyperlink{go__karts_8ino_a58427549b787c8252cbaa1d9d564e44e}{DELAY\+\_\+\+AFTER\+\_\+\+SPACE}} = 2000
+\item 
+const long \mbox{\hyperlink{go__karts_8ino_ad0264bb8cef4ea8895addf8b1a29d530}{DELAY\+\_\+\+AFTER\+\_\+\+BUTTON\+\_\+\+RELEASE}} = 20
+\item 
+const long \mbox{\hyperlink{go__karts_8ino_a242061d5c3a63cfc2ca7c320c7e348c8}{DELAY\+\_\+\+BETWEEN\+\_\+\+KEY\+\_\+\+PRESS}} = 10
+\item 
+bool \mbox{\hyperlink{go__karts_8ino_ad1dcd0f14aae8b7bc18ab45eb1c4049f}{button\+Block}}
+\item 
+bool \mbox{\hyperlink{go__karts_8ino_a6077f066c883c6b0ff74dbebb8b04437}{button\+Block\+Result}}
+\item 
+const String \mbox{\hyperlink{go__karts_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:go\+\_\+karts,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{go__karts_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{go\_karts.ino@{go\_karts.ino}!messages@{messages}}
+\index{messages@{messages}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!go\_karts.ino@{go\_karts.ino}}\index{go\_karts.ino@{go\_karts.ino}!startMessage@{startMessage}}}\Hypertarget{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!go\_karts.ino@{go\_karts.ino}}\index{go\_karts.ino@{go\_karts.ino}!resetMessage@{resetMessage}}}\Hypertarget{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{go__karts_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{go__karts_8ino_afe461d27b9c48d5921c00d521181f12f}\label{go__karts_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{go\_karts.ino@{go\_karts.ino}!loop@{loop}}
+\index{loop@{loop}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{go__karts_8ino_a622389f581a96b36ebd74538332f85d2}\label{go__karts_8ino_a622389f581a96b36ebd74538332f85d2} 
+\index{go\_karts.ino@{go\_karts.ino}!openNewTerminal@{openNewTerminal}}
+\index{openNewTerminal@{openNewTerminal}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{openNewTerminal()}{openNewTerminal()}}
+{\footnotesize\ttfamily void open\+New\+Terminal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{go__karts_8ino_a30b1d0835d8ca8e60719f38f7e6624dc}\label{go__karts_8ino_a30b1d0835d8ca8e60719f38f7e6624dc} 
+\index{go\_karts.ino@{go\_karts.ino}!pressKeys@{pressKeys}}
+\index{pressKeys@{pressKeys}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{pressKeys()}{pressKeys()}}
+{\footnotesize\ttfamily void press\+Keys (\begin{DoxyParamCaption}\item[{String}]{keys }\end{DoxyParamCaption})}
+
+\Hypertarget{go__karts_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{go__karts_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{go\_karts.ino@{go\_karts.ino}!reset@{reset}}
+\index{reset@{reset}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{go__karts_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{go__karts_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{go\_karts.ino@{go\_karts.ino}!setup@{setup}}
+\index{setup@{setup}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{go__karts_8ino_a60de64d75454385b23995437f1d72669}\label{go__karts_8ino_a60de64d75454385b23995437f1d72669} 
+\index{go\_karts.ino@{go\_karts.ino}!start@{start}}
+\index{start@{start}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{go__karts_8ino_ad1dcd0f14aae8b7bc18ab45eb1c4049f}\label{go__karts_8ino_ad1dcd0f14aae8b7bc18ab45eb1c4049f} 
+\index{go\_karts.ino@{go\_karts.ino}!buttonBlock@{buttonBlock}}
+\index{buttonBlock@{buttonBlock}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{buttonBlock}{buttonBlock}}
+{\footnotesize\ttfamily bool button\+Block}
+
+\Hypertarget{go__karts_8ino_a6077f066c883c6b0ff74dbebb8b04437}\label{go__karts_8ino_a6077f066c883c6b0ff74dbebb8b04437} 
+\index{go\_karts.ino@{go\_karts.ino}!buttonBlockResult@{buttonBlockResult}}
+\index{buttonBlockResult@{buttonBlockResult}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{buttonBlockResult}{buttonBlockResult}}
+{\footnotesize\ttfamily bool button\+Block\+Result}
+
+\Hypertarget{go__karts_8ino_ad0264bb8cef4ea8895addf8b1a29d530}\label{go__karts_8ino_ad0264bb8cef4ea8895addf8b1a29d530} 
+\index{go\_karts.ino@{go\_karts.ino}!DELAY\_AFTER\_BUTTON\_RELEASE@{DELAY\_AFTER\_BUTTON\_RELEASE}}
+\index{DELAY\_AFTER\_BUTTON\_RELEASE@{DELAY\_AFTER\_BUTTON\_RELEASE}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{DELAY\_AFTER\_BUTTON\_RELEASE}{DELAY\_AFTER\_BUTTON\_RELEASE}}
+{\footnotesize\ttfamily const long DELAY\+\_\+\+AFTER\+\_\+\+BUTTON\+\_\+\+RELEASE = 20}
+
+\Hypertarget{go__karts_8ino_a58427549b787c8252cbaa1d9d564e44e}\label{go__karts_8ino_a58427549b787c8252cbaa1d9d564e44e} 
+\index{go\_karts.ino@{go\_karts.ino}!DELAY\_AFTER\_SPACE@{DELAY\_AFTER\_SPACE}}
+\index{DELAY\_AFTER\_SPACE@{DELAY\_AFTER\_SPACE}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{DELAY\_AFTER\_SPACE}{DELAY\_AFTER\_SPACE}}
+{\footnotesize\ttfamily const long DELAY\+\_\+\+AFTER\+\_\+\+SPACE = 2000}
+
+\Hypertarget{go__karts_8ino_a242061d5c3a63cfc2ca7c320c7e348c8}\label{go__karts_8ino_a242061d5c3a63cfc2ca7c320c7e348c8} 
+\index{go\_karts.ino@{go\_karts.ino}!DELAY\_BETWEEN\_KEY\_PRESS@{DELAY\_BETWEEN\_KEY\_PRESS}}
+\index{DELAY\_BETWEEN\_KEY\_PRESS@{DELAY\_BETWEEN\_KEY\_PRESS}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{DELAY\_BETWEEN\_KEY\_PRESS}{DELAY\_BETWEEN\_KEY\_PRESS}}
+{\footnotesize\ttfamily const long DELAY\+\_\+\+BETWEEN\+\_\+\+KEY\+\_\+\+PRESS = 10}
+
+\Hypertarget{go__karts_8ino_a05bf83136788998dddf9143bcc8d4cbd}\label{go__karts_8ino_a05bf83136788998dddf9143bcc8d4cbd} 
+\index{go\_karts.ino@{go\_karts.ino}!GREEN@{GREEN}}
+\index{GREEN@{GREEN}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{GREEN}{GREEN}}
+{\footnotesize\ttfamily const int GREEN = 3}
+
+\Hypertarget{go__karts_8ino_aefabcf199f0c73d02251076be65451d4}\label{go__karts_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{go\_karts.ino@{go\_karts.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{go__karts_8ino_a099368f63734667872da59b279871bdb}\label{go__karts_8ino_a099368f63734667872da59b279871bdb} 
+\index{go\_karts.ino@{go\_karts.ino}!ORANGE@{ORANGE}}
+\index{ORANGE@{ORANGE}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{ORANGE}{ORANGE}}
+{\footnotesize\ttfamily const int ORANGE = 2}
+
+\Hypertarget{go__karts_8ino_a8377abe943283ac9ea19351c7d355866}\label{go__karts_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{go\_karts.ino@{go\_karts.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:go\+\_\+karts,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{go__karts_8ino_af768dfde54b0bb743a08b26309efbc47}\label{go__karts_8ino_af768dfde54b0bb743a08b26309efbc47} 
+\index{go\_karts.ino@{go\_karts.ino}!PINS@{PINS}}
+\index{PINS@{PINS}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{PINS}{PINS}}
+{\footnotesize\ttfamily int PINS\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{go__karts_8ino_a099368f63734667872da59b279871bdb}{ORANGE}},}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{go__karts_8ino_a05bf83136788998dddf9143bcc8d4cbd}{GREEN}},}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{go__karts_8ino_ac040bf1abf23dbf23b239c89db4f8a59}{PURPLE}},}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{go__karts_8ino_a6fdc54ca55874b2959f7d77967f78dc2}{WHITE}}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{go__karts_8ino_ac040bf1abf23dbf23b239c89db4f8a59}\label{go__karts_8ino_ac040bf1abf23dbf23b239c89db4f8a59} 
+\index{go\_karts.ino@{go\_karts.ino}!PURPLE@{PURPLE}}
+\index{PURPLE@{PURPLE}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{PURPLE}{PURPLE}}
+{\footnotesize\ttfamily const int PURPLE = 4}
+
+\Hypertarget{go__karts_8ino_a6fdc54ca55874b2959f7d77967f78dc2}\label{go__karts_8ino_a6fdc54ca55874b2959f7d77967f78dc2} 
+\index{go\_karts.ino@{go\_karts.ino}!WHITE@{WHITE}}
+\index{WHITE@{WHITE}!go\_karts.ino@{go\_karts.ino}}
+\doxysubsubsection{\texorpdfstring{WHITE}{WHITE}}
+{\footnotesize\ttfamily const int WHITE = 5}
+

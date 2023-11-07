@@ -1,0 +1,44 @@
+\doxysection{timer.\+h}
+\hypertarget{timer_8h_source}{}\label{timer_8h_source}\mbox{\hyperlink{timer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_timer}{Timer}}\ \{}
+\DoxyCodeLine{00005\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00006\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_timer_a05379217a3a7b0af96cb71ed4bdaf1ac}{ANALOG\_PIN}}\ =\ 10;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00007\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_timer_a75b2ba02c4e07d8039acce4170dccc76}{ANALOG\_STEP\_MAX}}\ =\ 255.0f;\ }
+\DoxyCodeLine{00008\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_timer_a2acbbcff57f46c4cc7e6fa2579f724c9}{ANALOG\_VOLT\_MAX}}\ =\ 5.0f;\ \ \ }
+\DoxyCodeLine{00009\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_timer_a1969296a972e3a313ad8bdf72920bac3}{FPS\_MAX}}\ =\ 40000.0f;\ \ \ \ \ \ \ }
+\DoxyCodeLine{00010\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{class_timer_ae8ef32df522b300621a9aaebf05c735a}{PERIOD}}\ =\ 1000L;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00011\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_timer_a2aeae96f6681e81e4800b8ec5aa8fbcd}{updater}}();}
+\DoxyCodeLine{00012\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00013\ \ \ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{class_timer_a37a2a0ce03e0cfe3180159e35eebf60e}{count}};\ \ \ \ }
+\DoxyCodeLine{00014\ \ \ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{class_timer_a882750b02a1d8a2bcfce40d7bccba3d4}{current}};\ \ }
+\DoxyCodeLine{00015\ \ \ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{class_timer_a8efbd772379e62bf3950bc43291b56aa}{fps}};\ \ \ \ \ \ }
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{class_timer_ab19f1c9387ea26ac6e9661a1de37bd48}{now}};\ \ \ \ \ \ }
+\DoxyCodeLine{00017\ \ \ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{class_timer_a5f85331446c28290c004ceeb21c780e1}{previous}};\ }
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_timer_a52eecb3d0fbcf9b11f89ce190b3e1753}{fps\_to\_percentage}}();}
+\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_timer_a2aeae96f6681e81e4800b8ec5aa8fbcd}{Timer::updater}}()\ \{}
+\DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{class_timer_ab19f1c9387ea26ac6e9661a1de37bd48}{now}}\ =\ millis();}
+\DoxyCodeLine{00026\ \ \ \mbox{\hyperlink{class_timer_a882750b02a1d8a2bcfce40d7bccba3d4}{current}}\ +=\ \mbox{\hyperlink{class_timer_ab19f1c9387ea26ac6e9661a1de37bd48}{now}}\ -\/\ \mbox{\hyperlink{class_timer_a5f85331446c28290c004ceeb21c780e1}{previous}};}
+\DoxyCodeLine{00027\ \ \ \mbox{\hyperlink{class_timer_a5f85331446c28290c004ceeb21c780e1}{previous}}\ =\ \mbox{\hyperlink{class_timer_ab19f1c9387ea26ac6e9661a1de37bd48}{now}};}
+\DoxyCodeLine{00028\ \ \ ++\mbox{\hyperlink{class_timer_a37a2a0ce03e0cfe3180159e35eebf60e}{count}};}
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{class_timer_a882750b02a1d8a2bcfce40d7bccba3d4}{current}}\ >\ \mbox{\hyperlink{class_timer_ae8ef32df522b300621a9aaebf05c735a}{PERIOD}})\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{class_timer_a8efbd772379e62bf3950bc43291b56aa}{fps}}\ =\ \mbox{\hyperlink{class_timer_a37a2a0ce03e0cfe3180159e35eebf60e}{count}};}
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{class_timer_a37a2a0ce03e0cfe3180159e35eebf60e}{count}}\ =\ 0L;}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{class_timer_a882750b02a1d8a2bcfce40d7bccba3d4}{current}}\ =\ 0L;}
+\DoxyCodeLine{00033\ \ \ \ \ analogWrite(\mbox{\hyperlink{class_timer_a05379217a3a7b0af96cb71ed4bdaf1ac}{ANALOG\_PIN}},\ \mbox{\hyperlink{class_timer_a52eecb3d0fbcf9b11f89ce190b3e1753}{fps\_to\_percentage}}());}
+\DoxyCodeLine{00034\ \ \ \}}
+\DoxyCodeLine{00035\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_timer_a52eecb3d0fbcf9b11f89ce190b3e1753}{Timer::fps\_to\_percentage}}()\ \{}
+\DoxyCodeLine{00041\ \ \ \textcolor{keywordtype}{float}\ percentage;}
+\DoxyCodeLine{00042\ \ \ percentage\ =\ (float)\mbox{\hyperlink{class_timer_a8efbd772379e62bf3950bc43291b56aa}{fps}}\ /\ \mbox{\hyperlink{class_timer_a1969296a972e3a313ad8bdf72920bac3}{FPS\_MAX}};}
+\DoxyCodeLine{00043\ \ \ percentage\ =\ \mbox{\hyperlink{class_timer_a75b2ba02c4e07d8039acce4170dccc76}{ANALOG\_STEP\_MAX}}\ *\ percentage;}
+\DoxyCodeLine{00044\ \ \ percentage\ =\ (\mbox{\hyperlink{class_timer_a75b2ba02c4e07d8039acce4170dccc76}{ANALOG\_STEP\_MAX}}\ -\/\ percentage)\ /\ \mbox{\hyperlink{class_timer_a2acbbcff57f46c4cc7e6fa2579f724c9}{ANALOG\_VOLT\_MAX}};}
+\DoxyCodeLine{00045\ \ \ \textcolor{keywordflow}{return}\ percentage;}
+\DoxyCodeLine{00046\ \}}
+
+\end{DoxyCode}

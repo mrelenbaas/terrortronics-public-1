@@ -1,0 +1,194 @@
+\doxysection{adafruit\+\_\+huzzah32\+\_\+esp32\+\_\+feather.\+ino File Reference}
+\hypertarget{adafruit__huzzah32__esp32__feather_8ino}{}\label{adafruit__huzzah32__esp32__feather_8ino}\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+{\ttfamily \#include \"{}Wi\+Fi.\+h\"{}}\newline
+{\ttfamily \#include \"{}Async\+UDP.\+h\"{}}\newline
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_aa5226cf8b5c8d56402836b1c6bae2ada}{SERVICE\+\_\+\+SET\+\_\+\+IDENTIFIER}} \mbox{[}$\,$\mbox{]} = \"{}NETGEAR08\"{}
+\item 
+const char \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_aea867ab4ed145b77aed672a3d43e4e50}{PASSWORD}} \mbox{[}$\,$\mbox{]} = \"{}largeskates190\"{}
+\item 
+const int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_ac80936b3f129347a5d01d823b88be9d1}{IP\+\_\+0}} = 192
+\item 
+const int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a8b6827d8e5fd939333d81fa8f9f74cec}{IP\+\_\+1}} = 168
+\item 
+const int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a45d659054ac2dc89581f40d86cdb40e0}{IP\+\_\+2}} = 1
+\item 
+const int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_adb213b663a2a0d49b9395e25013bed67}{IP\+\_\+3}} = 8
+\item 
+const int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a11717c934f77ad5167dac5d28562d85a}{PORT}} = 50007
+\item 
+const int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a799de9c46efe68a74d1a79c080150921}{DELAY}} = 10
+\item 
+const int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a5a5910f7346a6cab8c6562db0c7e1477}{BAUDE\+\_\+\+RATE}} = 9600
+\item 
+char \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_afdc941b50b19be89cff4fa756e0c85bc}{output}} \mbox{[}$\,$\mbox{]} = \"{}0\textbackslash{}r\textbackslash{}n\"{}
+\item 
+Async\+UDP \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_aafa4e05923d1f680b56a38a00abccd63}{udp}}
+\item 
+int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a7e8cb61249f080f371c25d523ac184be}{buttonpin}} = 14
+\item 
+int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_aa0ccb5ee6d882ee3605ff47745c6467b}{val}}
+\item 
+const String \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:adafruit\+\_\+huzzah32\+\_\+esp\+\_\+32\+\_\+feather,function\+:reset\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!messages@{messages}}
+\index{messages@{messages}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!startMessage@{startMessage}}}\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!resetMessage@{resetMessage}}}\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{adafruit__huzzah32__esp32__feather_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_afe461d27b9c48d5921c00d521181f12f}\label{adafruit__huzzah32__esp32__feather_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!loop@{loop}}
+\index{loop@{loop}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{adafruit__huzzah32__esp32__feather_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{adafruit__huzzah32__esp32__feather_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!reset@{reset}}
+\index{reset@{reset}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{adafruit__huzzah32__esp32__feather_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!setup@{setup}}
+\index{setup@{setup}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a60de64d75454385b23995437f1d72669}\label{adafruit__huzzah32__esp32__feather_8ino_a60de64d75454385b23995437f1d72669} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!start@{start}}
+\index{start@{start}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a5a5910f7346a6cab8c6562db0c7e1477}\label{adafruit__huzzah32__esp32__feather_8ino_a5a5910f7346a6cab8c6562db0c7e1477} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!BAUDE\_RATE@{BAUDE\_RATE}}
+\index{BAUDE\_RATE@{BAUDE\_RATE}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{BAUDE\_RATE}{BAUDE\_RATE}}
+{\footnotesize\ttfamily const int BAUDE\+\_\+\+RATE = 9600}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a7e8cb61249f080f371c25d523ac184be}\label{adafruit__huzzah32__esp32__feather_8ino_a7e8cb61249f080f371c25d523ac184be} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!buttonpin@{buttonpin}}
+\index{buttonpin@{buttonpin}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{buttonpin}{buttonpin}}
+{\footnotesize\ttfamily int buttonpin = 14}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a799de9c46efe68a74d1a79c080150921}\label{adafruit__huzzah32__esp32__feather_8ino_a799de9c46efe68a74d1a79c080150921} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!DELAY@{DELAY}}
+\index{DELAY@{DELAY}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{DELAY}{DELAY}}
+{\footnotesize\ttfamily const int DELAY = 10}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_aefabcf199f0c73d02251076be65451d4}\label{adafruit__huzzah32__esp32__feather_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_ac80936b3f129347a5d01d823b88be9d1}\label{adafruit__huzzah32__esp32__feather_8ino_ac80936b3f129347a5d01d823b88be9d1} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!IP\_0@{IP\_0}}
+\index{IP\_0@{IP\_0}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{IP\_0}{IP\_0}}
+{\footnotesize\ttfamily const int IP\+\_\+0 = 192}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a8b6827d8e5fd939333d81fa8f9f74cec}\label{adafruit__huzzah32__esp32__feather_8ino_a8b6827d8e5fd939333d81fa8f9f74cec} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!IP\_1@{IP\_1}}
+\index{IP\_1@{IP\_1}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{IP\_1}{IP\_1}}
+{\footnotesize\ttfamily const int IP\+\_\+1 = 168}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a45d659054ac2dc89581f40d86cdb40e0}\label{adafruit__huzzah32__esp32__feather_8ino_a45d659054ac2dc89581f40d86cdb40e0} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!IP\_2@{IP\_2}}
+\index{IP\_2@{IP\_2}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{IP\_2}{IP\_2}}
+{\footnotesize\ttfamily const int IP\+\_\+2 = 1}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_adb213b663a2a0d49b9395e25013bed67}\label{adafruit__huzzah32__esp32__feather_8ino_adb213b663a2a0d49b9395e25013bed67} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!IP\_3@{IP\_3}}
+\index{IP\_3@{IP\_3}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{IP\_3}{IP\_3}}
+{\footnotesize\ttfamily const int IP\+\_\+3 = 8}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a8377abe943283ac9ea19351c7d355866}\label{adafruit__huzzah32__esp32__feather_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:adafruit\+\_\+huzzah32\+\_\+esp\+\_\+32\+\_\+feather,function\+:reset\textbackslash{}n\"{}}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_afdc941b50b19be89cff4fa756e0c85bc}\label{adafruit__huzzah32__esp32__feather_8ino_afdc941b50b19be89cff4fa756e0c85bc} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!output@{output}}
+\index{output@{output}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{output}{output}}
+{\footnotesize\ttfamily char output\mbox{[}$\,$\mbox{]} = \"{}0\textbackslash{}r\textbackslash{}n\"{}}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_aea867ab4ed145b77aed672a3d43e4e50}\label{adafruit__huzzah32__esp32__feather_8ino_aea867ab4ed145b77aed672a3d43e4e50} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!PASSWORD@{PASSWORD}}
+\index{PASSWORD@{PASSWORD}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{PASSWORD}{PASSWORD}}
+{\footnotesize\ttfamily const char PASSWORD\mbox{[}$\,$\mbox{]} = \"{}largeskates190\"{}}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_a11717c934f77ad5167dac5d28562d85a}\label{adafruit__huzzah32__esp32__feather_8ino_a11717c934f77ad5167dac5d28562d85a} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!PORT@{PORT}}
+\index{PORT@{PORT}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{PORT}{PORT}}
+{\footnotesize\ttfamily const int PORT = 50007}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_aa5226cf8b5c8d56402836b1c6bae2ada}\label{adafruit__huzzah32__esp32__feather_8ino_aa5226cf8b5c8d56402836b1c6bae2ada} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!SERVICE\_SET\_IDENTIFIER@{SERVICE\_SET\_IDENTIFIER}}
+\index{SERVICE\_SET\_IDENTIFIER@{SERVICE\_SET\_IDENTIFIER}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{SERVICE\_SET\_IDENTIFIER}{SERVICE\_SET\_IDENTIFIER}}
+{\footnotesize\ttfamily const char SERVICE\+\_\+\+SET\+\_\+\+IDENTIFIER\mbox{[}$\,$\mbox{]} = \"{}NETGEAR08\"{}}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_aafa4e05923d1f680b56a38a00abccd63}\label{adafruit__huzzah32__esp32__feather_8ino_aafa4e05923d1f680b56a38a00abccd63} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!udp@{udp}}
+\index{udp@{udp}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{udp}{udp}}
+{\footnotesize\ttfamily Async\+UDP udp}
+
+\Hypertarget{adafruit__huzzah32__esp32__feather_8ino_aa0ccb5ee6d882ee3605ff47745c6467b}\label{adafruit__huzzah32__esp32__feather_8ino_aa0ccb5ee6d882ee3605ff47745c6467b} 
+\index{adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}!val@{val}}
+\index{val@{val}!adafruit\_huzzah32\_esp32\_feather.ino@{adafruit\_huzzah32\_esp32\_feather.ino}}
+\doxysubsubsection{\texorpdfstring{val}{val}}
+{\footnotesize\ttfamily int val}
+

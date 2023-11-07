@@ -1,0 +1,114 @@
+\doxysection{Softfoot\+Falls.\+ino File Reference}
+\hypertarget{_softfoot_falls_8ino}{}\label{_softfoot_falls_8ino}\index{SoftfootFalls.ino@{SoftfootFalls.ino}}
+{\ttfamily \#include $<$Hardware\+Serial.\+h$>$}\newline
+{\ttfamily \#include \"{}game.\+h\"{}}\newline
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_softfoot_falls_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{_softfoot_falls_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{_softfoot_falls_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{_softfoot_falls_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{_softfoot_falls_8ino_a8eb69172a6c5c4c2679496054f94ec9e}{SERIAL\+\_\+\+BAUDE\+\_\+\+RATE}} = 9600
+\begin{DoxyCompactList}\small\item\em Serial baude rate. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_game}{Game}} \mbox{\hyperlink{_softfoot_falls_8ino_ac6a5ed6191fcf3a5bf0445921feb4f48}{game}}
+\begin{DoxyCompactList}\small\item\em \doxylink{class_game}{Game} manager. \end{DoxyCompactList}\item 
+const String \mbox{\hyperlink{_softfoot_falls_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:ultrasonic\+\_\+sensor,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{_softfoot_falls_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{SoftfootFalls.ino@{SoftfootFalls.ino}!messages@{messages}}
+\index{messages@{messages}!SoftfootFalls.ino@{SoftfootFalls.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!SoftfootFalls.ino@{SoftfootFalls.ino}}\index{SoftfootFalls.ino@{SoftfootFalls.ino}!startMessage@{startMessage}}}\Hypertarget{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!SoftfootFalls.ino@{SoftfootFalls.ino}}\index{SoftfootFalls.ino@{SoftfootFalls.ino}!resetMessage@{resetMessage}}}\Hypertarget{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{_softfoot_falls_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_softfoot_falls_8ino_afe461d27b9c48d5921c00d521181f12f}\label{_softfoot_falls_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{SoftfootFalls.ino@{SoftfootFalls.ino}!loop@{loop}}
+\index{loop@{loop}!SoftfootFalls.ino@{SoftfootFalls.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{_softfoot_falls_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{_softfoot_falls_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{SoftfootFalls.ino@{SoftfootFalls.ino}!reset@{reset}}
+\index{reset@{reset}!SoftfootFalls.ino@{SoftfootFalls.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_softfoot_falls_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{_softfoot_falls_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{SoftfootFalls.ino@{SoftfootFalls.ino}!setup@{setup}}
+\index{setup@{setup}!SoftfootFalls.ino@{SoftfootFalls.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Main setup. \Hypertarget{_softfoot_falls_8ino_a60de64d75454385b23995437f1d72669}\label{_softfoot_falls_8ino_a60de64d75454385b23995437f1d72669} 
+\index{SoftfootFalls.ino@{SoftfootFalls.ino}!start@{start}}
+\index{start@{start}!SoftfootFalls.ino@{SoftfootFalls.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{_softfoot_falls_8ino_ac6a5ed6191fcf3a5bf0445921feb4f48}\label{_softfoot_falls_8ino_ac6a5ed6191fcf3a5bf0445921feb4f48} 
+\index{SoftfootFalls.ino@{SoftfootFalls.ino}!game@{game}}
+\index{game@{game}!SoftfootFalls.ino@{SoftfootFalls.ino}}
+\doxysubsubsection{\texorpdfstring{game}{game}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_game}{Game}} game}
+
+
+
+\doxylink{class_game}{Game} manager. 
+
+\Hypertarget{_softfoot_falls_8ino_aefabcf199f0c73d02251076be65451d4}\label{_softfoot_falls_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{SoftfootFalls.ino@{SoftfootFalls.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!SoftfootFalls.ino@{SoftfootFalls.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{_softfoot_falls_8ino_a8377abe943283ac9ea19351c7d355866}\label{_softfoot_falls_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{SoftfootFalls.ino@{SoftfootFalls.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!SoftfootFalls.ino@{SoftfootFalls.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:ultrasonic\+\_\+sensor,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{_softfoot_falls_8ino_a8eb69172a6c5c4c2679496054f94ec9e}\label{_softfoot_falls_8ino_a8eb69172a6c5c4c2679496054f94ec9e} 
+\index{SoftfootFalls.ino@{SoftfootFalls.ino}!SERIAL\_BAUDE\_RATE@{SERIAL\_BAUDE\_RATE}}
+\index{SERIAL\_BAUDE\_RATE@{SERIAL\_BAUDE\_RATE}!SoftfootFalls.ino@{SoftfootFalls.ino}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_BAUDE\_RATE}{SERIAL\_BAUDE\_RATE}}
+{\footnotesize\ttfamily const int SERIAL\+\_\+\+BAUDE\+\_\+\+RATE = 9600}
+
+
+
+Serial baude rate. 
+

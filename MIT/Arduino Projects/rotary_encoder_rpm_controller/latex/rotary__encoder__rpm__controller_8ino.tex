@@ -1,0 +1,551 @@
+\doxysection{rotary\+\_\+encoder\+\_\+rpm\+\_\+controller.\+ino File Reference}
+\hypertarget{rotary__encoder__rpm__controller_8ino}{}\label{rotary__encoder__rpm__controller_8ino}\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+{\ttfamily \#include \"{}Wi\+Fi.\+h\"{}}\newline
+{\ttfamily \#include \"{}Async\+UDP.\+h\"{}}\newline
+{\ttfamily \#include \"{}pitches.\+h\"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a4b355291fe6b8ba8e167ab0faa862e45}{CLK}}~22
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a943f07034774ef1261d62cd0d3d1fec9}{DT}}~12
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a8f580c75601bad3129726556e2bcc153}{RED\+\_\+\+BUTTON}}~13
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a02540d5d0930937456dc7a7bd7ab81f1}{YELLOW\+\_\+\+BUTTON}}~19
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_aa2c6b1f07e9f09c2a40d948e0d8bb5f3}{BLUE\+\_\+\+BUTTON}}~18
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a1567e3090c871bb1c9ff54c8ac459fcc}{GREEN\+\_\+\+BUTTON}}~5
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a073dbcb7f5bc4f4b45dc048b55eaff3d}{RED\+\_\+\+LED}}~23
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_aaa9a0918932bceef70e8eb4dbb988fbe}{YELLOW\+\_\+\+LED}}~32
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a41c7fcbe209a1c236fd1b8e35bd8b55a}{BLUE\+\_\+\+LED}}~15
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a01649d652fa50957c6ef3c32b1238038}{GREEN\+\_\+\+LED}}~33
+\item 
+\#define \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a145103118f6d9d1129aa4509cf214a13}{BUZZER}}~14
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void IRAM\+\_\+\+ATTR \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a5b570f95e119d109b326d4df7dda893c}{update\+Encoder}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a4a83c833d1791f6e48fd7b0537ca23ec}{counter2}} = 0
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a9e8e0e88a054e206b4f7b775ca759538}{current\+State\+CLK}}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a49d3ef38230ffdd01b7af558b3ee657c}{last\+State\+CLK}}
+\item 
+unsigned long \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a1085ae81946ce841f6e712c97f456c1e}{last\+Button\+Press}} = 0
+\item 
+bool \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_add1b55c4b46e845ee74c8616e85febce}{current\+State\+CLK3\+Flag}}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a5c0652c0d76cf13881f39660b77183eb}{counter3}} = 0
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a324517c757e5ab579b764264587a88db}{last\+State\+CLK3}}
+\item 
+String \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_aa794d6677383e308e7ae48dfd8bab8be}{current\+Dir3}} = \"{}-\/\"{}
+\item 
+const int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_ac3b5a466147b592c5687f17e014c51fc}{SERIAL\+\_\+\+BAUD\+\_\+\+RATE}} = 9600
+\item 
+const int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a5de6266575c6b4a674c83581275f596d}{SERIAL\+\_\+\+DELAY}} = 10
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a9bc067a4aa752892c21b2255c7def4c9}{INDEX\+\_\+\+MAX}} = 9
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a617a47c70795bcff659815ad0efd2266}{counter}} = 0
+\item 
+const float \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_ab402928965cbdaf6ee9c18c6bed06b5b}{STEPS}} = 600.\+0f
+\item 
+const float \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a22a8bcfa9f0309676ac74f599b2bbd39}{STEP}} = 0.\+6f
+\item 
+float \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_ab8ef1bf8a70cc07c6d55823c390a7e76}{angle}}
+\item 
+const long \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a4dfd76900db18dcb473f6e8f2e28ccc3}{TIME\+\_\+\+PERIOD}} = 1000
+\item 
+long \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a9535b92e3c2a299937e197d1ebb507c9}{time\+At\+Start}}
+\item 
+long \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a85557394164a8cd3de43bde26fe50100}{time\+Since\+Start}}
+\item 
+float \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a5dad3d262019e4dd872336fea903e044}{time\+Percentage}}
+\item 
+bool \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a6cb825a221b1ffc1ee63c829500a75e7}{is\+Recording}}
+\item 
+bool \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a32a8f59951e313389aa335d310f8f943}{is\+Recording\+Flag}}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a4c98430873e8822795074cec742cc44e}{special\+Counter}}
+\item 
+float \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a278b1b29553f02463a0398e86cc8b5da}{total\+Steps}}
+\item 
+bool \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a670f9cb4f5b92514af9bdb216992c3e2}{clk\+Set}} \mbox{[}1000\mbox{]}
+\item 
+bool \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a1719a65715714d0ea898caac4d2d7146}{dw\+Set}} \mbox{[}1000\mbox{]}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a45b67662d620a977a2cfe519f7ab6273}{fps}}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a835695a711abb89ab97dd00bbe005d98}{btn\+State}}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a7c61ca9b1c19cba85fa0bd0a71b2eada}{btn\+State0}}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a69323ec7207a0ab95b04a84ea0308841}{btn\+State1}}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a730a508526a2700e70fb504bbb155ced}{btn\+State2}}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_ab9e4fc285482cbb999af22faa6c546d0}{btn\+State3}}
+\item 
+float \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a0025f170b33e059b6820fd9f56367ea3}{rps}}
+\item 
+char \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_adc1b7fa510cc6d6d6f6685fbacb4cb2b}{angle\+Buffer}} \mbox{[}6\mbox{]}
+\item 
+char \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_af0dc212ad81bfec2ac8c81d6230baf6b}{rps\+Buffer}} \mbox{[}6\mbox{]}
+\item 
+char \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a9202b79e458befe194e8a311aca93184}{total\+Steps\+Buffer}} \mbox{[}6\mbox{]}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a56c8a5eda9a66e3eae61c7c18e163d43}{melody}} \mbox{[}$\,$\mbox{]}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a97d5229859dac354378748dd2405327d}{note\+Durations}} \mbox{[}$\,$\mbox{]}
+\item 
+bool \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a251eb564ef6bb496324e7ff5775c2c66}{is\+Blink\+On}}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a587ba0cb07f02913598610049a3bbb79}{ssid}} = \"{}NETGEAR08\"{}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_aa4a2ebcb494493f648ae1e6975672575}{password}} = \"{}largeskates190\"{}
+\item 
+Async\+UDP \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_aafa4e05923d1f680b56a38a00abccd63}{udp}}
+\item 
+bool \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a9cf88591bdbf0296fb5af856bb5886b3}{is\+Wifi\+Connected}}
+\item 
+char \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a0385b91e40c8c560875d75b8f400c75a}{udp\+Buffer}} \mbox{[}40\mbox{]}
+\item 
+const String \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:rotary\+\_\+encoder\+\_\+rpm\+\_\+controller,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{rotary__encoder__rpm__controller_8ino_aa2c6b1f07e9f09c2a40d948e0d8bb5f3}\label{rotary__encoder__rpm__controller_8ino_aa2c6b1f07e9f09c2a40d948e0d8bb5f3} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!BLUE\_BUTTON@{BLUE\_BUTTON}}
+\index{BLUE\_BUTTON@{BLUE\_BUTTON}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{BLUE\_BUTTON}{BLUE\_BUTTON}}
+{\footnotesize\ttfamily \#define BLUE\+\_\+\+BUTTON~18}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a41c7fcbe209a1c236fd1b8e35bd8b55a}\label{rotary__encoder__rpm__controller_8ino_a41c7fcbe209a1c236fd1b8e35bd8b55a} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!BLUE\_LED@{BLUE\_LED}}
+\index{BLUE\_LED@{BLUE\_LED}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{BLUE\_LED}{BLUE\_LED}}
+{\footnotesize\ttfamily \#define BLUE\+\_\+\+LED~15}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a145103118f6d9d1129aa4509cf214a13}\label{rotary__encoder__rpm__controller_8ino_a145103118f6d9d1129aa4509cf214a13} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!BUZZER@{BUZZER}}
+\index{BUZZER@{BUZZER}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{BUZZER}{BUZZER}}
+{\footnotesize\ttfamily \#define BUZZER~14}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a4b355291fe6b8ba8e167ab0faa862e45}\label{rotary__encoder__rpm__controller_8ino_a4b355291fe6b8ba8e167ab0faa862e45} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!CLK@{CLK}}
+\index{CLK@{CLK}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{CLK}{CLK}}
+{\footnotesize\ttfamily \#define CLK~22}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a943f07034774ef1261d62cd0d3d1fec9}\label{rotary__encoder__rpm__controller_8ino_a943f07034774ef1261d62cd0d3d1fec9} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!DT@{DT}}
+\index{DT@{DT}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{DT}{DT}}
+{\footnotesize\ttfamily \#define DT~12}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a1567e3090c871bb1c9ff54c8ac459fcc}\label{rotary__encoder__rpm__controller_8ino_a1567e3090c871bb1c9ff54c8ac459fcc} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!GREEN\_BUTTON@{GREEN\_BUTTON}}
+\index{GREEN\_BUTTON@{GREEN\_BUTTON}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{GREEN\_BUTTON}{GREEN\_BUTTON}}
+{\footnotesize\ttfamily \#define GREEN\+\_\+\+BUTTON~5}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a01649d652fa50957c6ef3c32b1238038}\label{rotary__encoder__rpm__controller_8ino_a01649d652fa50957c6ef3c32b1238038} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!GREEN\_LED@{GREEN\_LED}}
+\index{GREEN\_LED@{GREEN\_LED}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{GREEN\_LED}{GREEN\_LED}}
+{\footnotesize\ttfamily \#define GREEN\+\_\+\+LED~33}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a8f580c75601bad3129726556e2bcc153}\label{rotary__encoder__rpm__controller_8ino_a8f580c75601bad3129726556e2bcc153} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!RED\_BUTTON@{RED\_BUTTON}}
+\index{RED\_BUTTON@{RED\_BUTTON}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{RED\_BUTTON}{RED\_BUTTON}}
+{\footnotesize\ttfamily \#define RED\+\_\+\+BUTTON~13}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a073dbcb7f5bc4f4b45dc048b55eaff3d}\label{rotary__encoder__rpm__controller_8ino_a073dbcb7f5bc4f4b45dc048b55eaff3d} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!RED\_LED@{RED\_LED}}
+\index{RED\_LED@{RED\_LED}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{RED\_LED}{RED\_LED}}
+{\footnotesize\ttfamily \#define RED\+\_\+\+LED~23}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a02540d5d0930937456dc7a7bd7ab81f1}\label{rotary__encoder__rpm__controller_8ino_a02540d5d0930937456dc7a7bd7ab81f1} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!YELLOW\_BUTTON@{YELLOW\_BUTTON}}
+\index{YELLOW\_BUTTON@{YELLOW\_BUTTON}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{YELLOW\_BUTTON}{YELLOW\_BUTTON}}
+{\footnotesize\ttfamily \#define YELLOW\+\_\+\+BUTTON~19}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_aaa9a0918932bceef70e8eb4dbb988fbe}\label{rotary__encoder__rpm__controller_8ino_aaa9a0918932bceef70e8eb4dbb988fbe} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!YELLOW\_LED@{YELLOW\_LED}}
+\index{YELLOW\_LED@{YELLOW\_LED}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{YELLOW\_LED}{YELLOW\_LED}}
+{\footnotesize\ttfamily \#define YELLOW\+\_\+\+LED~32}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!messages@{messages}}
+\index{messages@{messages}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!startMessage@{startMessage}}}\Hypertarget{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!resetMessage@{resetMessage}}}\Hypertarget{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{rotary__encoder__rpm__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{rotary__encoder__rpm__controller_8ino_afe461d27b9c48d5921c00d521181f12f}\label{rotary__encoder__rpm__controller_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!loop@{loop}}
+\index{loop@{loop}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{rotary__encoder__rpm__controller_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{rotary__encoder__rpm__controller_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!reset@{reset}}
+\index{reset@{reset}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{rotary__encoder__rpm__controller_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!setup@{setup}}
+\index{setup@{setup}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a60de64d75454385b23995437f1d72669}\label{rotary__encoder__rpm__controller_8ino_a60de64d75454385b23995437f1d72669} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!start@{start}}
+\index{start@{start}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a5b570f95e119d109b326d4df7dda893c}\label{rotary__encoder__rpm__controller_8ino_a5b570f95e119d109b326d4df7dda893c} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!updateEncoder@{updateEncoder}}
+\index{updateEncoder@{updateEncoder}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{updateEncoder()}{updateEncoder()}}
+{\footnotesize\ttfamily void IRAM\+\_\+\+ATTR update\+Encoder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{rotary__encoder__rpm__controller_8ino_ab8ef1bf8a70cc07c6d55823c390a7e76}\label{rotary__encoder__rpm__controller_8ino_ab8ef1bf8a70cc07c6d55823c390a7e76} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!angle@{angle}}
+\index{angle@{angle}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{angle}{angle}}
+{\footnotesize\ttfamily float angle}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_adc1b7fa510cc6d6d6f6685fbacb4cb2b}\label{rotary__encoder__rpm__controller_8ino_adc1b7fa510cc6d6d6f6685fbacb4cb2b} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!angleBuffer@{angleBuffer}}
+\index{angleBuffer@{angleBuffer}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{angleBuffer}{angleBuffer}}
+{\footnotesize\ttfamily char angle\+Buffer\mbox{[}6\mbox{]}}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a835695a711abb89ab97dd00bbe005d98}\label{rotary__encoder__rpm__controller_8ino_a835695a711abb89ab97dd00bbe005d98} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!btnState@{btnState}}
+\index{btnState@{btnState}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{btnState}{btnState}}
+{\footnotesize\ttfamily int btn\+State}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a7c61ca9b1c19cba85fa0bd0a71b2eada}\label{rotary__encoder__rpm__controller_8ino_a7c61ca9b1c19cba85fa0bd0a71b2eada} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!btnState0@{btnState0}}
+\index{btnState0@{btnState0}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{btnState0}{btnState0}}
+{\footnotesize\ttfamily int btn\+State0}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a69323ec7207a0ab95b04a84ea0308841}\label{rotary__encoder__rpm__controller_8ino_a69323ec7207a0ab95b04a84ea0308841} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!btnState1@{btnState1}}
+\index{btnState1@{btnState1}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{btnState1}{btnState1}}
+{\footnotesize\ttfamily int btn\+State1}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a730a508526a2700e70fb504bbb155ced}\label{rotary__encoder__rpm__controller_8ino_a730a508526a2700e70fb504bbb155ced} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!btnState2@{btnState2}}
+\index{btnState2@{btnState2}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{btnState2}{btnState2}}
+{\footnotesize\ttfamily int btn\+State2}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_ab9e4fc285482cbb999af22faa6c546d0}\label{rotary__encoder__rpm__controller_8ino_ab9e4fc285482cbb999af22faa6c546d0} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!btnState3@{btnState3}}
+\index{btnState3@{btnState3}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{btnState3}{btnState3}}
+{\footnotesize\ttfamily int btn\+State3}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a670f9cb4f5b92514af9bdb216992c3e2}\label{rotary__encoder__rpm__controller_8ino_a670f9cb4f5b92514af9bdb216992c3e2} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!clkSet@{clkSet}}
+\index{clkSet@{clkSet}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{clkSet}{clkSet}}
+{\footnotesize\ttfamily bool clk\+Set\mbox{[}1000\mbox{]}}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a617a47c70795bcff659815ad0efd2266}\label{rotary__encoder__rpm__controller_8ino_a617a47c70795bcff659815ad0efd2266} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!counter@{counter}}
+\index{counter@{counter}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{counter}{counter}}
+{\footnotesize\ttfamily int counter = 0}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a4a83c833d1791f6e48fd7b0537ca23ec}\label{rotary__encoder__rpm__controller_8ino_a4a83c833d1791f6e48fd7b0537ca23ec} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!counter2@{counter2}}
+\index{counter2@{counter2}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{counter2}{counter2}}
+{\footnotesize\ttfamily int counter2 = 0}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a5c0652c0d76cf13881f39660b77183eb}\label{rotary__encoder__rpm__controller_8ino_a5c0652c0d76cf13881f39660b77183eb} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!counter3@{counter3}}
+\index{counter3@{counter3}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{counter3}{counter3}}
+{\footnotesize\ttfamily int counter3 = 0}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_aa794d6677383e308e7ae48dfd8bab8be}\label{rotary__encoder__rpm__controller_8ino_aa794d6677383e308e7ae48dfd8bab8be} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!currentDir3@{currentDir3}}
+\index{currentDir3@{currentDir3}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{currentDir3}{currentDir3}}
+{\footnotesize\ttfamily String current\+Dir3 = \"{}-\/\"{}}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a9e8e0e88a054e206b4f7b775ca759538}\label{rotary__encoder__rpm__controller_8ino_a9e8e0e88a054e206b4f7b775ca759538} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!currentStateCLK@{currentStateCLK}}
+\index{currentStateCLK@{currentStateCLK}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{currentStateCLK}{currentStateCLK}}
+{\footnotesize\ttfamily int current\+State\+CLK}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_add1b55c4b46e845ee74c8616e85febce}\label{rotary__encoder__rpm__controller_8ino_add1b55c4b46e845ee74c8616e85febce} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!currentStateCLK3Flag@{currentStateCLK3Flag}}
+\index{currentStateCLK3Flag@{currentStateCLK3Flag}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{currentStateCLK3Flag}{currentStateCLK3Flag}}
+{\footnotesize\ttfamily bool current\+State\+CLK3\+Flag}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a1719a65715714d0ea898caac4d2d7146}\label{rotary__encoder__rpm__controller_8ino_a1719a65715714d0ea898caac4d2d7146} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!dwSet@{dwSet}}
+\index{dwSet@{dwSet}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{dwSet}{dwSet}}
+{\footnotesize\ttfamily bool dw\+Set\mbox{[}1000\mbox{]}}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a45b67662d620a977a2cfe519f7ab6273}\label{rotary__encoder__rpm__controller_8ino_a45b67662d620a977a2cfe519f7ab6273} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!fps@{fps}}
+\index{fps@{fps}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{fps}{fps}}
+{\footnotesize\ttfamily int fps}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_aefabcf199f0c73d02251076be65451d4}\label{rotary__encoder__rpm__controller_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a9bc067a4aa752892c21b2255c7def4c9}\label{rotary__encoder__rpm__controller_8ino_a9bc067a4aa752892c21b2255c7def4c9} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!INDEX\_MAX@{INDEX\_MAX}}
+\index{INDEX\_MAX@{INDEX\_MAX}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{INDEX\_MAX}{INDEX\_MAX}}
+{\footnotesize\ttfamily int INDEX\+\_\+\+MAX = 9}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a251eb564ef6bb496324e7ff5775c2c66}\label{rotary__encoder__rpm__controller_8ino_a251eb564ef6bb496324e7ff5775c2c66} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!isBlinkOn@{isBlinkOn}}
+\index{isBlinkOn@{isBlinkOn}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{isBlinkOn}{isBlinkOn}}
+{\footnotesize\ttfamily bool is\+Blink\+On}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a6cb825a221b1ffc1ee63c829500a75e7}\label{rotary__encoder__rpm__controller_8ino_a6cb825a221b1ffc1ee63c829500a75e7} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!isRecording@{isRecording}}
+\index{isRecording@{isRecording}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{isRecording}{isRecording}}
+{\footnotesize\ttfamily bool is\+Recording}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a32a8f59951e313389aa335d310f8f943}\label{rotary__encoder__rpm__controller_8ino_a32a8f59951e313389aa335d310f8f943} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!isRecordingFlag@{isRecordingFlag}}
+\index{isRecordingFlag@{isRecordingFlag}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{isRecordingFlag}{isRecordingFlag}}
+{\footnotesize\ttfamily bool is\+Recording\+Flag}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a9cf88591bdbf0296fb5af856bb5886b3}\label{rotary__encoder__rpm__controller_8ino_a9cf88591bdbf0296fb5af856bb5886b3} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!isWifiConnected@{isWifiConnected}}
+\index{isWifiConnected@{isWifiConnected}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{isWifiConnected}{isWifiConnected}}
+{\footnotesize\ttfamily bool is\+Wifi\+Connected}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a1085ae81946ce841f6e712c97f456c1e}\label{rotary__encoder__rpm__controller_8ino_a1085ae81946ce841f6e712c97f456c1e} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!lastButtonPress@{lastButtonPress}}
+\index{lastButtonPress@{lastButtonPress}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{lastButtonPress}{lastButtonPress}}
+{\footnotesize\ttfamily unsigned long last\+Button\+Press = 0}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a49d3ef38230ffdd01b7af558b3ee657c}\label{rotary__encoder__rpm__controller_8ino_a49d3ef38230ffdd01b7af558b3ee657c} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!lastStateCLK@{lastStateCLK}}
+\index{lastStateCLK@{lastStateCLK}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{lastStateCLK}{lastStateCLK}}
+{\footnotesize\ttfamily int last\+State\+CLK}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a324517c757e5ab579b764264587a88db}\label{rotary__encoder__rpm__controller_8ino_a324517c757e5ab579b764264587a88db} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!lastStateCLK3@{lastStateCLK3}}
+\index{lastStateCLK3@{lastStateCLK3}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{lastStateCLK3}{lastStateCLK3}}
+{\footnotesize\ttfamily int last\+State\+CLK3}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a56c8a5eda9a66e3eae61c7c18e163d43}\label{rotary__encoder__rpm__controller_8ino_a56c8a5eda9a66e3eae61c7c18e163d43} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!melody@{melody}}
+\index{melody@{melody}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{melody}{melody}}
+{\footnotesize\ttfamily int melody\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{pitches_8h_adbed706152a3d7114327fc5af3c7e07c}{NOTE\_C4}},\ \mbox{\hyperlink{pitches_8h_a60b70b4fe537257e776eafd46d25e49b}{NOTE\_G3}},\ \mbox{\hyperlink{pitches_8h_a60b70b4fe537257e776eafd46d25e49b}{NOTE\_G3}},\ \mbox{\hyperlink{pitches_8h_a934b0ccc182054ca8da5c67c0e78a04c}{NOTE\_A3}},\ \mbox{\hyperlink{pitches_8h_a60b70b4fe537257e776eafd46d25e49b}{NOTE\_G3}},\ 0,\ \mbox{\hyperlink{pitches_8h_aa5207dfb3103215cdb89a40c1753eea8}{NOTE\_B3}},\ \mbox{\hyperlink{pitches_8h_adbed706152a3d7114327fc5af3c7e07c}{NOTE\_C4}}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a97d5229859dac354378748dd2405327d}\label{rotary__encoder__rpm__controller_8ino_a97d5229859dac354378748dd2405327d} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!noteDurations@{noteDurations}}
+\index{noteDurations@{noteDurations}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{noteDurations}{noteDurations}}
+{\footnotesize\ttfamily int note\+Durations\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ 4,\ 8,\ 8,\ 4,\ 4,\ 4,\ 4,\ 4}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a8377abe943283ac9ea19351c7d355866}\label{rotary__encoder__rpm__controller_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:rotary\+\_\+encoder\+\_\+rpm\+\_\+controller,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_aa4a2ebcb494493f648ae1e6975672575}\label{rotary__encoder__rpm__controller_8ino_aa4a2ebcb494493f648ae1e6975672575} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!password@{password}}
+\index{password@{password}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{password}{password}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} password = \"{}largeskates190\"{}}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a0025f170b33e059b6820fd9f56367ea3}\label{rotary__encoder__rpm__controller_8ino_a0025f170b33e059b6820fd9f56367ea3} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!rps@{rps}}
+\index{rps@{rps}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{rps}{rps}}
+{\footnotesize\ttfamily float rps}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_af0dc212ad81bfec2ac8c81d6230baf6b}\label{rotary__encoder__rpm__controller_8ino_af0dc212ad81bfec2ac8c81d6230baf6b} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!rpsBuffer@{rpsBuffer}}
+\index{rpsBuffer@{rpsBuffer}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{rpsBuffer}{rpsBuffer}}
+{\footnotesize\ttfamily char rps\+Buffer\mbox{[}6\mbox{]}}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_ac3b5a466147b592c5687f17e014c51fc}\label{rotary__encoder__rpm__controller_8ino_ac3b5a466147b592c5687f17e014c51fc} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!SERIAL\_BAUD\_RATE@{SERIAL\_BAUD\_RATE}}
+\index{SERIAL\_BAUD\_RATE@{SERIAL\_BAUD\_RATE}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_BAUD\_RATE}{SERIAL\_BAUD\_RATE}}
+{\footnotesize\ttfamily const int SERIAL\+\_\+\+BAUD\+\_\+\+RATE = 9600}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a5de6266575c6b4a674c83581275f596d}\label{rotary__encoder__rpm__controller_8ino_a5de6266575c6b4a674c83581275f596d} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!SERIAL\_DELAY@{SERIAL\_DELAY}}
+\index{SERIAL\_DELAY@{SERIAL\_DELAY}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_DELAY}{SERIAL\_DELAY}}
+{\footnotesize\ttfamily const int SERIAL\+\_\+\+DELAY = 10}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a4c98430873e8822795074cec742cc44e}\label{rotary__encoder__rpm__controller_8ino_a4c98430873e8822795074cec742cc44e} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!specialCounter@{specialCounter}}
+\index{specialCounter@{specialCounter}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{specialCounter}{specialCounter}}
+{\footnotesize\ttfamily int special\+Counter}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a587ba0cb07f02913598610049a3bbb79}\label{rotary__encoder__rpm__controller_8ino_a587ba0cb07f02913598610049a3bbb79} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!ssid@{ssid}}
+\index{ssid@{ssid}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{ssid}{ssid}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} ssid = \"{}NETGEAR08\"{}}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a22a8bcfa9f0309676ac74f599b2bbd39}\label{rotary__encoder__rpm__controller_8ino_a22a8bcfa9f0309676ac74f599b2bbd39} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!STEP@{STEP}}
+\index{STEP@{STEP}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{STEP}{STEP}}
+{\footnotesize\ttfamily const float STEP = 0.\+6f}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_ab402928965cbdaf6ee9c18c6bed06b5b}\label{rotary__encoder__rpm__controller_8ino_ab402928965cbdaf6ee9c18c6bed06b5b} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!STEPS@{STEPS}}
+\index{STEPS@{STEPS}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{STEPS}{STEPS}}
+{\footnotesize\ttfamily const float STEPS = 600.\+0f}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a4dfd76900db18dcb473f6e8f2e28ccc3}\label{rotary__encoder__rpm__controller_8ino_a4dfd76900db18dcb473f6e8f2e28ccc3} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!TIME\_PERIOD@{TIME\_PERIOD}}
+\index{TIME\_PERIOD@{TIME\_PERIOD}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{TIME\_PERIOD}{TIME\_PERIOD}}
+{\footnotesize\ttfamily const long TIME\+\_\+\+PERIOD = 1000}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a9535b92e3c2a299937e197d1ebb507c9}\label{rotary__encoder__rpm__controller_8ino_a9535b92e3c2a299937e197d1ebb507c9} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!timeAtStart@{timeAtStart}}
+\index{timeAtStart@{timeAtStart}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{timeAtStart}{timeAtStart}}
+{\footnotesize\ttfamily long time\+At\+Start}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a5dad3d262019e4dd872336fea903e044}\label{rotary__encoder__rpm__controller_8ino_a5dad3d262019e4dd872336fea903e044} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!timePercentage@{timePercentage}}
+\index{timePercentage@{timePercentage}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{timePercentage}{timePercentage}}
+{\footnotesize\ttfamily float time\+Percentage}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a85557394164a8cd3de43bde26fe50100}\label{rotary__encoder__rpm__controller_8ino_a85557394164a8cd3de43bde26fe50100} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!timeSinceStart@{timeSinceStart}}
+\index{timeSinceStart@{timeSinceStart}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{timeSinceStart}{timeSinceStart}}
+{\footnotesize\ttfamily long time\+Since\+Start}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a278b1b29553f02463a0398e86cc8b5da}\label{rotary__encoder__rpm__controller_8ino_a278b1b29553f02463a0398e86cc8b5da} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!totalSteps@{totalSteps}}
+\index{totalSteps@{totalSteps}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{totalSteps}{totalSteps}}
+{\footnotesize\ttfamily float total\+Steps}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a9202b79e458befe194e8a311aca93184}\label{rotary__encoder__rpm__controller_8ino_a9202b79e458befe194e8a311aca93184} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!totalStepsBuffer@{totalStepsBuffer}}
+\index{totalStepsBuffer@{totalStepsBuffer}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{totalStepsBuffer}{totalStepsBuffer}}
+{\footnotesize\ttfamily char total\+Steps\+Buffer\mbox{[}6\mbox{]}}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_aafa4e05923d1f680b56a38a00abccd63}\label{rotary__encoder__rpm__controller_8ino_aafa4e05923d1f680b56a38a00abccd63} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!udp@{udp}}
+\index{udp@{udp}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{udp}{udp}}
+{\footnotesize\ttfamily Async\+UDP udp}
+
+\Hypertarget{rotary__encoder__rpm__controller_8ino_a0385b91e40c8c560875d75b8f400c75a}\label{rotary__encoder__rpm__controller_8ino_a0385b91e40c8c560875d75b8f400c75a} 
+\index{rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}!udpBuffer@{udpBuffer}}
+\index{udpBuffer@{udpBuffer}!rotary\_encoder\_rpm\_controller.ino@{rotary\_encoder\_rpm\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{udpBuffer}{udpBuffer}}
+{\footnotesize\ttfamily char udp\+Buffer\mbox{[}40\mbox{]}}
+

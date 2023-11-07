@@ -1,0 +1,129 @@
+\doxysection{Wi\+Fi\+Access\+Point.\+ino File Reference}
+\hypertarget{_wi_fi_access_point_8ino}{}\label{_wi_fi_access_point_8ino}\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+{\ttfamily \#include $<$Wi\+Fi.\+h$>$}\newline
+{\ttfamily \#include $<$Wi\+Fi\+Client.\+h$>$}\newline
+{\ttfamily \#include $<$Wi\+Fi\+AP.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_wi_fi_access_point_8ino_a450a7c16ead7b3c7b882536b08f30a00}{LED\+\_\+\+BUILTIN}}~2
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Wi\+Fi\+Server \mbox{\hyperlink{_wi_fi_access_point_8ino_ac3e8576b10256c1b64553a64161fdb1d}{server}} (80)
+\item 
+void \mbox{\hyperlink{_wi_fi_access_point_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{_wi_fi_access_point_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{_wi_fi_access_point_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{_wi_fi_access_point_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_wi_fi_access_point_8ino_a587ba0cb07f02913598610049a3bbb79}{ssid}} = \"{}your\+AP\"{}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_wi_fi_access_point_8ino_aa4a2ebcb494493f648ae1e6975672575}{password}} = \"{}your\+Password\"{}
+\item 
+const String \mbox{\hyperlink{_wi_fi_access_point_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:\+Wi\+Fi\+Access\+Point,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{_wi_fi_access_point_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_wi_fi_access_point_8ino_a450a7c16ead7b3c7b882536b08f30a00}\label{_wi_fi_access_point_8ino_a450a7c16ead7b3c7b882536b08f30a00} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!LED\_BUILTIN@{LED\_BUILTIN}}
+\index{LED\_BUILTIN@{LED\_BUILTIN}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{LED\_BUILTIN}{LED\_BUILTIN}}
+{\footnotesize\ttfamily \#define LED\+\_\+\+BUILTIN~2}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!messages@{messages}}
+\index{messages@{messages}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!startMessage@{startMessage}}}\Hypertarget{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!resetMessage@{resetMessage}}}\Hypertarget{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{_wi_fi_access_point_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_wi_fi_access_point_8ino_afe461d27b9c48d5921c00d521181f12f}\label{_wi_fi_access_point_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!loop@{loop}}
+\index{loop@{loop}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{_wi_fi_access_point_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{_wi_fi_access_point_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!reset@{reset}}
+\index{reset@{reset}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_wi_fi_access_point_8ino_ac3e8576b10256c1b64553a64161fdb1d}\label{_wi_fi_access_point_8ino_ac3e8576b10256c1b64553a64161fdb1d} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!server@{server}}
+\index{server@{server}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{server()}{server()}}
+{\footnotesize\ttfamily Wi\+Fi\+Server server (\begin{DoxyParamCaption}\item[{80}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_wi_fi_access_point_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{_wi_fi_access_point_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!setup@{setup}}
+\index{setup@{setup}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_wi_fi_access_point_8ino_a60de64d75454385b23995437f1d72669}\label{_wi_fi_access_point_8ino_a60de64d75454385b23995437f1d72669} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!start@{start}}
+\index{start@{start}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{_wi_fi_access_point_8ino_aefabcf199f0c73d02251076be65451d4}\label{_wi_fi_access_point_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{_wi_fi_access_point_8ino_a8377abe943283ac9ea19351c7d355866}\label{_wi_fi_access_point_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:\+Wi\+Fi\+Access\+Point,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{_wi_fi_access_point_8ino_aa4a2ebcb494493f648ae1e6975672575}\label{_wi_fi_access_point_8ino_aa4a2ebcb494493f648ae1e6975672575} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!password@{password}}
+\index{password@{password}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{password}{password}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} password = \"{}your\+Password\"{}}
+
+\Hypertarget{_wi_fi_access_point_8ino_a587ba0cb07f02913598610049a3bbb79}\label{_wi_fi_access_point_8ino_a587ba0cb07f02913598610049a3bbb79} 
+\index{WiFiAccessPoint.ino@{WiFiAccessPoint.ino}!ssid@{ssid}}
+\index{ssid@{ssid}!WiFiAccessPoint.ino@{WiFiAccessPoint.ino}}
+\doxysubsubsection{\texorpdfstring{ssid}{ssid}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} ssid = \"{}your\+AP\"{}}
+

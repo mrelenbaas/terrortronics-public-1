@@ -1,0 +1,150 @@
+\doxysection{Inputer Class Reference}
+\hypertarget{class_inputer}{}\label{class_inputer}\index{Inputer@{Inputer}}
+
+
+{\ttfamily \#include $<$inputer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_inputer_a93984161663e0be4989a3adae76e9db8}{updater}} ()
+\item 
+int \mbox{\hyperlink{class_inputer_a1e5834df747f2531b3af053635120a56}{get\+\_\+analog\+\_\+counter}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{class_inputer_aa50b770563b20ca8fc9a154435fd706b}{PIN}} = 8
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_inputer_a51bd9d16b12f828ff99d4a1c857a9305}{increment}} ()
+\item 
+bool \mbox{\hyperlink{class_inputer_ae7c6505b125d1a2476adb08629e4d70b}{is\+\_\+pressed}} (int)
+\item 
+void \mbox{\hyperlink{class_inputer_a948e02d9f2153dfbf291fa03bc7083d3}{output}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{class_inputer_ac23a7519b7d243772d7c80133b9c4e0a}{ID}} = 1
+\begin{DoxyCompactList}\small\item\em Profile ID. \end{DoxyCompactList}\item 
+const String \mbox{\hyperlink{class_inputer_ac4f2380343ccded39c1bfb5df1be9799}{PRINT}} = \"{}Click\+: \"{}
+\begin{DoxyCompactList}\small\item\em Print before click count. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_inputer_a7b8c612ab127c346c48a27b3d998bd1e}{block}} = false
+\begin{DoxyCompactList}\small\item\em Blocks button input from press to release. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_inputer_a7c17928bf215d58f64813a1e51838830}{count}} = 0
+\begin{DoxyCompactList}\small\item\em Button press count. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_inputer_acfdb8035462dab3c2c5750b570f9a89b}{analog\+\_\+counter}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_inputer_a1e5834df747f2531b3af053635120a56}\label{class_inputer_a1e5834df747f2531b3af053635120a56} 
+\index{Inputer@{Inputer}!get\_analog\_counter@{get\_analog\_counter}}
+\index{get\_analog\_counter@{get\_analog\_counter}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{get\_analog\_counter()}{get\_analog\_counter()}}
+{\footnotesize\ttfamily int Inputer\+::get\+\_\+analog\+\_\+counter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_inputer_a51bd9d16b12f828ff99d4a1c857a9305}\label{class_inputer_a51bd9d16b12f828ff99d4a1c857a9305} 
+\index{Inputer@{Inputer}!increment@{increment}}
+\index{increment@{increment}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{increment()}{increment()}}
+{\footnotesize\ttfamily void Inputer\+::increment (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Increment count. \Hypertarget{class_inputer_ae7c6505b125d1a2476adb08629e4d70b}\label{class_inputer_ae7c6505b125d1a2476adb08629e4d70b} 
+\index{Inputer@{Inputer}!is\_pressed@{is\_pressed}}
+\index{is\_pressed@{is\_pressed}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{is\_pressed()}{is\_pressed()}}
+{\footnotesize\ttfamily bool Inputer\+::is\+\_\+pressed (\begin{DoxyParamCaption}\item[{int}]{pressed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Filters raw input.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pressed} & Raw input.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Filtered input. 
+\end{DoxyReturn}
+\Hypertarget{class_inputer_a948e02d9f2153dfbf291fa03bc7083d3}\label{class_inputer_a948e02d9f2153dfbf291fa03bc7083d3} 
+\index{Inputer@{Inputer}!output@{output}}
+\index{output@{output}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{output()}{output()}}
+{\footnotesize\ttfamily void Inputer\+::output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Print click count. \Hypertarget{class_inputer_a93984161663e0be4989a3adae76e9db8}\label{class_inputer_a93984161663e0be4989a3adae76e9db8} 
+\index{Inputer@{Inputer}!updater@{updater}}
+\index{updater@{updater}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{updater()}{updater()}}
+{\footnotesize\ttfamily int Inputer\+::updater (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Increment count if button is pressed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pressed} & Raw input. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_inputer_acfdb8035462dab3c2c5750b570f9a89b}\label{class_inputer_acfdb8035462dab3c2c5750b570f9a89b} 
+\index{Inputer@{Inputer}!analog\_counter@{analog\_counter}}
+\index{analog\_counter@{analog\_counter}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{analog\_counter}{analog\_counter}}
+{\footnotesize\ttfamily int Inputer\+::analog\+\_\+counter\hspace{0.3cm}{\ttfamily [private]}}
+
+\Hypertarget{class_inputer_a7b8c612ab127c346c48a27b3d998bd1e}\label{class_inputer_a7b8c612ab127c346c48a27b3d998bd1e} 
+\index{Inputer@{Inputer}!block@{block}}
+\index{block@{block}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{block}{block}}
+{\footnotesize\ttfamily bool Inputer\+::block = false\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Blocks button input from press to release. 
+
+\Hypertarget{class_inputer_a7c17928bf215d58f64813a1e51838830}\label{class_inputer_a7c17928bf215d58f64813a1e51838830} 
+\index{Inputer@{Inputer}!count@{count}}
+\index{count@{count}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{count}{count}}
+{\footnotesize\ttfamily int Inputer\+::count = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Button press count. 
+
+\Hypertarget{class_inputer_ac23a7519b7d243772d7c80133b9c4e0a}\label{class_inputer_ac23a7519b7d243772d7c80133b9c4e0a} 
+\index{Inputer@{Inputer}!ID@{ID}}
+\index{ID@{ID}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{ID}{ID}}
+{\footnotesize\ttfamily const int Inputer\+::\+ID = 1\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Profile ID. 
+
+\Hypertarget{class_inputer_aa50b770563b20ca8fc9a154435fd706b}\label{class_inputer_aa50b770563b20ca8fc9a154435fd706b} 
+\index{Inputer@{Inputer}!PIN@{PIN}}
+\index{PIN@{PIN}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{PIN}{PIN}}
+{\footnotesize\ttfamily const int Inputer\+::\+PIN = 8}
+
+\Hypertarget{class_inputer_ac4f2380343ccded39c1bfb5df1be9799}\label{class_inputer_ac4f2380343ccded39c1bfb5df1be9799} 
+\index{Inputer@{Inputer}!PRINT@{PRINT}}
+\index{PRINT@{PRINT}!Inputer@{Inputer}}
+\doxysubsubsection{\texorpdfstring{PRINT}{PRINT}}
+{\footnotesize\ttfamily const String Inputer\+::\+PRINT = \"{}Click\+: \"{}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Print before click count. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{inputer_8h}{inputer.\+h}}\end{DoxyCompactItemize}

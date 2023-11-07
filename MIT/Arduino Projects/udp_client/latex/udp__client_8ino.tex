@@ -1,0 +1,114 @@
+\doxysection{udp\+\_\+client.\+ino File Reference}
+\hypertarget{udp__client_8ino}{}\label{udp__client_8ino}\index{udp\_client.ino@{udp\_client.ino}}
+{\ttfamily \#include \"{}Wi\+Fi.\+h\"{}}\newline
+{\ttfamily \#include \"{}Async\+UDP.\+h\"{}}\newline
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{udp__client_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{udp__client_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{udp__client_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{udp__client_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{udp__client_8ino_a587ba0cb07f02913598610049a3bbb79}{ssid}} = \"{}YOUR WIFI NAME\"{}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{udp__client_8ino_aa4a2ebcb494493f648ae1e6975672575}{password}} = \"{}YOUR WIFI PASSWORD\"{}
+\item 
+Async\+UDP \mbox{\hyperlink{udp__client_8ino_aafa4e05923d1f680b56a38a00abccd63}{udp}}
+\item 
+const String \mbox{\hyperlink{udp__client_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:\+Async\+UDPClient,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{udp__client_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{udp\_client.ino@{udp\_client.ino}!messages@{messages}}
+\index{messages@{messages}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!udp\_client.ino@{udp\_client.ino}}\index{udp\_client.ino@{udp\_client.ino}!startMessage@{startMessage}}}\Hypertarget{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!udp\_client.ino@{udp\_client.ino}}\index{udp\_client.ino@{udp\_client.ino}!resetMessage@{resetMessage}}}\Hypertarget{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{udp__client_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{udp__client_8ino_afe461d27b9c48d5921c00d521181f12f}\label{udp__client_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{udp\_client.ino@{udp\_client.ino}!loop@{loop}}
+\index{loop@{loop}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{udp__client_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{udp__client_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{udp\_client.ino@{udp\_client.ino}!reset@{reset}}
+\index{reset@{reset}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{udp__client_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{udp__client_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{udp\_client.ino@{udp\_client.ino}!setup@{setup}}
+\index{setup@{setup}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{udp__client_8ino_a60de64d75454385b23995437f1d72669}\label{udp__client_8ino_a60de64d75454385b23995437f1d72669} 
+\index{udp\_client.ino@{udp\_client.ino}!start@{start}}
+\index{start@{start}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{udp__client_8ino_aefabcf199f0c73d02251076be65451d4}\label{udp__client_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{udp\_client.ino@{udp\_client.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{udp__client_8ino_a8377abe943283ac9ea19351c7d355866}\label{udp__client_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{udp\_client.ino@{udp\_client.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:\+Async\+UDPClient,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{udp__client_8ino_aa4a2ebcb494493f648ae1e6975672575}\label{udp__client_8ino_aa4a2ebcb494493f648ae1e6975672575} 
+\index{udp\_client.ino@{udp\_client.ino}!password@{password}}
+\index{password@{password}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{password}{password}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} password = \"{}YOUR WIFI PASSWORD\"{}}
+
+\Hypertarget{udp__client_8ino_a587ba0cb07f02913598610049a3bbb79}\label{udp__client_8ino_a587ba0cb07f02913598610049a3bbb79} 
+\index{udp\_client.ino@{udp\_client.ino}!ssid@{ssid}}
+\index{ssid@{ssid}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{ssid}{ssid}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} ssid = \"{}YOUR WIFI NAME\"{}}
+
+\Hypertarget{udp__client_8ino_aafa4e05923d1f680b56a38a00abccd63}\label{udp__client_8ino_aafa4e05923d1f680b56a38a00abccd63} 
+\index{udp\_client.ino@{udp\_client.ino}!udp@{udp}}
+\index{udp@{udp}!udp\_client.ino@{udp\_client.ino}}
+\doxysubsubsection{\texorpdfstring{udp}{udp}}
+{\footnotesize\ttfamily Async\+UDP udp}
+

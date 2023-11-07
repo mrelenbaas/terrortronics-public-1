@@ -1,0 +1,226 @@
+\doxysection{Async\+UDPServer.\+ino File Reference}
+\hypertarget{_async_u_d_p_server_8ino}{}\label{_async_u_d_p_server_8ino}\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+{\ttfamily \#include \"{}Wi\+Fi.\+h\"{}}\newline
+{\ttfamily \#include \"{}Async\+UDP.\+h\"{}}\newline
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+IPAddress \mbox{\hyperlink{_async_u_d_p_server_8ino_a22f3a5d43917b473fcd4062356e41a8f}{dn\+Server}} (192, 168, 4, 1)
+\item 
+IPAddress \mbox{\hyperlink{_async_u_d_p_server_8ino_a315c572e404e2e6d7a2c8e456f938715}{gateway}} (192, 168, 0, 1)
+\item 
+IPAddress \mbox{\hyperlink{_async_u_d_p_server_8ino_a89cf134ada28d8ce0192d9fcbc83614a}{subnet}} (255, 255, 255, 0)
+\item 
+IPAddress \mbox{\hyperlink{_async_u_d_p_server_8ino_a360d296af6f9f297d1a5304edd9eda24}{ip}} (192, 168, 4, 50)
+\item 
+void \mbox{\hyperlink{_async_u_d_p_server_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{_async_u_d_p_server_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{_async_u_d_p_server_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{_async_u_d_p_server_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_async_u_d_p_server_8ino_a587ba0cb07f02913598610049a3bbb79}{ssid}} = \"{}NETGEAR08\"{}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_async_u_d_p_server_8ino_aa4a2ebcb494493f648ae1e6975672575}{password}} = \"{}largeskates190\"{}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_async_u_d_p_server_8ino_a0cbc726580c43a70cbdb6f4a6deee613}{one}} = \"{}1\"{}
+\item 
+char \mbox{\hyperlink{_async_u_d_p_server_8ino_a2c2a537deeed75f6be6cef8ca7375c3e}{my\+Char}} \mbox{[}2\mbox{]} = \{\textquotesingle{}1\textquotesingle{}, \textquotesingle{}\textbackslash{}0\textquotesingle{}\}
+\item 
+bool \mbox{\hyperlink{_async_u_d_p_server_8ino_ad0b0d7d41961f351639ea46a96ad23da}{is\+\_\+light\+\_\+on}} = false
+\item 
+int \mbox{\hyperlink{_async_u_d_p_server_8ino_a17fa7c4f36f8151dac74689c5acc65d7}{pin1}} = 12
+\item 
+int \mbox{\hyperlink{_async_u_d_p_server_8ino_a42b6bc80268fe9212f7856451447ae8e}{pin2}} = 21
+\item 
+int \mbox{\hyperlink{_async_u_d_p_server_8ino_a87870425d8fa0d58bd5006220b59f6c9}{pin3}} = 22
+\item 
+int \mbox{\hyperlink{_async_u_d_p_server_8ino_a00e940240ec4827cf3350eb81f7e7bde}{pin4}} = 13
+\item 
+Async\+UDP \mbox{\hyperlink{_async_u_d_p_server_8ino_aafa4e05923d1f680b56a38a00abccd63}{udp}}
+\item 
+ip\+\_\+addr\+\_\+t \mbox{\hyperlink{_async_u_d_p_server_8ino_aa52a464dc119062fdc3f272a46b2c584}{my\+\_\+ip\+\_\+address}}
+\item 
+byte \mbox{\hyperlink{_async_u_d_p_server_8ino_aea3f7775fecafb66a619eb2dcb0357bd}{mac}} \mbox{[}$\,$\mbox{]} = \{ 0x\+DE, 0x\+AD, 0x\+BE, 0x\+EF, 0x\+FE, 0x\+ED \}
+\item 
+bool \mbox{\hyperlink{_async_u_d_p_server_8ino_aa4ed469ee7317a7608ec965bcee6f05b}{is\+Toggle}} = false
+\item 
+const String \mbox{\hyperlink{_async_u_d_p_server_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:\+Async\+UDPServer,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{_async_u_d_p_server_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!messages@{messages}}
+\index{messages@{messages}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!startMessage@{startMessage}}}\Hypertarget{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!resetMessage@{resetMessage}}}\Hypertarget{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{_async_u_d_p_server_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_async_u_d_p_server_8ino_a22f3a5d43917b473fcd4062356e41a8f}\label{_async_u_d_p_server_8ino_a22f3a5d43917b473fcd4062356e41a8f} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!dnServer@{dnServer}}
+\index{dnServer@{dnServer}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{dnServer()}{dnServer()}}
+{\footnotesize\ttfamily IPAddress dn\+Server (\begin{DoxyParamCaption}\item[{192}]{,  }\item[{168}]{,  }\item[{4}]{,  }\item[{1}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_async_u_d_p_server_8ino_a315c572e404e2e6d7a2c8e456f938715}\label{_async_u_d_p_server_8ino_a315c572e404e2e6d7a2c8e456f938715} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!gateway@{gateway}}
+\index{gateway@{gateway}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{gateway()}{gateway()}}
+{\footnotesize\ttfamily IPAddress gateway (\begin{DoxyParamCaption}\item[{192}]{,  }\item[{168}]{,  }\item[{0}]{,  }\item[{1}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_async_u_d_p_server_8ino_a360d296af6f9f297d1a5304edd9eda24}\label{_async_u_d_p_server_8ino_a360d296af6f9f297d1a5304edd9eda24} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!ip@{ip}}
+\index{ip@{ip}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{ip()}{ip()}}
+{\footnotesize\ttfamily IPAddress ip (\begin{DoxyParamCaption}\item[{192}]{,  }\item[{168}]{,  }\item[{4}]{,  }\item[{50}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_async_u_d_p_server_8ino_afe461d27b9c48d5921c00d521181f12f}\label{_async_u_d_p_server_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!loop@{loop}}
+\index{loop@{loop}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{_async_u_d_p_server_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{_async_u_d_p_server_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!reset@{reset}}
+\index{reset@{reset}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_async_u_d_p_server_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{_async_u_d_p_server_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!setup@{setup}}
+\index{setup@{setup}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_async_u_d_p_server_8ino_a60de64d75454385b23995437f1d72669}\label{_async_u_d_p_server_8ino_a60de64d75454385b23995437f1d72669} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!start@{start}}
+\index{start@{start}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{_async_u_d_p_server_8ino_a89cf134ada28d8ce0192d9fcbc83614a}\label{_async_u_d_p_server_8ino_a89cf134ada28d8ce0192d9fcbc83614a} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!subnet@{subnet}}
+\index{subnet@{subnet}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{subnet()}{subnet()}}
+{\footnotesize\ttfamily IPAddress subnet (\begin{DoxyParamCaption}\item[{255}]{,  }\item[{255}]{,  }\item[{255}]{,  }\item[{0}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{_async_u_d_p_server_8ino_aefabcf199f0c73d02251076be65451d4}\label{_async_u_d_p_server_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{_async_u_d_p_server_8ino_ad0b0d7d41961f351639ea46a96ad23da}\label{_async_u_d_p_server_8ino_ad0b0d7d41961f351639ea46a96ad23da} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!is\_light\_on@{is\_light\_on}}
+\index{is\_light\_on@{is\_light\_on}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{is\_light\_on}{is\_light\_on}}
+{\footnotesize\ttfamily bool is\+\_\+light\+\_\+on = false}
+
+\Hypertarget{_async_u_d_p_server_8ino_aa4ed469ee7317a7608ec965bcee6f05b}\label{_async_u_d_p_server_8ino_aa4ed469ee7317a7608ec965bcee6f05b} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!isToggle@{isToggle}}
+\index{isToggle@{isToggle}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{isToggle}{isToggle}}
+{\footnotesize\ttfamily bool is\+Toggle = false}
+
+\Hypertarget{_async_u_d_p_server_8ino_aea3f7775fecafb66a619eb2dcb0357bd}\label{_async_u_d_p_server_8ino_aea3f7775fecafb66a619eb2dcb0357bd} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!mac@{mac}}
+\index{mac@{mac}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{mac}{mac}}
+{\footnotesize\ttfamily byte mac\mbox{[}$\,$\mbox{]} = \{ 0x\+DE, 0x\+AD, 0x\+BE, 0x\+EF, 0x\+FE, 0x\+ED \}}
+
+\Hypertarget{_async_u_d_p_server_8ino_aa52a464dc119062fdc3f272a46b2c584}\label{_async_u_d_p_server_8ino_aa52a464dc119062fdc3f272a46b2c584} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!my\_ip\_address@{my\_ip\_address}}
+\index{my\_ip\_address@{my\_ip\_address}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{my\_ip\_address}{my\_ip\_address}}
+{\footnotesize\ttfamily ip\+\_\+addr\+\_\+t my\+\_\+ip\+\_\+address}
+
+\Hypertarget{_async_u_d_p_server_8ino_a2c2a537deeed75f6be6cef8ca7375c3e}\label{_async_u_d_p_server_8ino_a2c2a537deeed75f6be6cef8ca7375c3e} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!myChar@{myChar}}
+\index{myChar@{myChar}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{myChar}{myChar}}
+{\footnotesize\ttfamily char my\+Char\mbox{[}2\mbox{]} = \{\textquotesingle{}1\textquotesingle{}, \textquotesingle{}\textbackslash{}0\textquotesingle{}\}}
+
+\Hypertarget{_async_u_d_p_server_8ino_a0cbc726580c43a70cbdb6f4a6deee613}\label{_async_u_d_p_server_8ino_a0cbc726580c43a70cbdb6f4a6deee613} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!one@{one}}
+\index{one@{one}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{one}{one}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} one = \"{}1\"{}}
+
+\Hypertarget{_async_u_d_p_server_8ino_a8377abe943283ac9ea19351c7d355866}\label{_async_u_d_p_server_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:\+Async\+UDPServer,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{_async_u_d_p_server_8ino_aa4a2ebcb494493f648ae1e6975672575}\label{_async_u_d_p_server_8ino_aa4a2ebcb494493f648ae1e6975672575} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!password@{password}}
+\index{password@{password}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{password}{password}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} password = \"{}largeskates190\"{}}
+
+\Hypertarget{_async_u_d_p_server_8ino_a17fa7c4f36f8151dac74689c5acc65d7}\label{_async_u_d_p_server_8ino_a17fa7c4f36f8151dac74689c5acc65d7} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!pin1@{pin1}}
+\index{pin1@{pin1}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{pin1}{pin1}}
+{\footnotesize\ttfamily int pin1 = 12}
+
+\Hypertarget{_async_u_d_p_server_8ino_a42b6bc80268fe9212f7856451447ae8e}\label{_async_u_d_p_server_8ino_a42b6bc80268fe9212f7856451447ae8e} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!pin2@{pin2}}
+\index{pin2@{pin2}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{pin2}{pin2}}
+{\footnotesize\ttfamily int pin2 = 21}
+
+\Hypertarget{_async_u_d_p_server_8ino_a87870425d8fa0d58bd5006220b59f6c9}\label{_async_u_d_p_server_8ino_a87870425d8fa0d58bd5006220b59f6c9} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!pin3@{pin3}}
+\index{pin3@{pin3}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{pin3}{pin3}}
+{\footnotesize\ttfamily int pin3 = 22}
+
+\Hypertarget{_async_u_d_p_server_8ino_a00e940240ec4827cf3350eb81f7e7bde}\label{_async_u_d_p_server_8ino_a00e940240ec4827cf3350eb81f7e7bde} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!pin4@{pin4}}
+\index{pin4@{pin4}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{pin4}{pin4}}
+{\footnotesize\ttfamily int pin4 = 13}
+
+\Hypertarget{_async_u_d_p_server_8ino_a587ba0cb07f02913598610049a3bbb79}\label{_async_u_d_p_server_8ino_a587ba0cb07f02913598610049a3bbb79} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!ssid@{ssid}}
+\index{ssid@{ssid}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{ssid}{ssid}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} ssid = \"{}NETGEAR08\"{}}
+
+\Hypertarget{_async_u_d_p_server_8ino_aafa4e05923d1f680b56a38a00abccd63}\label{_async_u_d_p_server_8ino_aafa4e05923d1f680b56a38a00abccd63} 
+\index{AsyncUDPServer.ino@{AsyncUDPServer.ino}!udp@{udp}}
+\index{udp@{udp}!AsyncUDPServer.ino@{AsyncUDPServer.ino}}
+\doxysubsubsection{\texorpdfstring{udp}{udp}}
+{\footnotesize\ttfamily Async\+UDP udp}
+

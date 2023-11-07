@@ -1,0 +1,152 @@
+\doxysection{game\+\_\+pad\+\_\+controller.\+ino File Reference}
+\hypertarget{game__pad__controller_8ino}{}\label{game__pad__controller_8ino}\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}} \{ \mbox{\hyperlink{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}{start\+Message}} = 48
+, \mbox{\hyperlink{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}{reset\+Message}} = 49
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{game__pad__controller_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\item 
+void \mbox{\hyperlink{game__pad__controller_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\item 
+void \mbox{\hyperlink{game__pad__controller_8ino_ad20897c5c8bd47f5d4005989bead0e55}{reset}} ()
+\item 
+void \mbox{\hyperlink{game__pad__controller_8ino_a60de64d75454385b23995437f1d72669}{start}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{game__pad__controller_8ino_ac3b5a466147b592c5687f17e014c51fc}{SERIAL\+\_\+\+BAUD\+\_\+\+RATE}} = 9600
+\item 
+const int \mbox{\hyperlink{game__pad__controller_8ino_a5de6266575c6b4a674c83581275f596d}{SERIAL\+\_\+\+DELAY}} = 10
+\item 
+const int \mbox{\hyperlink{game__pad__controller_8ino_ab65e2c7c283bb9fb60a501405983fad2}{HORIZONTAL}} = A0
+\item 
+const int \mbox{\hyperlink{game__pad__controller_8ino_a0857512388217e04313f46efefa5cbc8}{VERTICAL}} = A1
+\item 
+const int \mbox{\hyperlink{game__pad__controller_8ino_ac036cb421b46ae029b35235b4e462888}{BUTTON}} = 2
+\item 
+int \mbox{\hyperlink{game__pad__controller_8ino_a6b3d0e5c9df9c6c4e11640c94443c3ba}{horizontal}}
+\item 
+int \mbox{\hyperlink{game__pad__controller_8ino_af596687c27a48ef487a4d38f76019d2c}{vertical}}
+\item 
+int \mbox{\hyperlink{game__pad__controller_8ino_a3f1d7c7ce1dbabebcc4bcaee4404f201}{button}}
+\item 
+const String \mbox{\hyperlink{game__pad__controller_8ino_a8377abe943283ac9ea19351c7d355866}{OUTGOING\+\_\+\+START}} = \"{}type\+:config,filename\+:game\+\_\+pad\+\_\+controller,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}
+\item 
+int \mbox{\hyperlink{game__pad__controller_8ino_aefabcf199f0c73d02251076be65451d4}{incoming\+Message}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5}\label{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!messages@{messages}}
+\index{messages@{messages}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5}{messages}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{startMessage@{startMessage}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!startMessage@{startMessage}}}\Hypertarget{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6}\label{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a0ee04573425e6f908f21f5de539da7d6} 
+start\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{resetMessage@{resetMessage}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!resetMessage@{resetMessage}}}\Hypertarget{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f}\label{game__pad__controller_8ino_a7048605d09bb21159ccaab63402dc4e5a5de5667ec04fdfc88fc1666cc1a6e41f} 
+reset\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{game__pad__controller_8ino_afe461d27b9c48d5921c00d521181f12f}\label{game__pad__controller_8ino_afe461d27b9c48d5921c00d521181f12f} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!loop@{loop}}
+\index{loop@{loop}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The main function. \Hypertarget{game__pad__controller_8ino_ad20897c5c8bd47f5d4005989bead0e55}\label{game__pad__controller_8ino_ad20897c5c8bd47f5d4005989bead0e55} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!reset@{reset}}
+\index{reset@{reset}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{game__pad__controller_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{game__pad__controller_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!setup@{setup}}
+\index{setup@{setup}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{game__pad__controller_8ino_a60de64d75454385b23995437f1d72669}\label{game__pad__controller_8ino_a60de64d75454385b23995437f1d72669} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!start@{start}}
+\index{start@{start}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{game__pad__controller_8ino_ac036cb421b46ae029b35235b4e462888}\label{game__pad__controller_8ino_ac036cb421b46ae029b35235b4e462888} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!BUTTON@{BUTTON}}
+\index{BUTTON@{BUTTON}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{BUTTON}{BUTTON}}
+{\footnotesize\ttfamily const int BUTTON = 2}
+
+\Hypertarget{game__pad__controller_8ino_a3f1d7c7ce1dbabebcc4bcaee4404f201}\label{game__pad__controller_8ino_a3f1d7c7ce1dbabebcc4bcaee4404f201} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!button@{button}}
+\index{button@{button}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{button}{button}}
+{\footnotesize\ttfamily int button}
+
+\Hypertarget{game__pad__controller_8ino_ab65e2c7c283bb9fb60a501405983fad2}\label{game__pad__controller_8ino_ab65e2c7c283bb9fb60a501405983fad2} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!HORIZONTAL@{HORIZONTAL}}
+\index{HORIZONTAL@{HORIZONTAL}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{HORIZONTAL}{HORIZONTAL}}
+{\footnotesize\ttfamily const int HORIZONTAL = A0}
+
+\Hypertarget{game__pad__controller_8ino_a6b3d0e5c9df9c6c4e11640c94443c3ba}\label{game__pad__controller_8ino_a6b3d0e5c9df9c6c4e11640c94443c3ba} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!horizontal@{horizontal}}
+\index{horizontal@{horizontal}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{horizontal}{horizontal}}
+{\footnotesize\ttfamily int horizontal}
+
+\Hypertarget{game__pad__controller_8ino_aefabcf199f0c73d02251076be65451d4}\label{game__pad__controller_8ino_aefabcf199f0c73d02251076be65451d4} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!incomingMessage@{incomingMessage}}
+\index{incomingMessage@{incomingMessage}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{incomingMessage}{incomingMessage}}
+{\footnotesize\ttfamily int incoming\+Message}
+
+\Hypertarget{game__pad__controller_8ino_a8377abe943283ac9ea19351c7d355866}\label{game__pad__controller_8ino_a8377abe943283ac9ea19351c7d355866} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!OUTGOING\_START@{OUTGOING\_START}}
+\index{OUTGOING\_START@{OUTGOING\_START}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{OUTGOING\_START}{OUTGOING\_START}}
+{\footnotesize\ttfamily const String OUTGOING\+\_\+\+START = \"{}type\+:config,filename\+:game\+\_\+pad\+\_\+controller,function\+:reset,delimiters\+: cm0; cm1; cm2; cm3; cm4;\textbackslash{}n\"{}}
+
+\Hypertarget{game__pad__controller_8ino_ac3b5a466147b592c5687f17e014c51fc}\label{game__pad__controller_8ino_ac3b5a466147b592c5687f17e014c51fc} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!SERIAL\_BAUD\_RATE@{SERIAL\_BAUD\_RATE}}
+\index{SERIAL\_BAUD\_RATE@{SERIAL\_BAUD\_RATE}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_BAUD\_RATE}{SERIAL\_BAUD\_RATE}}
+{\footnotesize\ttfamily const int SERIAL\+\_\+\+BAUD\+\_\+\+RATE = 9600}
+
+\Hypertarget{game__pad__controller_8ino_a5de6266575c6b4a674c83581275f596d}\label{game__pad__controller_8ino_a5de6266575c6b4a674c83581275f596d} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!SERIAL\_DELAY@{SERIAL\_DELAY}}
+\index{SERIAL\_DELAY@{SERIAL\_DELAY}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{SERIAL\_DELAY}{SERIAL\_DELAY}}
+{\footnotesize\ttfamily const int SERIAL\+\_\+\+DELAY = 10}
+
+\Hypertarget{game__pad__controller_8ino_a0857512388217e04313f46efefa5cbc8}\label{game__pad__controller_8ino_a0857512388217e04313f46efefa5cbc8} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!VERTICAL@{VERTICAL}}
+\index{VERTICAL@{VERTICAL}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{VERTICAL}{VERTICAL}}
+{\footnotesize\ttfamily const int VERTICAL = A1}
+
+\Hypertarget{game__pad__controller_8ino_af596687c27a48ef487a4d38f76019d2c}\label{game__pad__controller_8ino_af596687c27a48ef487a4d38f76019d2c} 
+\index{game\_pad\_controller.ino@{game\_pad\_controller.ino}!vertical@{vertical}}
+\index{vertical@{vertical}!game\_pad\_controller.ino@{game\_pad\_controller.ino}}
+\doxysubsubsection{\texorpdfstring{vertical}{vertical}}
+{\footnotesize\ttfamily int vertical}
+

@@ -1,0 +1,73 @@
+\doxysection{inputer.\+h}
+\hypertarget{inputer_8h_source}{}\label{inputer_8h_source}\mbox{\hyperlink{inputer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ 1st-\/party\ libraries.}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_inputer}{Inputer}}\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \textcolor{comment}{//\ Constants.}}
+\DoxyCodeLine{00019\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inputer_aa50b770563b20ca8fc9a154435fd706b}{PIN}}\ =\ 8;}
+\DoxyCodeLine{00020\ \ \ \textcolor{comment}{//\ Functions.}}
+\DoxyCodeLine{00021\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inputer_a93984161663e0be4989a3adae76e9db8}{updater}}();}
+\DoxyCodeLine{00022\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inputer_a1e5834df747f2531b3af053635120a56}{get\_analog\_counter}}();}
+\DoxyCodeLine{00023\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00024\ \ \ \textcolor{comment}{//\ Constants.}}
+\DoxyCodeLine{00025\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inputer_ac23a7519b7d243772d7c80133b9c4e0a}{ID}}\ =\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00026\ \ \ \textcolor{keyword}{const}\ String\ \mbox{\hyperlink{class_inputer_ac4f2380343ccded39c1bfb5df1be9799}{PRINT}}\ =\ \textcolor{stringliteral}{"{}Click:\ "{}};\ }
+\DoxyCodeLine{00027\ \ \ \textcolor{comment}{//\ Variables.}}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inputer_a7b8c612ab127c346c48a27b3d998bd1e}{block}}\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inputer_a7c17928bf215d58f64813a1e51838830}{count}}\ =\ 0;\ \ \ \ \ \ }
+\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inputer_acfdb8035462dab3c2c5750b570f9a89b}{analog\_counter}};}
+\DoxyCodeLine{00031\ \ \ \textcolor{comment}{//\ Functions.}}
+\DoxyCodeLine{00032\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inputer_a51bd9d16b12f828ff99d4a1c857a9305}{increment}}();}
+\DoxyCodeLine{00033\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inputer_ae7c6505b125d1a2476adb08629e4d70b}{is\_pressed}}(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inputer_a948e02d9f2153dfbf291fa03bc7083d3}{output}}();}
+\DoxyCodeLine{00035\ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inputer_a1e5834df747f2531b3af053635120a56}{Inputer::get\_analog\_counter}}()\ \{}
+\DoxyCodeLine{00038\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_inputer_acfdb8035462dab3c2c5750b570f9a89b}{analog\_counter}};}
+\DoxyCodeLine{00039\ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inputer_a51bd9d16b12f828ff99d4a1c857a9305}{Inputer::increment}}()\ \{}
+\DoxyCodeLine{00045\ \ \ ++\mbox{\hyperlink{class_inputer_a7c17928bf215d58f64813a1e51838830}{count}};}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inputer_ae7c6505b125d1a2476adb08629e4d70b}{Inputer::is\_pressed}}(\textcolor{keywordtype}{int}\ pressed)\ \{}
+\DoxyCodeLine{00056\ \ \ \textcolor{keywordtype}{bool}\ result\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00057\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{class_inputer_a7b8c612ab127c346c48a27b3d998bd1e}{block}}\ \&\&\ pressed)\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{class_inputer_a7b8c612ab127c346c48a27b3d998bd1e}{block}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00060\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{class_inputer_a7b8c612ab127c346c48a27b3d998bd1e}{block}}\ \&\&\ !pressed)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{class_inputer_a7b8c612ab127c346c48a27b3d998bd1e}{block}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00062\ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00064\ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00069\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inputer_a948e02d9f2153dfbf291fa03bc7083d3}{Inputer::output}}()\ \{}
+\DoxyCodeLine{00070\ \ \ Serial.print(\mbox{\hyperlink{class_inputer_ac4f2380343ccded39c1bfb5df1be9799}{PRINT}});}
+\DoxyCodeLine{00071\ \ \ Serial.println(\mbox{\hyperlink{class_inputer_a7c17928bf215d58f64813a1e51838830}{count}});}
+\DoxyCodeLine{00072\ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inputer_a93984161663e0be4989a3adae76e9db8}{Inputer::updater}}()\ \{}
+\DoxyCodeLine{00080\ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{class_inputer_a7c17928bf215d58f64813a1e51838830}{count}}\ >\ 0)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ -\/-\/\mbox{\hyperlink{class_inputer_a7c17928bf215d58f64813a1e51838830}{count}};}
+\DoxyCodeLine{00082\ \ \ \}}
+\DoxyCodeLine{00083\ \ \ \textcolor{keywordtype}{int}\ pressed\ =\ digitalRead(\mbox{\hyperlink{class_inputer_aa50b770563b20ca8fc9a154435fd706b}{PIN}});}
+\DoxyCodeLine{00084\ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{class_inputer_ae7c6505b125d1a2476adb08629e4d70b}{is\_pressed}}(pressed))\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{class_inputer_a51bd9d16b12f828ff99d4a1c857a9305}{increment}}();}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{class_inputer_a948e02d9f2153dfbf291fa03bc7083d3}{output}}();}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{comment}{//\ added\ this}}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{class_inputer_acfdb8035462dab3c2c5750b570f9a89b}{analog\_counter}}++;}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{comment}{//analog\_counter\ +=\ 5;}}
+\DoxyCodeLine{00090\ \ \ \ \ Serial.print(\textcolor{stringliteral}{"{}ANALOG\_COUNTER:\ "{}});}
+\DoxyCodeLine{00091\ \ \ \ \ Serial.println(\mbox{\hyperlink{class_inputer_acfdb8035462dab3c2c5750b570f9a89b}{analog\_counter}});}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_inputer_acfdb8035462dab3c2c5750b570f9a89b}{analog\_counter}}\ >=\ 20)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \mbox{\hyperlink{class_inputer_acfdb8035462dab3c2c5750b570f9a89b}{analog\_counter}}\ =\ 0;}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_inputer_a7c17928bf215d58f64813a1e51838830}{count}};}
+\DoxyCodeLine{00097\ \}}
+
+\end{DoxyCode}
