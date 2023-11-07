@@ -13,12 +13,12 @@
 */
 
 /**
-   @file ap.ino
+   @file rotary_encoder_rpm_controller.ino
 
-   @mainpage ap
+   @mainpage rotary_encoder_rpm_controller
 
    @section author Attribution
-   - Title: AP file.
+   - Title: Rotary Encoder RPM Controller file.
    - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
    - Date: November 6, 2023.
