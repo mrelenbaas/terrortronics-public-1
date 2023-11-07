@@ -9,7 +9,7 @@
 
    License:
    This file is owned by Terrortronics / Bradley Elenbaas.
-   This file observes the Arduino License.
+   This file observes the MIT License.
 */
 
 /**
@@ -57,7 +57,6 @@
    - https://learn.adafruit.com/adafruit-feather-huzzah-esp8266/using-arduino-ide?gclid=CjwKCAjwh4ObBhAzEiwAHzZYU9fWXPNZrw8oHU1V8xxeILSFGz1O_08SyU8i6gU0pNtaYeBZTgg0exoCMEQQAvD_BwE
    - https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads
    - https://arduinogetstarted.com/faq/how-to-reset-arduino-by-programming
-
 
    @section warnings WARNINGS
    - DO NO USE THIS EXAMPLE (https://reference.arduino.cc/reference/en/language/functions/communication/serial/readstring/) (Reason #1): The readString function may cause memory leaks.
