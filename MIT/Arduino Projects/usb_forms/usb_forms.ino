@@ -12,6 +12,14 @@
    This file observes the Arduino License.
 */
 
+////////////////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The serial baud rate.
+*/
+const int BAUD_RATE = 9600;
+
 const int LedPin = 2;  
 int ledState = 0;  
 
@@ -29,7 +37,7 @@ void setup()
   digitalWrite(LedPin, HIGH);
   delay(1000);
     
-  Serial.begin(9600);    
+  Serial.begin(BAUD_RATE);    
 }  
 
 /**

@@ -34,7 +34,7 @@
 /**
    Baud rate (pair with PC).
 */
-const int SERIAL_BAUD_RATE = 9600;
+const int BAUD_RATE = 9600;
 /**
    Delay that occurs near the end of each loop.
 */
@@ -130,7 +130,7 @@ int incomingMessage;
 */
 void setup() {
   Keyboard.begin();
-  Serial.begin(SERIAL_BAUD_RATE);
+  Serial.begin(BAUD_RATE);
   Serial.flush();
   pinMode(PIN_LIGHT_READY, OUTPUT);
   pinMode(PIN_START, INPUT_PULLUP);

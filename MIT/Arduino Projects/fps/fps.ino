@@ -12,6 +12,14 @@
    This file observes the Arduino License.
 */
 
+////////////////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The serial baud rate.
+*/
+const int BAUD_RATE = 9600;
+
 const long PERIOD = 1000;
 long timePrevious;
 long timeCurrent;
@@ -29,7 +37,7 @@ const String OUTGOING_START = "type:config,filename:fps,function:reset,delimiter
 int incomingMessage;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(BAUD_RATE);
   timeCurrent = millis();
   timePrevious = timeCurrent;
   timeCurrent = millis();
