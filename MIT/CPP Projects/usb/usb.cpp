@@ -202,7 +202,7 @@ int _tmain(int argc, _TCHAR* argv[])
   
   char device[] = {'\\', '\\', '.', '\\', 'C', 'O', 'M', '\0', '\0', '\0', '\0'};
   Serial* SP;
-  for(int i = 0; i < 256; ++i)
+  for(int i = 2; i < 256; ++i)
   {
     if (i < 10)
     {

@@ -782,3 +782,7 @@ MIT/PycharmProjects/*/.idea/caches/build_file_checksums.ser
 *.mp4
 /LGPL with Linking Exception/usb/usb/target/
 /LGPL with Linking Exception/usb/target/
+**/html/*
+**/latex/*
+**/Docs HTML/*
+**/Docs Latex/*
