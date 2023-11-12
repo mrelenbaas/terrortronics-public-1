@@ -17,25 +17,25 @@ import matplotlib.pyplot as plt
 is_omen_included = False
 is_kiosk_included = False
 
-x5 = [0, 1, 2, 3]
-y5 = [155790, 155790, 147, 147]
-plt.plot(x5, y5, label="Arduino Uno")
+x5 = [0, 1]
+y5 = [15287507, 15287507]
+plt.plot(x5, y5, label="C++")
 
-x6 = [0, 1, 2, 3]
-y6 = [329025, 329025, 6230, 6230]
-plt.plot(x6, y6, label="Arduino Due")
+x6 = [0, 1]
+y6 = [0, 0]
+plt.plot(x6, y6, label="-")
 
-x7 = [0, 1, 2, 3]
-y7 = [154992, 154992, 150, 150]
-plt.plot(x7, y7, label="Arduino Micro")
+x7 = [0, 1]
+y7 = [0, 0]
+plt.plot(x7, y7, label="-")
 
-x8 = [0, 1, 2, 3]
-y8 = [155790, 155790, 59, 59]
-plt.plot(x8, y8, label="Arduino Nano")
+x8 = [0, 1]
+y8 = [0, 0]
+plt.plot(x8, y8, label="-")
 
-x9 = [0, 1, 2, 3]
-y9 = [203313, 203313, 11841, 373]
-plt.plot(x9, y9, label="Teensy LC")
+x9 = [0, 1]
+y9 = [0, 0]
+plt.plot(x9, y9, label="-")
 
 if is_kiosk_included:
     x3 = [0, 1, 2, 3]

@@ -1,4 +1,4 @@
-*
+/*
  * Title: usb file.
  * Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
  * Version: 2
@@ -60,21 +60,29 @@
    - empty
 */
 
-#ifndef SERIALCLASS_H_INCLUDED
-#define SERIALCLASS_H_INCLUDED
+#include <chrono>
+using namespace std::chrono;
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <tchar.h>
+#include <windows.h>
+
+////////////////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The serial baud rate.
+*/
+const int BAUD_RATE = CBR_9600;
 
 #define ARDUINO_WAIT_TIME 2000
 
-#include <windows.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-//#include <stdio.h>
-#include <tchar.h>
-//#include "SerialClass.h"	// Library described above
-#include <string>
 
 // https://playground.arduino.cc/Interfacing/CPPWindows/
+
+bool isRunning = true;
 
 class Serial
 {
@@ -107,10 +115,6 @@ class Serial
 
 };
 
-#endif // SERIALCLASS_H_INCLUDED
-
-
-
 Serial::Serial(const char *portName)
 {
     //We're not yet connected
@@ -132,12 +136,12 @@ Serial::Serial(const char *portName)
         if(GetLastError()==ERROR_FILE_NOT_FOUND){
 
             //Print Error if neccessary
-            printf("ERROR: Handle was not attached. Reason: %s not available.\n", portName);
+            printf(" ERROR: Handle was not attached. Reason: %s not available.\n", portName);
 
         }
         else
         {
-            printf("ERROR!!!");
+            printf(" ERROR!!!\n");
         }
     }
     else
@@ -149,12 +153,12 @@ Serial::Serial(const char *portName)
         if (!GetCommState(this->hSerial, &dcbSerialParams))
         {
             //If impossible, show an error
-            printf("failed to get current serial parameters!");
+            printf("failed to get current serial parameters!\n");
         }
         else
         {
             //Define serial connection parameters for the arduino board
-            dcbSerialParams.BaudRate=CBR_9600;
+            dcbSerialParams.BaudRate=BAUD_RATE;
             dcbSerialParams.ByteSize=8;
             dcbSerialParams.StopBits=ONESTOPBIT;
             dcbSerialParams.Parity=NOPARITY;
@@ -165,7 +169,7 @@ Serial::Serial(const char *portName)
              //Set the parameters and check for their proper application
              if(!SetCommState(hSerial, &dcbSerialParams))
              {
-                printf("ALERT: Could not set Serial Port parameters");
+                printf("ALERT: Could not set Serial Port parameters\n");
              }
              else
              {
@@ -260,7 +264,12 @@ bool Serial::IsConnected()
 */
 int _tmain(int argc, _TCHAR* argv[])
 {
-	printf("Welcome to the serial test app!\n\n");
+  int timeAtStart = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count();
+  int timeSinceStart = 0;
+  int fpsPrevious = 0;
+  int fpsCurrent = 0;
+  
+  printf("Welcome to the serial test app!\n\n");
   
   char device[] = {'\\', '\\', '.', '\\', 'C', 'O', 'M', '\0', '\0', '\0', '\0'};
   Serial* SP;
@@ -289,33 +298,51 @@ int _tmain(int argc, _TCHAR* argv[])
     SP = new Serial(device);
     if (SP->IsConnected())
 		{
-      printf("We're connected");
+      printf("We're connected\n");
       break;
     }
     else
     {
       //i++;
+      printf("\n");
     }
   }
 	//Serial* SP = new Serial("\\\\.\\COM25");    // adjust as needed
 
 	if (SP->IsConnected())
-		printf("We're connected");
+		printf("We're connected\n");
 
 	char incomingData[256] = "";			// don't forget to pre-allocate memory
 	//printf("%s\n",incomingData);
 	int dataLength = 255;
 	int readResult = 0;
 
-	while(SP->IsConnected())
-	{
-		readResult = SP->ReadData(incomingData,dataLength);
-		// printf("Bytes read: (0 means no data available) %i\n",readResult);
-                incomingData[readResult] = 0;
+  while (isRunning) {
+    timeSinceStart = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count() - timeAtStart;
+    if (timeSinceStart >= 1000) {
+      fpsPrevious = fpsCurrent;
+      fpsCurrent = 0;
+      timeAtStart = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count();
+      std::cout << fpsPrevious << "s\n";
+    } else {
+      ++fpsCurrent;
+    }
+  
+    milliseconds ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+    //std::cout << ms.count() << "s\n";
+    //std::cout << fpsPrevious << "s\n";
+    
+    while(SP->IsConnected())
+    {
+      readResult = SP->ReadData(incomingData,dataLength);
+      // printf("Bytes read: (0 means no data available) %i\n",readResult);
+                  incomingData[readResult] = 0;
 
-        	printf("%s",incomingData);
+            printf("%s\n",incomingData);
 
-		Sleep(500);
-	}
+      Sleep(500);
+    }
+    //printf("x\n");
+  }
 	return 0;
 }
