@@ -13,7 +13,7 @@
  */
  
  /**
-   @file usb.ino
+   @file usb.cpp
 
    @mainpage usb
 
@@ -54,7 +54,7 @@
    - empty
 
    @section resources Resources
-   - empty
+   - https://playground.arduino.cc/Interfacing/CPPWindows/
 
    @section warnings WARNINGS
    - empty
@@ -124,8 +124,6 @@ Serial::Serial(const char *portName)
                  this->connected = true;
                  //Flush any remaining characters in the buffers 
                  PurgeComm(this->hSerial, PURGE_RXCLEAR | PURGE_TXCLEAR);
-                 //We wait 2s as the arduino board will be reseting
-                 Sleep(ARDUINO_WAIT_TIME);
              }
         }
     }
@@ -211,7 +209,7 @@ bool Serial::IsConnected()
 */
 int _tmain(int argc, _TCHAR* argv[])
 {
-  int timeAtStart = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count();
+  int timeAtStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
   int timeSinceStart = 0;
   int fpsPrevious = 0;
   int fpsCurrent = 0;
@@ -254,42 +252,32 @@ int _tmain(int argc, _TCHAR* argv[])
       printf("\n");
     }
   }
-	//Serial* SP = new Serial("\\\\.\\COM25");    // adjust as needed
 
 	if (SP->IsConnected())
 		printf("We're connected\n");
 
-	char incomingData[256] = "";			// don't forget to pre-allocate memory
-	//printf("%s\n",incomingData);
-	int dataLength = 255;
-	int readResult = 0;
-
-  while (isRunning) {
-    timeSinceStart = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count() - timeAtStart;
+  while (isRunning && SP->IsConnected()) {
+    timeSinceStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - timeAtStart;
     if (timeSinceStart >= 1000) {
       fpsPrevious = fpsCurrent;
       fpsCurrent = 0;
-      timeAtStart = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count();
-      std::cout << fpsPrevious << "s\n";
+      timeAtStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+      std::cout << "FPS: " << fpsPrevious << "s\n";
     } else {
       ++fpsCurrent;
     }
   
-    milliseconds ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-    //std::cout << ms.count() << "s\n";
-    //std::cout << fpsPrevious << "s\n";
-    
-    while(SP->IsConnected())
+    milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    readResult = SP->ReadData(incomingData, dataLength);
+    incomingData[readResult] = 0;
+    if(strcmp(incomingData, "\n") != 0)
     {
-      readResult = SP->ReadData(incomingData,dataLength);
-      // printf("Bytes read: (0 means no data available) %i\n",readResult);
-                  incomingData[readResult] = 0;
-
-            printf("%s\n",incomingData);
-
-      Sleep(500);
+      std::cout << incomingData;
     }
-    //printf("x\n");
+    else
+    {
+      std::cout << std::endl;
+    }
   }
 	return 0;
 }

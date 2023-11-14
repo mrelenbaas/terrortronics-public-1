@@ -1,3 +1,8 @@
+// example code for Profiling Arduino Code
+// http://www.dudley.nu/arduino_profiling
+// William F. Dudley Jr.
+// 2014 January 5
+
 // https://www.dudley.nu/arduino_profiling/
 
 #ifndef PROFILING_H

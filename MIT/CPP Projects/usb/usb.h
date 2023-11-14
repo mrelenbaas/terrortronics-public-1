@@ -9,11 +9,11 @@
  *
  * License:
  * This file is owned by Terrortronics / Bradley Elenbaas.
- * This file observes the no License.
+ * This file observes the MIT License.
  */
  
  /**
-   @file usb.ino
+   @file usb.h
 
    @mainpage usb
 
@@ -54,7 +54,7 @@
    - empty
 
    @section resources Resources
-   - empty
+   - https://playground.arduino.cc/Interfacing/CPPWindows/
 
    @section warnings WARNINGS
    - empty
@@ -77,40 +77,36 @@ using namespace std::chrono;
 */
 const int BAUD_RATE = CBR_9600;
 
-#define ARDUINO_WAIT_TIME 2000
-
-
-// https://playground.arduino.cc/Interfacing/CPPWindows/
-
 bool isRunning = true;
+
+char incomingData[1] = ""; // don't forget to pre-allocate memory
+int dataLength = 1;
+int readResult = 0;
 
 class Serial
 {
-    private:
-        //Serial comm handler
-        HANDLE hSerial;
-        //Connection status
-        bool connected;
-        //Get various information about the connection
-        COMSTAT status;
-        //Keep track of last error
-        DWORD errors;
-
-    public:
-        //Initialize Serial communication with the given COM port
-        Serial(const char *portName);
-        //Close the connection
-        ~Serial();
-        //Read data in a buffer, if nbChar is greater than the
-        //maximum number of bytes available, it will return only the
-        //bytes available. The function return -1 when nothing could
-        //be read, the number of bytes actually read.
-        int ReadData(char *buffer, unsigned int nbChar);
-        //Writes data from a buffer through the Serial connection
-        //return true on success.
-        bool WriteData(const char *buffer, unsigned int nbChar);
-        //Check if we are actually connected
-        bool IsConnected();
-
-
+  private:
+    //Serial comm handler
+    HANDLE hSerial;
+    //Connection status
+    bool connected;
+    //Get various information about the connection
+    COMSTAT status;
+    //Keep track of last error
+    DWORD errors;
+  public:
+    //Initialize Serial communication with the given COM port
+    Serial(const char *portName);
+    //Close the connection
+    ~Serial();
+    //Read data in a buffer, if nbChar is greater than the
+    //maximum number of bytes available, it will return only the
+    //bytes available. The function return -1 when nothing could
+    //be read, the number of bytes actually read.
+    int ReadData(char *buffer, unsigned int nbChar);
+    //Writes data from a buffer through the Serial connection
+    //return true on success.
+    bool WriteData(const char *buffer, unsigned int nbChar);
+    //Check if we are actually connected
+    bool IsConnected();
 };

@@ -95,7 +95,6 @@ void stopTugSequence();
 void updateButtons();
 void updateTimers();
 void updateSwitches();
-
 void stopStopTimer();
 void routeResults2();
 void routeResults3();
@@ -104,7 +103,6 @@ void stopReadyTimer();
 void stopWinnerTimer();
 void stopFiveSecondTimer2();
 void randomWinner();
-
 void startFunction();
 void resetFunction();
 
@@ -143,9 +141,21 @@ const int SKIPPED_BUTTON_1 = 36;
    Redundant. This button wasn't working on the previous board.
 */
 const int SKIPPED_BUTTON_2 = 40;
+/**
+ * The first pin in a set of switch pins.
+ */
 const int FIRST_SWITCH_PIN = 42;
+/**
+ * The last pin in a set of switch pins.
+ */
 const int LAST_SWITCH_PIN = 50;
+/**
+   Redundant. This button wasn't working on the previous board.
+*/
 const int SKIPPED_SWITCH_1 = 44;
+/**
+   Redundant. This button wasn't working on the previous board.
+*/
 const int SKIPPED_SWITCH_2 = 48;
 /**
    The board's pins.
@@ -158,26 +168,26 @@ const int SKIPPED_SWITCH_2 = 48;
 */
 enum pinEnum {
   // Sounds.
-  pinSoundReady = 2,
-  pinSoundCatFirst = 3,
-  pinSoundDogFirst = 4,
-  pinSoundCatThird = 5,
-  pinSoundDogThird = 6,
-  pinSoundTie = 7,
-  pinSoundStop = 8,
-  pinSoundOne = 9,
-  pinSoundTwo = 10,
-  pinSoundThree = 11,
-  pinSoundTug = 12,
-  pinSoundSuddenDeath = 13,
+  pinSoundReady = 2,              ///< Pin 2. Ready sound.
+  pinSoundCatWinner = 3,           ///< Pin 3. Winner (Cat) sound.
+  pinSoundDogWinner = 4,           ///< Pin 4. Winner (Dog) sound.
+  pinSoundCatChampion = 5,           ///< Pin 5. Champion (Cat) sound.
+  pinSoundDogChampion = 6,           ///< Pin 6. Champion (Dog) sound.
+  pinSoundTie = 7,                ///< Pin 7. Tie sound.
+  pinSoundStop = 8,               ///< Pin 8. Stop sound.
+  pinSoundOne = 9,                ///< Pin 9. One sound.
+  pinSoundTwo = 10,               ///< Pin 10. Two sound.
+  pinSoundThree = 11,             ///< Pin 11. Three sound.
+  pinSoundTug = 12,               ///< Pin 12. Tug sound.
+  pinSoundSuddenDeath = 13,       ///< Pin 13. Sudden Death sound.
   // Super Pins.
-  //pinButtonTouch = 14, // ERROR. Unresponsive.
-  //pinLightError = 15, // ERROR. Always high.
-  pinBuzzer = 16,
-  pinButtonTouch = 17,
-  pinLightError = 18,
-  pinReset = 19,
-  pinLightDebug = 20,
+  //pinButtonTouch = 14,          ///< Pin 14. ERROR. Unresponsive.
+  //pinLightError = 15,           ///< Pin 15. ERROR. Always high.
+  pinBuzzer = 16,                 ///< Pin 16. Buzzer pin.
+  pinButtonTouch = 17,            ///< Pin 17. Reset button.
+  pinLightError = 18,             ///< Pin 18. Red debug LED.
+  pinReset = 19,                  ///< Pin 19. Reset by connecting run pin to ground.
+  pinLightDebug = 20,             ///< Pin 20. Blue debug LED.
   // Lights.
   pinLightWinnerLeft = 22,        ///< Pin 22. Left Winner light.
   pinLightWinnerRight = 23,       ///< Pin 23. Right Winner light.
@@ -196,9 +206,9 @@ enum pinEnum {
   pinButtonPlayer1Left = 37,      ///< Pin 37. Left Player 1 button.
   pinButtonPlayer1Right = 38,     ///< Pin 38. Right Player 1 button.
   pinButtonPlayer2Left = 39,      ///< Pin 39. Left Player 2 button.
-  pinButtonPlayer2Right = 41,      ///< Pin 41. Right Player 2 button.
+  pinButtonPlayer2Right = 41,     ///< Pin 41. Right Player 2 button.
   // Switches.
-  pinSwitchLeftMax = 42,
+  pinSwitchLeftMax = 42,          ///
   pinSwitchLeft3 = 43,
   pinSwitchLeft1 = 45,
   pinSwitchCenter = 46,
@@ -773,3 +783,8 @@ const char OUTGOING_START[] = {
   '\0'
 };
 int incomingMessage;
+
+bool emergencyLeft = false;
+bool emergencyRight = false;
+bool emergencyLeft2 = false;
+bool emergencyRight2 = false;

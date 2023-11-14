@@ -90,22 +90,22 @@ void setup() {
   pinMode(BLUE, OUTPUT);
   pinMode(GREEN, OUTPUT);
   /*
-  for (val = 255; val > 0; val--)
-  {
+    for (val = 255; val > 0; val--)
+    {
     analogWrite(RED, val);
     analogWrite(GREEN, 255 - val);
     analogWrite(BLUE, 128 - val);
     Serial.println(val, DEC);
     delay(5);
-  }
-  for (val = 0; val < 255; val++)
-  {
+    }
+    for (val = 0; val < 255; val++)
+    {
     analogWrite(RED, val);
     analogWrite(GREEN, 255 - val);
     analogWrite(BLUE, 128 - val);
     Serial.println(val, DEC);
     delay(5);
-  }
+    }
   */
   analogWrite(RED, 255);
   analogWrite(GREEN, 0);
@@ -134,20 +134,20 @@ void loop() {
   // New. Not documented.
   //Serial.println(millis());
   /*
-  if (digitalRead(pinButtonTouch) == HIGH) {
+    if (digitalRead(pinButtonTouch) == HIGH) {
     //Serial.println("ON");
     digitalWrite(pinLightError, HIGH);
     delay(1000);
     digitalWrite(pinBuzzer, HIGH);
     delay(1000);
     digitalWrite(pinReset, LOW);
-  } else {
+    } else {
     //Serial.println("OFF");
     digitalWrite(pinLightError, LOW);
     digitalWrite(pinBuzzer, LOW);
-  }
+    }
   */
-  
+
   //Serial.println(millis());
   if (isFirstLoop) {
     isSequenceOn = false;
@@ -229,8 +229,8 @@ void loop() {
   // Route Buttons;
   routeButtons();
   /*
-  // Discovery.
-  if (Serial.available() > 0) {
+    // Discovery.
+    if (Serial.available() > 0) {
     // WARNING: Remember to consume the incoming bytes.
     // The error does not occur when using the usb.c or usb.py files.
     // The error does occur when reading/writing in a PyGame application.
@@ -245,7 +245,7 @@ void loop() {
       default:
         break;
     }
-  }
+    }
   */
 }
 
@@ -345,18 +345,40 @@ bool errorCheckPluralInput() {
 
 bool errorCheckContactSwitches() {
   if (hotSwitches[0] == LOW) {
-    motor.moveStop();
-    delay(1000);
-    motor.moveRight();
-    delay(1000);
-    return true;
+    if (!emergencyLeft) {
+      emergencyLeft = true;
+      //return false;
+    } else if (emergencyLeft && !emergencyLeft2) {
+      emergencyLeft2 = true;
+    } else {
+      emergencyLeft = false;
+      emergencyLeft2 = false;
+      motor.moveStop();
+      motor.moveRight();
+      delay(50);
+      return true;
+    }
+  } else {
+    emergencyLeft = false;
+    emergencyLeft2 = false;
   }
-  else if (hotSwitches[6] == LOW) {
-    motor.moveStop();
-    delay(1000);
-    motor.moveLeft();
-    delay(1000);
-    return true;
+  if (hotSwitches[6] == LOW) {
+    if (!emergencyRight) {
+      emergencyRight = true;
+      //return false;
+    } else if (emergencyRight && !emergencyRight2) {
+      emergencyRight2 = true;
+    } else {
+      emergencyRight = false;
+      emergencyRight2 = false;
+      motor.moveStop();
+      motor.moveLeft();
+      delay(50);
+      return true;
+    }
+  } else {
+    emergencyRight = false;
+    emergencyRight2 = false;
   }
   return false;
 }

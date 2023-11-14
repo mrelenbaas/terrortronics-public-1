@@ -60,11 +60,6 @@
   - empty
 */
 
-// example code for Profiling Arduino Code
-// http://www.dudley.nu/arduino_profiling
-// William F. Dudley Jr.
-// 2014 January 5
-
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <HardwareSerial.h>
@@ -78,10 +73,10 @@
 #include "profiler.h"
 
 // some handy macros for printing debugging values
-#define DL(x) Serial.print(x)
-#define DLn(x) Serial.println(x)
-#define DV(m, v) do{Serial.print(m);Serial.print(v);Serial.print(" ");}while(0)
-#define DVn(m, v) do{Serial.print(m);Serial.println(v);}while(0)
+//#define DL(x) Serial.print(x)
+//#define DLn(x) Serial.println(x)
+//#define DV(m, v) do{Serial.print(m);Serial.print(v);Serial.print(" ");}while(0)
+//#define DVn(m, v) do{Serial.print(m);Serial.println(v);}while(0)
 
 // more handy macros but unused in this example
 #define InterruptOff  do{TIMSK2 &= ~(1<<TOIE2)}while(0)
@@ -187,11 +182,13 @@ const int SERIAL_DELAY = 10;
 const int HORIZONTAL = A0;
 const int VERTICAL = A1;
 const int BUTTON = 2;
+const int SILICONE_BUTTON = 3;
 
 // Hot keyboard.
 int horizontal;
 int vertical;
 int button;
+int siliconeButton;
 
 // Messages.
 enum messages {
@@ -327,6 +324,7 @@ void setup() {
   pinMode(HORIZONTAL, INPUT);
   pinMode(VERTICAL, INPUT);
   pinMode(BUTTON, INPUT_PULLUP);
+  pinMode(SILICONE_BUTTON, INPUT_PULLUP);
 
   timeCurrent = millis();
   timePrevious = timeCurrent;
@@ -342,15 +340,15 @@ void loop() {
   unsigned char op;
 
   PF(1);
-  big_cpu_fn_1(); // goes in bin 2
-  big_cpu_fn_2(); // goes in bin 3
-  mydelay(20);  // goes in bin 7
+  //big_cpu_fn_1(); // goes in bin 2
+  //big_cpu_fn_2(); // goes in bin 3
+  //mydelay(20);  // goes in bin 7
   PF(1);  // rest of this should go in profiling bin 1
   op ^= 1;
   digitalWrite(1, op & 1);  // toggle a pin so we can see loop rate
-  if (int_counter < 110) {
-    DVn("sec ", seconds);
-  }
+  //if (int_counter < 110) {
+    //DVn("sec ", seconds);
+  //}
 #if PROFILING
   if (seconds % 60 == 3 && !prof_has_dumped) {
     dump_profiling_data();  // also clears profiling data
@@ -377,13 +375,16 @@ void loop() {
   horizontal = analogRead(HORIZONTAL);
   vertical = analogRead(VERTICAL);
   button = digitalRead(BUTTON);
+  siliconeButton = digitalRead(SILICONE_BUTTON);
 
-  Serial.flush();
+  //Serial.flush();
   Serial.print(horizontal);
   Serial.print(", ");
   Serial.print(vertical);
   Serial.print(", ");
-  Serial.println (button);
+  Serial.print(button);
+  Serial.print(", ");
+  Serial.println(siliconeButton);
 
   if (Serial.available() > 0) {
     // WARNING: Remember to consume the incoming bytes.
@@ -402,7 +403,7 @@ void loop() {
     }
   }
 
-  delay(SERIAL_DELAY);
+  //delay(SERIAL_DELAY);
 }
 
 void reset() {
