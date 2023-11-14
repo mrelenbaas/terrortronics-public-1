@@ -105,6 +105,7 @@ void stopFiveSecondTimer2();
 void randomWinner();
 void startFunction();
 void resetFunction();
+void hardReset();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////
@@ -163,8 +164,12 @@ const int SKIPPED_SWITCH_2 = 48;
    @section details Details
    This enumeration uses "pin" as a prefix. The other enumerations do
    not use any prefix.
+   - Sounds: 2-13.
+   - Super Tug-of-War: 14-21.
    - Lights: 22-33.
    - Buttons: 35-41.
+   - Switches: 42-50.
+   - Motor. 51-52.
 */
 enum pinEnum {
   // Sounds.
@@ -208,26 +213,18 @@ enum pinEnum {
   pinButtonPlayer2Left = 39,      ///< Pin 39. Left Player 2 button.
   pinButtonPlayer2Right = 41,     ///< Pin 41. Right Player 2 button.
   // Switches.
-  pinSwitchLeftMax = 42,          ///
-  pinSwitchLeft3 = 43,
-  pinSwitchLeft1 = 45,
-  pinSwitchCenter = 46,
-  pinSwitchRight1 = 47,
-  pinBlankExtra5 = 48,
-  pinSwitchRight3 = 49,
-  pinSwitchRightMax = 50,
+  pinSwitchLeftMax = 42,          ///< Pin 42. Left leaf-switch.
+  pinSwitchLeft3 = 43,            ///< Pin 43. Leftmost micro-switch.
+  pinSwitchLeft1 = 45,            ///< Pin 44. First micro-switch left-of-center.
+  pinSwitchCenter = 46,           ///< Pin 46. Center micro-switch.
+  pinSwitchRight1 = 47,           ///< Pin 47. First micro-switch right-of-center.
+  pinBlankExtra5 = 48,            ///< Pin 48. Error. Unresponsive.
+  pinSwitchRight3 = 49,           ///< Pin 49. Rightmist micro-switch.
+  pinSwitchRightMax = 50,         ///< Pin 50. Right leaf-switch.
   // Motor.
-  pinMotorLeft = 51,
-  pinMotorRight = 52
+  pinMotorLeft = 51,              ///< Pin 51. Set HIGH (and set Pin 52 LOW) to move motor clockwise and to move trigger right.
+  pinMotorRight = 52              ///< Pin 52. Set HIGH (and set Pin 51 LOW) to move motor anti-clockwise and to move trigger left.
 };
-
-const int RED = A0;
-const int BLUE = A1;
-const int GREEN = A2;
-int val;
-
-const unsigned long DEBUG_TIMEOUT = 1000L;
-unsigned long debugTimer = 0L;
 
 ////////////////////////////////////////////////////////////////////////
 // Serial //////////////////////////////////////////////////////////////
@@ -467,6 +464,9 @@ enum buttonEnum {
   player2Left,
   player2Right
 };
+/**
+ * The length of the button arrays.
+ */
 const int BUTTON_SIZE = 5;
 
 ////////////////////////////////////////////////////////////////////////
@@ -589,9 +589,7 @@ Motor motor = Motor();
 
 bool isCentering = true;
 bool isReset = false;
-bool isTie = false;
-bool isTie2 = false;
-int isTie3 = 0;
+int isTie = 0;
 
 int player1Score;
 int player2Score;
@@ -788,3 +786,11 @@ bool emergencyLeft = false;
 bool emergencyRight = false;
 bool emergencyLeft2 = false;
 bool emergencyRight2 = false;
+
+const int RED = A0;
+const int BLUE = A1;
+const int GREEN = A2;
+int val;
+
+const unsigned long DEBUG_TIMEOUT = 1000L;
+unsigned long debugTimer = 0L;

@@ -343,6 +343,186 @@ bool errorCheckPluralInput() {
   return false;
 }
 
+void hardReset() {
+  isCentering = true;
+  isReset = false;
+  roundCurrent = 0;
+  
+  digitalWrite(pinLightWinnerLeft, LOW);
+  digitalWrite(pinLightWinnerRight, LOW);
+  digitalWrite(pinLightSuddenDeathLeft, LOW);
+  digitalWrite(pinLightSuddenDeathRight, LOW);
+  digitalWrite(pinLightChampionLeft, LOW);
+  digitalWrite(pinLightChampionRight, LOW);
+  digitalWrite(pinLightReady, LOW);
+  digitalWrite(pinLightOne, LOW);
+  digitalWrite(pinLightTwo, LOW);
+  digitalWrite(pinLightThree, LOW);
+  digitalWrite(pinLightTug, LOW);
+  digitalWrite(pinLightStop, LOW);
+  
+  isOneOn = false;
+  isTwoOn = false;
+  isThreeOn = false;
+  isTugOn = false;
+  isStopOn = false;
+  isGameOver = false;
+  isToggleOn = false;
+  isReadyBlinking = false;
+  isWinnerLeftBlinking = false;
+  isWinnerRightBlinking = false;
+  isChampionLeftBlinking = false;
+  isChampionRightBlinking = false;
+  isSuddenDeathLeftBlinking = false;
+  isSuddenDeathRightBlinking = false;
+  
+  isCentering = true;
+  isReset = false;
+  isTie = 0;
+
+  /*
+
+  //hotButtons[] = {false, false, false, false, false};
+  hotButtons[0] = false;
+  hotButtons[1] = false;
+  hotButtons[2] = false;
+  hotButtons[3] = false;
+  hotButtons[4] = false;
+  //buttonBlocks[] = {false, false, false, false, false};
+  buttonBlocks[0] = false;
+  buttonBlocks[1] = false;
+  buttonBlocks[2] = false;
+  buttonBlocks[3] = false;
+  buttonBlocks[4] = false;
+  //buttonDebounces[] = {0L, 0L, 0L, 0L, 0L};
+  buttonDebounces[0] = 0L;
+  buttonDebounces[1] = 0L;
+  buttonDebounces[2] = 0L;
+  buttonDebounces[3] = 0L;
+  buttonDebounces[4] = 0L;
+
+  //hotSwitches[] = {false, false, false, false, false, false, false};
+  hotSwitches[0] = false;
+  hotSwitches[1] = false;
+  hotSwitches[2] = false;
+  hotSwitches[3] = false;
+  hotSwitches[4] = false;
+  hotSwitches[5] = false;
+  hotSwitches[6] = false;
+  //switchBlocks[] = {false, false, false, false, false, false, false};
+  switchBlocks[0] = false;
+  switchBlocks[1] = false;
+  switchBlocks[2] = false;
+  switchBlocks[3] = false;
+  switchBlocks[4] = false;
+  switchBlocks[5] = false;
+  switchBlocks[6] = false;
+  //switchDebounces[] = {0L, 0L, 0L, 0L, 0L, 0L, 0L};
+  switchDebounces[0] = 0L;
+  switchDebounces[1] = 0L;
+  switchDebounces[2] = 0L;
+  switchDebounces[3] = 0L;
+  switchDebounces[4] = 0L;
+  switchDebounces[5] = 0L;
+  switchDebounces[6] = 0L;
+  //targets[] = {false, false, false, false, false, false, false};
+  targets[0] = false;
+  targets[1] = false;
+  targets[2] = false;
+  targets[3] = false;
+  targets[4] = false;
+  targets[5] = false;
+  targets[6] = false;
+
+
+  player1Score = 0;
+  player2Score = 0;
+  player1Taps[TAPS_MAX];
+  player2Taps[TAPS_MAX];
+  player1Index = 0;
+  player2Index = 0;
+  roundCurrent = 0;
+  roundCurrent2 = 0;
+  roundMax = 6;
+  debounceCurrent = 0;
+
+  currentSwitch = -1;
+  previousSwitch = -1;
+  countSwitch = -1;
+  singleSwitch = -1;
+  isSwitchAlreadyBlocked = false;
+
+  isFirstLoop = true;
+
+  result;
+
+  testCurrent = 0;
+  testMax = 2;
+
+  int roundCurrent3 = 0;
+
+  isSequenceLeft = true;
+  isSequenceOn = false;
+  sequenceI = 0;
+  sequenceJ = 0;
+  //SEQUENCE_MIN = 200L;
+  //SEQUENCE_MAX = 400L;
+  sequenceCounter = 2;
+  isFiveSecondTimerBlocked = false;
+
+  //message[] = {'a', 'b', 'c'};
+  message[0] = 'a';
+  message[1] = 'b';
+  message[2] = 'c';
+
+  readyCounter = 0;
+  isReadyComplete = false;
+
+  errorPluralInput = false;
+
+  isSoundTimerOn = false;
+  isOneSecondTimerOn = false;
+  isFourSecondTimerOn = false;
+  isFiveSecondTimerOn = false;
+  isTenSecondTimerOn = false;
+  isStopTimerOn = false;
+  isReadyTimerOn = false;
+  isWinnerTimerOn = false;
+  isSequenceTimerOn = false;
+
+  preRouteResult = false;
+  preRouteSwitch;
+  preRouteRoundCurrent;
+
+  emergencyStop;
+
+  stopSpecialTimeout = 1515L;
+
+  emergencyLeft = false;
+  emergencyRight = false;
+  emergencyLeft2 = false;
+  emergencyRight2 = false;
+
+  ///
+
+  // Instantiate local variables.
+  int index = 0;
+  // Setup the //Serial library.
+  //Serial.begin(BAUD_RATE);
+  ////Serial.flush();
+  // Setup timers.
+  timers[toggle].timeout = 100L;
+  timers[oneSecond].timeout = 1000L;
+  timers[fiveSecond].timeout = 5000L;
+  timers[tenSecond].timeout = 10000L;
+  timers[sequence].timeout = random(SEQUENCE_MIN, SEQUENCE_MAX);
+  timers[tieSpecial].timeout = 4000L;
+  timers[stopSpecial].timeout = 1.515L;
+  timers[readySpecial].timeout = 2500L;
+  timers[winnerSpecial].timeout = 4000L;
+  */
+}
+
 bool errorCheckContactSwitches() {
   if (hotSwitches[0] == LOW) {
     if (!emergencyLeft) {
@@ -355,7 +535,9 @@ bool errorCheckContactSwitches() {
       emergencyLeft2 = false;
       motor.moveStop();
       motor.moveRight();
-      delay(50);
+      hardReset();
+      //ditigalWrite(resetPin, LOW);
+      //delay(50);
       return true;
     }
   } else {
@@ -373,7 +555,9 @@ bool errorCheckContactSwitches() {
       emergencyRight2 = false;
       motor.moveStop();
       motor.moveLeft();
-      delay(50);
+      hardReset();
+      //digitalWrite(resetPin, LOW);
+      //delay(50);
       return true;
     }
   } else {
@@ -513,7 +697,6 @@ void routeResults() {
       }
     }
     timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-    //////Serial.println("isTie complete");
   }
 }
 
@@ -678,26 +861,19 @@ void routeResults2() {
       timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
     } else {
       if (preRouteSwitch == 2) {
-        //isTie = true;
-        //isTie3 = 1; timers[fiveSecond].timeout = 3500L;
         //isFiveSecondTimerOn = true;
         playSound(tie);
         //////Serial.println("000");
       } else if (preRouteSwitch == 3) {
-        //isTie = true;
-        //isTie3 = 1; timers[fiveSecond].timeout = 3500L;
         //isFiveSecondTimerOn = true;
         playSound(tie);
         //////Serial.println("111");
       } else if (preRouteSwitch == 4) {
-        //isTie = true;
-        //isTie3 = 1; timers[fiveSecond].timeout = 3500L;
         //isFiveSecondTimerOn = true;
         playSound(tie);
         //////Serial.println("222");
       }
     }
-    ////////Serial.println("isTie complete");
   }
 }
 
@@ -831,24 +1007,22 @@ void routeResults3() {
     } else {
       if (currentSwitch == 2) {
         setTarget(2);
-        isTie = true;
-        isTie3 = 1; timers[fiveSecond].timeout = 3500L;
+        isTie = 1;
+        timers[fiveSecond].timeout = 3500L;
         timers[fiveSecond].total = 0L;
         isFiveSecondTimerOn = true;
         playSound(tie);
         //////Serial.println("333");
       } else if (currentSwitch == 3) {
         setTarget(3);
-        isTie = true;
-        isTie3 = 1; timers[fiveSecond].timeout = 3500L;
+        isTie = 1; timers[fiveSecond].timeout = 3500L;
         timers[fiveSecond].total = 0L;
         isFiveSecondTimerOn = true;
         playSound(tie);
         //////Serial.println("444");
       } else if (currentSwitch == 4) {
         setTarget(4);
-        isTie = true;
-        isTie3 = 1; timers[fiveSecond].timeout = 3500L;
+        isTie = 1; timers[fiveSecond].timeout = 3500L;
         timers[fiveSecond].total = 0L;
         isFiveSecondTimerOn = true;
         playSound(tie);
@@ -856,7 +1030,6 @@ void routeResults3() {
       }
     }
     timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-    ////////Serial.println("isTie complete");
   }
 }
 
@@ -925,16 +1098,13 @@ bool preRouteResults() {
     } else {
       if (currentSwitch == 2) {
         result = true;
-        isTie = true;
-        isTie3 = 1; timers[fiveSecond].timeout = 3500L;
+        isTie = 1; timers[fiveSecond].timeout = 3500L;
       } else if (currentSwitch == 3) {
         result = true;
-        isTie = true;
-        isTie3 = 1; timers[fiveSecond].timeout = 3500L;
+        isTie = 1; timers[fiveSecond].timeout = 3500L;
       } else if (currentSwitch == 4) {
         result = true;
-        isTie = true;
-        isTie3 = 1; timers[fiveSecond].timeout = 3500L;
+        isTie = 1; timers[fiveSecond].timeout = 3500L;
       }
     }
   }
@@ -1111,11 +1281,10 @@ void stopFiveSecondTimer() {
     isReadyTimerOn = true;
     stopReadyTimer();
     timers[fiveSecond].timeout = 5000L;
-  } else if (isTie3 == 1/* && roundCurrent < 4*/) {
+  } else if (isTie == 1/* && roundCurrent < 4*/) {
     timers[fiveSecond].total = 0L;
     timers[fiveSecond].timeout = 2500L;
     isFiveSecondTimerOn = true;
-    //////Serial.println(", isTie");
     isReadyBlinking = true;
     isReadyTimerOn = true;
     timers[readySpecial].total = 0L;
@@ -1124,8 +1293,7 @@ void stopFiveSecondTimer() {
       isReadyBlinking = false;
       digitalWrite(pinLightReady, LOW);
     }
-    isTie = false;
-    isTie3 = 0;
+    isTie = 0;
   }
 }
 
@@ -1333,7 +1501,6 @@ void stopTenSecondTimer() {
     roundCurrent = 0;
     isCentering = true;
     isReset = false;
-    //isTie = false; //////Serial.println("");
     timers[toggle].total -= 200L;
     isToggleOn = true;
     timers[oneSecond].total = 0L; isOneSecondTimerOn = true;
@@ -1405,7 +1572,12 @@ void routeButtons() {
         isOneSecondTimerOn = true;
         timers[fiveSecond].total = 0L;
         isFiveSecondTimerOn = true;
-        isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; isReadyTimerOn = true; timers[readySpecial].total = 0L; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
+        isReadyBlinking = true;
+        timers[fiveSecond].timeout = 2500L;
+        isReadyTimerOn = true;
+        timers[readySpecial].total = 0L;
+        digitalWrite(pinLightSuddenDeathLeft, LOW);
+        digitalWrite(pinLightSuddenDeathRight, LOW);
         playSound(ready);
         isReset = false;
         ////Serial.println("$");
