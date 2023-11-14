@@ -393,14 +393,6 @@ bool errorCheckContactSwitches() {
 }
 
 void routeResults() {
-  ////Serial.print("routeResults() - player1Score ?> player2Score: ");
-  ////Serial.print(player1Score > player2Score);
-  ////Serial.print(", player1Score ?= player2Score: ");
-  ////Serial.print(player1Score == player2Score);
-  ////Serial.print(", preRouteRoundCurrent: ");
-  ////Serial.print(preRouteRoundCurrent);
-  ////Serial.print(", currentSwitch: ");
-  //////Serial.println(currentSwitch);
   if (player1Score == player2Score && player1Index > 0 && player2Index > 0) {
     if (random(0, 1)) {
       if (random(0, 1)) {
@@ -438,10 +430,8 @@ void routeResults() {
       timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
     } else {
       if (currentSwitch == 4) {
-        //isWinnerLeftBlinking = true; timers[winnerSpecial].total = 0L; isWinnerTimerOn = true;
         setTarget(3);
       } else if (currentSwitch == 3) {
-        //isWinnerLeftBlinking = true; timers[winnerSpecial].total = 0L; isWinnerTimerOn = true;
         setTarget(2);
       } else if (currentSwitch == 2) {
         //digitalWrite(pinLightWinnerLeft, HIGH);
@@ -475,10 +465,8 @@ void routeResults() {
       timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
     } else {
       if (currentSwitch == 2) {
-        //isWinnerRightBlinking = true; timers[winnerSpecial].total = 0L; isWinnerTimerOn = true;
         setTarget(3);
       } else if (currentSwitch == 3) {
-        //isWinnerRightBlinking = true; timers[winnerSpecial].total = 0L; isWinnerTimerOn = true;
         setTarget(4);
       } else if (currentSwitch == 4) {
         //isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
@@ -526,15 +514,6 @@ void routeResults() {
 }
 
 void routeResults2() {
-  ////Serial.print("routeResults2() - player1Score ?> player2Score: ");
-  ////Serial.print(player1Score > player2Score);
-  ////Serial.print(", player1Score ?= player2Score: ");
-  ////Serial.print(player1Score == player2Score);
-  ////Serial.print(", preRouteRoundCurrent: ");
-  ////Serial.print(preRouteRoundCurrent);
-  ////Serial.print(", preRouteSwitch: ");
-  //////Serial.println(preRouteSwitch);
-  //randomWinner();
   if (player1Score > player2Score) {
     if (preRouteRoundCurrent > 4) {
       //isToggleOn = true;
@@ -697,15 +676,6 @@ void routeResults2() {
 }
 
 void routeResults3() {
-  ////Serial.print("routeResults3() - player1Score ?> player2Score: ");
-  ////Serial.print(player1Score > player2Score);
-  ////Serial.print(", player1Score ?= player2Score: ");
-  ////Serial.print(player1Score == player2Score);
-  ////Serial.print(", roundCurrent: ");
-  ////Serial.print(roundCurrent);
-  ////Serial.print(", currentSwitch: ");
-  //////Serial.println(currentSwitch);
-  //randomWinner();
   if (player1Score > player2Score) {
     if (roundCurrent > 4) {
       digitalWrite(pinLightWinnerLeft, HIGH);
@@ -853,14 +823,6 @@ void routeResults3() {
 }
 
 bool preRouteResults() {
-  ////Serial.print("preRouteResults() - player1Score ?> player2Score: ");
-  ////Serial.print(player1Score > player2Score);
-  ////Serial.print(", player1Score ?= player2Score: ");
-  ////Serial.print(player1Score == player2Score);
-  ////Serial.print(", roundCurrent: ");
-  ////Serial.print(roundCurrent);
-  ////Serial.print(", currentSwitch: ");
-  //////Serial.println(currentSwitch);
   preRouteSwitch = currentSwitch;
   preRouteRoundCurrent = roundCurrent;
   bool result = false;
@@ -1001,13 +963,8 @@ void stopOneSecondTimer() {
       player2Taps[i] = 0;
     }
   } else if (isStopOn) {
-    ////Serial.print(", isStopOn: ");
-    //////Serial.println(isStopOn);
     digitalWrite(pinLightStop, LOW);
     isStopOn = false;
-    //calculateResults();
-    //routeResults();
-    //roundCurrent++;
   }
 }
 
@@ -1036,15 +993,6 @@ void calculateResults() {
       ////Serial.print(",");
     }
   }
-  ////Serial.print(player2Taps[player2Index - 1]);
-  ////Serial.println();
-  ////Serial.print("*** round: ");
-  ////Serial.print(roundCurrent);
-  ////Serial.print(", Player1Score: ");
-  ////Serial.print(player1Score);
-  ////Serial.print(", Player2Score: ");
-  ////Serial.print(player2Score);
-  ////Serial.println(" ***");
 }
 
 void stopFiveSecondTimer() {
@@ -1075,7 +1023,6 @@ void stopFiveSecondTimer() {
       timers[stopSpecial].total = 0L;
       routeResults();
       isStopOn = true;
-      //roundCurrent++;
     }
     roundCurrent++;
   } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
@@ -1306,12 +1253,6 @@ void stopTenSecondTimer() {
 void stopTugSequence() {
   motor.moveStop();
   isSequenceOn = false;
-  ////Serial.print("stopTugSequence() - timers[");
-  ////Serial.print(sequence);
-  ////Serial.print("].total: ");
-  ////Serial.print(timers[sequence].total);
-  ////Serial.print(", isSequenceOn: ");
-  //////Serial.println(isSequenceOn);
   timers[sequence].total = 0L;
 }
 

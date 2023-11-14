@@ -628,25 +628,73 @@ bool isOneSecondTimerOn = false;
  * game plays a sound.
  */
 bool isSoundTimerOn = false;
-
+/**
+ * The application's state when in the isFiveSecondTimerOn state. 
+ * Resolves to the stopTugSequence() function. During the 
+ * isFiveSecondTimerOn state the application waits to call the
+ * stopTugSequence() function.
+ */
 bool isFiveSecondTimerOn = false;
+/**
+ * The application's state when in the isTenSecondTimerOn state. 
+ * Resolves to the stopTenSecondTimer() function. During the 
+ * isTenSecondTimerOn state the application waits to call the 
+ * stopTenSecondTimer() function.
+ */
 bool isTenSecondTimerOn = false;
+/**
+ * The application's state when in the isStopTimerOn state. 
+ * Resolves first to the stopStopTimer() function. Second, it 
+ * resolves to the routeResults2() function, the routeResults() 
+ * function. During the isStopTimerOn state the Stop sound plays,
+ * but motor movement and the Winner light are not yet active.
+ */
 bool isStopTimerOn = false;
+/**
+ * The application's state when in the isWinnerTimerOn state. 
+ * Resolves to the stopWinnerTimer() function.
+ */
 bool isWinnerTimerOn = false;
-bool isSequenceTimerOn = false;
 
+////////////////////////////////////////////////////////////////////////
+// Scores //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * Player 1's score. Calculated from the player1Taps array.
+ */
 int player1Score;
+/**
+ * Player 2's score. Calculated from the player2Taps array.
+ */
 int player2Score;
+/**
+ * The maximum number of taps.
+ */
 const int TAPS_MAX = 100;
+/**
+ * Player 1's taps. Collected during the isFiveSecondTimerOn state.
+ */
 int player1Taps[TAPS_MAX];
+/**
+ * Player 2's taps. Collected during the isFiveSecondTimerOn state.
+ */
 int player2Taps[TAPS_MAX];
+/**
+ * Player 1's index.
+ */
 int player1Index = 0;
+/**
+ * Player 2's index.
+ */
 int player2Index = 0;
+/**
+ * The current round.
+ */
 int roundCurrent = 0;
-int roundCurrent2 = 0;
+/**
+ * The maximum round (the sudden death round).
+ */
 int roundMax = 6;
-long debounceCurrent;
-//int player2Index2;
 
 int currentSwitch = -1;
 int previousSwitch = -1;
