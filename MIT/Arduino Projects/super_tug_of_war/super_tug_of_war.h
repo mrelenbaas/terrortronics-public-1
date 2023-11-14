@@ -585,11 +585,55 @@ struct Motor {
 */
 Motor motor = Motor();
 
-// DOXYGEN
 
+////////////////////////////////////////////////////////////////////////
+// States //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The application's startup state. Should resolve to isReset state. 
+ * During this state the application is looking for the Champion (Cat) 
+ * micro-switch, or the Champion (Dog) micro-switch, which causes the 
+ * motor to reverse direction and move toward center.
+ */
 bool isCentering = true;
+/**
+ * The application's state when it is waiting for a person to press the 
+ * Start button. Should resolve to the isReadyTimerOn state. During this 
+ * state the application is looking the Center micro-switch to stop.
+ */
 bool isReset = false;
-int isTie = 0;
+/**
+ * The application's state when in the isSequenceTimerOn state. Should 
+ * resolve to the isReadyTimerOn state (or the 
+ * isSuddenDeathLeftBlinking state, or the isSuddenDeathRightBlinking 
+ * state). During this state the Tie sound plays.
+ */
+bool isTie = 0;
+/**
+ * The application's state when in the isReadyTimerOn state. Should 
+ * resolve to the isOneSecondTimerOn state. During this state the 
+ * Ready sound plays.
+ */
+bool isReadyTimerOn = false;
+/**
+ * The application's state when in the isOneSecondTimerOn state. 
+ * Should proceed through the one, two, three sounds/lights, then 
+ * resolve to the isFiveSecondTimerOn state. During the 
+ * isOneSecondTimerOn state the game counts down from three to one.
+ */
+bool isOneSecondTimerOn = false;
+/**
+ * The application's state when in the isSoundTimerOn state. Resolves 
+ * to nothing and just shuts off. During the isSoundTimerOn state the 
+ * game plays a sound.
+ */
+bool isSoundTimerOn = false;
+
+bool isFiveSecondTimerOn = false;
+bool isTenSecondTimerOn = false;
+bool isStopTimerOn = false;
+bool isWinnerTimerOn = false;
+bool isSequenceTimerOn = false;
 
 int player1Score;
 int player2Score;
@@ -671,20 +715,7 @@ bool isFiveSecondTimerBlocked = false;
 
 char message[] = {'a', 'b', 'c'};
 
-int readyCounter = 0;
-bool isReadyComplete = false;
-
 bool errorPluralInput = false;
-
-bool isSoundTimerOn = false;
-bool isOneSecondTimerOn = false;
-bool isFourSecondTimerOn = false;
-bool isFiveSecondTimerOn = false;
-bool isTenSecondTimerOn = false;
-bool isStopTimerOn = false;
-bool isReadyTimerOn = false;
-bool isWinnerTimerOn = false;
-bool isSequenceTimerOn = false;
 
 bool preRouteResult = false;
 int preRouteSwitch;
