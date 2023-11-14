@@ -1,0 +1,9 @@
+- Play normal game.
+- When Stop is lit, connect either left or right blade switch.
+- Motor will move in an unexpected direction. It will toggle/reverse, but never find its target.
+
+- Holding a blade switch in a tie or sudden death case resolves itself. The others don't resolve themselves.
+
+- Touching the champion micro-switches early causes a error state, but it resolves itself.
+
+- It's unresponsive, because it hasn't reset. It's in the "is resetting" state. Power cycling should have kicked the motor off the left blade switch. Cannot reproduce.
