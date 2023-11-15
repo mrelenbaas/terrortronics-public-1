@@ -15,14 +15,22 @@ const int SERIAL_DELAY = 10;
 // Pin constants.
 const int HORIZONTAL = A0;
 const int VERTICAL = A1;
+const int WATER = A2;
+const int SOUND_ANALOG = A3;
 const int BUTTON = 2;
 const int SILICONE_BUTTON = 3;
+const int TRACKING = 4;
+const int SOUND_DIGITAL = 5;
 
 // Hot keyboard.
 int horizontal;
 int vertical;
+int water;
+int soundAnalog;
 int button;
 int siliconeButton;
+int tracking;
+int soundDigital;
 
 // Messages.
 enum messages {

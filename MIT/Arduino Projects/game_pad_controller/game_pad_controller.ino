@@ -164,8 +164,12 @@ void setup() {
 
   pinMode(HORIZONTAL, INPUT);
   pinMode(VERTICAL, INPUT);
+  pinMode(WATER, INPUT);
+  pinMode(SOUND_ANALOG, INPUT);
   pinMode(BUTTON, INPUT_PULLUP);
   pinMode(SILICONE_BUTTON, INPUT_PULLUP);
+  pinMode(TRACKING, INPUT_PULLUP);
+  pinMode(SOUND_DIGITAL, INPUT_PULLUP);
 
   timeCurrent = millis();
   timePrevious = timeCurrent;
@@ -217,21 +221,14 @@ void loop() {
 
   horizontal = analogRead(HORIZONTAL);
   vertical = analogRead(VERTICAL);
+  water = analogRead(WATER);
+  soundAnalog = analogRead(SOUND_ANALOG);
   button = digitalRead(BUTTON);
   siliconeButton = digitalRead(SILICONE_BUTTON);
+  tracking = digitalRead(TRACKING);
+  soundDigital = digitalRead(SOUND_DIGITAL);
 
-  /*
-    if (isStarted) {
-    //Serial.flush();
-    Serial.print(horizontal);
-    Serial.print(", ");
-    Serial.print(vertical);
-    Serial.print(", ");
-    Serial.print(button);
-    Serial.print(", ");
-    Serial.println(siliconeButton);
-    }
-  */
+  printPinState();
 
   if (Serial.available() > 0 && !isStarted) {
     // WARNING: Remember to consume the incoming bytes.
@@ -277,14 +274,7 @@ void reset() {
   //Serial.println(incomingMessage);
   if (isStarted) {
     //Serial.flush();
-    Serial.print("0: ");
-    Serial.print(horizontal);
-    Serial.print(", ");
-    Serial.print(vertical);
-    Serial.print(", ");
-    Serial.print(button);
-    Serial.print(", ");
-    Serial.println(siliconeButton);
+    printPinState();
   }
 }
 
@@ -292,4 +282,23 @@ void start() {
   Serial.print("2");
   //Serial.println(OUTGOING_START);
   isStarted = true;
+}
+
+void printPinState() {
+  Serial.print("0: ");
+  Serial.print(horizontal);
+  Serial.print(", ");
+  Serial.print(vertical);
+  Serial.print(", ");
+  Serial.print(water);
+  Serial.print(", ");
+  Serial.print(soundAnalog);
+  Serial.print(", ");
+  Serial.print(button);
+  Serial.print(", ");
+  Serial.print(siliconeButton);
+  Serial.print(", ");
+  Serial.print(tracking);
+  Serial.print(", ");
+  Serial.println(soundDigital);
 }
