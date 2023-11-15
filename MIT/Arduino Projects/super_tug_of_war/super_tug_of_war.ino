@@ -98,7 +98,9 @@ void setup() {
    - Update timers.
    - Update input.
    - Update tug sequences and segments.
-   - Update timers.
+   - If not-isSequenceOn state, then update, debounce, and error 
+   correct switches.
+   - Check timers.
 */
 void loop() {
   // Update timers.
@@ -111,6 +113,8 @@ void loop() {
   } else if (timers[sequence].total >= timers[sequence].timeout && isSequenceOn) {
     stopTugSegment();
   }
+  // If not-isSequenceIn state, then update, debounce, and error 
+  // correct switches.
   if (!isSequenceOn) {
     updateSwitches();
     debounceSwitchesByTime();
@@ -119,32 +123,32 @@ void loop() {
     }
     debounceSwitchesByPosition();
   }
-
-  // Update timers.
-  if (timers[sound].total >= 1000L && soundCurrent != -1) {
+  // Check timers.
+  if (timers[sound].total >= SOUND_TIMEOUT && soundCurrent != -1) {
     stopSoundTimer();
   }
-  if (timers[toggle].total >= 200L) {
+  // DOXYGEN
+  if (timers[toggle].total >= TOGGLE_TIMEOUT) {
     stopToggleTimer();
   }
-  if (timers[oneSecond].total >= 1000L) {
+  if (timers[oneSecond].total >= ONE_SECOND_TIMEOUT) {
     stopOneSecondTimer();
   }
-  if (timers[fiveSecond].total >= timers[fiveSecond].timeout /*5000L*/) {
+  if (timers[fiveSecond].total >= timers[fiveSecond].timeout) {
     stopFiveSecondTimer();
   }
-  if (timers[winnerSpecial].total >= 4000L) {
+  if (timers[winnerSpecial].total >= WINNER_TIMEOUT) {
     stopWinnerTimer();
   }
-  if (timers[tenSecond].total >= 10000L) {
+  if (timers[tenSecond].total >= TEN_SECOND_TIMER) {
     stopTenSecondTimer();
   }
-  if (timers[readySpecial].total >= 2500L) {
+  if (timers[readySpecial].total >= READY_TIMEOUT) {
     stopReadyTimer();
   }
   if (timers[stopSpecial].total >= STOP_SPECIAL_TIMEOUT) {
     stopStopTimer();
-  } else if (isStopTimerOn && timers[stopSpecial].total > 1100L) {
+  } else if (isStopTimerOn && timers[stopSpecial].total > STOP_TIMEOUT) {
     routeResults2();
     routeResults();
     digitalWrite(pinLightStop, LOW);
@@ -170,57 +174,43 @@ void startFunction() {
   Serial.println(OUTGOING_START);
 }
 
+/**
+ * @param i The switch index to debounce.
+ * 
+ * - If switch is LOW and blocked, then update debounce.
+ * - If switch is HIGH and not-blocked, then reset block and debounce.
+ */
 void debounceSwitchByTime(int i) {
   if (hotSwitches[i] == LOW && !switchBlocks[i]) {
     switchDebounces[i] += delta;
     if (switchDebounces[i] > DEBOUNCE_TIME) {
       switchBlocks[i] = true;
-      ////Serial.print("debounceSwitchByTime(");
-      ////Serial.print(i);
-      ////Serial.print(") - switchBlocks[");
-      ////Serial.print(i);
-      ////Serial.print("]: ");
-      ////Serial.print(switchBlocks[i]);
-      ////Serial.print(", switchDebounces[");
-      ////Serial.print(i);
-      ////Serial.print("]: ");
-      //////Serial.println(switchDebounces[i]);
     }
   } else if (hotSwitches[i] && switchBlocks[i]) {
     switchBlocks[i] = false;
     switchDebounces[i] = 0;
-    ////Serial.print("debounceSwitchByTime(");
-    ////Serial.print(i);
-    ////Serial.print(") - switchBlocks[");
-    ////Serial.print(i);
-    ////Serial.print("]: ");
-    ////Serial.print(switchBlocks[i]);
-    ////Serial.print(", switchDebounces[");
-    ////Serial.print(i);
-    ////Serial.print("]: ");
-    //////Serial.println(switchDebounces[i]);
   }
 }
 
+/**
+ * - Loop through each switch, and debounce it.
+ */
 void debounceSwitchesByTime() {
-  for (unsigned int i = 0; i < SWITCH_SIZE; i++) {
+  for (int i = 0; i < SWITCH_SIZE; i++) {
     debounceSwitchByTime(i);
   }
 }
 
 /**
-   - Update current/previous switches if a normal number (0 or 1) of switches are pressed.
+   - Update current/previous switches if a normal number (0 or 1) of 
+   switches are pressed.
 */
 void debounceSwitchesByPosition() {
-  // Update current/previous switches if a normal number (0 or 1) of switches are pressed.
+  // Update current/previous switches if a normal number (0 or 1) of 
+  // switches are pressed.
   if (singleSwitch != currentSwitch) {
     previousSwitch = currentSwitch;
     currentSwitch = singleSwitch;
-    ////Serial.print("debounceSwitchesByPosition() - ");
-    ////Serial.print("currentSwitch: ");
-    ////Serial.print(currentSwitch);
-    ////Serial.print(", previousSwitch: ");
-    ////Serial.print(previousSwitch);
   }
 }
 
@@ -239,14 +229,6 @@ bool errorCheckPluralInput() {
   }
   // Block input if plural switch inputs occuring.
   if (countSwitch > 1) {
-    ////Serial.print("errorCheckPluralInput() - countSwitch");
-    ////Serial.print(countSwitch);
-    for (unsigned int i = 0; i < SWITCH_SIZE; i++) {
-      if (hotSwitches[i] == LOW) {
-        ////Serial.print(i);
-      }
-    }
-    //////Serial.println("");
     return true;
   }
   return false;
@@ -1034,10 +1016,16 @@ void stopTugSegment() {
   }
 }
 
+/**
+ * - Return if isSoundTimerOn is off.
+ * - Reset sound timer.
+ */
 void stopSoundTimer() {
+  // Return if isSoundTimerOn is off.
   if (!isSoundTimerOn) {
     return;
   }
+  // Reset sound timer.
   isSoundTimerOn = false;
   timers[sound].total = 0L;
   digitalWrite(sounds[soundCurrent].pin, LOW);

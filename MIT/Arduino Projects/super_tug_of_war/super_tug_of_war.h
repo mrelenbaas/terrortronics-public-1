@@ -809,13 +809,41 @@ bool emergencyStop;
 // Timers //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
+ * The timeout for the isOneSecondTimer state.
+ */
+unsigned long ONE_SECOND_TIMEOUT = 1000L;
+/**
+ * The timeout for the isReadyTimerOn state.
+ */
+unsigned long READY_TIMEOUT = 2500L;
+/**
  * The timeout for the isSequenceOn state.
  */
 unsigned long SEQUENCE_TIMEOUT = 4999L;
 /**
- * The special timeout for the Stop sound.
+ * The timeout for the isSoundTimer state.
+ */
+unsigned long SOUND_TIMEOUT = 1000L;
+/**
+ * The timeout for to trigger the routing of results.
+ */
+unsigned long STOP_TIMEOUT = 1100L;
+/**
+ * The special timeout for the isStopTimer state.
  */
 unsigned long STOP_SPECIAL_TIMEOUT = 1515L;
+/**
+ * The timeout for the isTenSecondTimer state.
+ */
+unsigned long TEN_SECOND_TIMER = 10000L;
+/**
+ * The timeout for the toggle timer.
+ */
+unsigned long TOGGLE_TIMEOUT = 200L;
+/**
+ * The timeout for the isWinnerOn state.
+ */
+unsigned long WINNER_TIMEOUT = 4000L;
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
