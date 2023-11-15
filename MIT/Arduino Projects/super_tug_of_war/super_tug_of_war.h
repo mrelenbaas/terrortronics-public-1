@@ -557,13 +557,13 @@ bool targets[] = {false, false, false, false, false, false, false};
    switchDebounces, and targets arrays.
 */
 enum switchEnum {
-  leftMax = 42,
-  left3 = 43,
-  left1 = 45,
-  center = 46,
-  right1 = 47,
-  right3 = 49,
-  rightMax = 50
+  leftMax = 0,
+  left3 = 1,
+  left1 = 2,
+  center = 3,
+  right1 = 4,
+  right3 = 5,
+  rightMax = 6
 };
 const int SWITCH_SIZE = 7;
 

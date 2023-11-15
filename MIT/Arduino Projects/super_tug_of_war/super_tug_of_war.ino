@@ -36,7 +36,6 @@ void setup() {
   }
   // Setup button debounces.
   for (unsigned int i = 0; i < BUTTON_SIZE; ++i) {
-    //buttonDebounces[i] = current;
     buttonDebounces[i] = 0L;
   }
   // Setup sounds.
@@ -97,23 +96,22 @@ void setup() {
 
 /**
    - Update timers.
-   - Update tug sequence.
    - Update input.
+   - Update tug sequences and segments.
    - Update timers.
 */
 void loop() {
   // Update timers.
   updateTimers();
-  // Update tug sequence.
+  // Update input.
+  updateButtons();
+  // Update tug sequences and segments.
   if (timers[fiveSecond].total > SEQUENCE_TIMEOUT && isSequenceOn) {
     stopTugSequence();
   } else if (timers[sequence].total >= timers[sequence].timeout && isSequenceOn) {
     stopTugSegment();
   }
-  // Update input.
-  updateButtons();
   if (!isSequenceOn) {
-    timers[sequence].total = 0L;
     updateSwitches();
     debounceSwitchesByTime();
     if (errorCheckPluralInput()) {
@@ -293,7 +291,7 @@ void hardReset() {
 }
 
 bool errorCheckContactSwitches() {
-  if (hotSwitches[0] == LOW) {
+  if (hotSwitches[leftMax] == LOW) {
     if (!emergencyLeft) {
       emergencyLeft = true;
       //return false;
@@ -313,7 +311,7 @@ bool errorCheckContactSwitches() {
     emergencyLeft = false;
     emergencyLeft2 = false;
   }
-  if (hotSwitches[6] == LOW) {
+  if (hotSwitches[rightMax] == LOW) {
     if (!emergencyRight) {
       emergencyRight = true;
       //return false;
@@ -1007,25 +1005,25 @@ void stopFiveSecondTimer() {
   }
 }
 
+/**
+ * - Reset the sequence timer.
+ * - Setup a new segment.
+ * - Move motor left or right.
+ * - Update the sequenceI and sequenceJ indexes.
+ */
 void stopTugSegment() {
-  //////Serial.print("stopTugSegment() - timers[");
-  //////Serial.print(sequence);
-  //////Serial.print("].timeout: ");
-  //////Serial.print(sequenceTimeout[sequenceJ][sequenceI]);
-  //////Serial.print(", sequenceIsLeft[sequenceJ][sequenceI]: ");
-  //////Serial.print(sequenceIsLeft[sequenceJ][sequenceI]);
-  //////Serial.print(", sequenceI: ");
-  ////////Serial.println(sequenceI);
-
-  // Comment this out if using the randomized tug sequence code-block below.
+  // Reset the sequence timer.
   timers[sequence].total = 0L;
+  // Setup new segment.
   timers[sequence].timeout = sequenceTimeout[0][sequenceI];
   isSequenceLeft = sequenceIsLeft[sequenceJ][sequenceI];
+  // Move motor left or right.
   if (isSequenceLeft) {
     motor.moveLeft();
   } else {
     motor.moveRight();
   }
+  // Update the sequenceI and sequenceJ indexes.
   ++sequenceI;
   if (sequenceI >= SEQUENCE_I_MAX) {
     sequenceI = 0;
@@ -1172,8 +1170,14 @@ void stopTenSecondTimer() {
   }
 }
 
+/**
+ * - Stop the motor.
+ * - Reset sequence variables.
+ */
 void stopTugSequence() {
+  // Stop the motor.
   motor.moveStop();
+  // Reset sequence variables.
   isSequenceOn = false;
   timers[sequence].total = 0L;
 }
@@ -1238,13 +1242,13 @@ void routeButtons() {
       }
     }
   } else if (isCentering) {
-    if (hotSwitches[1] == LOW) {
+    if (hotSwitches[left3] == LOW) {
       //////Serial.println("isCentering 1");
       motor.moveRight();
-    } else if (hotSwitches[5] == LOW) {
+    } else if (hotSwitches[right3] == LOW) {
       //////Serial.println("isCentering 5");
       motor.moveLeft();
-    } else if (hotSwitches[3] == LOW) {
+    } else if (hotSwitches[center] == LOW) {
       //////Serial.println("isCentering 3");
       motor.moveStop();
       isCentering = false;
@@ -1331,7 +1335,7 @@ void routeButtons() {
     //////Serial.println("INPUT BLOCKED: same switch.");
   } else if ((isGameOver || isWinnerLeftBlinking || isWinnerRightBlinking || isChampionLeftBlinking || isChampionRightBlinking)
              && (!isSequenceOn)) {
-    if (hotSwitches[1] == LOW && targets[1]) {
+    if (hotSwitches[left3] == LOW && targets[1]) {
       //////Serial.println("REACHED TARGET 1");
       motor.moveStop();
       targets[1] = false;
@@ -1339,22 +1343,22 @@ void routeButtons() {
       //digitalWrite(pinLightWinnerLeft, LOW);
       isGameOver = false;
       timers[tenSecond].total = 0L;
-    } else if (hotSwitches[2] == LOW && targets[2]) {
+    } else if (hotSwitches[left1] == LOW && targets[2]) {
       //////Serial.println("REACHED TARGET 2");
       motor.moveStop();
       targets[2] = false;
       timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-    } else if (hotSwitches[3] == LOW && targets[3]) {
+    } else if (hotSwitches[center] == LOW && targets[3]) {
       //////Serial.println("REACHED TARGET 3");
       motor.moveStop();
       targets[3] = false;
       timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-    } else if (hotSwitches[4] == LOW && targets[4]) {
+    } else if (hotSwitches[right1] == LOW && targets[4]) {
       //////Serial.println("REACHED TARGET 4");
       motor.moveStop();
       targets[4] = false;
       timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-    } else if (hotSwitches[5] == LOW && targets[5]) {
+    } else if (hotSwitches[right3] == LOW && targets[5]) {
       //////Serial.println("REACHED TARGET 5");
       motor.moveStop();
       targets[5] = false;
@@ -1364,7 +1368,7 @@ void routeButtons() {
       timers[tenSecond].total = 0L;
     }
   } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
-    if (hotSwitches[3] == LOW && targets[3]) {
+    if (hotSwitches[center] == LOW && targets[3]) {
       motor.moveStop();
       targets[3] = false;
       digitalWrite(pinLightSuddenDeathLeft, LOW);
@@ -1431,14 +1435,17 @@ void updateTimers() {
   timers[toggle].total += delta;
 }
 
+/**
+ * Perform digitalRead(int) calls, and read the results into the hotSwitches.
+ */
 void updateSwitches() {
-  hotSwitches[0] = digitalRead(leftMax);
-  hotSwitches[1] = digitalRead(left3);
-  hotSwitches[2] = digitalRead(left1);
-  hotSwitches[3] = digitalRead(center);
-  hotSwitches[4] = digitalRead(right1);
-  hotSwitches[5] = digitalRead(right3);
-  hotSwitches[6] = digitalRead(rightMax);
+  hotSwitches[leftMax] = digitalRead(pinSwitchLeftMax);
+  hotSwitches[left3] = digitalRead(pinSwitchLeft3);
+  hotSwitches[left1] = digitalRead(pinSwitchLeft1);
+  hotSwitches[center] = digitalRead(pinSwitchCenter);
+  hotSwitches[right1] = digitalRead(pinSwitchRight1);
+  hotSwitches[right3] = digitalRead(pinSwitchRight3);
+  hotSwitches[rightMax] = digitalRead(pinSwitchRightMax);
 }
 
 void stopWinnerTimer() {
@@ -1458,30 +1465,30 @@ void stopWinnerTimer() {
   timers[fiveSecond].total = 0L;
   //timers[fiveSecond].total -= 5000L;
   isFiveSecondTimerOn = true;
-  if (hotSwitches[2] == LOW) {
+  if (hotSwitches[left1] == LOW) {
     isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; isReadyTimerOn = true; timers[readySpecial].total = 0L; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
     playSound(ready);
     if (isChampionLeftBlinking || isChampionRightBlinking) {
       isReadyBlinking = false;
       digitalWrite(pinLightReady, LOW);
     }
-  } else if (hotSwitches[3] == LOW) {
+  } else if (hotSwitches[center] == LOW) {
     isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; isReadyTimerOn = true; timers[readySpecial].total = 0L; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
     playSound(ready);
     if (isChampionLeftBlinking || isChampionRightBlinking) {
       isReadyBlinking = false;
       digitalWrite(pinLightReady, LOW);
     }
-  } else if (hotSwitches[4] == LOW) {
+  } else if (hotSwitches[right1] == LOW) {
     isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; isReadyTimerOn = true; timers[readySpecial].total = 0L;// digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
     playSound(ready);
     if (isChampionLeftBlinking || isChampionRightBlinking) {
       isReadyBlinking = false;
       digitalWrite(pinLightReady, LOW);
     }
-  } else if (hotSwitches[1] == LOW) {
+  } else if (hotSwitches[left3] == LOW) {
     isChampionLeftBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-  } else if (hotSwitches[5] == LOW) {
+  } else if (hotSwitches[right3] == LOW) {
     isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
   }
   digitalWrite(pinLightWinnerLeft, LOW);
