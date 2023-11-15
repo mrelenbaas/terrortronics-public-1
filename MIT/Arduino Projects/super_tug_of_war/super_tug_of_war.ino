@@ -4,7 +4,7 @@
 
 /**
    - Instantiate local variables.
-   - Setup the //Serial library.
+   - Setup the Serial library.
    - Setup timers.
    - Setup taps.
    - Setup button debounces.
@@ -13,13 +13,13 @@
    - Setup buttons.
    - Setup switches.
    - Setup motor.
+   - Setup Super Tug-of-War pins.
 */
 void setup() {
   // Instantiate local variables.
   int index = 0;
   // Setup the //Serial library.
   Serial.begin(BAUD_RATE);
-  ////Serial.flush();
   // Setup timers.
   timers[toggle].timeout = 100L;
   timers[oneSecond].timeout = 1000L;
@@ -80,7 +80,7 @@ void setup() {
   } else {
     motor.moveRight();
   }
-  // New. Not documented.
+  // Setup Super Tug-of-War pins.
   pinMode(pinButtonTouch, INPUT_PULLUP);
   pinMode(pinLightError, OUTPUT);
   pinMode(pinBuzzer, OUTPUT);
@@ -96,7 +96,6 @@ void setup() {
 }
 
 /**
-   - Bandage isCentering bool on first loop. This should not happen.
    - Update timers.
    - Update tug sequence.
    - Update input.
@@ -106,8 +105,7 @@ void loop() {
   // Update timers.
   updateTimers();
   // Update tug sequence.
-  if (timers[fiveSecond].total > 4999L && isSequenceOn) {
-    isFiveSecondTimerBlocked = true;
+  if (timers[fiveSecond].total > SEQUENCE_TIMEOUT && isSequenceOn) {
     stopTugSequence();
   } else if (timers[sequence].total >= timers[sequence].timeout && isSequenceOn) {
     stopTugSegment();
@@ -135,11 +133,7 @@ void loop() {
     stopOneSecondTimer();
   }
   if (timers[fiveSecond].total >= timers[fiveSecond].timeout /*5000L*/) {
-    if (isFiveSecondTimerBlocked) {
-      isFiveSecondTimerBlocked = false;
-    } else {
-      stopFiveSecondTimer();
-    }
+    stopFiveSecondTimer();
   }
   if (timers[winnerSpecial].total >= 4000L) {
     stopWinnerTimer();
@@ -156,7 +150,6 @@ void loop() {
     routeResults2();
     routeResults();
     digitalWrite(pinLightStop, LOW);
-    //routeResults2();
   } else if (isStopTimerOn && timers[stopSpecial].total < STOP_SPECIAL_TIMEOUT) {
     motor.moveStop();
   }
@@ -1380,27 +1373,38 @@ void routeButtons() {
   }
 }
 
+/**
+ * - Update previous, current, and delta variables.
+ * - Error handle millis() clock rollover by ignoring frame where delta 
+ * is a negative number.
+ * - Error handle millis() clock rollover by ignorimg frame where 
+ * current is less than previous.
+ * - Update debug timer (seperately from the other timers).
+ * - Update normal timers (if their associated state is active).
+ * - Update sequence and toggle timers regardless of state.
+ */
 void updateTimers() {
+  // Update previous, current, and delta variables.
   previous = current;
   current = millis();
   delta = current - previous;
+  // Error handle millis() clock rollover by ignoring frame where delta 
+  // is a negative number.
   if (delta < 0L) {
-    Serial.println("LESS THAN ZERO");
     return;
   }
+  // Error handle millis() clock rollover by ignorimg frame where 
+  // current is less than previous.
   if (current < previous) {
-    Serial.println("LESS THAN PREVIOUS");
     return;
   }
-  //Serial.println(current);
+  // Update debug timer (seperately from the other timers).
   debugTimer += delta;
-  //Serial.println(debugTimer);
   if (debugTimer >= DEBUG_TIMEOUT) {
-    Serial.println(current);
     debugTimer = 0L;
     digitalWrite(pinLightDebug, !digitalRead(pinLightDebug));
   }
-  //Serial.println(millis());
+  // Update normal timers (if their associated state is active).
   if (isSoundTimerOn) {
     timers[sound].total += delta;
   }
@@ -1422,26 +1426,9 @@ void updateTimers() {
   if (isWinnerTimerOn) {
     timers[winnerSpecial].total += delta;
   }
+  // Update sequence and toggle timers regardless of state.
   timers[sequence].total += delta;
   timers[toggle].total += delta;
-  ////Serial.print(timers[sound].total);
-  ////Serial.print(", ");
-  ////Serial.print(timers[oneSecond].total);
-  ////Serial.print(", ");
-  ////Serial.print(timers[fiveSecond].total);
-  ////Serial.print(", ");
-  ////Serial.print(timers[tenSecond].total);
-  ////Serial.print(", ");
-  ////Serial.print(timers[stopSpecial].total);
-  ////Serial.print(", ");
-  ////Serial.print(timers[readySpecial].total);
-  ////Serial.print(", ");
-  ////Serial.print(timers[winnerSpecial].total);
-  ////Serial.print(", ");
-  ////Serial.print(timers[sequence].total);
-  ////Serial.print(", ");
-  //Serial.println(timers[toggle].total);
-  ////Serial.println("");
 }
 
 void updateSwitches() {
