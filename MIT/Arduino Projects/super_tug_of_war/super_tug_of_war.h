@@ -398,10 +398,10 @@ enum soundEnum {
   dogThird,
   tie,
   stop,
+  tug,
   one,
   two,
   three,
-  tug,
   suddenDeath
 };
 

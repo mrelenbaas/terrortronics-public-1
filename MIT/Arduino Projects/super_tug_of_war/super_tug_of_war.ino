@@ -127,13 +127,13 @@ void loop() {
   if (timers[sound].total >= SOUND_TIMEOUT && soundCurrent != -1) {
     stopSoundTimer();
   }
-  // DOXYGEN
   if (timers[toggle].total >= TOGGLE_TIMEOUT) {
     stopToggleTimer();
   }
   if (timers[oneSecond].total >= ONE_SECOND_TIMEOUT) {
     stopOneSecondTimer();
   }
+  // DOXYGEN
   if (timers[fiveSecond].total >= timers[fiveSecond].timeout) {
     stopFiveSecondTimer();
   }
@@ -844,40 +844,44 @@ void setTarget(int index) {
   targets[index] = true;
 }
 
+/**
+ * - Return if isOneSecondTimerOn state is inactive.
+ * - Reset state and timer.
+ * - Set state and timer to Two state, Three state, Tug state, or Stop 
+ * state.
+ */
 void stopOneSecondTimer() {
+  // Return if isOneSecondTimerOn state is inactive.
   if (!isOneSecondTimerOn) {
     return;
   }
+  // Reset state and timer.
   isOneSecondTimerOn = false;
-  timers[oneSecond].total = 0L;// isOneSecondTimerOn = true;
+  timers[oneSecond].total = 0L;
+  // 
   if (isOneOn) {
-    ////Serial.print(", isOneOn: ");
-    ////Serial.print(isOneOn);
-    digitalWrite(pinLightOne, LOW);
     isOneOn = false;
+    digitalWrite(pinLightOne, LOW);
     digitalWrite(pinLightTwo, HIGH);
-    playSound(9);
+    playSound(two);
     isTwoOn = true;
-    timers[oneSecond].total = 0L; isOneSecondTimerOn = true;
+    isOneSecondTimerOn = true;
   } else if (isTwoOn) {
-    ////Serial.print(", isTwoOn: ");
-    ////Serial.print(isTwoOn);
-    digitalWrite(pinLightTwo, LOW);
     isTwoOn = false;
+    digitalWrite(pinLightTwo, LOW);
     digitalWrite(pinLightThree, HIGH);
-    playSound(10);
+    playSound(three);
     isThreeOn = true;
-    timers[oneSecond].total = 0L; isOneSecondTimerOn = true;
+    isOneSecondTimerOn = true;
   } else if (isThreeOn) {
-    ////Serial.print(", isThreeOn: ");
-    ////Serial.print(isThreeOn);
-    digitalWrite(pinLightThree, LOW);
     isThreeOn = false;
+    digitalWrite(pinLightThree, LOW);
     digitalWrite(pinLightTug, HIGH);
-    playSound(7);
+    playSound(tug);
     isTugOn = true;
     isSequenceOn = true;
-    timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
+    timers[fiveSecond].total = 0L;
+    isFiveSecondTimerOn = true;
     player1Index = 0;
     player2Index = 0;
     player1Score = 0;
@@ -1183,7 +1187,7 @@ void stopReadyTimer() {
     isReadyBlinking = false;
     digitalWrite(pinLightReady, LOW);
     digitalWrite(pinLightOne, HIGH);
-    playSound(8);
+    playSound(one);
     isOneOn = true;
     timers[oneSecond].total = 0L; isOneSecondTimerOn = true;
   }
