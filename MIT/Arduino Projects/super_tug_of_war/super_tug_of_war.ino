@@ -1032,7 +1032,15 @@ void stopSoundTimer() {
   soundCurrent = -1;
 }
 
+/**
+ * - Reset timer if not blinking states are active.
+ * - Reset timer.
+ * - If blinking state is on and toggle is on, then turn on light. If 
+ * blinking state is on and toggle state is off, the turn off light.
+ * - Toggle isToggleOn.
+ */
 void stopToggleTimer() {
+  // Reset timer if no blinking states are active.
   if (!isReadyBlinking
       && !isWinnerLeftBlinking
       && !isWinnerRightBlinking
@@ -1043,40 +1051,29 @@ void stopToggleTimer() {
     timers[toggle].total = 0L;
     return;
   }
-  //////Serial.print("stopToggleTimer() - timers[");
-  //////Serial.print(toggle);
-  //////Serial.print("].total: ");
-  //////Serial.print(timers[toggle].total);
+  // Reset timer.
   timers[toggle].total = 0L;
+  // If blinking state is on and toggle is on, then turn on light. If 
+  // blinking state is on and toggle state is off, the turn off light.
   if (isReadyBlinking) {
-    //////Serial.print(", isReadyBlinking: ");
-    //////Serial.print(isReadyBlinking);
     if (isToggleOn) {
       digitalWrite(pinLightReady, HIGH);
     } else {
       digitalWrite(pinLightReady, LOW);
     }
   } else if (isWinnerLeftBlinking) {
-    //////Serial.print(", isWinnerLeftBlinking: ");
-    //////Serial.print(isWinnerLeftBlinking);
     if (isToggleOn) {
-      //Serial.println("ON");
       digitalWrite(pinLightWinnerLeft, HIGH);
     } else {
-      //Serial.println("OFF");
       digitalWrite(pinLightWinnerLeft, LOW);
     }
   } else if (isWinnerRightBlinking) {
-    //////Serial.print(", isWinnerRightBlinking: ");
-    //////Serial.print(isWinnerRightBlinking);
     if (isToggleOn) {
       digitalWrite(pinLightWinnerRight, HIGH);
     } else {
       digitalWrite(pinLightWinnerRight, LOW);
     }
   } else if (isChampionLeftBlinking) {
-    //////Serial.print(", isChampionLeftBlinking: ");
-    //////Serial.print(isChampionLeftBlinking);
     if (isToggleOn) {
       digitalWrite(pinLightChampionLeft, HIGH);
     } else {
@@ -1084,18 +1081,12 @@ void stopToggleTimer() {
     }
 
   } else if (isChampionRightBlinking) {
-    //////Serial.print(", isChampionRightBlinking: ");
-    //////Serial.print(isChampionRightBlinking);
     if (isToggleOn) {
       digitalWrite(pinLightChampionRight, HIGH);
     } else {
       digitalWrite(pinLightChampionRight, LOW);
     }
   } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
-    //////Serial.print(", isSuddenDeathLeftBlinking: ");
-    //////Serial.print(isSuddenDeathLeftBlinking);
-    //////Serial.print(", isSuddenDeathRightBlinking: ");
-    //////Serial.print(isSuddenDeathRightBlinking);
     if (isToggleOn) {
       digitalWrite(pinLightSuddenDeathLeft, HIGH);
       digitalWrite(pinLightSuddenDeathRight, HIGH);
@@ -1104,8 +1095,7 @@ void stopToggleTimer() {
       digitalWrite(pinLightSuddenDeathRight, LOW);
     }
   }
-  //////Serial.print(", isToggleOn: ");
-  ////////Serial.println(isToggleOn);
+  // Toggle isToggleOn.
   if (isToggleOn) {
     isToggleOn = false;
   } else {
