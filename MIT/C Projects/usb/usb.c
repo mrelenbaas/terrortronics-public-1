@@ -116,7 +116,18 @@
       close(port);
       return -1;
     }
-       
+    
+    result = write(port, "0", 1);
+    if (result != 1)
+    {
+      perror("failed to write to port\n");
+      return -1;
+    }
+    else
+    {
+      printf("HERE HERE HERE\n");
+    }
+    
     return port;
   }
 #endif
@@ -311,7 +322,7 @@ int main()
     #else
       if (connect_serial_port() == -1)
       {
-    return -1;
+        return -1;
       }
     #endif
     
@@ -385,17 +396,38 @@ int main()
       printf("%c\n", incomingBuffer[0]);
     #endif
     
-    // Update incoming data.
-    #ifdef _WIN32
-      success = WriteFile(port, outgoingBuffer, sizeof(outgoingBuffer), &written, NULL);
-    #else
-      result = write(port, outgoingBuffer, sizeof(outgoingBuffer));
-      if (result != (ssize_t)sizeof(outgoingBuffer))
-      {
-        perror("failed to write to port\n");
-        return -1;
-      }
-    #endif
+    if (is_running == 0)
+    {
+      // Update incoming data.
+      #ifdef _WIN32
+        success = WriteFile(port, "0", 4, &written, NULL);
+      #else
+        result = write(port, "0", 4);
+        if (result != (ssize_t)4)
+        {
+          perror("failed to write to port\n");
+          return -1;
+        }
+        else
+        {
+          is_running = 1;
+        }
+      #endif
+    }
+    if (is_running == 1)
+    {
+      // Update incoming data.
+      #ifdef _WIN32
+        success = WriteFile(port, "1", 4, &written, NULL);
+      #else
+        result = write(port, "1", 4);
+        if (result != (ssize_t)4)
+        {
+          perror("failed to write to port\n");
+          return -1;
+        }
+      #endif
+    }
     
     // Close port.
     #ifdef _WIN32

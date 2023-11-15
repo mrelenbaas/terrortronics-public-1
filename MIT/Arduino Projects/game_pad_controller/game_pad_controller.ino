@@ -60,7 +60,7 @@
   - empty
 */
 
-#include "game_pad_controller.h" 
+#include "game_pad_controller.h"
 
 // Arduino runs at 16 Mhz, so we have 1000 overflows per second...
 // this ISR will get hit once a millisecond
@@ -143,140 +143,6 @@ void __attribute__ ((noinline)) big_cpu_fn_2 (void) {
   // DVn("2 lw ", long_waste);
 }
 
-////////////////////////////////////////////////////////////////////////
-// Serial //////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-/**
-   The serial baud rate.
-*/
-const int BAUD_RATE = 9600;
-
-const int SERIAL_DELAY = 10;
-
-// Pin constants.
-const int HORIZONTAL = A0;
-const int VERTICAL = A1;
-const int BUTTON = 2;
-const int SILICONE_BUTTON = 3;
-
-// Hot keyboard.
-int horizontal;
-int vertical;
-int button;
-int siliconeButton;
-
-// Messages.
-enum messages {
-  startMessage = 48,
-  resetMessage = 49
-};
-const char OUTGOING_START[] = {
-  't',
-  'y',
-  'p',
-  'e',
-  ':',
-  'c',
-  'o',
-  'n',
-  'f',
-  'i',
-  'g',
-  ',',
-  'f',
-  'i',
-  'l',
-  'e',
-  'n',
-  'a',
-  'm',
-  'e',
-  ':',
-  'g',
-  'a',
-  'm',
-  'e',
-  '_',
-  'p',
-  'a',
-  'd',
-  '_',
-  'c',
-  'o',
-  'n',
-  't',
-  'r',
-  'o',
-  'l',
-  'l',
-  'e',
-  'r',
-  ',',
-  'f',
-  'u',
-  'n',
-  'c',
-  't',
-  'i',
-  'o',
-  'n',
-  ':',
-  'r',
-  'e',
-  's',
-  'e',
-  't',
-  ',',
-  'd',
-  'e',
-  'l',
-  'i',
-  'm',
-  'i',
-  't',
-  'e',
-  'r',
-  's',
-  ':',
-  ' ',
-  'c',
-  'm',
-  '0',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '1',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '2',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '3',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '4',
-  ';',
-  '\\',
-  'n',
-  '\0'
-};
-int incomingMessage;
-
-const long PERIOD = 1000;
-long timePrevious;
-long timeCurrent;
-long timeDelta;
-long timeThisSecond;
-unsigned long fpsPrevious;
-unsigned long fpsCurrent;
-
 // Pseudo-constructor.
 void setup() {
 #if PROFILING
@@ -287,13 +153,13 @@ void setup() {
 
   Serial.begin(BAUD_RATE);
 
-  Serial.println("setup()");
+  //Serial.println("setup()");
 
   int_counter = 0;
   seconds = 0;
   minutes = 0;
 
-  Serial.println("setupTimer()");
+  //Serial.println("setupTimer()");
   setupTimer();
 
   pinMode(HORIZONTAL, INPUT);
@@ -306,6 +172,8 @@ void setup() {
   timeCurrent = millis();
   timeDelta = timeCurrent - timePrevious;
   timeThisSecond = timeDelta;
+
+  Serial.println("1");
 }
 
 /**
@@ -322,7 +190,7 @@ void loop() {
   op ^= 1;
   digitalWrite(1, op & 1);  // toggle a pin so we can see loop rate
   //if (int_counter < 110) {
-    //DVn("sec ", seconds);
+  //DVn("sec ", seconds);
   //}
 #if PROFILING
   if (seconds % 60 == 3 && !prof_has_dumped) {
@@ -341,8 +209,8 @@ void loop() {
     fpsPrevious = fpsCurrent;
     fpsCurrent = 0;
     timeThisSecond -= PERIOD;
-    Serial.print("FPS: ");
-    Serial.println(fpsPrevious);
+    //Serial.print("FPS: ");
+    //Serial.println(fpsPrevious);
   } else {
     ++fpsCurrent;
   }
@@ -352,23 +220,45 @@ void loop() {
   button = digitalRead(BUTTON);
   siliconeButton = digitalRead(SILICONE_BUTTON);
 
-  //Serial.flush();
-  Serial.print(horizontal);
-  Serial.print(", ");
-  Serial.print(vertical);
-  Serial.print(", ");
-  Serial.print(button);
-  Serial.print(", ");
-  Serial.println(siliconeButton);
+  /*
+    if (isStarted) {
+    //Serial.flush();
+    Serial.print(horizontal);
+    Serial.print(", ");
+    Serial.print(vertical);
+    Serial.print(", ");
+    Serial.print(button);
+    Serial.print(", ");
+    Serial.println(siliconeButton);
+    }
+  */
 
-  if (Serial.available() > 0) {
+  if (Serial.available() > 0 && !isStarted) {
     // WARNING: Remember to consume the incoming bytes.
     // The error does not occur when using the usb.c or usb.py files.
     // The error does occur when reading/writing in a PyGame application.
     incomingMessage = Serial.read();
+    //Serial.println(incomingMessage);
     switch (incomingMessage) {
       case startMessage:
         start();
+        break;
+      case resetMessage:
+        //reset();
+        break;
+      default:
+        break;
+    }
+  }
+  if (Serial.available() > 0 && isStarted) {
+    // WARNING: Remember to consume the incoming bytes.
+    // The error does not occur when using the usb.c or usb.py files.
+    // The error does occur when reading/writing in a PyGame application.
+    incomingMessage = Serial.read();
+    //Serial.println(incomingMessage);
+    switch (incomingMessage) {
+      case startMessage:
+        //start();
         break;
       case resetMessage:
         reset();
@@ -383,9 +273,23 @@ void loop() {
 
 void reset() {
   //Serial.println("reset()");
+  //isStarted = false;
+  //Serial.println(incomingMessage);
+  if (isStarted) {
+    //Serial.flush();
+    Serial.print("0: ");
+    Serial.print(horizontal);
+    Serial.print(", ");
+    Serial.print(vertical);
+    Serial.print(", ");
+    Serial.print(button);
+    Serial.print(", ");
+    Serial.println(siliconeButton);
+  }
 }
 
 void start() {
-  //Serial.print("start(): ");
+  Serial.print("2");
   //Serial.println(OUTGOING_START);
+  isStarted = true;
 }

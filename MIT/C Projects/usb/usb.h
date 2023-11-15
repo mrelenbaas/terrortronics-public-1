@@ -159,3 +159,5 @@ char incomingChar[2];
 int charIndex = 0;
 const int INDEX_MAX = 72;
 char incomingChars[73];
+
+int is_running = 0;

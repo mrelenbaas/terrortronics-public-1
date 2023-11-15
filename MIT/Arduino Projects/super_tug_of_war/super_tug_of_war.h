@@ -93,7 +93,7 @@ void stopSoundTimer();
 void stopToggleTimer();
 void stopTugSequence();
 void updateButtons();
-void updateTimers();
+void updateStopSpecialTimeout();
 void updateSwitches();
 void stopStopTimer();
 void routeResults2();
@@ -235,7 +235,7 @@ enum pinEnum {
 const int BAUD_RATE = 9600;
 
 ////////////////////////////////////////////////////////////////////////
-// Debounce ////////////////////////////////////////////////////////////
+// Debounce by Time ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
    Time (in milliseconds) from the beginning of a button (or switch)
@@ -258,14 +258,14 @@ unsigned long delta;
    A single reusable timer.
 
    @section Details
-   The buttons and switches also have individual debounce timers.
+   The buttons and switches also have individual debounce STOP_SPECIAL_TIMEOUT.
 */
 struct Timer {
   unsigned long total;    ///< Time since timer reset.
   unsigned long timeout;  ///< Timer length.
 };
 /**
-   A set of reusable timers.
+   A set of reusable STOP_SPECIAL_TIMEOUT.
 */
 Timer timers[] = {
   Timer(),
@@ -280,7 +280,7 @@ Timer timers[] = {
   Timer()
 };
 /**
-   An enum paired with the timers array.
+   An enum paired with the STOP_SPECIAL_TIMEOUT array.
 */
 enum timerEnum {
   sound,
@@ -294,6 +294,50 @@ enum timerEnum {
   readySpecial,
   winnerSpecial
 };
+
+////////////////////////////////////////////////////////////////////////
+// Debounce by Position ////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The current switch.
+ */
+int currentSwitch = -1;
+/**
+ * The previous switch.
+ */
+int previousSwitch = -1;
+/**
+ * A counter to count how many switches are pressed.
+ */
+int countSwitch = -1;
+/**
+ * The single switch (if there aren't plural switches being pressed).
+ */
+int singleSwitch = -1;
+/**
+ * The block that prevents bouncing.
+ */
+bool isSwitchAlreadyBlocked = false;
+
+////////////////////////////////////////////////////////////////////////
+// Debounce by Frame ///////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The first frame block for the left leaf-switch.
+ */
+bool emergencyLeft = false;
+/**
+ * The second frame block for the left leaf-switch.
+ */
+bool emergencyLeft2 = false;
+/**
+ * The first frame block for the right leaf-switch.
+ */
+bool emergencyRight = false;
+/**
+ * The second frame block for the right leaf-switch.
+ */
+bool emergencyRight2 = false;
 
 ////////////////////////////////////////////////////////////////////////
 // Sounds //////////////////////////////////////////////////////////////
@@ -656,6 +700,13 @@ bool isStopTimerOn = false;
  */
 bool isWinnerTimerOn = false;
 
+/**
+ * The application's state when in the isSequenceOn state. Iterates 
+ * through tug sequences, their segments, and finally loops back to 
+ * the first tug sequence.
+ */
+bool isSequenceOn = false;
+
 ////////////////////////////////////////////////////////////////////////
 // Scores //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -696,88 +747,89 @@ int roundCurrent = 0;
  */
 int roundMax = 6;
 
-int currentSwitch = -1;
-int previousSwitch = -1;
-int countSwitch = -1;
-int singleSwitch = -1;
-bool isSwitchAlreadyBlocked = false;
-
-bool isFirstLoop = true;
-
-bool result;
-
-// Unit Tests.
-//bool isUnitTestingOn = true;
-int testCurrent = 0;
-int testMax = 2;
-// #1: // Left, Right, Left, Right, Left, Right.
-//bool player1Test[] = {false, true, false, true, false, true};
-//bool player2Test[] = {true, false, true, false, true, false};
-// #2: // Right, Left, Right, Left, Right, Left.
-//bool player1Test[] = {true, false, true, false, true, false};
-//bool player2Test[] = {false, true, false, true, false, true};
-// 3. // Tie, Tie, Tie, Tie, Tie, Tie.
-//bool player1Test[] = {0, 0, 0, 0, 0, 0};
-//bool player2Test[] = {0, 0, 0, 0, 0, 0};
-// 4.
-//bool player1Test[] = {true, true, true, true, true, true};
-//bool player2Test[] = {false, false, false, false, false, false};
-// 5.
-//bool player1Test[] = {10, 10, 10, 10, 10, 10};
-//bool player2Test[] = {5, 5, 5, 5, 5, 5};
-// 6.
-//bool player1Test[6];
-//bool player2Test[6];
-// Total
-//bool unitTests[][2][6] = {
-//  {{true, false, true, false, true, false}, {false, true, false, true, false, true}}, // Left, Right, Left, Right, Left, Right.
-//  {{false, true, false, true, false, true}, {true, false, true, false, true, false}}, // Right, Left, Right, Left, Right, Left.
-//  {{false, true, false, true, false, true}, {false, true, false, true, false, true}} // Tie, Tie, Tie, Tie, Tie, Tie.
-//};
-
-int roundCurrent3 = 0;
-
+////////////////////////////////////////////////////////////////////////
+// Tug Sequences ///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The tug sequence's first dimension's length.
+ */
 const int SEQUENCE_I_MAX = 4;
+/**
+ * The tug sequence's second dimension's length.
+ */
 const int SEQUENCE_J_MAX = 3;
+/**
+ * The the motor moving left.
+ */
 bool isSequenceLeft = true;
-bool isSequenceOn = false;
+/**
+ * The time of each segment.
+ */
 long sequenceTimeout[][SEQUENCE_I_MAX] = {
   {200L, 200L, 200L, 200L},
   {500L, 500L, 500L, 500L},
   {200L, 200L, 500L, 500L}
 };
+/**
+ * The direction of each segment.
+ */
 long sequenceIsLeft[][SEQUENCE_I_MAX] = {
   {true, false, true, false},
   {false, true, false, true},
   {true, false, true, false}
 };
+/**
+ * The tug sequence's first dimension's index.
+ */
 int sequenceI = 0;
+/**
+ * The tug sequence's second dimension's index.
+ */
 int sequenceJ = 0;
-//bool isOnlyStop = false;
-//long randomTime = 500L;
-const long SEQUENCE_MIN = 200L;
-const long SEQUENCE_MAX = 400L;
-//long sequenceTimeout[] = {100L, 200L};
-int sequenceCounter = 2;
+/**
+ * Blocks the five second timer.
+ */
 bool isFiveSecondTimerBlocked = false;
 
-char message[] = {'a', 'b', 'c'};
-
-bool errorPluralInput = false;
-
-bool preRouteResult = false;
+////////////////////////////////////////////////////////////////////////
+// Routing /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The result of the preRouteResults() function.
+ */
+bool preRouteResult;
+/**
+ * The current switch as of the preRouteResults() function.
+ */
 int preRouteSwitch;
+/**
+ * The current round as of the preRouteResults() function.
+ */
 int preRouteRoundCurrent;
 
 bool emergencyStop;
 
-long stopSpecialTimeout = 1515L;
+////////////////////////////////////////////////////////////////////////
+// Timers //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The special time for the Stop sound.
+ */
+long STOP_SPECIAL_TIMEOUT = 1515L;
 
-// Messages.
+////////////////////////////////////////////////////////////////////////
+// Messages ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * An enum of possible message codes.
+ */
 enum messages {
   startMessage = 48,
   resetMessage = 49
 };
+/**
+ * The default outgoing message.
+ */
 const char OUTGOING_START[] = {
   't',
   'y',
@@ -859,17 +911,35 @@ const char OUTGOING_START[] = {
   'n',
   '\0'
 };
+/**
+ * The incoming message.
+ */
 int incomingMessage;
 
-bool emergencyLeft = false;
-bool emergencyRight = false;
-bool emergencyLeft2 = false;
-bool emergencyRight2 = false;
-
+////////////////////////////////////////////////////////////////////////
+// Multi-Color LED /////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The red color's pin.
+ */
 const int RED = A0;
+/**
+ * The blue color's pin.
+ */
 const int BLUE = A1;
+/**
+ * The green color's pin.
+ */
 const int GREEN = A2;
-int val;
 
+////////////////////////////////////////////////////////////////////////
+// Debug ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The debug timer's timeout.
+ */
 const unsigned long DEBUG_TIMEOUT = 1000L;
+/**
+ * The debug timer's time.
+ */
 unsigned long debugTimer = 0L;

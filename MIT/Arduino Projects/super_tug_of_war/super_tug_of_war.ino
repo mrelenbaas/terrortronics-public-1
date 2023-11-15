@@ -25,7 +25,7 @@ void setup() {
   timers[oneSecond].timeout = 1000L;
   timers[fiveSecond].timeout = 5000L;
   timers[tenSecond].timeout = 10000L;
-  timers[sequence].timeout = random(SEQUENCE_MIN, SEQUENCE_MAX);
+  timers[sequence].timeout = sequenceTimeout[0][0];
   timers[tieSpecial].timeout = 4000L;
   timers[stopSpecial].timeout = 1.515L;
   timers[readySpecial].timeout = 2500L;
@@ -89,39 +89,9 @@ void setup() {
   pinMode(RED, OUTPUT);
   pinMode(BLUE, OUTPUT);
   pinMode(GREEN, OUTPUT);
-  /*
-    for (val = 255; val > 0; val--)
-    {
-    analogWrite(RED, val);
-    analogWrite(GREEN, 255 - val);
-    analogWrite(BLUE, 128 - val);
-    Serial.println(val, DEC);
-    delay(5);
-    }
-    for (val = 0; val < 255; val++)
-    {
-    analogWrite(RED, val);
-    analogWrite(GREEN, 255 - val);
-    analogWrite(BLUE, 128 - val);
-    Serial.println(val, DEC);
-    delay(5);
-    }
-  */
-  /*
-  analogWrite(RED, 255);
-  analogWrite(GREEN, 0);
-  analogWrite(BLUE, 0);
-  delay(1000);
-  analogWrite(RED, 0);
-  analogWrite(GREEN, 255);
-  analogWrite(BLUE, 0);
-  delay(1000);
-  */
   analogWrite(RED, 0);
   analogWrite(GREEN, 0);
   analogWrite(BLUE, 255);
-  //Serial.println(val, DEC);
-  //Serial.println(millis());
   pinMode(pinLightDebug, OUTPUT);
 }
 
@@ -180,14 +150,14 @@ void loop() {
   if (timers[readySpecial].total >= 2500L) {
     stopReadyTimer();
   }
-  if (timers[stopSpecial].total >= stopSpecialTimeout) {
+  if (timers[stopSpecial].total >= STOP_SPECIAL_TIMEOUT) {
     stopStopTimer();
   } else if (isStopTimerOn && timers[stopSpecial].total > 1100L) {
     routeResults2();
     routeResults();
     digitalWrite(pinLightStop, LOW);
     //routeResults2();
-  } else if (isStopTimerOn && timers[stopSpecial].total < stopSpecialTimeout) {
+  } else if (isStopTimerOn && timers[stopSpecial].total < STOP_SPECIAL_TIMEOUT) {
     motor.moveStop();
   }
   if (errorCheckContactSwitches()) {
@@ -195,25 +165,6 @@ void loop() {
   }
   // Route Buttons;
   routeButtons();
-  /*
-    // Discovery.
-    if (Serial.available() > 0) {
-    // WARNING: Remember to consume the incoming bytes.
-    // The error does not occur when using the usb.c or usb.py files.
-    // The error does occur when reading/writing in a PyGame application.
-    incomingMessage = Serial.read();
-    switch (incomingMessage) {
-      case startMessage:
-        startFunction();
-        break;
-      case resetMessage:
-        resetFunction();
-        break;
-      default:
-        break;
-    }
-    }
-  */
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1090,20 +1041,6 @@ void stopTugSegment() {
       sequenceJ = 0;
     }
   }
-
-  // Uncomment to enable a randomized tug sequence.
-  /*
-    if (isSequenceLeft) {
-    motor.moveLeft();
-    isSequenceLeft = false;
-    } else {
-    motor.moveRight();
-    isSequenceLeft = true;
-    timers[sequence].timeout = random(SEQUENCE_MIN, SEQUENCE_MAX);
-    }
-  */
-  //////Serial.print(", timers[sequence].timeout: ");
-  ////////Serial.println(timers[sequence].timeout);
 }
 
 void stopSoundTimer() {
@@ -1111,16 +1048,8 @@ void stopSoundTimer() {
     return;
   }
   isSoundTimerOn = false;
-  ////Serial.print("stopSoundTimer() - timers[");
-  ////Serial.print(sound);
-  ////Serial.print("].total: ");
-  ////Serial.print(timers[sound].total);
   timers[sound].total = 0L;
   digitalWrite(sounds[soundCurrent].pin, LOW);
-  ////Serial.print(", sounds[");
-  ////Serial.print(soundCurrent);
-  ////Serial.print("].pin: ");
-  //////Serial.println(digitalRead(sounds[soundCurrent].pin));
   soundCurrent = -1;
 }
 

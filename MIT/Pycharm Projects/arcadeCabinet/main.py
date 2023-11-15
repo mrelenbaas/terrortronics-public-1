@@ -11,8 +11,40 @@
 # This file observes the MIT License.
 
 """
-Copyright 2023 Bradley Elenbaas
+Super Tug-of-War
 
+Description
+-----------
+The main function instantiates the Main class, and nothing else.
+
+Circuit
+-------
+- Empty.
+
+Libraries
+---------
+- Empty.
+
+Notes
+-----
+- Empty.
+
+TODO
+----
+- Empty.
+
+Author(s)
+---------
+- Bradley Elenbaas (mr.elenbaas@gmail.com)
+- Version 2
+- Date: December 27, 2020
+
+Intellectual Property
+---------------------
+Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
+
+License
+-------
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files
 (the “Software”), to deal in the Software without restriction,
@@ -31,6 +63,18 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Pins
+----
+- Empty.
+
+Resources
+---------
+- Empty.
+
+WARNINGS
+--------
+- Empty.
 """
 
 
@@ -42,14 +86,9 @@ import profiler
 
 """The main file. Houses the main function and Main class.
 
-Description
------------
-The main function instantiates the Main class, and nothing else.
 
-Author(s)
----------
-- Created by Bradley Elenbaas on 12/27/2020.
-- Modified by Bradley Elenbaas on 12/29/2020.
+
+
 
 Copyright (c) 2020 Bradley Elenbaas.  All rights reserved.
 
