@@ -56,6 +56,7 @@
    @section resources Resources
    - https://randomnerdtutorials.com/complete-guide-for-ultrasonic-sensor-hc-sr04/
    - https://learn.sparkfun.com/tutorials/installing-an-arduino-library/all
+   - https://stackoverflow.com/questions/1637332/static-const-vs-define
 
    @section warnings WARNINGS
    - empty
@@ -70,6 +71,12 @@ void setup() {
   timeCurrent = millis();
   timeDelta = timeCurrent - timePrevious;
   timeThisSecond = timeDelta;
+  pinMode(AVOID_PIN, INPUT);
+  pinMode(METAL_PIN, INPUT);
+  pinMode(LED, OUTPUT);
+  pinMode(SOUND_ANALOG, INPUT);
+  pinMode(SOUND_DIGITAL, INPUT_PULLUP);
+  pinMode(PAPER, INPUT_PULLUP);
 }
 
 /**
@@ -84,12 +91,24 @@ void loop() {
     fpsPrevious = fpsCurrent;
     fpsCurrent = 0;
     timeThisSecond -= PERIOD;
+    if (led) {
+      digitalWrite(LED, HIGH);
+    } else {
+      digitalWrite(LED, LOW);
+    }
+    led = !led;
     Serial.print("FPS: ");
     Serial.println(fpsPrevious);
   }// else {
   //  ++fpsCurrent;
   //}
   //delay(50);
+  avoid = digitalRead(AVOID_PIN);
+  metal = analogRead(METAL_PIN);
+  soundAnalog = analogRead(SOUND_ANALOG);
+  soundDigital = digitalRead(SOUND_DIGITAL);
+  paper = digitalRead(PAPER);
+  /*
   if (sonarIndex == 0) {
     unsigned int distance = sonar.ping_cm();
     Serial.print(distance);
@@ -111,12 +130,30 @@ void loop() {
     Serial.print(distance4);
     Serial.println(" cm4");
   }
+  */
+  /*
+  Serial.print(avoid);
+  Serial.println(" cm5");
+  */
+  /*
+  Serial.print(metal);
+  Serial.println(" cm6");
+  */
+  /*
+  Serial.print(soundAnalog);
+  Serial.print(", ");
+  Serial.print(soundDigital);
+  Serial.println(" cm7");
+  */
+  Serial.print(paper);
+  Serial.println(" cm8");
   ++sonarIndex;
   if (sonarIndex >= SONAR_MAX) {
     sonarIndex = 0;
   } else {
     //++fpsCurrent;
   }
+  
   ++fpsCurrent;
   if (Serial.available() > 0) {
     // WARNING: Remember to consume the incoming bytes.
