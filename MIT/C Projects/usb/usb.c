@@ -54,6 +54,7 @@
    - empty
 
    @section resources Resources
+   - https://stackoverflow.com/questions/1722112/what-are-the-most-common-naming-conventions-in-c
    - https://www.cs.cmu.edu/~410/doc/doxygen.html
 
    @section warnings WARNINGS
