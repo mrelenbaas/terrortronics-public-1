@@ -1,6 +1,19 @@
 // https://docs.arduino.cc/built-in-examples/digital/Debounce
 
+#include "MemoryUsage.h"
+//#include <malloc.h>
+#include <MemoryFree.h>;
+
 #include "super_tug_of_war.h"
+
+/*
+#ifdef __arm__
+// should use uinstd.h to define sbrk but Due causes a conflict
+extern "C" char* sbrk(int incr);
+#else  // __ARM__
+extern char *__brkval;
+#endif  // __arm__
+*/
 
 /**
    - Instantiate local variables.
@@ -94,6 +107,47 @@ void setup() {
   pinMode(pinLightDebug, OUTPUT);
 }
 
+/*
+void ShowMemory(void)
+{
+  struct mallinfo mi=mallinfo();
+
+  char *heapend=sbrk(0);
+  register char * stack_ptr asm("sp");
+
+  pConsole->printf("    arena=%d\n",mi.arena);
+  pConsole->printf("  ordblks=%d\n",mi.ordblks);
+  pConsole->printf(" uordblks=%d\n",mi.uordblks);
+  pConsole->printf(" fordblks=%d\n",mi.fordblks);
+  pConsole->printf(" keepcost=%d\n",mi.keepcost);
+  
+  pConsole->printf("RAM Start %lx\n", (unsigned long)ramstart);
+  pConsole->printf("Data/Bss end %lx\n", (unsigned long)&_end);
+  pConsole->printf("Heap End %lx\n", (unsigned long)heapend);
+  pConsole->printf("Stack Ptr %lx\n",(unsigned long)stack_ptr);
+  pConsole->printf("RAM End %lx\n", (unsigned long)ramend);
+
+  pConsole->printf("Heap RAM Used: %d\n",mi.uordblks);
+  pConsole->printf("Program RAM Used %d\n",&_end - ramstart);
+  pConsole->printf("Stack RAM Used %d\n",ramend - stack_ptr);
+
+  pConsole->printf("Estimated Free RAM: %d\n\n",stack_ptr - heapend + mi.fordblks);
+}
+*/
+
+/*
+int freeMemory() {
+  char top;
+#ifdef __arm__
+  //return &top - reinterpret_cast<char*>(sbrk(0));
+#elif defined(CORE_TEENSY) || (ARDUINO > 103 && ARDUINO != 151)
+  return &top - __brkval;
+#else  // __arm__
+  return __brkval ? &top - __brkval : &top - __malloc_heap_start;
+#endif  // __arm__
+}
+*/
+
 /**
    - Update timers.
    - Update input.
@@ -103,6 +157,10 @@ void setup() {
    - Check timers.
 */
 void loop() {
+  //FREERAM_PRINT
+  //ShowMemory();
+  //freeMemory();
+  Serial.println(freeMemory());
   // Update timers.
   updateTimers();
   // Update input.
@@ -155,9 +213,12 @@ void loop() {
   } else if (isStopTimerOn && timers[stopSpecial].total < STOP_SPECIAL_TIMEOUT) {
     motor.moveStop();
   }
+  // TODO: Remember that you disabled this.
+  /*
   if (errorCheckContactSwitches()) {
     return;
   }
+  */
   // Route Buttons;
   routeButtons();
 }

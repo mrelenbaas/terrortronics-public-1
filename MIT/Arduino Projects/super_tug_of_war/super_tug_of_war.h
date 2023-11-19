@@ -58,14 +58,17 @@
    @section reference Resources
    - Documentation
     + Hardware:
-        https://docs.arduino.cc/hardware/due
+     - https://docs.arduino.cc/hardware/due
     + Software:
-        https://www.arduino.cc/reference/en/
+     - https://www.arduino.cc/reference/en/
+     - https://www.arduino.cc/reference/en/libraries/memoryusage/
+     - https://learn.adafruit.com/memories-of-an-arduino/measuring-free-memory
+     - https://github.com/mpflaga/Arduino-MemoryFree/tree/master
    - Debouncing
     + Time Based:
-        https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
+     - https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
     + Current/Previous Based:
-        https://docs.arduino.cc/built-in-examples/digital/Debounce
+     - https://docs.arduino.cc/built-in-examples/digital/Debounce
 
    @section warnings WARNINGS
    - empty
