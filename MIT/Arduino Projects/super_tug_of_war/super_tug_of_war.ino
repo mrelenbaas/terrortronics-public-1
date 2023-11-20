@@ -257,6 +257,50 @@ void setTarget(int index) {
 }
 
 /**
+ * - Set next state.
+ * - Set timers.
+ * - Set lights.
+ * - Set sound.
+ */
+void startStop() {
+  // Set next state.
+  isStopTimerOn = true;
+  isStopOn = true;
+  routeResults();
+  // Set timers.
+  timers[stopSpecial].total = 0L;
+  // Set lights.
+  digitalWrite(pinLightStop, HIGH);
+  // Set sound.
+  playSound(stop);
+}
+
+/**
+   - Return if isFiveSecondTimerOn is FALSE.
+   - Reset state.
+   - Route isTugOn, isSuddenDeathLeft/RightBlinking, isReadyBlinking, and isTie.
+*/
+void stopFiveSecondTimer() {
+  // Return if isFiveSecondTimerOn is FALSE.
+  if (!isFiveSecondTimerOn) {
+    return;
+  }
+  // Reset state.
+  isFiveSecondTimerOn = false;
+  timers[fiveSecond].total = 0L;
+  // Route isTugOn, isSuddenDeathLeft/RightBlinking, isReadyBlinking, and isTie.
+  if (isTugOn) {
+    stopIsTugOn();
+  } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
+    stopSuddenDeathBlinking();
+  } else if (isReadyBlinking) {
+    stopReadyTimer();
+  } else if (isTie) {
+    stopTie();
+  }
+}
+
+/**
    - Return if isOneSecondTimerOn state is inactive.
    - Reset state and timer.
    - Set state and timer to Two state, Three state, Tug state, or Stop
@@ -309,13 +353,13 @@ void stopOneSecondTimer() {
 }
 
 /**
- * - Return if isReadyTimerOn is FALSE.
- * - Reset state.
- * - Set next state.
- * - Set timers.
- * - Set lights.
- * - Set sound.
- */
+   - Return if isReadyTimerOn is FALSE.
+   - Reset state.
+   - Set next state.
+   - Set timers.
+   - Set lights.
+   - Set sound.
+*/
 void stopReadyTimer() {
   // Return if isReadyTimerOn is FALSE.
   if (!isReadyTimerOn) {
@@ -423,6 +467,85 @@ void stopToggleTimer() {
   } else {
     isToggleOn = true;
   }
+}
+
+/**
+   - Reset state.
+   - Set lights.
+   - Process results.
+   - Route results.
+   - Set next state.
+*/
+void stopIsTugOn() {
+  // Reset state.
+  isTugOn = false;
+  // Set lights.
+  digitalWrite(pinLightTug, LOW);
+  // Process results.
+  calculateResults();
+  preRouteResult = preRouteResults();
+  // Route results.
+  if (preRouteResult) {
+    routeResults3();
+  } else {
+    startStop();
+  }
+  // Set next state.
+  roundCurrent++;
+}
+
+/**
+ * - Reset state.
+ * - Set next state.
+ * - Set timers.
+ * - Set sound.
+ */
+void stopSuddenDeathBlinking() {
+  // Reset state.
+  isSuddenDeathLeftBlinking = false;
+  isSuddenDeathRightBlinking = false;
+  // Set next state.
+  isToggleOn = true;
+  isOneSecondTimerOn = true;
+  isFiveSecondTimerOn = true;
+  isReadyBlinking = true;
+  isReadyTimerOn = true;
+  // Set timers.
+  timers[toggle].total -= 200L;
+  timers[oneSecond].total = 0L;
+  timers[fiveSecond].timeout = 2500L;
+  // Set sound.
+  playSound(ready);
+  // TODO: Remember to test this for a while before removing.
+  //if (isChampionLeftBlinking || isChampionRightBlinking) {
+  //  isReadyBlinking = false;
+  //  digitalWrite(pinLightReady, LOW);
+  //}
+}
+
+/**
+ * - Reset state.
+ * - Set next state.
+ * - Set timers.
+ * - Set sound.
+ */
+void stopTie() {
+  // Reset state.
+  isTie = false;
+  // Set next state.
+  isFiveSecondTimerOn = true;
+  isReadyBlinking = true;
+  isReadyTimerOn = true;
+  // Set timers.
+  timers[fiveSecond].timeout = 2500L;
+  timers[readySpecial].total = 0L;
+  // Set sound.
+  playSound(ready);
+  // TODO: Remember to test this before removing.
+  //if (isChampionLeftBlinking || isChampionRightBlinking) {
+  //  isReadyBlinking = false;
+  //  digitalWrite(pinLightReady, LOW);
+  //}
 }
 
 /**
@@ -1137,82 +1260,6 @@ void calculateResults() {
   Serial.print(millis());
   Serial.print(": player2Score: ");
   Serial.println(player2Score);
-}
-
-void stopIsTugOn() {
-    digitalWrite(pinLightTug, LOW);
-    isTugOn = false;
-    calculateResults();
-    preRouteResult = preRouteResults();
-    if (preRouteResult) {
-      routeResults3();
-    } else {
-      playSound(stop);
-      digitalWrite(pinLightStop, HIGH);
-      isStopTimerOn = true;
-      timers[stopSpecial].total = 0L;
-      routeResults();
-      isStopOn = true;
-    }
-    roundCurrent++;
-}
-
-void stopSuddenDeathBlinking() {
-    timers[toggle].total -= 200L;
-    isToggleOn = true;
-    timers[oneSecond].total = 0L;
-    isOneSecondTimerOn = true;
-    isFiveSecondTimerOn = true;
-    isReadyBlinking = true;
-    isReadyTimerOn = true;
-    timers[fiveSecond].timeout = 2500L;
-    playSound(ready);
-    isSuddenDeathLeftBlinking = false;
-    isSuddenDeathRightBlinking = false;
-    if (isChampionLeftBlinking || isChampionRightBlinking) {
-      isReadyBlinking = false;
-      digitalWrite(pinLightReady, LOW);
-    }
-}
-
-void stopTie() {
-    timers[fiveSecond].timeout = 2500L;
-    isFiveSecondTimerOn = true;
-    isReadyBlinking = true;
-    isReadyTimerOn = true;
-    timers[readySpecial].total = 0L;
-    playSound(ready);
-    if (isChampionLeftBlinking || isChampionRightBlinking) {
-      isReadyBlinking = false;
-      digitalWrite(pinLightReady, LOW);
-    }
-    isTie = false;
-}
-
-/**
- * - Return if isFiveSecondTimerOn is FALSE.
- * - Reset state.
- * - Route isTugOn, isSuddenDeathLeft/RightBlinking, isReadyBlinking, and isTie.
- */
-void stopFiveSecondTimer() {
-  // Return if isFiveSecondTimerOn is FALSE.
-  if (!isFiveSecondTimerOn) {
-    return;
-  }
-  // Reset state.
-  isFiveSecondTimerOn = false;
-  timers[fiveSecond].total = 0L;
-  // Route isTugOn, isSuddenDeathLeft/RightBlinking, isReadyBlinking, and isTie.
-  if (isTugOn) {
-    stopIsTugOn();
-  } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
-    stopSuddenDeathBlinking();
-  } else if (isReadyBlinking) {
-    //isReadyTimerOn = true;
-    stopReadyTimer();
-  } else if (isTie) {
-    stopTie();
-  }
 }
 
 void stopTenSecondTimer() {
