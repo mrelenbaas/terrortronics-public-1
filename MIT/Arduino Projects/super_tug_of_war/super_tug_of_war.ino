@@ -444,7 +444,7 @@ void routeResults() {
   } else {
     if (preRouteRoundCurrent > 4) {
       //digitalWrite(pinLightWinnerRight, HIGH);
-      //isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
+      //isChampionRightBlinking = true;
       motor.moveRight();
       setTarget(5);
     } else if (preRouteRoundCurrent == 4) {
@@ -604,17 +604,19 @@ void routeResults2() {
   } else {
     if (preRouteRoundCurrent > 4) {
       //isToggleOn = true;
-      //digitalWrite(pinLightWinnerRight, HIGH);
+      digitalWrite(pinLightWinnerRight, HIGH);
       timers[toggle].total = 0L;
       digitalWrite(pinLightChampionRight, HIGH);
-      isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
+      isChampionRightBlinking = true;
+      digitalWrite(pinLightSuddenDeathLeft, LOW);
+      digitalWrite(pinLightSuddenDeathRight, LOW);
       //isGameOver = true;
       //motor.moveRight();
       playSound(dogThird);
     } else if (preRouteRoundCurrent == 4) {
       //isToggleOn = true;
-      //digitalWrite(pinLightSuddenDeathLeft, HIGH);
       timers[toggle].total = 0L;
+      digitalWrite(pinLightSuddenDeathLeft, HIGH);
       digitalWrite(pinLightSuddenDeathRight, HIGH);
       isSuddenDeathLeftBlinking = true;
       isSuddenDeathRightBlinking = true;
