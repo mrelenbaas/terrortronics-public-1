@@ -309,6 +309,36 @@ void stopOneSecondTimer() {
 }
 
 /**
+ * - Return if isReadyTimerOn is FALSE.
+ * - Reset state.
+ * - Set next state.
+ * - Set timers.
+ * - Set lights.
+ * - Set sound.
+ */
+void stopReadyTimer() {
+  // Return if isReadyTimerOn is FALSE.
+  if (!isReadyTimerOn) {
+    return;
+  }
+  // Reset state.
+  isReadyTimerOn = false;
+  isReadyBlinking = false;
+  // Set next state.
+  isOneOn = true;
+  isOneSecondTimerOn = true;
+  // Set timers.
+  timers[readySpecial].total = 0L;
+  timers[oneSecond].total = 0L;
+  timers[fiveSecond].timeout = 5000L;
+  // Set lights.
+  digitalWrite(pinLightReady, LOW);
+  digitalWrite(pinLightOne, HIGH);
+  // Set sound.
+  playSound(one);
+}
+
+/**
    - Return if isSoundTimerOn is off.
    - Reset sound timer.
 */
@@ -1087,7 +1117,8 @@ void calculateResults() {
       //Serial.print(",");
     }
   }
-  Serial.print("player1Score: ");
+  Serial.print(millis());
+  Serial.print(": player1Score: ");
   Serial.println(player1Score);
   //Serial.println("");
   //Serial.print(millis());
@@ -1103,23 +1134,12 @@ void calculateResults() {
     }
   }
   //Serial.println("");
-  Serial.print("player2Score: ");
+  Serial.print(millis());
+  Serial.print(": player2Score: ");
   Serial.println(player2Score);
 }
 
-void stopFiveSecondTimer() {
-  if (!isFiveSecondTimerOn) {
-    return;
-  }
-  isFiveSecondTimerOn = false;
-  ////Serial.print("stopFiveSecondTimer() - ");
-  ////Serial.print("timers[");
-  ////Serial.print(fiveSecond);
-  ////Serial.print("]: ");
-  ////Serial.print(timers[fiveSecond].total);
-  timers[fiveSecond].total = 0L;
-  if (isTugOn) {
-    //////Serial.print(millis()); Serial.print(": "); Serial.println(", isTugOn");
+void stopIsTugOn() {
     digitalWrite(pinLightTug, LOW);
     isTugOn = false;
     calculateResults();
@@ -1127,8 +1147,6 @@ void stopFiveSecondTimer() {
     if (preRouteResult) {
       routeResults3();
     } else {
-      ////Serial.print("preRouteResult: ");
-      //////Serial.print(millis()); Serial.print(": "); Serial.println(preRouteResult);
       playSound(stop);
       digitalWrite(pinLightStop, HIGH);
       isStopTimerOn = true;
@@ -1137,16 +1155,16 @@ void stopFiveSecondTimer() {
       isStopOn = true;
     }
     roundCurrent++;
-  } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
-    //////Serial.print(millis()); Serial.print(": "); Serial.println(", isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking");
+}
+
+void stopSuddenDeathBlinking() {
     timers[toggle].total -= 200L;
     isToggleOn = true;
     timers[oneSecond].total = 0L;
     isOneSecondTimerOn = true;
-    timers[fiveSecond].total = 0L;
-    //timers[fiveSecond].total -= 5000L;
     isFiveSecondTimerOn = true;
     isReadyBlinking = true;
+    isReadyTimerOn = true;
     timers[fiveSecond].timeout = 2500L;
     playSound(ready);
     isSuddenDeathLeftBlinking = false;
@@ -1155,12 +1173,9 @@ void stopFiveSecondTimer() {
       isReadyBlinking = false;
       digitalWrite(pinLightReady, LOW);
     }
-  } else if (isReadyBlinking) {
-    isReadyTimerOn = true;
-    stopReadyTimer();
-    timers[fiveSecond].timeout = 5000L;
-  } else if (isTie) {
-    timers[fiveSecond].total = 0L;
+}
+
+void stopTie() {
     timers[fiveSecond].timeout = 2500L;
     isFiveSecondTimerOn = true;
     isReadyBlinking = true;
@@ -1172,6 +1187,31 @@ void stopFiveSecondTimer() {
       digitalWrite(pinLightReady, LOW);
     }
     isTie = false;
+}
+
+/**
+ * - Return if isFiveSecondTimerOn is FALSE.
+ * - Reset state.
+ * - Route isTugOn, isSuddenDeathLeft/RightBlinking, isReadyBlinking, and isTie.
+ */
+void stopFiveSecondTimer() {
+  // Return if isFiveSecondTimerOn is FALSE.
+  if (!isFiveSecondTimerOn) {
+    return;
+  }
+  // Reset state.
+  isFiveSecondTimerOn = false;
+  timers[fiveSecond].total = 0L;
+  // Route isTugOn, isSuddenDeathLeft/RightBlinking, isReadyBlinking, and isTie.
+  if (isTugOn) {
+    stopIsTugOn();
+  } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
+    stopSuddenDeathBlinking();
+  } else if (isReadyBlinking) {
+    //isReadyTimerOn = true;
+    stopReadyTimer();
+  } else if (isTie) {
+    stopTie();
   }
 }
 
@@ -1231,24 +1271,6 @@ void stopStopTimer() {
   //routeResults2();
 }
 
-void stopReadyTimer() {
-  if (!isReadyTimerOn) {
-    return;
-  }
-  isReadyTimerOn = false;
-  //////Serial.print(millis()); Serial.print(": "); Serial.println("stopReadyTimer() - ");
-  timers[readySpecial].total = 0L;
-  if (isReadyBlinking) {
-    //////Serial.print(millis()); Serial.print(": "); Serial.println(", isReadyBlinking");
-    isReadyBlinking = false;
-    digitalWrite(pinLightReady, LOW);
-    digitalWrite(pinLightOne, HIGH);
-    playSound(one);
-    isOneOn = true;
-    timers[oneSecond].total = 0L; isOneSecondTimerOn = true;
-  }
-}
-
 void updateButtons() {
   hotButtons[start] = digitalRead(pinButtonStart);
   hotButtons[player1Left] = digitalRead(pinButtonPlayer1Left);
@@ -1271,8 +1293,8 @@ void routeButtons() {
         timers[fiveSecond].total = 0L;
         isFiveSecondTimerOn = true;
         isReadyBlinking = true;
-        timers[fiveSecond].timeout = 2500L;
         isReadyTimerOn = true;
+        timers[fiveSecond].timeout = 2500L;
         timers[readySpecial].total = 0L;
         digitalWrite(pinLightSuddenDeathLeft, LOW);
         digitalWrite(pinLightSuddenDeathRight, LOW);
@@ -1454,21 +1476,24 @@ void stopWinnerTimer() {
   //timers[fiveSecond].total -= 5000L;
   isFiveSecondTimerOn = true;
   if (hotSwitches[left1] == LOW) {
-    isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; isReadyTimerOn = true; timers[readySpecial].total = 0L; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
+    isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; timers[readySpecial].total = 0L; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
+    isReadyTimerOn = true;
     playSound(ready);
     if (isChampionLeftBlinking || isChampionRightBlinking) {
       isReadyBlinking = false;
       digitalWrite(pinLightReady, LOW);
     }
   } else if (hotSwitches[center] == LOW) {
-    isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; isReadyTimerOn = true; timers[readySpecial].total = 0L; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
+    isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; timers[readySpecial].total = 0L; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
+    isReadyTimerOn = true;
     playSound(ready);
     if (isChampionLeftBlinking || isChampionRightBlinking) {
       isReadyBlinking = false;
       digitalWrite(pinLightReady, LOW);
     }
   } else if (hotSwitches[right1] == LOW) {
-    isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; isReadyTimerOn = true; timers[readySpecial].total = 0L;// digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
+    isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; timers[readySpecial].total = 0L;// digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
+    isReadyTimerOn = true;
     playSound(ready);
     if (isChampionLeftBlinking || isChampionRightBlinking) {
       isReadyBlinking = false;
