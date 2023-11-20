@@ -58,17 +58,14 @@
    @section reference Resources
    - Documentation
     + Hardware:
-     - https://docs.arduino.cc/hardware/due
+        https://docs.arduino.cc/hardware/due
     + Software:
-     - https://www.arduino.cc/reference/en/
-     - https://www.arduino.cc/reference/en/libraries/memoryusage/
-     - https://learn.adafruit.com/memories-of-an-arduino/measuring-free-memory
-     - https://github.com/mpflaga/Arduino-MemoryFree/tree/master
+        https://www.arduino.cc/reference/en/
    - Debouncing
     + Time Based:
-     - https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
+        https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
     + Current/Previous Based:
-     - https://docs.arduino.cc/built-in-examples/digital/Debounce
+        https://docs.arduino.cc/built-in-examples/digital/Debounce
 
    @section warnings WARNINGS
    - empty
@@ -313,6 +310,7 @@ int previousSwitch = -1;
  * A counter to count how many switches are pressed.
  */
 int countSwitch = -1;
+int countSwitch2 = -1;
 /**
  * The single switch (if there aren't plural switches being pressed).
  */
@@ -969,7 +967,7 @@ const int GREEN = A2;
 /**
  * The debug timer's timeout.
  */
-const unsigned long DEBUG_TIMEOUT = 1000L;
+const unsigned long DEBUG_TIMEOUT = 60000L;
 /**
  * The debug timer's time.
  */

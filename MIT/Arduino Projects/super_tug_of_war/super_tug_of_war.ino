@@ -1,19 +1,8 @@
 // https://docs.arduino.cc/built-in-examples/digital/Debounce
 
-#include "MemoryUsage.h"
-//#include <malloc.h>
 #include <MemoryFree.h>;
 
 #include "super_tug_of_war.h"
-
-/*
-#ifdef __arm__
-// should use uinstd.h to define sbrk but Due causes a conflict
-extern "C" char* sbrk(int incr);
-#else  // __ARM__
-extern char *__brkval;
-#endif  // __arm__
-*/
 
 /**
    - Instantiate local variables.
@@ -107,60 +96,15 @@ void setup() {
   pinMode(pinLightDebug, OUTPUT);
 }
 
-/*
-void ShowMemory(void)
-{
-  struct mallinfo mi=mallinfo();
-
-  char *heapend=sbrk(0);
-  register char * stack_ptr asm("sp");
-
-  pConsole->printf("    arena=%d\n",mi.arena);
-  pConsole->printf("  ordblks=%d\n",mi.ordblks);
-  pConsole->printf(" uordblks=%d\n",mi.uordblks);
-  pConsole->printf(" fordblks=%d\n",mi.fordblks);
-  pConsole->printf(" keepcost=%d\n",mi.keepcost);
-  
-  pConsole->printf("RAM Start %lx\n", (unsigned long)ramstart);
-  pConsole->printf("Data/Bss end %lx\n", (unsigned long)&_end);
-  pConsole->printf("Heap End %lx\n", (unsigned long)heapend);
-  pConsole->printf("Stack Ptr %lx\n",(unsigned long)stack_ptr);
-  pConsole->printf("RAM End %lx\n", (unsigned long)ramend);
-
-  pConsole->printf("Heap RAM Used: %d\n",mi.uordblks);
-  pConsole->printf("Program RAM Used %d\n",&_end - ramstart);
-  pConsole->printf("Stack RAM Used %d\n",ramend - stack_ptr);
-
-  pConsole->printf("Estimated Free RAM: %d\n\n",stack_ptr - heapend + mi.fordblks);
-}
-*/
-
-/*
-int freeMemory() {
-  char top;
-#ifdef __arm__
-  //return &top - reinterpret_cast<char*>(sbrk(0));
-#elif defined(CORE_TEENSY) || (ARDUINO > 103 && ARDUINO != 151)
-  return &top - __brkval;
-#else  // __arm__
-  return __brkval ? &top - __brkval : &top - __malloc_heap_start;
-#endif  // __arm__
-}
-*/
-
 /**
    - Update timers.
    - Update input.
    - Update tug sequences and segments.
-   - If not-isSequenceOn state, then update, debounce, and error 
+   - If not-isSequenceOn state, then update, debounce, and error
    correct switches.
    - Check timers.
 */
 void loop() {
-  //FREERAM_PRINT
-  //ShowMemory();
-  //freeMemory();
-  Serial.println(freeMemory());
   // Update timers.
   updateTimers();
   // Update input.
@@ -171,12 +115,13 @@ void loop() {
   } else if (timers[sequence].total >= timers[sequence].timeout && isSequenceOn) {
     stopTugSegment();
   }
-  // If not-isSequenceIn state, then update, debounce, and error 
+  // If not-isSequenceIn state, then update, debounce, and error
   // correct switches.
   if (!isSequenceOn) {
     updateSwitches();
     debounceSwitchesByTime();
     if (errorCheckPluralInput()) {
+      Serial.print(millis()); Serial.print(": "); Serial.println("ERROR: Plural input.");
       return;
     }
     debounceSwitchesByPosition();
@@ -213,12 +158,9 @@ void loop() {
   } else if (isStopTimerOn && timers[stopSpecial].total < STOP_SPECIAL_TIMEOUT) {
     motor.moveStop();
   }
-  // TODO: Remember that you disabled this.
-  /*
   if (errorCheckContactSwitches()) {
-    return;
+    //  return;
   }
-  */
   // Route Buttons;
   routeButtons();
 }
@@ -227,20 +169,20 @@ void loop() {
 // Private Functions ///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 void resetFunction() {
-  Serial.println("reset()");
+  Serial.print(millis()); Serial.print(": "); Serial.println("reset()");
 }
 
 void startFunction() {
   Serial.print("start(): ");
-  Serial.println(OUTGOING_START);
+  Serial.print(millis()); Serial.print(": "); Serial.println(OUTGOING_START);
 }
 
 /**
- * @param i The switch index to debounce.
- * 
- * - If switch is LOW and blocked, then update debounce.
- * - If switch is HIGH and not-blocked, then reset block and debounce.
- */
+   @param i The switch index to debounce.
+
+   - If switch is LOW and blocked, then update debounce.
+   - If switch is HIGH and not-blocked, then reset block and debounce.
+*/
 void debounceSwitchByTime(int i) {
   if (hotSwitches[i] == LOW && !switchBlocks[i]) {
     switchDebounces[i] += delta;
@@ -254,8 +196,8 @@ void debounceSwitchByTime(int i) {
 }
 
 /**
- * - Loop through each switch, and debounce it.
- */
+   - Loop through each switch, and debounce it.
+*/
 void debounceSwitchesByTime() {
   for (int i = 0; i < SWITCH_SIZE; i++) {
     debounceSwitchByTime(i);
@@ -263,11 +205,11 @@ void debounceSwitchesByTime() {
 }
 
 /**
-   - Update current/previous switches if a normal number (0 or 1) of 
+   - Update current/previous switches if a normal number (0 or 1) of
    switches are pressed.
 */
 void debounceSwitchesByPosition() {
-  // Update current/previous switches if a normal number (0 or 1) of 
+  // Update current/previous switches if a normal number (0 or 1) of
   // switches are pressed.
   if (singleSwitch != currentSwitch) {
     previousSwitch = currentSwitch;
@@ -290,16 +232,29 @@ bool errorCheckPluralInput() {
   }
   // Block input if plural switch inputs occuring.
   if (countSwitch > 1) {
+    countSwitch2 = 0;
+    for (unsigned int i = 0; i < SWITCH_SIZE; i++) {
+      if (hotSwitches[i] == LOW) {
+        Serial.print(millis());
+        Serial.print(": ERROR: Plural input, ");
+        Serial.print(countSwitch2);
+        Serial.print(", ");
+        Serial.println(i);
+        //singleSwitch = i;
+        countSwitch2++;
+      }
+    }
     return true;
   }
   return false;
 }
 
 void hardReset() {
+  Serial.print(millis()); Serial.print(": "); Serial.println("hardReset()");
   isCentering = true;
   isReset = false;
   roundCurrent = 0;
-  
+
   digitalWrite(pinLightWinnerLeft, LOW);
   digitalWrite(pinLightWinnerRight, LOW);
   digitalWrite(pinLightSuddenDeathLeft, LOW);
@@ -312,7 +267,7 @@ void hardReset() {
   digitalWrite(pinLightThree, LOW);
   digitalWrite(pinLightTug, LOW);
   digitalWrite(pinLightStop, LOW);
-  
+
   isOneOn = false;
   isTwoOn = false;
   isThreeOn = false;
@@ -327,7 +282,7 @@ void hardReset() {
   isChampionRightBlinking = false;
   isSuddenDeathLeftBlinking = false;
   isSuddenDeathRightBlinking = false;
-  
+
   isCentering = true;
   isReset = false;
   isTie = false;
@@ -343,9 +298,10 @@ bool errorCheckContactSwitches() {
     } else {
       emergencyLeft = false;
       emergencyLeft2 = false;
-      motor.moveStop();
-      motor.moveRight();
-      hardReset();
+      Serial.println("ERROR: emergency switches (Left)");
+      //motor.moveStop();
+      //motor.moveRight();
+      //hardReset();
       //ditigalWrite(resetPin, LOW);
       //delay(50);
       return true;
@@ -363,9 +319,10 @@ bool errorCheckContactSwitches() {
     } else {
       emergencyRight = false;
       emergencyRight2 = false;
-      motor.moveStop();
-      motor.moveLeft();
-      hardReset();
+      Serial.println("ERROR: emergency switches (Right)");
+      //motor.moveStop();
+      //motor.moveLeft();
+      //hardReset();
       //digitalWrite(resetPin, LOW);
       //delay(50);
       return true;
@@ -701,9 +658,9 @@ void routeResults3() {
       } else if (currentSwitch == 2) {
         digitalWrite(pinLightWinnerLeft, HIGH);
         isChampionLeftBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-        //////Serial.println("YOU ARE HERE");
+        //////Serial.print(millis()); Serial.print(": "); Serial.println("YOU ARE HERE");
         playSound(catThird);
-        //////Serial.println("YOU ARE THERE");
+        //////Serial.print(millis()); Serial.print(": "); Serial.println("YOU ARE THERE");
         setTarget(1);
       }
       motor.moveLeft();
@@ -786,21 +743,21 @@ void routeResults3() {
         timers[fiveSecond].total = 0L;
         isFiveSecondTimerOn = true;
         playSound(tie);
-        //////Serial.println("333");
+        //////Serial.print(millis()); Serial.print(": "); Serial.println("333");
       } else if (currentSwitch == 3) {
         setTarget(3);
         isTie = true; timers[fiveSecond].timeout = 3500L;
         timers[fiveSecond].total = 0L;
         isFiveSecondTimerOn = true;
         playSound(tie);
-        //////Serial.println("444");
+        //////Serial.print(millis()); Serial.print(": "); Serial.println("444");
       } else if (currentSwitch == 4) {
         setTarget(4);
         isTie = true; timers[fiveSecond].timeout = 3500L;
         timers[fiveSecond].total = 0L;
         isFiveSecondTimerOn = true;
         playSound(tie);
-        //////Serial.println("555");
+        //////Serial.print(millis()); Serial.print(": "); Serial.println("555");
       }
     }
     timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
@@ -875,7 +832,7 @@ bool preRouteResults() {
     }
   }
   ////Serial.print("result: ");
-  //////Serial.println(result);
+  //////Serial.print(millis()); Serial.print(": "); Serial.println(result);
   //return result; Uncomment this to turn the results code back on.
   return false;
 }
@@ -894,7 +851,7 @@ void playSound(int index) {
 void setTarget(int index) {
   ////Serial.print("setTarget(");
   ////Serial.print(index);
-  //////Serial.println(")");
+  //////Serial.print(millis()); Serial.print(": "); Serial.println(")");
   isTenSecondTimerOn = true;
   timers[tenSecond].total = 0L;
   // Set all elements of targs to FALSE.
@@ -906,11 +863,11 @@ void setTarget(int index) {
 }
 
 /**
- * - Return if isOneSecondTimerOn state is inactive.
- * - Reset state and timer.
- * - Set state and timer to Two state, Three state, Tug state, or Stop 
- * state.
- */
+   - Return if isOneSecondTimerOn state is inactive.
+   - Reset state and timer.
+   - Set state and timer to Two state, Three state, Tug state, or Stop
+   state.
+*/
 void stopOneSecondTimer() {
   // Return if isOneSecondTimerOn state is inactive.
   if (!isOneSecondTimerOn) {
@@ -919,7 +876,7 @@ void stopOneSecondTimer() {
   // Reset state and timer.
   isOneSecondTimerOn = false;
   timers[oneSecond].total = 0L;
-  // 
+  //
   if (isOneOn) {
     isOneOn = false;
     digitalWrite(pinLightOne, LOW);
@@ -958,30 +915,32 @@ void stopOneSecondTimer() {
 }
 
 void calculateResults() {
-  ////Serial.print("player1Taps: ");
+  Serial.print(millis());
+  Serial.print(": ");
   if (player1Index > 0) {
     for (int i = 0; i < player1Index - 1; i++) {
-      ////Serial.print(player1Taps[i]);
+      Serial.print(player1Taps[i]);
       if ((player1Taps[i] == 0) && (player1Taps[i + 1] == 1)) {
         player1Score++;
-        ////Serial.print("+");
+        Serial.print("+");
       }
-      ////Serial.print(",");
+      Serial.print(",");
     }
   }
-  ////Serial.print(player1Taps[player1Index - 1]);
-  ////Serial.println();
-  ////Serial.print("player2Taps: ");
+  Serial.println("");
+  Serial.print(millis());
+  Serial.print(": ");
   if (player2Index > 0) {
     for (int i = 0; i < player2Index - 1; i++) {
-      ////Serial.print(player2Taps[i]);
+      Serial.print(player2Taps[i]);
       if ((player2Taps[i] == 0) && (player2Taps[i + 1] == 1)) {
         player2Score++;
-        ////Serial.print("+");
+        Serial.print("+");
       }
-      ////Serial.print(",");
+      Serial.print(",");
     }
   }
+  Serial.println("");
 }
 
 void stopFiveSecondTimer() {
@@ -996,7 +955,7 @@ void stopFiveSecondTimer() {
   ////Serial.print(timers[fiveSecond].total);
   timers[fiveSecond].total = 0L;
   if (isTugOn) {
-    //////Serial.println(", isTugOn");
+    //////Serial.print(millis()); Serial.print(": "); Serial.println(", isTugOn");
     digitalWrite(pinLightTug, LOW);
     isTugOn = false;
     calculateResults();
@@ -1005,7 +964,7 @@ void stopFiveSecondTimer() {
       routeResults3();
     } else {
       ////Serial.print("preRouteResult: ");
-      //////Serial.println(preRouteResult);
+      //////Serial.print(millis()); Serial.print(": "); Serial.println(preRouteResult);
       playSound(stop);
       digitalWrite(pinLightStop, HIGH);
       isStopTimerOn = true;
@@ -1015,7 +974,7 @@ void stopFiveSecondTimer() {
     }
     roundCurrent++;
   } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
-    //////Serial.println(", isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking");
+    //////Serial.print(millis()); Serial.print(": "); Serial.println(", isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking");
     timers[toggle].total -= 200L;
     isToggleOn = true;
     timers[oneSecond].total = 0L;
@@ -1053,11 +1012,11 @@ void stopFiveSecondTimer() {
 }
 
 /**
- * - Reset the sequence timer.
- * - Setup a new segment.
- * - Move motor left or right.
- * - Update the sequenceI and sequenceJ indexes.
- */
+   - Reset the sequence timer.
+   - Setup a new segment.
+   - Move motor left or right.
+   - Update the sequenceI and sequenceJ indexes.
+*/
 void stopTugSegment() {
   // Reset the sequence timer.
   timers[sequence].total = 0L;
@@ -1082,9 +1041,9 @@ void stopTugSegment() {
 }
 
 /**
- * - Return if isSoundTimerOn is off.
- * - Reset sound timer.
- */
+   - Return if isSoundTimerOn is off.
+   - Reset sound timer.
+*/
 void stopSoundTimer() {
   // Return if isSoundTimerOn is off.
   if (!isSoundTimerOn) {
@@ -1098,12 +1057,12 @@ void stopSoundTimer() {
 }
 
 /**
- * - Reset timer if not blinking states are active.
- * - Reset timer.
- * - If blinking state is on and toggle is on, then turn on light. If 
- * blinking state is on and toggle state is off, the turn off light.
- * - Toggle isToggleOn.
- */
+   - Reset timer if not blinking states are active.
+   - Reset timer.
+   - If blinking state is on and toggle is on, then turn on light. If
+   blinking state is on and toggle state is off, the turn off light.
+   - Toggle isToggleOn.
+*/
 void stopToggleTimer() {
   // Reset timer if no blinking states are active.
   if (!isReadyBlinking
@@ -1118,7 +1077,7 @@ void stopToggleTimer() {
   }
   // Reset timer.
   timers[toggle].total = 0L;
-  // If blinking state is on and toggle is on, then turn on light. If 
+  // If blinking state is on and toggle is on, then turn on light. If
   // blinking state is on and toggle state is off, the turn off light.
   if (isReadyBlinking) {
     if (isToggleOn) {
@@ -1214,9 +1173,9 @@ void stopTenSecondTimer() {
 }
 
 /**
- * - Stop the motor.
- * - Reset sequence variables.
- */
+   - Stop the motor.
+   - Reset sequence variables.
+*/
 void stopTugSequence() {
   // Stop the motor.
   motor.moveStop();
@@ -1229,7 +1188,7 @@ void stopStopTimer() {
   if (!isStopTimerOn) {
     return;
   }
-  //////Serial.println("stopStopTimer() - ");
+  //////Serial.print(millis()); Serial.print(": "); Serial.println("stopStopTimer() - ");
   //routeResults();
   isStopTimerOn = false;
   timers[stopSpecial].total = 0L;
@@ -1241,10 +1200,10 @@ void stopReadyTimer() {
     return;
   }
   isReadyTimerOn = false;
-  //////Serial.println("stopReadyTimer() - ");
+  //////Serial.print(millis()); Serial.print(": "); Serial.println("stopReadyTimer() - ");
   timers[readySpecial].total = 0L;
   if (isReadyBlinking) {
-    //////Serial.println(", isReadyBlinking");
+    //////Serial.print(millis()); Serial.print(": "); Serial.println(", isReadyBlinking");
     isReadyBlinking = false;
     digitalWrite(pinLightReady, LOW);
     digitalWrite(pinLightOne, HIGH);
@@ -1264,9 +1223,11 @@ void updateButtons() {
 
 void routeButtons() {
   if (isReset) {
+    //Serial.print(millis()); Serial.print(": "); Serial.println("0");
     if (hotButtons[start] == LOW && !buttonBlocks[start]) {
       buttonDebounces[start] += delta;
       if (buttonDebounces[start] > 10L) {
+        Serial.print(millis()); Serial.print(": "); Serial.println("start");
         timers[toggle].total = 0L;
         isToggleOn = true;
         timers[oneSecond].total = 0L;
@@ -1281,39 +1242,45 @@ void routeButtons() {
         digitalWrite(pinLightSuddenDeathRight, LOW);
         playSound(ready);
         isReset = false;
-        ////Serial.println("$");
+        ////Serial.print(millis()); Serial.print(": "); Serial.println("$");
       }
     }
   } else if (isCentering) {
+    //Serial.print(millis()); Serial.print(": "); Serial.println("2");
     if (hotSwitches[left3] == LOW) {
-      //////Serial.println("isCentering 1");
+      Serial.print(millis()); Serial.print(": "); Serial.println("isCentering, left3");
+      //////Serial.print(millis()); Serial.print(": "); Serial.println("isCentering 1");
       motor.moveRight();
     } else if (hotSwitches[right3] == LOW) {
-      //////Serial.println("isCentering 5");
+      Serial.print(millis()); Serial.print(": "); Serial.println("isCentering, right3");
+      //////Serial.print(millis()); Serial.print(": "); Serial.println("isCentering 5");
       motor.moveLeft();
     } else if (hotSwitches[center] == LOW) {
-      //////Serial.println("isCentering 3");
+      Serial.print(millis()); Serial.print(": "); Serial.println("isCentering, center");
+      //////Serial.print(millis()); Serial.print(": "); Serial.println("isCentering 3");
       motor.moveStop();
       isCentering = false;
       isReset = true;
-      //////Serial.println("########## NEW GAME ##########");
+      //////Serial.print(millis()); Serial.print(": "); Serial.println("########## NEW GAME ##########");
     }
   } else if (isTugOn) {
-
+    //Serial.print(millis()); Serial.print(": "); Serial.println("6");
     if (hotButtons[player1Left] == LOW && !buttonBlocks[player1Left]) {
       buttonDebounces[player1Left] += delta;
       if (buttonDebounces[player1Left] > DEBOUNCE_TIME) {
+        //Serial.print(millis()); Serial.print(": "); Serial.println("p1Left Down");
         buttonBlocks[player1Left] = true;
         player1Taps[player1Index] = 0;
         ////Serial.print("player1Taps[");
         ////Serial.print(player1Index);
         ////Serial.print("] (L): ");
-        ////Serial.println(player1Taps[player1Index]);
+        ////Serial.print(millis()); Serial.print(": "); Serial.println(player1Taps[player1Index]);
         ////Serial.print(", buttonDebounces[player1Left]: ");
-        ////Serial.println(buttonDebounces[player1Left]);
+        ////Serial.print(millis()); Serial.print(": "); Serial.println(buttonDebounces[player1Left]);
         player1Index++;
       }
     } else if (hotButtons[player1Left] == HIGH && buttonBlocks[player1Left]) {
+      //Serial.print(millis()); Serial.print(": "); Serial.println("p1Left Up");
       buttonBlocks[player1Left] = false;
       buttonDebounces[player1Left] = 0;
     }
@@ -1321,18 +1288,20 @@ void routeButtons() {
     if (hotButtons[player1Right] == LOW && !buttonBlocks[player1Right]) {
       buttonDebounces[player1Right] += delta;
       if (buttonDebounces[player1Right] > DEBOUNCE_TIME) {
+        //Serial.print(millis()); Serial.print(": "); Serial.println("p1Right Down");
         buttonBlocks[player1Right] = true;
         player1Taps[player1Index] = 1;
         ////Serial.print("player1Taps[");
         ////Serial.print(player1Index);
         ////Serial.print("] (R): ");
-        ////Serial.println(player1Taps[player1Index]);
+        ////Serial.print(millis()); Serial.print(": "); Serial.println(player1Taps[player1Index]);
         ////Serial.print(", buttonDebounces[player1Index]:");
-        ////Serial.println(buttonDebounces[player1Right]);
+        ////Serial.print(millis()); Serial.print(": "); Serial.println(buttonDebounces[player1Right]);
         player1Index++;
       }
     }
     else if (hotButtons[player1Right] == HIGH && buttonBlocks[player1Right]) {
+      //Serial.print(millis()); Serial.print(": "); Serial.println("p1Right Up");
       buttonBlocks[player1Right] = false;
       buttonDebounces[player1Right] = 0;
     }
@@ -1341,17 +1310,19 @@ void routeButtons() {
     if (hotButtons[player2Left] == LOW && !buttonBlocks[player2Left]) {
       buttonDebounces[player2Left] += delta;
       if (buttonDebounces[player2Left] > DEBOUNCE_TIME) {
+        //Serial.print(millis()); Serial.print(": "); Serial.println("p2Left Down");
         buttonBlocks[player2Left] = true;
         player2Taps[player2Index] = 0;
         ////Serial.print("player2Taps[");
         ////Serial.print(player2Index);
         ////Serial.print("] (L): ");
-        ////Serial.println(player2Taps[player2Index]);
+        ////Serial.print(millis()); Serial.print(": "); Serial.println(player2Taps[player2Index]);
         ////Serial.print(", buttonDebounces[player2Left]: ");
-        ////Serial.println(buttonDebounces[player2Left]);
+        ////Serial.print(millis()); Serial.print(": "); Serial.println(buttonDebounces[player2Left]);
         player2Index++;
       }
     } else if (hotButtons[player2Left] && buttonBlocks[player2Left]) {
+      //Serial.print(millis()); Serial.print(": "); Serial.println("p2Left Up");
       buttonBlocks[player2Left] = false;
       buttonDebounces[player2Left] = 0;
     }
@@ -1359,27 +1330,31 @@ void routeButtons() {
     if (hotButtons[player2Right] == LOW && !buttonBlocks[player2Right]) {
       buttonDebounces[player2Right] += delta;
       if (buttonDebounces[player2Right] > DEBOUNCE_TIME) {
+        //Serial.print(millis()); Serial.print(": "); Serial.println("p2Right Down");
         buttonBlocks[player2Right] = true;
         player2Taps[player2Index] = 1;
         ////Serial.print("player2Taps[");
         ////Serial.print(player2Index);
         ////Serial.print("] (R): ");
-        ////Serial.println(player2Taps[player2Index]);
+        ////Serial.print(millis()); Serial.print(": "); Serial.println(player2Taps[player2Index]);
         ////Serial.print(", buttonDebounces[player1Right]: ");
-        ////Serial.println(buttonDebounces[player2Right]);
+        ////Serial.print(millis()); Serial.print(": "); Serial.println(buttonDebounces[player2Right]);
         player2Index++;
       }
     } else if (hotButtons[player2Right] == HIGH && buttonBlocks[player2Right]) {
+      //Serial.print(millis()); Serial.print(": "); Serial.println("p2Right Up");
       buttonBlocks[player2Right] = false;
       buttonDebounces[player2Right] = 0;
     }
 
   } else if (currentSwitch == previousSwitch) {
-    //////Serial.println("INPUT BLOCKED: same switch.");
+    Serial.print(millis()); Serial.print(": "); Serial.println("INPUT BLOCKED: same switch.");
   } else if ((isGameOver || isWinnerLeftBlinking || isWinnerRightBlinking || isChampionLeftBlinking || isChampionRightBlinking)
              && (!isSequenceOn)) {
+    //Serial.print(millis()); Serial.print(": "); Serial.println("15");
     if (hotSwitches[left3] == LOW && targets[1]) {
-      //////Serial.println("REACHED TARGET 1");
+      Serial.print(millis()); Serial.print(": "); Serial.println("isGameOver, left3");
+      //////Serial.print(millis()); Serial.print(": "); Serial.println("REACHED TARGET 1");
       motor.moveStop();
       targets[1] = false;
       //isChampionLeftBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
@@ -1387,22 +1362,26 @@ void routeButtons() {
       isGameOver = false;
       timers[tenSecond].total = 0L;
     } else if (hotSwitches[left1] == LOW && targets[2]) {
-      //////Serial.println("REACHED TARGET 2");
+      Serial.print(millis()); Serial.print(": "); Serial.println("isGameOver, left1");
+      //////Serial.print(millis()); Serial.print(": "); Serial.println("REACHED TARGET 2");
       motor.moveStop();
       targets[2] = false;
       timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
     } else if (hotSwitches[center] == LOW && targets[3]) {
-      //////Serial.println("REACHED TARGET 3");
+      Serial.print(millis()); Serial.print(": "); Serial.println("isGameOver, center");
+      //////Serial.print(millis()); Serial.print(": "); Serial.println("REACHED TARGET 3");
       motor.moveStop();
       targets[3] = false;
       timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
     } else if (hotSwitches[right1] == LOW && targets[4]) {
-      //////Serial.println("REACHED TARGET 4");
+      Serial.print(millis()); Serial.print(": "); Serial.println("isGameOver, right1");
+      //////Serial.print(millis()); Serial.print(": "); Serial.println("REACHED TARGET 4");
       motor.moveStop();
       targets[4] = false;
       timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
     } else if (hotSwitches[right3] == LOW && targets[5]) {
-      //////Serial.println("REACHED TARGET 5");
+      Serial.print(millis()); Serial.print(": "); Serial.println("isGameOver, right3");
+      //////Serial.print(millis()); Serial.print(": "); Serial.println("REACHED TARGET 5");
       motor.moveStop();
       targets[5] = false;
       //isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
@@ -1412,35 +1391,36 @@ void routeButtons() {
     }
   } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
     if (hotSwitches[center] == LOW && targets[3]) {
+      Serial.print(millis()); Serial.print(": "); Serial.println("isSuddenDeath, center");
       motor.moveStop();
       targets[3] = false;
-      digitalWrite(pinLightSuddenDeathLeft, LOW);
-      digitalWrite(pinLightSuddenDeathRight, LOW);
+      //digitalWrite(pinLightSuddenDeathLeft, LOW);
+      //digitalWrite(pinLightSuddenDeathRight, LOW);
     }
   }
 }
 
 /**
- * - Update previous, current, and delta variables.
- * - Error handle millis() clock rollover by ignoring frame where delta 
- * is a negative number.
- * - Error handle millis() clock rollover by ignorimg frame where 
- * current is less than previous.
- * - Update debug timer (seperately from the other timers).
- * - Update normal timers (if their associated state is active).
- * - Update sequence and toggle timers regardless of state.
- */
+   - Update previous, current, and delta variables.
+   - Error handle millis() clock rollover by ignoring frame where delta
+   is a negative number.
+   - Error handle millis() clock rollover by ignorimg frame where
+   current is less than previous.
+   - Update debug timer (seperately from the other timers).
+   - Update normal timers (if their associated state is active).
+   - Update sequence and toggle timers regardless of state.
+*/
 void updateTimers() {
   // Update previous, current, and delta variables.
   previous = current;
   current = millis();
   delta = current - previous;
-  // Error handle millis() clock rollover by ignoring frame where delta 
+  // Error handle millis() clock rollover by ignoring frame where delta
   // is a negative number.
   if (delta < 0L) {
     return;
   }
-  // Error handle millis() clock rollover by ignorimg frame where 
+  // Error handle millis() clock rollover by ignorimg frame where
   // current is less than previous.
   if (current < previous) {
     return;
@@ -1448,6 +1428,7 @@ void updateTimers() {
   // Update debug timer (seperately from the other timers).
   debugTimer += delta;
   if (debugTimer >= DEBUG_TIMEOUT) {
+    Serial.print(millis()); Serial.print(": "); Serial.println(freeMemory());
     debugTimer = 0L;
     digitalWrite(pinLightDebug, !digitalRead(pinLightDebug));
   }
@@ -1479,8 +1460,8 @@ void updateTimers() {
 }
 
 /**
- * Perform digitalRead(int) calls, and read the results into the hotSwitches.
- */
+   Perform digitalRead(int) calls, and read the results into the hotSwitches.
+*/
 void updateSwitches() {
   hotSwitches[leftMax] = digitalRead(pinSwitchLeftMax);
   hotSwitches[left3] = digitalRead(pinSwitchLeft3);
@@ -1498,10 +1479,10 @@ void stopWinnerTimer() {
   isWinnerTimerOn = false;
   ////Serial.print("stopWinnerTimer() - ");
   ////Serial.print("timers[winnerSpecial].total: ");
-  //////Serial.println(timers[winnerSpecial].total);
+  //////Serial.print(millis()); Serial.print(": "); Serial.println(timers[winnerSpecial].total);
   timers[winnerSpecial].total = 0L;
   //if (isWinnerLeftBlinking || isWinnerRightBlinking) {
-  ////////Serial.println(", isWinnerLeftBlinking or isWinnerRightBlinking");
+  ////////Serial.print(millis()); Serial.print(": "); Serial.println(", isWinnerLeftBlinking or isWinnerRightBlinking");
   timers[toggle].total -= 200L;
   isToggleOn = true;
   timers[oneSecond].total = 0L; isOneSecondTimerOn = true;
@@ -1542,12 +1523,12 @@ void stopWinnerTimer() {
 }
 
 void randomWinner() {
-  ////Serial.println("---");
-  ////Serial.println(player1Score == player2Score);
-  ////Serial.println(player1Index > 0);
-  ////Serial.println(player2Index > 0);
+  ////Serial.print(millis()); Serial.print(": "); Serial.println("---");
+  ////Serial.print(millis()); Serial.print(": "); Serial.println(player1Score == player2Score);
+  ////Serial.print(millis()); Serial.print(": "); Serial.println(player1Index > 0);
+  ////Serial.print(millis()); Serial.print(": "); Serial.println(player2Index > 0);
   int randomNumber = random(0, 1);
-  ////Serial.println();
+  ////Serial.print(millis()); Serial.print(": "); Serial.println();
   if (player1Score == player2Score && player1Index > 0 && player2Index > 0) {
     if (randomNumber == 0) {
       if (random(0, 1) == 0) {

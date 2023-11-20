@@ -309,7 +309,7 @@ int main()
         fpsCurrent = 0;
         timeSinceStart = 0;
         clock_gettime(CLOCK_MONOTONIC, &timeAtStart);
-        printf("FPS: %u\n", fpsPrevious); 
+        //printf("FPS: %u\n", fpsPrevious); 
       }
       else
       {
