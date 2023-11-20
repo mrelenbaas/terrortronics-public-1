@@ -245,71 +245,7 @@ bool errorCheckPluralInput() {
     }
     return true;
   }
-  /*
-  countSwitch = 0;
-  for (unsigned int i = 0; i < BUTTON_SIZE; i++) {
-    if (hotButtons[i] == LOW) {
-      //singleSwitch = i;
-      countSwitch++;
-    }
-  }
-  // Block input if plural switch inputs occuring.
-  if (countSwitch > 1) {
-    countSwitch2 = 0;
-    for (unsigned int i = 0; i < BUTTON_SIZE; i++) {
-      if (hotButtons[i] == LOW) {
-        Serial.print(millis());
-        Serial.print(": ERROR: Button, Plural input, ");
-        Serial.print(countSwitch2);
-        Serial.print(", ");
-        Serial.println(i);
-        //singleSwitch = i;
-        countSwitch2++;
-      }
-    }
-    return true;
-  }
-  */
   return false;
-}
-
-void hardReset() {
-  Serial.print(millis()); Serial.print(": "); Serial.println("hardReset()");
-  isCentering = true;
-  isReset = false;
-  roundCurrent = 0;
-
-  digitalWrite(pinLightWinnerLeft, LOW);
-  digitalWrite(pinLightWinnerRight, LOW);
-  digitalWrite(pinLightSuddenDeathLeft, LOW);
-  digitalWrite(pinLightSuddenDeathRight, LOW);
-  digitalWrite(pinLightChampionLeft, LOW);
-  digitalWrite(pinLightChampionRight, LOW);
-  digitalWrite(pinLightReady, LOW);
-  digitalWrite(pinLightOne, LOW);
-  digitalWrite(pinLightTwo, LOW);
-  digitalWrite(pinLightThree, LOW);
-  digitalWrite(pinLightTug, LOW);
-  digitalWrite(pinLightStop, LOW);
-
-  isOneOn = false;
-  isTwoOn = false;
-  isThreeOn = false;
-  isTugOn = false;
-  isStopOn = false;
-  isGameOver = false;
-  isToggleOn = false;
-  isReadyBlinking = false;
-  isWinnerLeftBlinking = false;
-  isWinnerRightBlinking = false;
-  isChampionLeftBlinking = false;
-  isChampionRightBlinking = false;
-  isSuddenDeathLeftBlinking = false;
-  isSuddenDeathRightBlinking = false;
-
-  isCentering = true;
-  isReset = false;
-  isTie = false;
 }
 
 bool errorCheckContactSwitches() {
@@ -325,7 +261,6 @@ bool errorCheckContactSwitches() {
       Serial.println("E: emergency switches (Left)");
       //motor.moveStop();
       //motor.moveRight();
-      //hardReset();
       //ditigalWrite(resetPin, LOW);
       //delay(50);
       return true;
@@ -346,7 +281,6 @@ bool errorCheckContactSwitches() {
       Serial.println("E: emergency switches (Right)");
       //motor.moveStop();
       //motor.moveLeft();
-      //hardReset();
       //digitalWrite(resetPin, LOW);
       //delay(50);
       return true;
