@@ -311,6 +311,8 @@ int previousSwitch = -1;
  */
 int countSwitch = -1;
 int countSwitch2 = -1;
+//int countSwitch3 = -1;
+//int countSwitch4 = -1;
 /**
  * The single switch (if there aren't plural switches being pressed).
  */

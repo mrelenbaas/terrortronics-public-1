@@ -121,7 +121,6 @@ void loop() {
     updateSwitches();
     debounceSwitchesByTime();
     if (errorCheckPluralInput()) {
-      Serial.print(millis()); Serial.print(": "); Serial.println("ERROR: Plural input.");
       return;
     }
     debounceSwitchesByPosition();
@@ -236,7 +235,7 @@ bool errorCheckPluralInput() {
     for (unsigned int i = 0; i < SWITCH_SIZE; i++) {
       if (hotSwitches[i] == LOW) {
         Serial.print(millis());
-        Serial.print(": ERROR: Plural input, ");
+        Serial.print(": E: Plural input, ");
         Serial.print(countSwitch2);
         Serial.print(", ");
         Serial.println(i);
@@ -246,6 +245,31 @@ bool errorCheckPluralInput() {
     }
     return true;
   }
+  /*
+  countSwitch = 0;
+  for (unsigned int i = 0; i < BUTTON_SIZE; i++) {
+    if (hotButtons[i] == LOW) {
+      //singleSwitch = i;
+      countSwitch++;
+    }
+  }
+  // Block input if plural switch inputs occuring.
+  if (countSwitch > 1) {
+    countSwitch2 = 0;
+    for (unsigned int i = 0; i < BUTTON_SIZE; i++) {
+      if (hotButtons[i] == LOW) {
+        Serial.print(millis());
+        Serial.print(": ERROR: Button, Plural input, ");
+        Serial.print(countSwitch2);
+        Serial.print(", ");
+        Serial.println(i);
+        //singleSwitch = i;
+        countSwitch2++;
+      }
+    }
+    return true;
+  }
+  */
   return false;
 }
 
@@ -298,7 +322,7 @@ bool errorCheckContactSwitches() {
     } else {
       emergencyLeft = false;
       emergencyLeft2 = false;
-      Serial.println("ERROR: emergency switches (Left)");
+      Serial.println("E: emergency switches (Left)");
       //motor.moveStop();
       //motor.moveRight();
       //hardReset();
@@ -319,7 +343,7 @@ bool errorCheckContactSwitches() {
     } else {
       emergencyRight = false;
       emergencyRight2 = false;
-      Serial.println("ERROR: emergency switches (Right)");
+      Serial.println("E: emergency switches (Right)");
       //motor.moveStop();
       //motor.moveLeft();
       //hardReset();
@@ -915,32 +939,36 @@ void stopOneSecondTimer() {
 }
 
 void calculateResults() {
-  Serial.print(millis());
-  Serial.print(": ");
+  //Serial.print(millis());
+  //Serial.print(": ");
   if (player1Index > 0) {
     for (int i = 0; i < player1Index - 1; i++) {
-      Serial.print(player1Taps[i]);
+      //Serial.print(player1Taps[i]);
       if ((player1Taps[i] == 0) && (player1Taps[i + 1] == 1)) {
         player1Score++;
-        Serial.print("+");
+        //Serial.print("+");
       }
-      Serial.print(",");
+      //Serial.print(",");
     }
   }
-  Serial.println("");
-  Serial.print(millis());
-  Serial.print(": ");
+  Serial.print("player1Score: ");
+  Serial.println(player1Score);
+  //Serial.println("");
+  //Serial.print(millis());
+  //Serial.print(": ");
   if (player2Index > 0) {
     for (int i = 0; i < player2Index - 1; i++) {
-      Serial.print(player2Taps[i]);
+      //Serial.print(player2Taps[i]);
       if ((player2Taps[i] == 0) && (player2Taps[i + 1] == 1)) {
         player2Score++;
-        Serial.print("+");
+        //Serial.print("+");
       }
-      Serial.print(",");
+      //Serial.print(",");
     }
   }
-  Serial.println("");
+  //Serial.println("");
+  Serial.print("player2Score: ");
+  Serial.println(player2Score);
 }
 
 void stopFiveSecondTimer() {
