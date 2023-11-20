@@ -102,7 +102,6 @@ bool preRouteResults();
 void stopReadyTimer();
 void stopWinnerTimer();
 void stopFiveSecondTimer2();
-void randomWinner();
 void startFunction();
 void resetFunction();
 void hardReset();

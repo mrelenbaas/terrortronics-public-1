@@ -576,7 +576,6 @@ void routeResults() {
       }
     }
   }
-  //randomWinner();
   if (player1Score > player2Score) {
     if (preRouteRoundCurrent > 4) {
       //digitalWrite(pinLightWinnerLeft, HIGH);
@@ -1000,7 +999,6 @@ bool preRouteResults() {
   preRouteSwitch = currentSwitch;
   preRouteRoundCurrent = roundCurrent;
   bool result = false;
-  //randomWinner();
   if (player1Score > player2Score) {
     if (roundCurrent > 4) {
       result = true;
@@ -1486,24 +1484,4 @@ void stopWinnerTimer() {
   isWinnerLeftBlinking = false;
   isWinnerRightBlinking = false;
   //}
-}
-
-void randomWinner() {
-  ////Serial.print(millis()); Serial.print(": "); Serial.println("---");
-  ////Serial.print(millis()); Serial.print(": "); Serial.println(player1Score == player2Score);
-  ////Serial.print(millis()); Serial.print(": "); Serial.println(player1Index > 0);
-  ////Serial.print(millis()); Serial.print(": "); Serial.println(player2Index > 0);
-  int randomNumber = random(0, 1);
-  ////Serial.print(millis()); Serial.print(": "); Serial.println();
-  if (player1Score == player2Score && player1Index > 0 && player2Index > 0) {
-    if (randomNumber == 0) {
-      if (random(0, 1) == 0) {
-        player1Score = 1;
-        player2Score = 0;
-      } else {
-        player1Score = 0;
-        player2Score = 1;
-      }
-    }
-  }
 }
