@@ -167,15 +167,27 @@ void loop() {
 ////////////////////////////////////////////////////////////////////////
 // Private Functions ///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-void resetFunction() {
-  Serial.print(millis()); Serial.print(": "); Serial.println("reset()");
+/**
+   - Update current/previous switches if a normal number (0 or 1) of
+   switches are pressed.
+*/
+void debounceSwitchesByPosition() {
+  // Update current/previous switches if a normal number (0 or 1) of
+  // switches are pressed.
+  if (singleSwitch != currentSwitch) {
+    previousSwitch = currentSwitch;
+    currentSwitch = singleSwitch;
+  }
 }
 
-void startFunction() {
-  Serial.print("start(): ");
-  Serial.print(millis()); Serial.print(": "); Serial.println(OUTGOING_START);
+/**
+   - Loop through each switch, and debounce it.
+*/
+void debounceSwitchesByTime() {
+  for (int i = 0; i < SWITCH_SIZE; i++) {
+    debounceSwitchByTime(i);
+  }
 }
-
 /**
    @param i The switch index to debounce.
 
@@ -191,28 +203,6 @@ void debounceSwitchByTime(int i) {
   } else if (hotSwitches[i] && switchBlocks[i]) {
     switchBlocks[i] = false;
     switchDebounces[i] = 0;
-  }
-}
-
-/**
-   - Loop through each switch, and debounce it.
-*/
-void debounceSwitchesByTime() {
-  for (int i = 0; i < SWITCH_SIZE; i++) {
-    debounceSwitchByTime(i);
-  }
-}
-
-/**
-   - Update current/previous switches if a normal number (0 or 1) of
-   switches are pressed.
-*/
-void debounceSwitchesByPosition() {
-  // Update current/previous switches if a normal number (0 or 1) of
-  // switches are pressed.
-  if (singleSwitch != currentSwitch) {
-    previousSwitch = currentSwitch;
-    currentSwitch = singleSwitch;
   }
 }
 
@@ -246,6 +236,288 @@ bool errorCheckPluralInput() {
     return true;
   }
   return false;
+}
+
+/**
+   - Set all elements of targets to FALSE;
+   - Set the element of targets[index] to TRUE.
+*/
+void setTarget(int index) {
+  ////Serial.print("setTarget(");
+  ////Serial.print(index);
+  //////Serial.print(millis()); Serial.print(": "); Serial.println(")");
+  isTenSecondTimerOn = true;
+  timers[tenSecond].total = 0L;
+  // Set all elements of targs to FALSE.
+  for (unsigned int i = 0; i < SWITCH_SIZE; ++i) {
+    targets[i] = false;
+  }
+  // Set the element of targets[index] to TRUE.
+  targets[index] = true;
+}
+
+/**
+   - Return if isOneSecondTimerOn state is inactive.
+   - Reset state and timer.
+   - Set state and timer to Two state, Three state, Tug state, or Stop
+   state.
+*/
+void stopOneSecondTimer() {
+  // Return if isOneSecondTimerOn state is inactive.
+  if (!isOneSecondTimerOn) {
+    return;
+  }
+  // Reset state and timer.
+  isOneSecondTimerOn = false;
+  timers[oneSecond].total = 0L;
+  //
+  if (isOneOn) {
+    isOneOn = false;
+    digitalWrite(pinLightOne, LOW);
+    digitalWrite(pinLightTwo, HIGH);
+    playSound(two);
+    isTwoOn = true;
+    isOneSecondTimerOn = true;
+  } else if (isTwoOn) {
+    isTwoOn = false;
+    digitalWrite(pinLightTwo, LOW);
+    digitalWrite(pinLightThree, HIGH);
+    playSound(three);
+    isThreeOn = true;
+    isOneSecondTimerOn = true;
+  } else if (isThreeOn) {
+    isThreeOn = false;
+    digitalWrite(pinLightThree, LOW);
+    digitalWrite(pinLightTug, HIGH);
+    playSound(tug);
+    isTugOn = true;
+    isSequenceOn = true;
+    timers[fiveSecond].total = 0L;
+    isFiveSecondTimerOn = true;
+    player1Index = 0;
+    player2Index = 0;
+    player1Score = 0;
+    player2Score = 0;
+    for (int i = 0; i < TAPS_MAX; i++) {
+      player1Taps[i] = 0;
+      player2Taps[i] = 0;
+    }
+  } else if (isStopOn) {
+    digitalWrite(pinLightStop, LOW);
+    isStopOn = false;
+  }
+}
+
+/**
+   - Return if isSoundTimerOn is off.
+   - Reset sound timer.
+*/
+void stopSoundTimer() {
+  // Return if isSoundTimerOn is off.
+  if (!isSoundTimerOn) {
+    return;
+  }
+  // Reset sound timer.
+  isSoundTimerOn = false;
+  timers[sound].total = 0L;
+  digitalWrite(sounds[soundCurrent].pin, LOW);
+  soundCurrent = -1;
+}
+
+/**
+   - Reset timer if not blinking states are active.
+   - Reset timer.
+   - If blinking state is on and toggle is on, then turn on light. If
+   blinking state is on and toggle state is off, the turn off light.
+   - Toggle isToggleOn.
+*/
+void stopToggleTimer() {
+  // Reset timer if no blinking states are active.
+  if (!isReadyBlinking
+      && !isWinnerLeftBlinking
+      && !isWinnerRightBlinking
+      && !isChampionLeftBlinking
+      && !isChampionRightBlinking
+      && !isSuddenDeathLeftBlinking
+      && !isSuddenDeathRightBlinking) {
+    timers[toggle].total = 0L;
+    return;
+  }
+  // Reset timer.
+  timers[toggle].total = 0L;
+  // If blinking state is on and toggle is on, then turn on light. If
+  // blinking state is on and toggle state is off, the turn off light.
+  if (isReadyBlinking) {
+    if (isToggleOn) {
+      digitalWrite(pinLightReady, HIGH);
+    } else {
+      digitalWrite(pinLightReady, LOW);
+    }
+  } else if (isWinnerLeftBlinking) {
+    if (isToggleOn) {
+      digitalWrite(pinLightWinnerLeft, HIGH);
+    } else {
+      digitalWrite(pinLightWinnerLeft, LOW);
+    }
+  } else if (isWinnerRightBlinking) {
+    if (isToggleOn) {
+      digitalWrite(pinLightWinnerRight, HIGH);
+    } else {
+      digitalWrite(pinLightWinnerRight, LOW);
+    }
+  } else if (isChampionLeftBlinking) {
+    if (isToggleOn) {
+      digitalWrite(pinLightChampionLeft, HIGH);
+    } else {
+      digitalWrite(pinLightChampionLeft, LOW);
+    }
+
+  } else if (isChampionRightBlinking) {
+    if (isToggleOn) {
+      digitalWrite(pinLightChampionRight, HIGH);
+    } else {
+      digitalWrite(pinLightChampionRight, LOW);
+    }
+  } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
+    if (isToggleOn) {
+      digitalWrite(pinLightSuddenDeathLeft, HIGH);
+      digitalWrite(pinLightSuddenDeathRight, HIGH);
+    } else {
+      digitalWrite(pinLightSuddenDeathLeft, LOW);
+      digitalWrite(pinLightSuddenDeathRight, LOW);
+    }
+  }
+  // Toggle isToggleOn.
+  if (isToggleOn) {
+    isToggleOn = false;
+  } else {
+    isToggleOn = true;
+  }
+}
+
+/**
+   - Reset the sequence timer.
+   - Setup a new segment.
+   - Move motor left or right.
+   - Update the sequenceI and sequenceJ indexes.
+*/
+void stopTugSegment() {
+  // Reset the sequence timer.
+  timers[sequence].total = 0L;
+  // Setup new segment.
+  timers[sequence].timeout = sequenceTimeout[0][sequenceI];
+  isSequenceLeft = sequenceIsLeft[sequenceJ][sequenceI];
+  // Move motor left or right.
+  if (isSequenceLeft) {
+    motor.moveLeft();
+  } else {
+    motor.moveRight();
+  }
+  // Update the sequenceI and sequenceJ indexes.
+  ++sequenceI;
+  if (sequenceI >= SEQUENCE_I_MAX) {
+    sequenceI = 0;
+    ++sequenceJ;
+    if (sequenceJ >= SEQUENCE_J_MAX) {
+      sequenceJ = 0;
+    }
+  }
+}
+
+/**
+   - Stop the motor.
+   - Reset sequence variables.
+*/
+void stopTugSequence() {
+  // Stop the motor.
+  motor.moveStop();
+  // Reset sequence variables.
+  isSequenceOn = false;
+  timers[sequence].total = 0L;
+}
+
+/**
+   Perform digitalRead(int) calls, and read the results into the hotSwitches.
+*/
+void updateSwitches() {
+  hotSwitches[leftMax] = digitalRead(pinSwitchLeftMax);
+  hotSwitches[left3] = digitalRead(pinSwitchLeft3);
+  hotSwitches[left1] = digitalRead(pinSwitchLeft1);
+  hotSwitches[center] = digitalRead(pinSwitchCenter);
+  hotSwitches[right1] = digitalRead(pinSwitchRight1);
+  hotSwitches[right3] = digitalRead(pinSwitchRight3);
+  hotSwitches[rightMax] = digitalRead(pinSwitchRightMax);
+}
+
+/**
+   - Update previous, current, and delta variables.
+   - Error handle millis() clock rollover by ignoring frame where delta
+   is a negative number.
+   - Error handle millis() clock rollover by ignorimg frame where
+   current is less than previous.
+   - Update debug timer (seperately from the other timers).
+   - Update normal timers (if their associated state is active).
+   - Update sequence and toggle timers regardless of state.
+*/
+void updateTimers() {
+  // Update previous, current, and delta variables.
+  previous = current;
+  current = millis();
+  delta = current - previous;
+  // Error handle millis() clock rollover by ignoring frame where delta
+  // is a negative number.
+  if (delta < 0L) {
+    return;
+  }
+  // Error handle millis() clock rollover by ignorimg frame where
+  // current is less than previous.
+  if (current < previous) {
+    return;
+  }
+  // Update debug timer (seperately from the other timers).
+  debugTimer += delta;
+  if (debugTimer >= DEBUG_TIMEOUT) {
+    Serial.print(millis()); Serial.print(": "); Serial.println(freeMemory());
+    debugTimer = 0L;
+    digitalWrite(pinLightDebug, !digitalRead(pinLightDebug));
+  }
+  // Update normal timers (if their associated state is active).
+  if (isSoundTimerOn) {
+    timers[sound].total += delta;
+  }
+  if (isOneSecondTimerOn) {
+    timers[oneSecond].total += delta;
+  }
+  if (isFiveSecondTimerOn) {
+    timers[fiveSecond].total += delta;
+  }
+  if (isTenSecondTimerOn) {
+    timers[tenSecond].total += delta;
+  }
+  if (isStopTimerOn) {
+    timers[stopSpecial].total += delta;
+  }
+  if (isReadyTimerOn) {
+    timers[readySpecial].total += delta;
+  }
+  if (isWinnerTimerOn) {
+    timers[winnerSpecial].total += delta;
+  }
+  // Update sequence and toggle timers regardless of state.
+  timers[sequence].total += delta;
+  timers[toggle].total += delta;
+}
+
+////////////////////////////////////////////////////////////////////////
+// Undocumented Functions //////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+void resetFunction() {
+  Serial.print(millis()); Serial.print(": "); Serial.println("reset()");
+}
+
+void startFunction() {
+  Serial.print("start(): ");
+  Serial.print(millis()); Serial.print(": "); Serial.println(OUTGOING_START);
 }
 
 bool errorCheckContactSwitches() {
@@ -804,76 +1076,6 @@ void playSound(int index) {
   isSoundTimerOn = true;
 }
 
-/**
-   - Set all elements of targets to FALSE;
-   - Set the element of targets[index] to TRUE.
-*/
-void setTarget(int index) {
-  ////Serial.print("setTarget(");
-  ////Serial.print(index);
-  //////Serial.print(millis()); Serial.print(": "); Serial.println(")");
-  isTenSecondTimerOn = true;
-  timers[tenSecond].total = 0L;
-  // Set all elements of targs to FALSE.
-  for (unsigned int i = 0; i < SWITCH_SIZE; ++i) {
-    targets[i] = false;
-  }
-  // Set the element of targets[index] to TRUE.
-  targets[index] = true;
-}
-
-/**
-   - Return if isOneSecondTimerOn state is inactive.
-   - Reset state and timer.
-   - Set state and timer to Two state, Three state, Tug state, or Stop
-   state.
-*/
-void stopOneSecondTimer() {
-  // Return if isOneSecondTimerOn state is inactive.
-  if (!isOneSecondTimerOn) {
-    return;
-  }
-  // Reset state and timer.
-  isOneSecondTimerOn = false;
-  timers[oneSecond].total = 0L;
-  //
-  if (isOneOn) {
-    isOneOn = false;
-    digitalWrite(pinLightOne, LOW);
-    digitalWrite(pinLightTwo, HIGH);
-    playSound(two);
-    isTwoOn = true;
-    isOneSecondTimerOn = true;
-  } else if (isTwoOn) {
-    isTwoOn = false;
-    digitalWrite(pinLightTwo, LOW);
-    digitalWrite(pinLightThree, HIGH);
-    playSound(three);
-    isThreeOn = true;
-    isOneSecondTimerOn = true;
-  } else if (isThreeOn) {
-    isThreeOn = false;
-    digitalWrite(pinLightThree, LOW);
-    digitalWrite(pinLightTug, HIGH);
-    playSound(tug);
-    isTugOn = true;
-    isSequenceOn = true;
-    timers[fiveSecond].total = 0L;
-    isFiveSecondTimerOn = true;
-    player1Index = 0;
-    player2Index = 0;
-    player1Score = 0;
-    player2Score = 0;
-    for (int i = 0; i < TAPS_MAX; i++) {
-      player1Taps[i] = 0;
-      player2Taps[i] = 0;
-    }
-  } else if (isStopOn) {
-    digitalWrite(pinLightStop, LOW);
-    isStopOn = false;
-  }
-}
-
 void calculateResults() {
   //Serial.print(millis());
   //Serial.print(": ");
@@ -975,122 +1177,6 @@ void stopFiveSecondTimer() {
   }
 }
 
-/**
-   - Reset the sequence timer.
-   - Setup a new segment.
-   - Move motor left or right.
-   - Update the sequenceI and sequenceJ indexes.
-*/
-void stopTugSegment() {
-  // Reset the sequence timer.
-  timers[sequence].total = 0L;
-  // Setup new segment.
-  timers[sequence].timeout = sequenceTimeout[0][sequenceI];
-  isSequenceLeft = sequenceIsLeft[sequenceJ][sequenceI];
-  // Move motor left or right.
-  if (isSequenceLeft) {
-    motor.moveLeft();
-  } else {
-    motor.moveRight();
-  }
-  // Update the sequenceI and sequenceJ indexes.
-  ++sequenceI;
-  if (sequenceI >= SEQUENCE_I_MAX) {
-    sequenceI = 0;
-    ++sequenceJ;
-    if (sequenceJ >= SEQUENCE_J_MAX) {
-      sequenceJ = 0;
-    }
-  }
-}
-
-/**
-   - Return if isSoundTimerOn is off.
-   - Reset sound timer.
-*/
-void stopSoundTimer() {
-  // Return if isSoundTimerOn is off.
-  if (!isSoundTimerOn) {
-    return;
-  }
-  // Reset sound timer.
-  isSoundTimerOn = false;
-  timers[sound].total = 0L;
-  digitalWrite(sounds[soundCurrent].pin, LOW);
-  soundCurrent = -1;
-}
-
-/**
-   - Reset timer if not blinking states are active.
-   - Reset timer.
-   - If blinking state is on and toggle is on, then turn on light. If
-   blinking state is on and toggle state is off, the turn off light.
-   - Toggle isToggleOn.
-*/
-void stopToggleTimer() {
-  // Reset timer if no blinking states are active.
-  if (!isReadyBlinking
-      && !isWinnerLeftBlinking
-      && !isWinnerRightBlinking
-      && !isChampionLeftBlinking
-      && !isChampionRightBlinking
-      && !isSuddenDeathLeftBlinking
-      && !isSuddenDeathRightBlinking) {
-    timers[toggle].total = 0L;
-    return;
-  }
-  // Reset timer.
-  timers[toggle].total = 0L;
-  // If blinking state is on and toggle is on, then turn on light. If
-  // blinking state is on and toggle state is off, the turn off light.
-  if (isReadyBlinking) {
-    if (isToggleOn) {
-      digitalWrite(pinLightReady, HIGH);
-    } else {
-      digitalWrite(pinLightReady, LOW);
-    }
-  } else if (isWinnerLeftBlinking) {
-    if (isToggleOn) {
-      digitalWrite(pinLightWinnerLeft, HIGH);
-    } else {
-      digitalWrite(pinLightWinnerLeft, LOW);
-    }
-  } else if (isWinnerRightBlinking) {
-    if (isToggleOn) {
-      digitalWrite(pinLightWinnerRight, HIGH);
-    } else {
-      digitalWrite(pinLightWinnerRight, LOW);
-    }
-  } else if (isChampionLeftBlinking) {
-    if (isToggleOn) {
-      digitalWrite(pinLightChampionLeft, HIGH);
-    } else {
-      digitalWrite(pinLightChampionLeft, LOW);
-    }
-
-  } else if (isChampionRightBlinking) {
-    if (isToggleOn) {
-      digitalWrite(pinLightChampionRight, HIGH);
-    } else {
-      digitalWrite(pinLightChampionRight, LOW);
-    }
-  } else if (isSuddenDeathLeftBlinking || isSuddenDeathRightBlinking) {
-    if (isToggleOn) {
-      digitalWrite(pinLightSuddenDeathLeft, HIGH);
-      digitalWrite(pinLightSuddenDeathRight, HIGH);
-    } else {
-      digitalWrite(pinLightSuddenDeathLeft, LOW);
-      digitalWrite(pinLightSuddenDeathRight, LOW);
-    }
-  }
-  // Toggle isToggleOn.
-  if (isToggleOn) {
-    isToggleOn = false;
-  } else {
-    isToggleOn = true;
-  }
-}
-
 void stopTenSecondTimer() {
   if (!isTenSecondTimerOn) {
     return;
@@ -1134,18 +1220,6 @@ void stopTenSecondTimer() {
     //timers[fiveSecond].total -= 5000L;
     isFiveSecondTimerOn = true;
   }
-}
-
-/**
-   - Stop the motor.
-   - Reset sequence variables.
-*/
-void stopTugSequence() {
-  // Stop the motor.
-  motor.moveStop();
-  // Reset sequence variables.
-  isSequenceOn = false;
-  timers[sequence].total = 0L;
 }
 
 void stopStopTimer() {
@@ -1362,78 +1436,6 @@ void routeButtons() {
       //digitalWrite(pinLightSuddenDeathRight, LOW);
     }
   }
-}
-
-/**
-   - Update previous, current, and delta variables.
-   - Error handle millis() clock rollover by ignoring frame where delta
-   is a negative number.
-   - Error handle millis() clock rollover by ignorimg frame where
-   current is less than previous.
-   - Update debug timer (seperately from the other timers).
-   - Update normal timers (if their associated state is active).
-   - Update sequence and toggle timers regardless of state.
-*/
-void updateTimers() {
-  // Update previous, current, and delta variables.
-  previous = current;
-  current = millis();
-  delta = current - previous;
-  // Error handle millis() clock rollover by ignoring frame where delta
-  // is a negative number.
-  if (delta < 0L) {
-    return;
-  }
-  // Error handle millis() clock rollover by ignorimg frame where
-  // current is less than previous.
-  if (current < previous) {
-    return;
-  }
-  // Update debug timer (seperately from the other timers).
-  debugTimer += delta;
-  if (debugTimer >= DEBUG_TIMEOUT) {
-    Serial.print(millis()); Serial.print(": "); Serial.println(freeMemory());
-    debugTimer = 0L;
-    digitalWrite(pinLightDebug, !digitalRead(pinLightDebug));
-  }
-  // Update normal timers (if their associated state is active).
-  if (isSoundTimerOn) {
-    timers[sound].total += delta;
-  }
-  if (isOneSecondTimerOn) {
-    timers[oneSecond].total += delta;
-  }
-  if (isFiveSecondTimerOn) {
-    timers[fiveSecond].total += delta;
-  }
-  if (isTenSecondTimerOn) {
-    timers[tenSecond].total += delta;
-  }
-  if (isStopTimerOn) {
-    timers[stopSpecial].total += delta;
-  }
-  if (isReadyTimerOn) {
-    timers[readySpecial].total += delta;
-  }
-  if (isWinnerTimerOn) {
-    timers[winnerSpecial].total += delta;
-  }
-  // Update sequence and toggle timers regardless of state.
-  timers[sequence].total += delta;
-  timers[toggle].total += delta;
-}
-
-/**
-   Perform digitalRead(int) calls, and read the results into the hotSwitches.
-*/
-void updateSwitches() {
-  hotSwitches[leftMax] = digitalRead(pinSwitchLeftMax);
-  hotSwitches[left3] = digitalRead(pinSwitchLeft3);
-  hotSwitches[left1] = digitalRead(pinSwitchLeft1);
-  hotSwitches[center] = digitalRead(pinSwitchCenter);
-  hotSwitches[right1] = digitalRead(pinSwitchRight1);
-  hotSwitches[right3] = digitalRead(pinSwitchRight3);
-  hotSwitches[rightMax] = digitalRead(pinSwitchRightMax);
 }
 
 void stopWinnerTimer() {
