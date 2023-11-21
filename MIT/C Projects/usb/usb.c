@@ -367,7 +367,7 @@ int main()
         }
         fclose(fp);
         if ((int)incomingBuffer[0] == 36) {
-          printf("GAME OVER RECEIVED");
+          printf("GAME OVER RECEIVED\n");
           FILE *file = fopen("test3.txt", "r");
   
           char string[1000] = "";
@@ -380,7 +380,7 @@ int main()
           fclose(file);
   
           FILE *fp;
-          fp = fopen("test3.txt", "w+");
+          fp = fopen("game_counter.txt", "w+");
           ++gameCount;
           sprintf(str, "%lu", gameCount);
           fputs(str, fp);
