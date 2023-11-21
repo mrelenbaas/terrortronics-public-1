@@ -135,7 +135,6 @@ void loop() {
   if (timers[oneSecond].total >= ONE_SECOND_TIMEOUT) {
     stopOneSecondTimer();
   }
-  // DOXYGEN
   if (timers[fiveSecond].total >= timers[fiveSecond].timeout) {
     stopFiveSecondTimer();
   }
@@ -148,6 +147,7 @@ void loop() {
   if (timers[readySpecial].total >= READY_TIMEOUT) {
     stopReadyTimer();
   }
+  // DOXYGEN
   if (timers[stopSpecial].total >= STOP_SPECIAL_TIMEOUT) {
     stopStopTimer();
   } else if (isStopTimerOn && timers[stopSpecial].total > STOP_TIMEOUT) {
@@ -257,11 +257,11 @@ void setTarget(int index) {
 }
 
 /**
- * - Set next state.
- * - Set timers.
- * - Set lights.
- * - Set sound.
- */
+   - Set next state.
+   - Set timers.
+   - Set lights.
+   - Set sound.
+*/
 void startStop() {
   // Set next state.
   isStopTimerOn = true;
@@ -495,11 +495,11 @@ void stopIsTugOn() {
 }
 
 /**
- * - Reset state.
- * - Set next state.
- * - Set timers.
- * - Set sound.
- */
+   - Reset state.
+   - Set next state.
+   - Set timers.
+   - Set sound.
+*/
 void stopSuddenDeathBlinking() {
   // Reset state.
   isSuddenDeathLeftBlinking = false;
@@ -524,11 +524,11 @@ void stopSuddenDeathBlinking() {
 }
 
 /**
- * - Reset state.
- * - Set next state.
- * - Set timers.
- * - Set sound.
- */
+   - Reset state.
+   - Set next state.
+   - Set timers.
+   - Set sound.
+*/
 void stopTie() {
   // Reset state.
   isTie = false;
@@ -659,6 +659,539 @@ void updateTimers() {
   // Update sequence and toggle timers regardless of state.
   timers[sequence].total += delta;
   timers[toggle].total += delta;
+}
+
+////////////////////////////////////////////////////////////////////////
+// Untested Functions //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+void calculateResults() {
+  Serial.print(millis());
+  Serial.print(": roundCurrent: ");
+  Serial.println(roundCurrent);
+  // Calculate player 1 score.
+  if (player1Index > 0) {
+    for (int i = 0; i < player1Index - 1; i++) {
+      if ((player1Taps[i] == 0) && (player1Taps[i + 1] == 1)) {
+        player1Score++;
+      }
+    }
+  }
+  // Print player 1 score.
+  Serial.print(millis());
+  Serial.print(": player1Score: ");
+  Serial.println(player1Score);
+  // Calculate player 2 score.
+  if (player2Index > 0) {
+    for (int i = 0; i < player2Index - 1; i++) {
+      if ((player2Taps[i] == 0) && (player2Taps[i + 1] == 1)) {
+        player2Score++;
+      }
+    }
+  }
+  // Print player 2 score.
+  Serial.print(millis());
+  Serial.print(": player2Score: ");
+  Serial.println(player2Score);
+}
+
+void playSound(int index) {
+  // Set next state.
+  isSoundTimerOn = true;
+  // Set timers.
+  timers[sound].total = 0L;
+  // Set sound.
+  soundCurrent = index;
+  digitalWrite(sounds[soundCurrent].pin, HIGH);
+}
+
+bool preRouteResults() {
+  // Update preRouteSwitch/preRouteRoundCurrent with currentSwitch/roundCurrent.
+  preRouteSwitch = currentSwitch;
+  preRouteRoundCurrent = roundCurrent;
+  // Declare result.
+  bool result;
+  // Route player 1 wins, player 2 wins, and tie.
+  if (player1Score > player2Score) {
+    // Route sudden death round, final round, and normal round.
+    if (roundCurrent > 4) {
+      // Set result to TRUE.
+      result = true;
+      // Set next state.
+      isGameOver = true;
+    } else if (roundCurrent == 4) {
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 2) {
+        // Set result to TRUE.
+        result = true;
+      } else if (currentSwitch == 3) {
+        // Set result to TRUE.
+        result = true;
+      } else if (currentSwitch == 4) {
+        // Set result to TRUE.
+        result = true;
+      }
+    } else {
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 4) {
+        // Empty.
+      } else if (currentSwitch == 3) {
+        // Empty.
+      } else if (currentSwitch == 2) {
+        // Set result to TRUE.
+        result = true;
+      }
+    }
+  } else if (player1Score < player2Score) {
+    // Route sudden death round, final round, and normal round.
+    if (roundCurrent > 4) {
+      // Set result to TRUE.
+      result = true;
+      // Set next state.
+      isGameOver = true;
+    } else if (roundCurrent == 4) {
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 2) {
+        // Set result to TRUE.
+        result = true;
+      } else if (currentSwitch == 3) {
+        // Set result to TRUE.
+        result = true;
+      } else if (currentSwitch == 4) {
+        // Set result to TRUE.
+        result = true;
+      }
+    } else {
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 2) {
+        // Empty.
+      } else if (currentSwitch == 3) {
+        // Empty.
+      } else if (currentSwitch == 4) {
+        // Set result to TRUE.
+        result = true;
+      }
+    }
+  } else {
+    // Route sudden death round, final round, and normal round.
+    if (roundCurrent > 4) {
+      // Set result to TRUE.
+      result = true;
+      // Set next state.
+      isGameOver = true;
+    } else if (roundCurrent == 4) {
+      // Set result to TRUE.
+      result = true;
+      // Set next state.
+      isFiveSecondTimerOn = true;
+      // Set timers.
+      timers[fiveSecond].total = 0L;
+      //if (currentSwitch == 2) {
+      //} else if (currentSwitch == 3) {
+      //} else if (currentSwitch == 4) {
+      //}
+    } else {
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 2) {
+        // Set result to TRUE.
+        result = true;
+        // Set next state.
+        isTie = true;
+        // Set timers.
+        timers[fiveSecond].timeout = 3500L;
+      } else if (currentSwitch == 3) {
+        // Set result to TRUE.
+        result = true;
+        // Set next state.
+        isTie = true;
+        // Set timers.
+        timers[fiveSecond].timeout = 3500L;
+      } else if (currentSwitch == 4) {
+        // Set result to TRUE.
+        result = true;
+        // Set next state.
+        isTie = true;
+        // Set timers.
+        timers[fiveSecond].timeout = 3500L;
+      }
+    }
+  }
+  // Return result.
+  return false;
+}
+
+void routeResults3() {
+  // Route player 1 wins, player 2 wins, and tie.
+  if (player1Score > player2Score) {
+    // Route sudden death round, final round, and normal round.
+    if (roundCurrent > 4) {
+      // Set next state.
+      isGameOver = true;
+      isChampionLeftBlinking = true;
+      // Set lights.
+      digitalWrite(pinLightWinnerLeft, HIGH);
+      digitalWrite(pinLightSuddenDeathLeft, LOW);
+      digitalWrite(pinLightSuddenDeathRight, LOW);
+      // Set lights.
+      playSound(catThird);
+      // Set motor.
+      motor.moveLeft();
+      setTarget(1);
+    } else if (roundCurrent == 4) {
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 2) {
+        // Set next state.
+        isChampionLeftBlinking = true;
+        // Set lights.
+        digitalWrite(pinLightWinnerLeft, HIGH);
+        digitalWrite(pinLightSuddenDeathLeft, LOW);
+        digitalWrite(pinLightSuddenDeathRight, LOW);
+        // Set sound.
+        playSound(catThird);
+        // Set motor.
+        motor.moveLeft();
+        setTarget(1);
+      } else if (currentSwitch == 3) {
+        // Set lights.
+        isSuddenDeathLeftBlinking = true;
+        isSuddenDeathRightBlinking = true;
+        // Set sound.
+        playSound(suddenDeath);
+        setTarget(3);
+      } else if (currentSwitch == 4) {
+        // Set lights.
+        isSuddenDeathLeftBlinking = true;
+        isSuddenDeathRightBlinking = true;
+        // Set sound.
+        playSound(suddenDeath);
+        // Set motor.
+        motor.moveLeft();
+        setTarget(3);
+      }
+      // Set five second timer.
+      timers[fiveSecond].total = 0L;
+      isFiveSecondTimerOn = true;
+    } else {
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 4) {
+        // Set next state.
+        isWinnerTimerOn = true;
+        isWinnerLeftBlinking = true;
+        // Set timers.
+        timers[winnerSpecial].total = 0L;
+        // Set sound.
+        playSound(catFirst);
+        // Set motor.
+        setTarget(3);
+      } else if (currentSwitch == 3) {
+        // Set next state.
+        isWinnerTimerOn = true;
+        isWinnerLeftBlinking = true;
+        // Set timers.
+        timers[winnerSpecial].total = 0L;
+        // Set sound.
+        playSound(catFirst);
+        // Set motor.
+        setTarget(2);
+      } else if (currentSwitch == 2) {
+        // Set next state.
+        isChampionLeftBlinking = true;
+        // Set lights.
+        digitalWrite(pinLightWinnerLeft, HIGH);
+        digitalWrite(pinLightSuddenDeathLeft, LOW);
+        digitalWrite(pinLightSuddenDeathRight, LOW);
+        // Set sound.
+        playSound(catThird);
+        // Set motor.
+        setTarget(1);
+      }
+      // Set motor.
+      motor.moveLeft();
+    }
+  } else if (player1Score < player2Score) {
+    // Route sudden death round, final round, and normal round.
+    if (roundCurrent > 4) {
+      // Set next state.
+      isGameOver = true;
+      isChampionRightBlinking = true;
+      // Set lights.
+      digitalWrite(pinLightWinnerRight, HIGH);
+      digitalWrite(pinLightSuddenDeathLeft, LOW);
+      digitalWrite(pinLightSuddenDeathRight, LOW);
+      // Set sound.
+      playSound(dogThird);
+      // Set motor.
+      motor.moveRight();
+      setTarget(5);
+    } else if (roundCurrent == 4) {
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 2) {
+        // Set next state.
+        isSuddenDeathLeftBlinking = true;
+        isSuddenDeathRightBlinking = true;
+        // Set sound.
+        playSound(suddenDeath);
+        // Set motor.
+        motor.moveRight();
+        setTarget(3);
+      } else if (currentSwitch == 3) {
+        // Set lights.
+        isSuddenDeathLeftBlinking = true;
+        isSuddenDeathRightBlinking = true;
+        // Set sound.
+        playSound(suddenDeath);
+        // Set motor.
+        setTarget(3);
+      } else if (currentSwitch == 4) {
+        // Set next state.
+        isChampionRightBlinking = true;
+        // Set lights.
+        digitalWrite(pinLightWinnerRight, HIGH);
+        digitalWrite(pinLightSuddenDeathLeft, LOW);
+        digitalWrite(pinLightSuddenDeathRight, LOW);
+        // Set sound.
+        playSound(dogThird);
+        // Set motor.
+        motor.moveRight();
+        setTarget(5);
+      }
+      // Set five second timer.
+      timers[fiveSecond].total = 0L;
+      isFiveSecondTimerOn = true;
+    } else {
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 2) {
+        // Set next state.
+        isWinnerRightBlinking = true;
+        isWinnerTimerOn = true;
+        // Set timers.
+        timers[winnerSpecial].total = 0L;
+        // Set sound.
+        playSound(dogFirst);
+        // Set motor.
+        setTarget(3);
+      } else if (currentSwitch == 3) {
+        // Set next state.
+        isWinnerRightBlinking = true;
+        isWinnerTimerOn = true;
+        // Set timers.
+        timers[winnerSpecial].total = 0L;
+        // Set sound.
+        playSound(dogFirst);
+        // Set motor.
+        setTarget(4);
+      } else if (currentSwitch == 4) {
+        // Set next state.
+        isChampionRightBlinking = true;
+        // Set lights.
+        digitalWrite(pinLightWinnerRight, HIGH);
+        digitalWrite(pinLightSuddenDeathLeft, LOW);
+        digitalWrite(pinLightSuddenDeathRight, LOW);
+        // Set sound.
+        playSound(dogThird);
+        // Set motor.
+        setTarget(5);
+      }
+      // Set motor.
+      motor.moveRight();
+    }
+  } else {
+    // Route sudden death round, final round, and normal round.
+    if (roundCurrent > 4) {
+      // Set next state.
+      isGameOver = true;
+      isChampionRightBlinking = true;
+      // Set lights.
+      digitalWrite(pinLightWinnerRight, HIGH);
+      digitalWrite(pinLightSuddenDeathLeft, LOW);
+      digitalWrite(pinLightSuddenDeathRight, LOW);
+      // Set sound.
+      playSound(dogThird);
+      // Set motor.
+      motor.moveRight();
+      setTarget(5);
+    } else if (roundCurrent == 4) {
+      // Set next state.
+      isSuddenDeathLeftBlinking = true;
+      isSuddenDeathRightBlinking = true;
+      // Set sound.
+      playSound(suddenDeath);
+      // Route switch 2, 3, and 4.
+      if (currentSwitch == 2) {
+        // Set motor.
+        motor.moveRight();
+        setTarget(3);
+        //playSound(suddenDeath);
+      } else if (currentSwitch == 3) {
+        // Set motor.
+        setTarget(3);
+        //playSound(suddenDeath);
+      } else if (currentSwitch == 4) {
+        // Set motor.
+        motor.moveLeft();
+        setTarget(3);
+        //playSound(suddenDeath);
+      }
+      // Set five second timer.
+      timers[fiveSecond].total = 0L;
+      isFiveSecondTimerOn = true;
+    } else {
+      if (currentSwitch == 2) {
+        // Set next state.
+        isTie = true;
+        isFiveSecondTimerOn = true;
+        // Set timers.
+        timers[fiveSecond].timeout = 3500L;
+        timers[fiveSecond].total = 0L;
+        // Set sound.
+        playSound(tie);
+        // Set motor.
+        setTarget(2);
+      } else if (currentSwitch == 3) {
+        // Set next state.
+        isTie = true;
+        isFiveSecondTimerOn = true;
+        // Set timers.
+        timers[fiveSecond].timeout = 3500L;
+        timers[fiveSecond].total = 0L;
+        // Set sound.
+        playSound(tie);
+        // Set motor.
+        setTarget(3);
+      } else if (currentSwitch == 4) {
+        // Set next state.
+        isTie = true;
+        isFiveSecondTimerOn = true;
+        // Set timers.
+        timers[fiveSecond].timeout = 3500L;
+        timers[fiveSecond].total = 0L;
+        // Set sound.
+        playSound(tie);
+        // Set motor.
+        setTarget(4);
+      }
+    }
+    // Set five second timer.
+    timers[fiveSecond].total = 0L;
+    isFiveSecondTimerOn = true;
+  }
+}
+
+void stopWinnerTimer() {
+  // Return if isWinnerTimerOn is FALSE.
+  if (!isWinnerTimerOn) {
+    return;
+  }
+  // Reset state.
+  isWinnerTimerOn = false;
+  isWinnerLeftBlinking = false;
+  isWinnerRightBlinking = false;
+  // Set next state.
+  isToggleOn = true;
+  isOneSecondTimerOn = true;
+  isFiveSecondTimerOn = true;
+  // Set timers.
+  timers[toggle].total -= 200L;
+  timers[oneSecond].total = 0L;
+  timers[fiveSecond].total = 0L;
+  timers[winnerSpecial].total = 0L;
+  // Set lights.
+  digitalWrite(pinLightWinnerLeft, LOW);
+  digitalWrite(pinLightWinnerRight, LOW);
+  // Set sound.
+  playSound(ready);
+  // Route hot switches.
+  if (hotSwitches[left1] == LOW) {
+    startReadyFromWinnerStop234();
+  } else if (hotSwitches[center] == LOW) {
+    startReadyFromWinnerStop234();
+  } else if (hotSwitches[right1] == LOW) {
+    startReadyFromWinnerStop234();
+  } else if (hotSwitches[left3] == LOW) {
+    startReadyFromWinnerStop15();
+  } else if (hotSwitches[right3] == LOW) {
+    startReadyFromWinnerStop15();
+  }
+}
+
+void startReadyFromWinnerStop15() {
+  // Set next state.
+  isChampionLeftBlinking = true;
+  // Set lights.
+  digitalWrite(pinLightSuddenDeathLeft, LOW);
+  digitalWrite(pinLightSuddenDeathRight, LOW);
+}
+
+void startReadyFromWinnerStop234() {
+  // Set next state.
+  isReadyBlinking = true;
+  isReadyTimerOn = true;
+  // Set timers.
+  timers[readySpecial].total = 0L;
+  timers[fiveSecond].timeout = 2500L;
+  // Set lights.
+  digitalWrite(pinLightSuddenDeathLeft, LOW);
+  digitalWrite(pinLightSuddenDeathRight, LOW);
+  // TODO: Remember to test this removal.
+  //if (isChampionLeftBlinking || isChampionRightBlinking) {
+  //  isReadyBlinking = false;
+  //  digitalWrite(pinLightReady, LOW);
+  //}
+}
+
+void stopChampion() {
+  // Reset state.
+  isReadyBlinking = false;
+  isWinnerLeftBlinking = false;
+  isWinnerRightBlinking = false;
+  isChampionLeftBlinking = false;
+  isChampionRightBlinking = false;
+  isSuddenDeathLeftBlinking = false;
+  isSuddenDeathRightBlinking = false;
+  isReset = false;
+  isOneOn = false;
+  isTwoOn = false;
+  isThreeOn = false;
+  isTugOn = false;
+  isStopOn = false;
+  isReset = false;
+  roundCurrent = 0;
+  // Set next state.
+  isCentering = true;
+  isToggleOn = true;
+  isOneSecondTimerOn = true;
+  isFiveSecondTimerOn = true;
+  // Set timers.
+  timers[toggle].total -= 200L;
+  timers[oneSecond].total = 0L;
+  timers[fiveSecond].total = 0L;
+  // Set lights.
+  digitalWrite(pinLightChampionLeft, LOW);
+  digitalWrite(pinLightChampionRight, LOW);
+  digitalWrite(pinLightWinnerLeft, LOW);
+  digitalWrite(pinLightWinnerRight, LOW);
+  digitalWrite(pinLightSuddenDeathLeft, LOW);
+  digitalWrite(pinLightSuddenDeathRight, LOW);
+  digitalWrite(pinLightReady, LOW);
+  digitalWrite(pinLightOne, LOW);
+  digitalWrite(pinLightTwo, LOW);
+  digitalWrite(pinLightThree, LOW);
+  digitalWrite(pinLightTug, LOW);
+  digitalWrite(pinLightStop, LOW);
+}
+
+void stopTenSecondTimer() {
+  // Return if isTenSecondTimerOn is FALSE.
+  if (!isTenSecondTimerOn) {
+    return;
+  }
+  // Reset state.
+  isTenSecondTimerOn = false;
+  // Set timers.
+  timers[tenSecond].total = 0L;
+  // Route new state.
+  if (isChampionLeftBlinking || isChampionRightBlinking) {
+    stopChampion();
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1001,312 +1534,6 @@ void routeResults2() {
   }
 }
 
-void routeResults3() {
-  if (player1Score > player2Score) {
-    if (roundCurrent > 4) {
-      digitalWrite(pinLightWinnerLeft, HIGH);
-      isChampionLeftBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-      isGameOver = true;
-      motor.moveLeft();
-      playSound(catThird);
-      setTarget(1);
-    } else if (roundCurrent == 4) {
-      if (currentSwitch == 2) {
-        digitalWrite(pinLightWinnerLeft, HIGH);
-        isChampionLeftBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-        motor.moveLeft();
-        playSound(catThird);
-        setTarget(1);
-      } else if (currentSwitch == 3) {
-        isSuddenDeathLeftBlinking = true;
-        isSuddenDeathRightBlinking = true;
-        playSound(suddenDeath);
-        setTarget(3);
-      } else if (currentSwitch == 4) {
-        isSuddenDeathLeftBlinking = true;
-        isSuddenDeathRightBlinking = true;
-        playSound(suddenDeath);
-        motor.moveLeft();
-        setTarget(3);
-      }
-      timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-    } else {
-      if (currentSwitch == 4) {
-        isWinnerLeftBlinking = true; timers[winnerSpecial].total = 0L; isWinnerTimerOn = true;
-        playSound(catFirst);
-        setTarget(3);
-      } else if (currentSwitch == 3) {
-        isWinnerLeftBlinking = true; timers[winnerSpecial].total = 0L; isWinnerTimerOn = true;
-        playSound(catFirst);
-        setTarget(2);
-      } else if (currentSwitch == 2) {
-        digitalWrite(pinLightWinnerLeft, HIGH);
-        isChampionLeftBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-        //////Serial.print(millis()); Serial.print(": "); Serial.println("YOU ARE HERE");
-        playSound(catThird);
-        //////Serial.print(millis()); Serial.print(": "); Serial.println("YOU ARE THERE");
-        setTarget(1);
-      }
-      motor.moveLeft();
-    }
-  } else if (player1Score < player2Score) {
-    if (roundCurrent > 4) {
-      digitalWrite(pinLightWinnerRight, HIGH);
-      isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-      isGameOver = true;
-      motor.moveRight();
-      playSound(dogThird);
-      setTarget(5);
-    } else if (roundCurrent == 4) {
-      if (currentSwitch == 2) {
-        isSuddenDeathLeftBlinking = true;
-        isSuddenDeathRightBlinking = true;
-        playSound(suddenDeath);
-        motor.moveRight();
-        setTarget(3);
-      } else if (currentSwitch == 3) {
-        isSuddenDeathLeftBlinking = true;
-        isSuddenDeathRightBlinking = true;
-        playSound(suddenDeath);
-        setTarget(3);
-      } else if (currentSwitch == 4) {
-        digitalWrite(pinLightWinnerRight, HIGH);
-        isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-        motor.moveRight();
-        playSound(dogThird);
-        setTarget(5);
-      }
-      timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-    } else {
-      if (currentSwitch == 2) {
-        isWinnerRightBlinking = true; timers[winnerSpecial].total = 0L; isWinnerTimerOn = true;
-        playSound(dogFirst);
-        setTarget(3);
-      } else if (currentSwitch == 3) {
-        isWinnerRightBlinking = true; timers[winnerSpecial].total = 0L; isWinnerTimerOn = true;
-        playSound(dogFirst);
-        setTarget(4);
-      } else if (currentSwitch == 4) {
-        isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-        digitalWrite(pinLightWinnerRight, HIGH);
-        playSound(dogThird);
-        setTarget(5);
-      }
-      motor.moveRight();
-    }
-  } else {
-    if (roundCurrent > 4) {
-      digitalWrite(pinLightWinnerRight, HIGH);
-      isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-      isGameOver = true;
-      motor.moveRight();
-      playSound(dogThird);
-      setTarget(5);
-    } else if (roundCurrent == 4) {
-      isSuddenDeathLeftBlinking = true;
-      isSuddenDeathRightBlinking = true;
-      playSound(suddenDeath);
-      if (currentSwitch == 2) {
-        motor.moveRight();
-        playSound(suddenDeath);
-        setTarget(3);
-      } else if (currentSwitch == 3) {
-        playSound(suddenDeath);
-        setTarget(3);
-      } else if (currentSwitch == 4) {
-        motor.moveLeft();
-        playSound(suddenDeath);
-        setTarget(3);
-      }
-      timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-    } else {
-      if (currentSwitch == 2) {
-        setTarget(2);
-        isTie = true;
-        timers[fiveSecond].timeout = 3500L;
-        timers[fiveSecond].total = 0L;
-        isFiveSecondTimerOn = true;
-        playSound(tie);
-        //////Serial.print(millis()); Serial.print(": "); Serial.println("333");
-      } else if (currentSwitch == 3) {
-        setTarget(3);
-        isTie = true; timers[fiveSecond].timeout = 3500L;
-        timers[fiveSecond].total = 0L;
-        isFiveSecondTimerOn = true;
-        playSound(tie);
-        //////Serial.print(millis()); Serial.print(": "); Serial.println("444");
-      } else if (currentSwitch == 4) {
-        setTarget(4);
-        isTie = true; timers[fiveSecond].timeout = 3500L;
-        timers[fiveSecond].total = 0L;
-        isFiveSecondTimerOn = true;
-        playSound(tie);
-        //////Serial.print(millis()); Serial.print(": "); Serial.println("555");
-      }
-    }
-    timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-  }
-}
-
-bool preRouteResults() {
-  preRouteSwitch = currentSwitch;
-  preRouteRoundCurrent = roundCurrent;
-  bool result = false;
-  if (player1Score > player2Score) {
-    if (roundCurrent > 4) {
-      result = true;
-      isGameOver = true;
-    } else if (roundCurrent == 4) {
-      if (currentSwitch == 2) {
-        result = true;
-      } else if (currentSwitch == 3) {
-        result = true;
-      } else if (currentSwitch == 4) {
-        result = true;
-      }
-    } else {
-      if (currentSwitch == 4) {
-      } else if (currentSwitch == 3) {
-      } else if (currentSwitch == 2) {
-        result = true;
-      }
-    }
-  } else if (player1Score < player2Score) {
-    if (roundCurrent > 4) {
-      result = true;
-      isGameOver = true;
-    } else if (roundCurrent == 4) {
-      if (currentSwitch == 2) {
-        result = true;
-      } else if (currentSwitch == 3) {
-        result = true;
-      } else if (currentSwitch == 4) {
-        result = true;
-      }
-    } else {
-      if (currentSwitch == 2) {
-      } else if (currentSwitch == 3) {
-      } else if (currentSwitch == 4) {
-        result = true;
-      }
-    }
-  } else {
-    if (roundCurrent > 4) {
-      result = true;
-      isGameOver = true;
-    } else if (roundCurrent == 4) {
-      result = true;
-      if (currentSwitch == 2) {
-      } else if (currentSwitch == 3) {
-      } else if (currentSwitch == 4) {
-      }
-      timers[fiveSecond].total = 0L; isFiveSecondTimerOn = true;
-    } else {
-      if (currentSwitch == 2) {
-        result = true;
-        isTie = true; timers[fiveSecond].timeout = 3500L;
-      } else if (currentSwitch == 3) {
-        result = true;
-        isTie = true; timers[fiveSecond].timeout = 3500L;
-      } else if (currentSwitch == 4) {
-        result = true;
-        isTie = true; timers[fiveSecond].timeout = 3500L;
-      }
-    }
-  }
-  ////Serial.print("result: ");
-  //////Serial.print(millis()); Serial.print(": "); Serial.println(result);
-  //return result; Uncomment this to turn the results code back on.
-  return false;
-}
-
-void playSound(int index) {
-  soundCurrent = index;
-  digitalWrite(sounds[soundCurrent].pin, HIGH);
-  timers[sound].total = 0L;
-  isSoundTimerOn = true;
-}
-
-void calculateResults() {
-  //Serial.print(millis());
-  //Serial.print(": ");
-  if (player1Index > 0) {
-    for (int i = 0; i < player1Index - 1; i++) {
-      //Serial.print(player1Taps[i]);
-      if ((player1Taps[i] == 0) && (player1Taps[i + 1] == 1)) {
-        player1Score++;
-        //Serial.print("+");
-      }
-      //Serial.print(",");
-    }
-  }
-  Serial.print(millis());
-  Serial.print(": player1Score: ");
-  Serial.println(player1Score);
-  //Serial.println("");
-  //Serial.print(millis());
-  //Serial.print(": ");
-  if (player2Index > 0) {
-    for (int i = 0; i < player2Index - 1; i++) {
-      //Serial.print(player2Taps[i]);
-      if ((player2Taps[i] == 0) && (player2Taps[i + 1] == 1)) {
-        player2Score++;
-        //Serial.print("+");
-      }
-      //Serial.print(",");
-    }
-  }
-  //Serial.println("");
-  Serial.print(millis());
-  Serial.print(": player2Score: ");
-  Serial.println(player2Score);
-}
-
-void stopTenSecondTimer() {
-  if (!isTenSecondTimerOn) {
-    return;
-  }
-  isTenSecondTimerOn = false;
-  timers[tenSecond].total = 0L;
-  if (isChampionLeftBlinking || isChampionRightBlinking) {
-    isReadyBlinking = false;
-    isWinnerLeftBlinking = false;
-    isWinnerRightBlinking = false;
-    isChampionLeftBlinking = false;
-    isChampionRightBlinking = false;
-    isSuddenDeathLeftBlinking = false;
-    isSuddenDeathRightBlinking = false;
-    isCentering = true;
-    isReset = false;
-    digitalWrite(pinLightChampionLeft, LOW);
-    digitalWrite(pinLightChampionRight, LOW);
-    digitalWrite(pinLightWinnerLeft, LOW);
-    digitalWrite(pinLightWinnerRight, LOW);
-    digitalWrite(pinLightSuddenDeathLeft, LOW);
-    digitalWrite(pinLightSuddenDeathRight, LOW);
-    digitalWrite(pinLightReady, LOW);
-    digitalWrite(pinLightOne, LOW);
-    isOneOn = false;
-    digitalWrite(pinLightTwo, LOW);
-    isTwoOn = false;
-    digitalWrite(pinLightThree, LOW);
-    isThreeOn = false;
-    digitalWrite(pinLightTug, LOW);
-    isTugOn = false;
-    digitalWrite(pinLightStop, LOW);
-    isStopOn = false;
-    roundCurrent = 0;
-    isCentering = true;
-    isReset = false;
-    timers[toggle].total -= 200L;
-    isToggleOn = true;
-    timers[oneSecond].total = 0L; isOneSecondTimerOn = true;
-    timers[fiveSecond].total = 0L;
-    //timers[fiveSecond].total -= 5000L;
-    isFiveSecondTimerOn = true;
-  }
-}
-
 void stopStopTimer() {
   if (!isStopTimerOn) {
     return;
@@ -1503,57 +1730,4 @@ void routeButtons() {
       //digitalWrite(pinLightSuddenDeathRight, LOW);
     }
   }
-}
-
-void stopWinnerTimer() {
-  if (!isWinnerTimerOn) {
-    return;
-  }
-  isWinnerTimerOn = false;
-  ////Serial.print("stopWinnerTimer() - ");
-  ////Serial.print("timers[winnerSpecial].total: ");
-  //////Serial.print(millis()); Serial.print(": "); Serial.println(timers[winnerSpecial].total);
-  timers[winnerSpecial].total = 0L;
-  //if (isWinnerLeftBlinking || isWinnerRightBlinking) {
-  ////////Serial.print(millis()); Serial.print(": "); Serial.println(", isWinnerLeftBlinking or isWinnerRightBlinking");
-  timers[toggle].total -= 200L;
-  isToggleOn = true;
-  timers[oneSecond].total = 0L; isOneSecondTimerOn = true;
-  timers[fiveSecond].total = 0L;
-  //timers[fiveSecond].total -= 5000L;
-  isFiveSecondTimerOn = true;
-  if (hotSwitches[left1] == LOW) {
-    isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; timers[readySpecial].total = 0L; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-    isReadyTimerOn = true;
-    playSound(ready);
-    if (isChampionLeftBlinking || isChampionRightBlinking) {
-      isReadyBlinking = false;
-      digitalWrite(pinLightReady, LOW);
-    }
-  } else if (hotSwitches[center] == LOW) {
-    isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; timers[readySpecial].total = 0L; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-    isReadyTimerOn = true;
-    playSound(ready);
-    if (isChampionLeftBlinking || isChampionRightBlinking) {
-      isReadyBlinking = false;
-      digitalWrite(pinLightReady, LOW);
-    }
-  } else if (hotSwitches[right1] == LOW) {
-    isReadyBlinking = true; timers[fiveSecond].timeout = 2500L; timers[readySpecial].total = 0L;// digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-    isReadyTimerOn = true;
-    playSound(ready);
-    if (isChampionLeftBlinking || isChampionRightBlinking) {
-      isReadyBlinking = false;
-      digitalWrite(pinLightReady, LOW);
-    }
-  } else if (hotSwitches[left3] == LOW) {
-    isChampionLeftBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-  } else if (hotSwitches[right3] == LOW) {
-    isChampionRightBlinking = true; digitalWrite(pinLightSuddenDeathLeft, LOW); digitalWrite(pinLightSuddenDeathRight, LOW);
-  }
-  digitalWrite(pinLightWinnerLeft, LOW);
-  digitalWrite(pinLightWinnerRight, LOW);
-  isWinnerLeftBlinking = false;
-  isWinnerRightBlinking = false;
-  //}
 }

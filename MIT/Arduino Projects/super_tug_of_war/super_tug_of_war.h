@@ -109,6 +109,9 @@ void stopIsTugOn();
 void stopSuddenDeathBlinking();
 void stopTie();
 void startStop();
+void startReadyFromWinnerStop234();
+void startReadyFromWinnerStop15();
+void stopChampion();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////
