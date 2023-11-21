@@ -244,10 +244,17 @@ const int BAUD_RATE = 9600;
 // Debounce by Time ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   Time (in milliseconds) from the beginning of a button (or switch)
-   press until it is considered valid.
+   Time (in milliseconds) from the beginning of a Player 1/2 Left/Right button press until it is considered valid.
 */
 long const DEBOUNCE_TIME = 20L;
+/**
+ * Time (in milliseconds) from the beginning of a micro-switch press until it is considered valid.
+ */
+long const DEBOUNCE_TIME_MICRO_SWITCHES = 100L;
+/**
+ * Time (in milliseconds) from the beginning of a Start button press until it is considered valid.
+ */
+long const DEBOUNCE_TIME_START = 50L;
 /**
    The time at the beginning of the current loop.
 */
