@@ -250,7 +250,7 @@ long const DEBOUNCE_TIME = 20L;
 /**
  * Time (in milliseconds) from the beginning of a micro-switch press until it is considered valid.
  */
-long const DEBOUNCE_TIME_MICRO_SWITCHES = 50L;
+long const DEBOUNCE_TIME_MICRO_SWITCHES = 20L;
 /**
  * Time (in milliseconds) from the beginning of a Start button press until it is considered valid.
  */
@@ -556,6 +556,7 @@ Switch switches[] = {
    throughout.
 */
 bool hotSwitches[] = {false, false, false, false, false, false, false};
+bool debouncedSwitches[] = {false, false, false, false, false, false, false};
 /**
    Blocks a switch from debounced Press until non-debounced Release.
 */

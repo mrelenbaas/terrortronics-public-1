@@ -176,6 +176,12 @@ void debounceSwitchesByPosition() {
   if (singleSwitch != currentSwitch) {
     previousSwitch = currentSwitch;
     currentSwitch = singleSwitch;
+    // Print tracers.
+    Serial.print(millis());
+    Serial.print(": debounced switch by position: ");
+    Serial.print(previousSwitch);
+    Serial.print(" to ");
+    Serial.println(currentSwitch);
   }
 }
 
@@ -197,7 +203,12 @@ void debounceSwitchByTime(int i) {
   if (hotSwitches[i] == LOW && !switchBlocks[i]) {
     switchDebounces[i] += delta;
     if (switchDebounces[i] > DEBOUNCE_TIME_MICRO_SWITCHES) {
+      // Print tracers.
+      Serial.print(millis());
+      Serial.print(": debounced switch by time:  ");
+      Serial.println(i);
       switchBlocks[i] = true;
+      debouncedSwitches[i] = LOW;
     }
   } else if (hotSwitches[i] && switchBlocks[i]) {
     switchBlocks[i] = false;
@@ -213,7 +224,7 @@ bool errorCheckPluralInput() {
   // Count the number of switch inputs occuring.
   countSwitch = 0;
   for (unsigned int i = 0; i < SWITCH_SIZE; i++) {
-    if (hotSwitches[i] == LOW) {
+    if (debouncedSwitches[i] == LOW) {
       singleSwitch = i;
       countSwitch++;
     }
@@ -222,9 +233,9 @@ bool errorCheckPluralInput() {
   if (countSwitch > 1) {
     countSwitch2 = 0;
     for (unsigned int i = 0; i < SWITCH_SIZE; i++) {
-      if (hotSwitches[i] == LOW) {
+      if (debouncedSwitches[i] == LOW) {
         Serial.print(millis());
-        Serial.print(": E: Plural input, ");
+        Serial.print(": ERROR: Plural input, ");
         Serial.print(countSwitch2);
         Serial.print(", ");
         Serial.println(i);
@@ -842,6 +853,9 @@ void stopTugSequence() {
    Perform digitalRead(int) calls, and read the results into the hotSwitches.
 */
 void updateSwitches() {
+  for (int i = 0; i < SWITCH_SIZE; i++) {
+    debouncedSwitches[i] = HIGH;
+  }
   hotSwitches[leftMax] = digitalRead(pinSwitchLeftMax);
   hotSwitches[left3] = digitalRead(pinSwitchLeft3);
   hotSwitches[left1] = digitalRead(pinSwitchLeft1);
@@ -954,7 +968,7 @@ bool errorCheckContactSwitches() {
     } else {
       emergencyLeft = false;
       emergencyLeft2 = false;
-      Serial.println("E: emergency switches (Left)");
+      Serial.println("ERROR: emergency switches (Left)");
       return true;
     }
   } else {
@@ -971,7 +985,7 @@ bool errorCheckContactSwitches() {
     } else {
       emergencyRight = false;
       emergencyRight2 = false;
-      Serial.println("E: emergency switches (Right)");
+      Serial.println("ERROR: emergency switches (Right)");
       return true;
     }
   } else {
@@ -1205,7 +1219,7 @@ void routeButtons() {
       // Reset debounce.
       buttonDebounces[player1Right] = 0;
     }
-    
+
     // Route player2Left button PRESSED and RELEASED.
     if (hotButtons[player2Left] == LOW && !buttonBlocks[player2Left]) {
       // Update debounce.
@@ -1224,7 +1238,7 @@ void routeButtons() {
       // Reset debounce.
       buttonDebounces[player2Left] = 0;
     }
-    
+
     // Route player2Right button PRESSED and RELEASED.
     if (hotButtons[player2Right] == LOW && !buttonBlocks[player2Right]) {
       // Update debounce.
