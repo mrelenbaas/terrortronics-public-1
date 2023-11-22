@@ -250,7 +250,7 @@ long const DEBOUNCE_TIME = 20L;
 /**
  * Time (in milliseconds) from the beginning of a micro-switch press until it is considered valid.
  */
-long const DEBOUNCE_TIME_MICRO_SWITCHES = 100L;
+long const DEBOUNCE_TIME_MICRO_SWITCHES = 50L;
 /**
  * Time (in milliseconds) from the beginning of a Start button press until it is considered valid.
  */

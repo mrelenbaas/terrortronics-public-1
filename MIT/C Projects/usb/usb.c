@@ -166,11 +166,12 @@ int connect_serial_port()
       port = CreateFileA(device, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
       if (port == INVALID_HANDLE_VALUE)
       {
-        printf("ERROR: Invalid handle value.\n");
+        //printf("ERROR: Invalid handle value.\n");
         continue;
       }
       else
       {
+        printf("Success: connected to %s\n", device);
         result = 0;
         break;
       }

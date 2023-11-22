@@ -1439,7 +1439,7 @@ void routeResults3() {
   // Route player 1 wins, player 2 wins, and tie.
   if (player1Score > player2Score) {
     // Route sudden death round, final round, and normal round.
-    if (roundCurrent > 5) {
+    if (preRouteRoundCurrent > 5) {
       // Set next state.
       isGameOver = true;
       isChampionLeftBlinking = true;
@@ -1452,9 +1452,9 @@ void routeResults3() {
       // Set motor.
       motor.moveLeft();
       setTarget(1);
-    } else if (roundCurrent == 5) {
+    } else if (preRouteRoundCurrent == 5) {
       // Route switch 2, 3, and 4.
-      if (currentSwitch == 2) {
+      if (preRouteSwitch == 2) {
         // Set next state.
         isChampionLeftBlinking = true;
         // Set timers.
@@ -1468,7 +1468,7 @@ void routeResults3() {
         // Set motor.
         motor.moveLeft();
         setTarget(1);
-      } else if (currentSwitch == 3) {
+      } else if (preRouteSwitch == 3) {
         // Set next state.
         isSuddenDeathLeftBlinking = true;
         isSuddenDeathRightBlinking = true;
@@ -1481,7 +1481,7 @@ void routeResults3() {
         playSound(suddenDeath);
         // Set motor.
         setTarget(3);
-      } else if (currentSwitch == 4) {
+      } else if (preRouteSwitch == 4) {
         // Set lights.
         isSuddenDeathLeftBlinking = true;
         isSuddenDeathRightBlinking = true;
@@ -1501,7 +1501,7 @@ void routeResults3() {
       isFiveSecondTimerOn = true;
     } else {
       // Route switch 2, 3, and 4.
-      if (currentSwitch == 4) {
+      if (preRouteSwitch == 4) {
         // Set next state.
         isWinnerTimerOn = true;
         isWinnerLeftBlinking = true;
@@ -1512,7 +1512,7 @@ void routeResults3() {
         playSound(catFirst);
         // Set motor.
         setTarget(3);
-      } else if (currentSwitch == 3) {
+      } else if (preRouteSwitch == 3) {
         // Set next state.
         isWinnerTimerOn = true;
         isWinnerLeftBlinking = true;
@@ -1523,7 +1523,7 @@ void routeResults3() {
         playSound(catFirst);
         // Set motor.
         setTarget(2);
-      } else if (currentSwitch == 2) {
+      } else if (preRouteSwitch == 2) {
         // Set next state.
         isChampionLeftBlinking = true;
         // Set lights.
@@ -1540,7 +1540,7 @@ void routeResults3() {
     }
   } else if (player1Score < player2Score) {
     // Route sudden death round, final round, and normal round.
-    if (roundCurrent > 5) {
+    if (preRouteRoundCurrent > 5) {
       // Set next state.
       isGameOver = true;
       isChampionRightBlinking = true;
@@ -1555,9 +1555,9 @@ void routeResults3() {
       // Set motor.
       motor.moveRight();
       setTarget(5);
-    } else if (roundCurrent == 5) {
+    } else if (preRouteRoundCurrent == 5) {
       // Route switch 2, 3, and 4.
-      if (currentSwitch == 2) {
+      if (preRouteSwitch == 2) {
         // Set next state.
         isSuddenDeathLeftBlinking = true;
         isSuddenDeathRightBlinking = true;
@@ -1566,7 +1566,7 @@ void routeResults3() {
         // Set motor.
         motor.moveRight();
         setTarget(3);
-      } else if (currentSwitch == 3) {
+      } else if (preRouteSwitch == 3) {
         // Set lights.
         isSuddenDeathLeftBlinking = true;
         isSuddenDeathRightBlinking = true;
@@ -1577,7 +1577,7 @@ void routeResults3() {
         playSound(suddenDeath);
         // Set motor.
         setTarget(3);
-      } else if (currentSwitch == 4) {
+      } else if (preRouteSwitch == 4) {
         // Set next state.
         isChampionRightBlinking = true;
         // Set lights.
@@ -1595,7 +1595,7 @@ void routeResults3() {
       isFiveSecondTimerOn = true;
     } else {
       // Route switch 2, 3, and 4.
-      if (currentSwitch == 2) {
+      if (preRouteSwitch == 2) {
         // Set next state.
         isWinnerRightBlinking = true;
         isWinnerTimerOn = true;
@@ -1606,7 +1606,7 @@ void routeResults3() {
         playSound(dogFirst);
         // Set motor.
         setTarget(3);
-      } else if (currentSwitch == 3) {
+      } else if (preRouteSwitch == 3) {
         // Set next state.
         isWinnerRightBlinking = true;
         isWinnerTimerOn = true;
@@ -1617,7 +1617,7 @@ void routeResults3() {
         playSound(dogFirst);
         // Set motor.
         setTarget(4);
-      } else if (currentSwitch == 4) {
+      } else if (preRouteSwitch == 4) {
         // Set next state.
         isChampionRightBlinking = true;
         // Set timers.
@@ -1636,7 +1636,7 @@ void routeResults3() {
     }
   } else {
     // Route sudden death round, final round, and normal round.
-    if (roundCurrent > 5) {
+    if (preRouteRoundCurrent > 5) {
       // Set next state.
       isGameOver = true;
       isChampionRightBlinking = true;
@@ -1652,7 +1652,7 @@ void routeResults3() {
       // Set motor.
       motor.moveRight();
       setTarget(5);
-    } else if (roundCurrent == 5) {
+    } else if (preRouteRoundCurrent == 5) {
       // Set next state.
       isSuddenDeathLeftBlinking = true;
       isSuddenDeathRightBlinking = true;
@@ -1664,14 +1664,14 @@ void routeResults3() {
       // Set sound.
       playSound(suddenDeath);
       // Route switch 2, 3, and 4.
-      if (currentSwitch == 2) {
+      if (preRouteSwitch == 2) {
         // Set motor.
         motor.moveRight();
         setTarget(3);
-      } else if (currentSwitch == 3) {
+      } else if (preRouteSwitch == 3) {
         // Set motor.
         setTarget(3);
-      } else if (currentSwitch == 4) {
+      } else if (preRouteSwitch == 4) {
         // Set motor.
         motor.moveLeft();
         setTarget(3);
@@ -1681,7 +1681,7 @@ void routeResults3() {
       isFiveSecondTimerOn = true;
     } else {
       // Route switch 2, 3, and 4.
-      if (currentSwitch == 2) {
+      if (preRouteSwitch == 2) {
         // Set next state.
         isTie = true;
         isFiveSecondTimerOn = true;
@@ -1692,7 +1692,7 @@ void routeResults3() {
         playSound(tie);
         // Set motor.
         setTarget(2);
-      } else if (currentSwitch == 3) {
+      } else if (preRouteSwitch == 3) {
         // Set next state.
         isTie = true;
         isFiveSecondTimerOn = true;
@@ -1703,7 +1703,7 @@ void routeResults3() {
         playSound(tie);
         // Set motor.
         setTarget(3);
-      } else if (currentSwitch == 4) {
+      } else if (preRouteSwitch == 4) {
         // Set next state.
         isTie = true;
         isFiveSecondTimerOn = true;
