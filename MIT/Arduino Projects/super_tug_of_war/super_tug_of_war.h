@@ -94,6 +94,7 @@ void startReadyFromWinnerStop15();
 void startReadyFromWinnerStop234();
 void startStop();
 void stopChampion();
+void stopCount();
 void stopFiveSecondTimer();
 void stopFiveSecondTimer2();
 void stopFourSecondTimer();
@@ -199,6 +200,8 @@ enum pinEnum {
   pinLightError = 18,             ///< Pin 18. Red debug LED.
   pinReset = 19,                  ///< Pin 19. Reset by connecting run pin to ground.
   pinLightDebug = 20,             ///< Pin 20. Blue debug LED.
+  // TODO: New. Test pin for physical counter.
+  pinCount,
   // Lights.
   pinLightWinnerLeft = 22,        ///< Pin 22. Left Winner light.
   pinLightWinnerRight = 23,       ///< Pin 23. Right Winner light.
@@ -290,6 +293,7 @@ Timer timers[] = {
   Timer(),
   Timer(),
   Timer(),
+  Timer(),
   Timer()
 };
 /**
@@ -305,7 +309,8 @@ enum timerEnum {
   tieSpecial,
   stopSpecial,
   readySpecial,
-  winnerSpecial
+  winnerSpecial,
+  countSpecial
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -861,6 +866,10 @@ unsigned long TOGGLE_TIMEOUT = 200L;
  * The timeout for the isWinnerOn state.
  */
 unsigned long WINNER_TIMEOUT = 4000L;
+/**
+ * The timeout for the isCountOn state.
+ */
+unsigned long COUNT_TIMEOUT = 1000L;
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
@@ -992,3 +1001,4 @@ unsigned long debugTimer = 0L;
 // NEW THINGS
 bool isDebug = true;
 bool isSuper;
+bool isCountOn;

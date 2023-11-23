@@ -32,6 +32,7 @@ void setup() {
   timers[stopSpecial].timeout = 1.515L;
   timers[readySpecial].timeout = 2500L;
   timers[winnerSpecial].timeout = 4000L;
+  timers[countSpecial].timeout = COUNT_TIMEOUT;
   // Setup taps.
   for (int i = 0; i < TAPS_MAX; ++i) {
     player1Taps[i] = 0;
@@ -94,6 +95,7 @@ void setup() {
   analogWrite(GREEN, 0);
   analogWrite(BLUE, 255);
   pinMode(pinLightDebug, OUTPUT);
+  pinMode(pinCount, OUTPUT);
   Serial.println("SETUP END");
 }
 
@@ -187,6 +189,9 @@ void loop() {
     digitalWrite(pinLightStop, LOW);
   } else if (isStopTimerOn && timers[stopSpecial].total < STOP_SPECIAL_TIMEOUT) {
     motor.moveStop();
+  }
+  if (timers[countSpecial].total >= COUNT_TIMEOUT) {
+    stopCount();
   }
   if (errorCheckContactSwitches()) {
     //  return;
@@ -565,6 +570,10 @@ void startStop() {
   digitalWrite(pinLightStop, HIGH);
   // Set sound.
   playSound(stop);
+}
+
+void stopCount() {
+  digitalWrite(pinCount, LOW);
 }
 
 /**
@@ -951,6 +960,9 @@ void updateTimers() {
   if (isWinnerTimerOn) {
     timers[winnerSpecial].total += delta;
   }
+  if (isCountOn) {
+    timers[countSpecial].total += delta;
+  }
   // Update sequence and toggle timers regardless of state.
   timers[sequence].total += delta;
   timers[toggle].total += delta;
@@ -1172,17 +1184,21 @@ void routeButtons() {
         isFiveSecondTimerOn = true;
         isReadyBlinking = true;
         isReadyTimerOn = true;
+        isCountOn = true;
         // set timers.
         timers[toggle].total = 0L;
         timers[oneSecond].total = 0L;
         timers[fiveSecond].total = 0L;
         timers[fiveSecond].timeout = 2500L;
         timers[readySpecial].total = 0L;
+        timers[countSpecial].total = 0L;
         // Set lights.
         digitalWrite(pinLightSuddenDeathLeft, LOW);
         digitalWrite(pinLightSuddenDeathRight, LOW);
         // Set sound.
         playSound(ready);
+        // Set count pin.
+        digitalWrite(pinCount, HIGH);
       }
     }
   } else if (isCentering) {
