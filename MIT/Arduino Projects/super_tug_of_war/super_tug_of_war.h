@@ -988,3 +988,7 @@ const unsigned long DEBUG_TIMEOUT = 60000L;
  * The debug timer's time.
  */
 unsigned long debugTimer = 0L;
+
+// NEW THINGS
+bool isDebug = true;
+bool isSuper;

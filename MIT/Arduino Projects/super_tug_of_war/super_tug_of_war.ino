@@ -94,6 +94,7 @@ void setup() {
   analogWrite(GREEN, 0);
   analogWrite(BLUE, 255);
   pinMode(pinLightDebug, OUTPUT);
+  Serial.println("SETUP END");
 }
 
 /**
@@ -105,6 +106,37 @@ void setup() {
    - Check timers.
 */
 void loop() {
+  if (isDebug) {
+    Serial.print(millis());
+    Serial.print(",");
+    Serial.print(digitalRead(35));
+    Serial.print(",");
+    Serial.print(digitalRead(37));
+    Serial.print(",");
+    Serial.print(digitalRead(38));
+    Serial.print(",");
+    Serial.print(digitalRead(39));
+    Serial.print(",");
+    Serial.print(digitalRead(41));
+    Serial.print(",");
+    Serial.print(digitalRead(42));
+    Serial.print(",");
+    Serial.print(digitalRead(43));
+    Serial.print(",");
+    Serial.print(digitalRead(45));
+    Serial.print(",");
+    Serial.print(digitalRead(46));
+    Serial.print(",");
+    Serial.print(digitalRead(47));
+    Serial.print(",");
+    Serial.print(digitalRead(48));
+    Serial.print(",");
+    Serial.print(digitalRead(49));
+    Serial.print(",");
+    Serial.println(digitalRead(50));
+    //Serial.print(",");
+    return;
+  }
   // Update timers.
   updateTimers();
   // Update input.
