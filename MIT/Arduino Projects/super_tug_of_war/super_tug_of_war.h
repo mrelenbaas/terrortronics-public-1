@@ -71,6 +71,115 @@
    - empty
 */
 
+// TODO: Test count pin.
+
+////////////////////////////////////////////////////////////////////////
+// Pins ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The board's pins.
+
+   @section details Details
+   This enumeration uses "pin" as a prefix. The other enumerations do
+   not use any prefix.
+   - Sounds: 2-13.
+   - Super Tug-of-War: 14-21.
+   - Lights: 22-33.
+   - Buttons: 35-41.
+   - Switches: 42-50.
+   - Motor. 51-52.
+*/
+enum pinEnum {
+  // Sounds.
+  pinSoundReady = 2,              ///< Pin 2. Ready sound.
+  pinSoundCatWinner = 3,          ///< Pin 3. Winner (Cat) sound.
+  pinSoundDogWinner = 4,          ///< Pin 4. Winner (Dog) sound.
+  pinSoundCatChampion = 5,        ///< Pin 5. Champion (Cat) sound.
+  pinSoundDogChampion = 6,        ///< Pin 6. Champion (Dog) sound.
+  pinSoundTie = 7,                ///< Pin 7. Tie sound.
+  pinSoundStop = 8,               ///< Pin 8. Stop sound.
+  pinSoundOne = 9,                ///< Pin 9. One sound.
+  pinSoundTwo = 10,               ///< Pin 10. Two sound.
+  pinSoundThree = 11,             ///< Pin 11. Three sound.
+  pinSoundTug = 12,               ///< Pin 12. Tug sound.
+  pinSoundSuddenDeath = 13,       ///< Pin 13. Sudden Death sound.
+  // Super Pins.
+  //pinButtonTouch = 14,          ///< Pin 14. ERROR. Unresponsive.
+  //pinLightError = 15,           ///< Pin 15. ERROR. Always HIGH.
+  pinBuzzer = 16,                 ///< Pin 16. Buzzer pin.
+  pinButtonTouch = 17,            ///< Pin 17. Reset button.
+  pinLightError = 18,             ///< Pin 18. Red debug LED.
+  pinReset = 19,                  ///< Pin 19. Reset by connecting run pin to ground.
+  pinLightDebug = 20,             ///< Pin 20. Blue debug LED.
+  pinCount,                       ///< Pin 21. The game count.
+  // Lights.
+  pinLightWinnerLeft = 22,        ///< Pin 22. Left Winner light.
+  pinLightWinnerRight = 23,       ///< Pin 23. Right Winner light.
+  pinLightSuddenDeathLeft = 24,   ///< Pin 24. Left Sudden Death light.
+  pinLightSuddenDeathRight = 25,  ///< Pin 25. Right Sudden Death light.
+  pinLightChampionLeft = 26,      ///< Pin 26. Left Champion light.
+  pinLightChampionRight = 27,     ///< Pin 27. Right Champion light.
+  pinLightReady = 28,             ///< Pin 28. Ready light.
+  pinLightOne = 29,               ///< Pin 29. One light.
+  pinLightTwo = 30,               ///< Pin 30. Two light.
+  pinLightThree = 31,             ///< Pin 31. Three light.
+  pinLightTug = 32,               ///< Pin 32. Tug light.
+  pinLightStop = 33,              ///< Pin 33. Stop light.
+  // Buttons.
+  pinButtonStart = 35,            ///< Pin 35. Start button.
+  pinUnused1 = 36,                ///< Pin 36. Unused pin #1.
+  pinButtonPlayer1Left = 37,      ///< Pin 37. Left Player 1 button.
+  pinButtonPlayer1Right = 38,     ///< Pin 38. Right Player 1 button.
+  pinButtonPlayer2Left = 39,      ///< Pin 39. Left Player 2 button.
+  pinUnused2 = 40,                ///< Pin 40. Unused pin #2.
+  pinButtonPlayer2Right = 41,     ///< Pin 41. Right Player 2 button.
+  // Switches.
+  pinSwitchLeftMax = 42,          ///< Pin 42. Left leaf-switch.
+  pinSwitchLeft3 = 43,            ///< Pin 43. Leftmost micro-switch.
+  pinUnused3 = 44,                ///< Pin 44. Unused pin #3.
+  pinSwitchLeft1 = 45,            ///< Pin 44. First micro-switch left-of-center.
+  pinSwitchCenter = 46,           ///< Pin 46. Center micro-switch.
+  pinSwitchRight1 = 47,           ///< Pin 47. First micro-switch right-of-center.
+  pinUnused4 = 48,                ///< Pin 48. Unused pin #4.
+  pinSwitchRight3 = 49,           ///< Pin 49. Rightmist micro-switch.
+  pinSwitchRightMax = 50,         ///< Pin 50. Right leaf-switch.
+  // Motor.
+  pinMotorLeft = 51,              ///< Pin 51. Set HIGH (and set Pin 52 LOW) to move motor clockwise and to move trigger right.
+  pinMotorRight = 52              ///< Pin 52. Set HIGH (and set Pin 51 LOW) to move motor anti-clockwise and to move trigger left.
+};
+/**
+   The first sound pin.
+*/
+const int FIRST_SOUND_PIN = 2;
+/**
+   The last sound pin.
+*/
+const int LAST_SOUND_PIN = 13;
+/**
+   The first light pin.
+*/
+const int FIRST_LIGHT_PIN = 22;
+/**
+   The last light pin.
+*/
+const int LAST_LIGHT_PIN = 33;
+/**
+   The first button pin.
+*/
+const int FIRST_BUTTON_PIN = 35;
+/**
+   The last button pin.
+*/
+const int LAST_BUTTON_PIN = 41;
+/**
+ * The first pin in a set of switch pins.
+ */
+const int FIRST_SWITCH_PIN = 42;
+/**
+ * The last pin in a set of switch pins.
+ */
+const int LAST_SWITCH_PIN = 50;
+
 ////////////////////////////////////////////////////////////////////////
 // Function Stubs //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -113,127 +222,6 @@ void stopWinnerTimer();
 void updateButtons();
 void updateStopSpecialTimeout();
 void updateSwitches();
-
-////////////////////////////////////////////////////////////////////////
-// Pins ////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-/**
-   The first sound pin.
-*/
-const int FIRST_SOUND_PIN = 2;
-/**
-   The last sound pin.
-*/
-const int LAST_SOUND_PIN = 13;
-/**
-   The first light pin.
-*/
-const int FIRST_LIGHT_PIN = 22;
-/**
-   The last light pin.
-*/
-const int LAST_LIGHT_PIN = 33;
-/**
-   The first button pin.
-*/
-const int FIRST_BUTTON_PIN = 35;
-/**
-   The last button pin.
-*/
-const int LAST_BUTTON_PIN = 41;
-/**
-   Redundant. This button wasn't working on the previous board.
-*/
-const int SKIPPED_BUTTON_1 = 36;
-/**
-   Redundant. This button wasn't working on the previous board.
-*/
-const int SKIPPED_BUTTON_2 = 40;
-/**
- * The first pin in a set of switch pins.
- */
-const int FIRST_SWITCH_PIN = 42;
-/**
- * The last pin in a set of switch pins.
- */
-const int LAST_SWITCH_PIN = 50;
-/**
-   Redundant. This button wasn't working on the previous board.
-*/
-const int SKIPPED_SWITCH_1 = 44;
-/**
-   Redundant. This button wasn't working on the previous board.
-*/
-const int SKIPPED_SWITCH_2 = 48;
-/**
-   The board's pins.
-
-   @section details Details
-   This enumeration uses "pin" as a prefix. The other enumerations do
-   not use any prefix.
-   - Sounds: 2-13.
-   - Super Tug-of-War: 14-21.
-   - Lights: 22-33.
-   - Buttons: 35-41.
-   - Switches: 42-50.
-   - Motor. 51-52.
-*/
-enum pinEnum {
-  // Sounds.
-  pinSoundReady = 2,              ///< Pin 2. Ready sound.
-  pinSoundCatWinner = 3,           ///< Pin 3. Winner (Cat) sound.
-  pinSoundDogWinner = 4,           ///< Pin 4. Winner (Dog) sound.
-  pinSoundCatChampion = 5,           ///< Pin 5. Champion (Cat) sound.
-  pinSoundDogChampion = 6,           ///< Pin 6. Champion (Dog) sound.
-  pinSoundTie = 7,                ///< Pin 7. Tie sound.
-  pinSoundStop = 8,               ///< Pin 8. Stop sound.
-  pinSoundOne = 9,                ///< Pin 9. One sound.
-  pinSoundTwo = 10,               ///< Pin 10. Two sound.
-  pinSoundThree = 11,             ///< Pin 11. Three sound.
-  pinSoundTug = 12,               ///< Pin 12. Tug sound.
-  pinSoundSuddenDeath = 13,       ///< Pin 13. Sudden Death sound.
-  // Super Pins.
-  //pinButtonTouch = 14,          ///< Pin 14. ERROR. Unresponsive.
-  //pinLightError = 15,           ///< Pin 15. ERROR. Always high.
-  pinBuzzer = 16,                 ///< Pin 16. Buzzer pin.
-  pinButtonTouch = 17,            ///< Pin 17. Reset button.
-  pinLightError = 18,             ///< Pin 18. Red debug LED.
-  pinReset = 19,                  ///< Pin 19. Reset by connecting run pin to ground.
-  pinLightDebug = 20,             ///< Pin 20. Blue debug LED.
-  // TODO: New. Test pin for physical counter.
-  pinCount,
-  // Lights.
-  pinLightWinnerLeft = 22,        ///< Pin 22. Left Winner light.
-  pinLightWinnerRight = 23,       ///< Pin 23. Right Winner light.
-  pinLightSuddenDeathLeft = 24,   ///< Pin 24. Left Sudden Death light.
-  pinLightSuddenDeathRight = 25,  ///< Pin 25. Right Sudden Death light.
-  pinLightChampionLeft = 26,      ///< Pin 26. Left Champion light.
-  pinLightChampionRight = 27,     ///< Pin 27. Right Champion light.
-  pinLightReady = 28,             ///< Pin 28. Ready light.
-  pinLightOne = 29,               ///< Pin 29. One light.
-  pinLightTwo = 30,               ///< Pin 30. Two light.
-  pinLightThree = 31,             ///< Pin 31. Three light.
-  pinLightTug = 32,               ///< Pin 32. Tug light.
-  pinLightStop = 33,              ///< Pin 33. Stop light.
-  // Buttons.
-  pinButtonStart = 35,            ///< Pin 35. Start button.
-  pinButtonPlayer1Left = 37,      ///< Pin 37. Left Player 1 button.
-  pinButtonPlayer1Right = 38,     ///< Pin 38. Right Player 1 button.
-  pinButtonPlayer2Left = 39,      ///< Pin 39. Left Player 2 button.
-  pinButtonPlayer2Right = 41,     ///< Pin 41. Right Player 2 button.
-  // Switches.
-  pinSwitchLeftMax = 42,          ///< Pin 42. Left leaf-switch.
-  pinSwitchLeft3 = 43,            ///< Pin 43. Leftmost micro-switch.
-  pinSwitchLeft1 = 45,            ///< Pin 44. First micro-switch left-of-center.
-  pinSwitchCenter = 46,           ///< Pin 46. Center micro-switch.
-  pinSwitchRight1 = 47,           ///< Pin 47. First micro-switch right-of-center.
-  pinBlankExtra5 = 48,            ///< Pin 48. Error. Unresponsive.
-  pinSwitchRight3 = 49,           ///< Pin 49. Rightmist micro-switch.
-  pinSwitchRightMax = 50,         ///< Pin 50. Right leaf-switch.
-  // Motor.
-  pinMotorLeft = 51,              ///< Pin 51. Set HIGH (and set Pin 52 LOW) to move motor clockwise and to move trigger right.
-  pinMotorRight = 52              ///< Pin 52. Set HIGH (and set Pin 51 LOW) to move motor anti-clockwise and to move trigger left.
-};
 
 ////////////////////////////////////////////////////////////////////////
 // Serial //////////////////////////////////////////////////////////////

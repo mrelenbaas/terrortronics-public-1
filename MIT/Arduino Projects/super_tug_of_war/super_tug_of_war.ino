@@ -55,7 +55,7 @@ void setup() {
   }
   // Setup buttons.
   for (int i = FIRST_BUTTON_PIN; i < LAST_BUTTON_PIN + 1; i++) {
-    if (i == SKIPPED_BUTTON_1 || i == SKIPPED_BUTTON_2) {
+    if (i == pinUnused1 || i == pinUnused2) {
       continue;
     }
     buttons[index].pin = i;
@@ -65,7 +65,7 @@ void setup() {
   // Setup switches.
   index = 0;
   for (int i = FIRST_SWITCH_PIN; i < LAST_SWITCH_PIN + 1; i++) {
-    if (i == SKIPPED_SWITCH_1 || i == SKIPPED_SWITCH_2) {
+    if (i == pinUnused3 || i == pinUnused4) {
       continue;
     }
     switches[index].pin = i;
