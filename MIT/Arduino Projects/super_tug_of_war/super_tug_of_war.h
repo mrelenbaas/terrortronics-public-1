@@ -104,14 +104,19 @@ void debounceSwitchesByPosition();
 // Scores.
 void calculateResults();
 // Tug sequences.
+void stopTugSegment();
+void stopTugSequence();
 // Routing.
 // Timers.
+void startReadyFromWinnerStop15();
+void startReadyFromWinnerStop234();
 void stopChampion();
 void stopCount();
 void stopIsTugOn();
 void stopReadyTimer();
 void stopSoundTimer();
 void stopStopTimer();
+void stopSuddenDeathBlinking();
 void stopTie();
 void stopWinnerTimer();
 // Messages.
@@ -128,18 +133,13 @@ void routeButtons();
 void routeResults();
 void routeResults2();
 void routeResults3();
-void startReadyFromWinnerStop15();
-void startReadyFromWinnerStop234();
 void startStop();
 void stopFiveSecondTimer();
 void stopFiveSecondTimer2();
 void stopFourSecondTimer();
 void stopOneSecondTimer();
-void stopSuddenDeathBlinking();
 void stopTenSecondTimer();
 void stopToggleTimer();
-void stopTugSegment();
-void stopTugSequence();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////

@@ -494,6 +494,59 @@ void calculateResults() {
 ////////////////////////////////////////////////////////////////////////
 // Tug Sequences ///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+/**
+   Stop the Tug Segment state.
+
+   RUSCAL:
+   - timers[sequence].total = 0
+   - timers[sequence].timeout <- sequenceTimeout[0][sequenceI]
+   - isSequenceLeft <- sequenceIsLeft[sequenceJ][sequenceI]
+   - if (isSequenceLeft)
+    + motor.MotorLeft ()
+   - else
+    + motor.MoveRight ()
+   - endif
+   - sequenceI <- sequenceI + 1
+   - if (sequenceI >= SEQUENCE_I_MAX)
+    + sequenceI <- 0
+    + sequenceJ <- sequenceJ + 1
+    + if (sequenceJ >= SEQUENCE_J_MAX)
+     - sequenceJ <- 0
+    + endif
+   - endif
+*/
+void stopTugSegment() {
+  timers[sequence].total = 0L;
+  timers[sequence].timeout = sequenceTimeout[0][sequenceI];
+  isSequenceLeft = sequenceIsLeft[sequenceJ][sequenceI];
+  if (isSequenceLeft) {
+    motor.moveLeft();
+  } else {
+    motor.moveRight();
+  }
+  ++sequenceI;
+  if (sequenceI >= SEQUENCE_I_MAX) {
+    sequenceI = 0;
+    ++sequenceJ;
+    if (sequenceJ >= SEQUENCE_J_MAX) {
+      sequenceJ = 0;
+    }
+  }
+}
+
+/**
+   Stop the Tug Sequence state.
+
+   RUSCAL:
+   - motor.MoveStop ()
+   - isSequenceOn <- FALSE
+   - timers[sequence].total <- 0
+*/
+void stopTugSequence() {
+  motor.moveStop();
+  isSequenceOn = false;
+  timers[sequence].total = 0L;
+}
 
 ////////////////////////////////////////////////////////////////////////
 // Routing /////////////////////////////////////////////////////////////
@@ -502,6 +555,42 @@ void calculateResults() {
 ////////////////////////////////////////////////////////////////////////
 // Timers //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+/**
+   Start the Ready state from the Winner state when on the 1, or 5 
+   micro-switches.
+
+   RUSCAL:
+   - isChampionLeftBlinking <- TRUE
+   - DigitalWrite (pinLightSuddenDeathLeft, FALSE)
+   - DigitalWrite (pinLightSuddenDeathRight, FALSE)
+ */
+void startReadyFromWinnerStop15() {
+  isChampionLeftBlinking = true;
+  digitalWrite(pinLightSuddenDeathLeft, LOW);
+  digitalWrite(pinLightSuddenDeathRight, LOW);
+}
+
+/**
+   Start the Ready state from the Winner state when on the 2, 3, or 4 
+   micro-switches.
+
+   RUSCAL:
+   - isReadyBlinking <- TRUE
+   - isReadyTimerOn <- TRUE
+   - timers[readySpecial].total <- 0
+   - timers[fiveSeconds].timeout <- READY_TIMEOUT
+   - DigitalWrite (pinLightSuddenDeathLeft, FALSE)
+   - DigitalWrite (pinLightSuddenDeathRight, FALSE)
+ */
+void startReadyFromWinnerStop234() {
+  isReadyBlinking = true;
+  isReadyTimerOn = true;
+  timers[readySpecial].total = 0L;
+  timers[fiveSecond].timeout = READY_TIMEOUT; // TODO: Check this change. // 2500L;
+  digitalWrite(pinLightSuddenDeathLeft, LOW);
+  digitalWrite(pinLightSuddenDeathRight, LOW);
+}
+
 /**
    Stop the Champion state.
 
@@ -665,6 +754,36 @@ void stopStopTimer() {
   }
   isStopTimerOn = false;
   timers[stopSpecial].total = 0L;
+}
+
+/**
+   Stop the Sudden Death Blinking state.
+
+   RUSCAL:
+   - isSuddenDeathLeftBlinking <- FALSE
+   - isSuddenDeathRightBlinking <- FALSE
+   - isToggleOn <- TRUE
+   - isOneSecondTimerOn <- TRUE
+   - isFiveSecondTimerOn <- TRUE
+   - isReadyBlinking <- TRUE
+   - isReadyTimerOn <- TRUE
+   - timers[toggle].total <- timers[toggle].total - TOGGLE_TIMEOUT
+   - timers[oneSecond].total <- 0
+   - timers[fiveSecond].timeout <- READY_TIMEOUT
+   - PlaySound (ready)
+*/
+void stopSuddenDeathBlinking() {
+  isSuddenDeathLeftBlinking = false;
+  isSuddenDeathRightBlinking = false;
+  isToggleOn = true;
+  isOneSecondTimerOn = true;
+  isFiveSecondTimerOn = true;
+  isReadyBlinking = true;
+  isReadyTimerOn = true;
+  timers[toggle].total -= TOGGLE_TIMEOUT; // TODO: Check this change. // 200L;
+  timers[oneSecond].total = 0L;
+  timers[fiveSecond].timeout = READY_TIMEOUT; // TODO: Check this change. // 2500L;
+  playSound(ready);
 }
 
 /**
@@ -1330,76 +1449,6 @@ void stopToggleTimer() {
   } else {
     isToggleOn = true;
   }
-}
-
-/**
-   - Reset state.
-   - Set next state.
-   - Set timers.
-   - Set sound.
-*/
-void stopSuddenDeathBlinking() {
-  // Reset state.
-  isSuddenDeathLeftBlinking = false;
-  isSuddenDeathRightBlinking = false;
-  // Set next state.
-  isToggleOn = true;
-  isOneSecondTimerOn = true;
-  isFiveSecondTimerOn = true;
-  isReadyBlinking = true;
-  isReadyTimerOn = true;
-  // Set timers.
-  timers[toggle].total -= 200L;
-  timers[oneSecond].total = 0L;
-  timers[fiveSecond].timeout = 2500L;
-  // Set sound.
-  playSound(ready);
-  // TODO: Remember to test this for a while before removing.
-  //if (isChampionLeftBlinking || isChampionRightBlinking) {
-  //  isReadyBlinking = false;
-  //  digitalWrite(pinLightReady, LOW);
-  //}
-}
-
-/**
-   - Reset the sequence timer.
-   - Setup a new segment.
-   - Move motor left or right.
-   - Update the sequenceI and sequenceJ indexes.
-*/
-void stopTugSegment() {
-  // Reset the sequence timer.
-  timers[sequence].total = 0L;
-  // Setup new segment.
-  timers[sequence].timeout = sequenceTimeout[0][sequenceI];
-  isSequenceLeft = sequenceIsLeft[sequenceJ][sequenceI];
-  // Move motor left or right.
-  if (isSequenceLeft) {
-    motor.moveLeft();
-  } else {
-    motor.moveRight();
-  }
-  // Update the sequenceI and sequenceJ indexes.
-  ++sequenceI;
-  if (sequenceI >= SEQUENCE_I_MAX) {
-    sequenceI = 0;
-    ++sequenceJ;
-    if (sequenceJ >= SEQUENCE_J_MAX) {
-      sequenceJ = 0;
-    }
-  }
-}
-
-/**
-   - Stop the motor.
-   - Reset sequence variables.
-*/
-void stopTugSequence() {
-  // Stop the motor.
-  motor.moveStop();
-  // Reset sequence variables.
-  isSequenceOn = false;
-  timers[sequence].total = 0L;
 }
 
 /**
@@ -2197,31 +2246,6 @@ void routeResults3() {
     timers[fiveSecond].total = 0L;
     isFiveSecondTimerOn = true;
   }
-}
-
-void startReadyFromWinnerStop15() {
-  // Set next state.
-  isChampionLeftBlinking = true;
-  // Set lights.
-  digitalWrite(pinLightSuddenDeathLeft, LOW);
-  digitalWrite(pinLightSuddenDeathRight, LOW);
-}
-
-void startReadyFromWinnerStop234() {
-  // Set next state.
-  isReadyBlinking = true;
-  isReadyTimerOn = true;
-  // Set timers.
-  timers[readySpecial].total = 0L;
-  timers[fiveSecond].timeout = 2500L;
-  // Set lights.
-  digitalWrite(pinLightSuddenDeathLeft, LOW);
-  digitalWrite(pinLightSuddenDeathRight, LOW);
-  // TODO: Remember to test this removal.
-  //if (isChampionLeftBlinking || isChampionRightBlinking) {
-  //  isReadyBlinking = false;
-  //  digitalWrite(pinLightReady, LOW);
-  //}
 }
 
 void stopTenSecondTimer() {
