@@ -1,8 +1,7 @@
-// https://docs.arduino.cc/built-in-examples/digital/Debounce
-
-#include <MemoryFree.h>;
-
+// Include 2nd-party libraries.
 #include "super_tug_of_war.h"
+// Include 3rd-party libraries.
+#include <MemoryFree.h>;
 
 /**
    - Instantiate local variables.
@@ -42,19 +41,19 @@ void setup() {
     buttonDebounces[i] = 0L;
   }
   // Setup sounds.
-  for (int i = FIRST_SOUND_PIN; i < LAST_SOUND_PIN + 1; i++) {
+  for (int i = FIRST_SOUND_PIN; i < LAST_SOUND_PIN + 1; ++i) {
     sounds[index].pin = i;
     pinMode(sounds[index].pin, OUTPUT);
     index++;
   }
   index = 0;
   // Setup lights.
-  for (int i = FIRST_LIGHT_PIN; i < LAST_LIGHT_PIN + 1; i++) {
+  for (int i = FIRST_LIGHT_PIN; i < LAST_LIGHT_PIN + 1; ++i) {
     pinMode(i, OUTPUT);
     digitalWrite(i, LOW);
   }
   // Setup buttons.
-  for (int i = FIRST_BUTTON_PIN; i < LAST_BUTTON_PIN + 1; i++) {
+  for (int i = FIRST_BUTTON_PIN; i < LAST_BUTTON_PIN + 1; ++i) {
     if (i == pinUnused1 || i == pinUnused2) {
       continue;
     }
@@ -64,7 +63,7 @@ void setup() {
   }
   // Setup switches.
   index = 0;
-  for (int i = FIRST_SWITCH_PIN; i < LAST_SWITCH_PIN + 1; i++) {
+  for (int i = FIRST_SWITCH_PIN; i < LAST_SWITCH_PIN + 1; ++i) {
     if (i == pinUnused3 || i == pinUnused4) {
       continue;
     }
@@ -201,19 +200,203 @@ void loop() {
 }
 
 ////////////////////////////////////////////////////////////////////////
-// Private Functions ///////////////////////////////////////////////////
+// Sounds //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   - Update current/previous switches if a normal number (0 or 1) of
-   switches are pressed.
+   @param i The sound index to play.
+
+   Play the sound at index.
+
+   RUSCAL:
+   - isSoundTimerOn <- TRUE
+   - timers[sound].total <- 0
+   - soundCurrent <- index
+   - DigitalWrite (sounds[soundCurrent].pin, TRUE)
+ */
+void playSound(int index) {
+  isSoundTimerOn = true;
+  timers[sound].total = 0L;
+  soundCurrent = index;
+  digitalWrite(sounds[soundCurrent].pin, HIGH);
+}
+
+////////////////////////////////////////////////////////////////////////
+// Lights //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   Update the hot-buttons array.
+
+   RUSCAL:
+   - hotButtons[start] <- DigitalRead (pinButtonStart)
+   - hotButtons[player1Left] <- DigitalRead (pinButtonPlayer1Left)
+   - hotButtons[player1Right] <- DigitalRead (pinButtonPlayer1Right)
+   - hotButtons[player2Left] <- DigitalRead (pinButtonPlayer2Left)
+   - hotButtons[player2Right] <- DigitalRead (pinButtonPlayer2Right)
+ */
+void updateButtons() {
+  hotButtons[start] = digitalRead(pinButtonStart);
+  hotButtons[player1Left] = digitalRead(pinButtonPlayer1Left);
+  hotButtons[player1Right] = digitalRead(pinButtonPlayer1Right);
+  hotButtons[player2Left] = digitalRead(pinButtonPlayer2Left);
+  hotButtons[player2Right] = digitalRead(pinButtonPlayer2Right);
+}
+
+////////////////////////////////////////////////////////////////////////
+// Switches ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   Perform digitalRead(int) calls, and read the results into the 
+   hotSwitches.
+
+   RUSCAL:
+   - i isoftype Num
+   - loop
+    + exitif (i >= SWITCH_SIZE)
+    + i <- i + 1
+    + debouncedSwitches[i] = TRUE
+   - endloop
+   - hotSwitches[leftMax] <- DigitalRead (pinSwitchLeftMax)
+   - howSwitches[left3] <- DigitalRead (pinSwitchLeft3)
+   - hotSwitches[left1] <- DigitalRead (pinSwitchLeft1)
+   - howSwitches[center] <- DigitalRead (pinSwitchCenter)
+   - howSwitches[right1] <- DigitalRead (pinSwitchRight1)
+   - hotSwitches[right3] <- DigitalRead (pinSwitchRight3)
+   - howSwitches[rightMax] <- DigitalRead (pinSwitchRightMax)
+*/
+void updateSwitches() {
+  for (int i = 0; i < SWITCH_SIZE; ++i) {
+    debouncedSwitches[i] = HIGH;
+  }
+  hotSwitches[leftMax] = digitalRead(pinSwitchLeftMax);
+  hotSwitches[left3] = digitalRead(pinSwitchLeft3);
+  hotSwitches[left1] = digitalRead(pinSwitchLeft1);
+  hotSwitches[center] = digitalRead(pinSwitchCenter);
+  hotSwitches[right1] = digitalRead(pinSwitchRight1);
+  hotSwitches[right3] = digitalRead(pinSwitchRight3);
+  hotSwitches[rightMax] = digitalRead(pinSwitchRightMax);
+}
+
+////////////////////////////////////////////////////////////////////////
+// Motor ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   @param i The micro-switch index to target.
+
+   Set the micro-switch target.
+   
+   RUSCAL:
+   - isTenSecondTimerOn <- TRUE
+   - timers[tenSecond].total = 0
+   - i isoftype Num
+   - loop
+    + exitif (i >= SWITCH_SIZE)
+    + i <- i + 1
+    + targets[i] <- FALSE
+   - endloop
+   - targets[index] <- TRUE
+*/
+void setTarget(int index) {
+  isTenSecondTimerOn = true;
+  timers[tenSecond].total = 0L;
+  for (int i = 0; i < SWITCH_SIZE; ++i) {
+    targets[i] = false;
+  }
+  targets[index] = true;
+}
+
+////////////////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Debounce By Time ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   @param i The switch index to debounce.
+
+   If the hot-switch is LOW and the block is FALSE, then update the 
+   debounce time. If the debounce time is greater than the timeout, 
+   then set the block to TRUE and the debounced-switch to LOW.
+
+   If the hot-switch is HIGH and the block is FALSE, then set the block 
+   to FALSE and the debounce to ZERO.
+
+   RUSCAL:
+   - if ((hotSwitches[i] = LOW) AND NOT (switchBlocks[i]))
+    + switchDebounces[i] <- switchDebounces + delta
+    + if (switchDebounces[i] > DEBOUNCE_TIME_MICRO_SWITCHES)
+     - print (Millis ())
+     - print (": debounced switch by time: ")
+     - print (i)
+     - switchBlocks[i] <- TRUE
+     - debouncedSwitches[i] <- FALSE
+    + endif
+   - elseif ((howSwitches[i] = TRUE) AND (switchBlocks[i]))
+    + switchBlocks[i] <- FALSE
+    + switchDebounces[i] <- 0
+   - endif
+*/
+void debounceSwitchByTime(int i) {
+  if (hotSwitches[i] == LOW && !switchBlocks[i]) {
+    switchDebounces[i] += delta;
+    if (switchDebounces[i] > DEBOUNCE_TIME_MICRO_SWITCHES) {
+      Serial.print(millis());
+      Serial.print(": debounced switch by time:  ");
+      Serial.println(i);
+      switchBlocks[i] = true;
+      debouncedSwitches[i] = LOW;
+    }
+  } else if (hotSwitches[i] == HIGH && switchBlocks[i]) {
+    switchBlocks[i] = false;
+    switchDebounces[i] = 0;
+  }
+}
+
+/**
+   Debounce each switch.
+
+   RUSCAL:
+   - i isoftype Num
+   - loop
+    + exitif (i >= SWITCH_SIZE)
+    + i <- i + 1
+    + DebounceSwitchByTime (i)
+   - endloop
+*/
+void debounceSwitchesByTime() {
+  for (int i = 0; i < SWITCH_SIZE; ++i) {
+    debounceSwitchByTime(i);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+// Debounce By Position ////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   If the single pressed micro-switch is not equal to the current 
+   micro-switch, then update the current and previous micro-switch. Set 
+   the previous micro-switch to the current micro-switch. Set the 
+   current micro-switch to the single pressed micro-switch.
+   
+   RUSCAL:
+   - if NOT (singleSwitch = currentSwitch)
+    + previousSwitch <- currentSwitch
+    + currentSwitch <- singleSwitch
+    + print (Millis ())
+    + print (": debounced switch by position: ")
+    + print (previousSwitch)
+    + print (" to ")
+    + print (currentSwitch)
+   - endif
 */
 void debounceSwitchesByPosition() {
-  // Update current/previous switches if a normal number (0 or 1) of
-  // switches are pressed.
   if (singleSwitch != currentSwitch) {
     previousSwitch = currentSwitch;
     currentSwitch = singleSwitch;
-    // Print tracers.
     Serial.print(millis());
     Serial.print(": debounced switch by position: ");
     Serial.print(previousSwitch);
@@ -222,61 +405,508 @@ void debounceSwitchesByPosition() {
   }
 }
 
-/**
-   - Loop through each switch, and debounce it.
-*/
-void debounceSwitchesByTime() {
-  for (int i = 0; i < SWITCH_SIZE; i++) {
-    debounceSwitchByTime(i);
-  }
-}
-/**
-   @param i The switch index to debounce.
+////////////////////////////////////////////////////////////////////////
+// Debounce by Frame ///////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
-   - If switch is LOW and blocked, then update debounce.
-   - If switch is HIGH and not-blocked, then reset block and debounce.
+////////////////////////////////////////////////////////////////////////
+// States //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Scores //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   Calculate the Player 1 and Player 2 scores.
+
+   Loops through each player's array of taps, and awards a point if the 
+   current index is zero and the next index is one.
+
+   RUSCAL:
+    - if (isDebug)
+     + print (Millis ())
+     + print (": round Current: ")
+     + print (roundCurrent)
+    - endif
+    - if (player1Index > 0)
+     + i isoftype Num
+     + loop
+      - exitif (i >= player1Index - 1)
+      - i <- i + 1
+      - if ((player1Taps[i] = 0) AND (player1Taps[i + 1] = 1))
+       + playe1Score <- player1Score + 1
+      - endif
+     + endloop
+    - endif
+    - if (isDebug)
+     + print (Millis ())
+     + print (": player1Score: ")
+     + print (player1Score)
+    - endif
+    - if (player2Index > 0)
+     + i isoftype Num
+     + loop
+      - exitif (i >= player2Index - 1)
+      - i <- i + 1
+       + if ((player2Taps[i] = 0) AND (player2Taps[i + 1] = 1))
+        - player2Score <- player2Score + 1
+       + endif
+     + endloop
+    - endif
+    - if (isDebug)
+     + print (Millis ())
+     + print (": player2Score: ")
+     + print (player2Score)
+    - endif
 */
-void debounceSwitchByTime(int i) {
-  if (hotSwitches[i] == LOW && !switchBlocks[i]) {
-    switchDebounces[i] += delta;
-    if (switchDebounces[i] > DEBOUNCE_TIME_MICRO_SWITCHES) {
-      // Print tracers.
-      Serial.print(millis());
-      Serial.print(": debounced switch by time:  ");
-      Serial.println(i);
-      switchBlocks[i] = true;
-      debouncedSwitches[i] = LOW;
+void calculateResults() {
+  if (isDebug) {
+    Serial.print(millis());
+    Serial.print(": roundCurrent: ");
+    Serial.println(roundCurrent);
+  }
+  if (player1Index > 0) {
+    for (int i = 0; i < player1Index - 1; ++i) {
+      if ((player1Taps[i] == 0) && (player1Taps[i + 1] == 1)) {
+        player1Score++;
+      }
     }
-  } else if (hotSwitches[i] && switchBlocks[i]) {
-    switchBlocks[i] = false;
-    switchDebounces[i] = 0;
+  }
+  if (isDebug) {
+    Serial.print(millis());
+    Serial.print(": player1Score: ");
+    Serial.println(player1Score);
+  }
+  if (player2Index > 0) {
+    for (int i = 0; i < player2Index - 1; ++i) {
+      if ((player2Taps[i] == 0) && (player2Taps[i + 1] == 1)) {
+        player2Score++;
+      }
+    }
+  }
+  if (isDebug) {
+    Serial.print(millis());
+    Serial.print(": player2Score: ");
+    Serial.println(player2Score);
   }
 }
 
+////////////////////////////////////////////////////////////////////////
+// Tug Sequences ///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Routing /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Timers //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 /**
-   - Count the number of switch input occuring.
-   - Block input if plural inputs occuring.
+   Stop the Champion state.
+
+   RUSCAL:
+   - isWinnerLeftBlinking <- FALSE
+   - isWinnerRightBlinking <- FALSE
+   - isChampionLeftBlinking <- FALSE
+   - isChampionRightBlinking <- FALSE
+   - isReset <- FALSE
+   - roundCurrent <- 0
+   - isCentering <- TRUE
+   - DigitalWrite (pinLightChampionLeft, FALSE)
+   - DigitalWrite (pinLightChampionRight, FALSE)
+   - DigitalWrite (pinLightWinnerLeft, FALSE)
+   - DigitalWrite (pinLightWinnerRight, FALSE)
+ */
+void stopChampion() {
+  // TODO: Check these changes.
+  //isReadyBlinking = false;
+  isWinnerLeftBlinking = false;
+  isWinnerRightBlinking = false;
+  isChampionLeftBlinking = false;
+  isChampionRightBlinking = false;
+  //isSuddenDeathLeftBlinking = false;
+  //isSuddenDeathRightBlinking = false;
+  isReset = false;
+  //isOneOn = false;
+  //isTwoOn = false;
+  //isThreeOn = false;
+  //isTugOn = false;
+  //isStopOn = false;
+  //isReset = false;
+  roundCurrent = 0;
+  isCentering = true;
+  //isToggleOn = true;
+  //isOneSecondTimerOn = true;
+  //isFiveSecondTimerOn = true;
+  //timers[toggle].total -= 200L;
+  //timers[oneSecond].total = 0L;
+  //timers[fiveSecond].total = 0L;
+  digitalWrite(pinLightChampionLeft, LOW);
+  digitalWrite(pinLightChampionRight, LOW);
+  digitalWrite(pinLightWinnerLeft, LOW);
+  digitalWrite(pinLightWinnerRight, LOW);
+  //digitalWrite(pinLightSuddenDeathLeft, LOW);
+  //digitalWrite(pinLightSuddenDeathRight, LOW);
+  //digitalWrite(pinLightReady, LOW);
+  //digitalWrite(pinLightOne, LOW);
+  //digitalWrite(pinLightTwo, LOW);
+  //digitalWrite(pinLightThree, LOW);
+  //digitalWrite(pinLightTug, LOW);
+  //digitalWrite(pinLightStop, LOW);
+}
+
+/**
+   Stop holding the counter's relay's pin HIGH.
+
+   RUSCAL:
+   - DigitalWrite (pinCount, FALSE)
+ */
+void stopCount() {
+  digitalWrite(pinCount, LOW);
+}
+
+/**
+   Stop the Tug state.
+
+   RUSCAL:
+   - isTugOn <- FALSE
+   - DigitalWrite (pinLightTug, FALSE)
+   - CalculateResults ()
+   - preRouteResult <- PreRouteResults ()
+   - if (preRouteResult)
+    + RouteResults3 ()
+   - else
+    + StartStop ()
+   - endif
+   - roundCurrent <- roundCurrent + 1
+*/
+void stopIsTugOn() {
+  isTugOn = false;
+  digitalWrite(pinLightTug, LOW);
+  calculateResults();
+  preRouteResult = preRouteResults();
+  if (preRouteResult) {
+    routeResults3();
+  } else {
+    startStop();
+  }
+  roundCurrent++;
+}
+
+/**
+   Stop the Ready state.
+
+   RUSCAL:
+   - if NOT (isReadyTimerOn)
+    + returns NIL
+   - endif
+   - isReadyTimerOn <- FALSE
+   - isReadyBlinking <- FALSE
+   - timers[readySpecial].total <- 0
+   - timers[oneSecond].total <- 0
+   - timers[fiveSecond].total <- FIVE_SECOND_TIMEOUT
+   - DigitalWrite (pinLightReady, FALSE)
+   - DigitalWrite (pinLightOne, TRUE)
+   - PlaySound (one)
+*/
+void stopReadyTimer() {
+  // TODO: Check these changes.
+  if (!isReadyTimerOn) {
+    return;
+  }
+  isReadyTimerOn = false;
+  isReadyBlinking = false;
+  //isOneOn = true;
+  //isOneSecondTimerOn = true;
+  timers[readySpecial].total = 0L;
+  timers[oneSecond].total = 0L;
+  timers[fiveSecond].timeout = FIVE_SECOND_TIMEOUT; // TODO: Check this change. // 5000L;
+  digitalWrite(pinLightReady, LOW);
+  digitalWrite(pinLightOne, HIGH);
+  playSound(one);
+}
+
+/**
+   Stop playing the current sound.
+
+   RUSCAL:
+   - if NOT (isSoundTimerOn)
+    + returns NIL
+   - endif
+   - isSoundTimerOn <- FALSE
+   - timers[sound].total <- 0
+   - DigitalWrite (sounds[soundCurrent].pin, FALSE)
+   - soundCurrent <- -1
+*/
+void stopSoundTimer() {
+  if (!isSoundTimerOn) {
+    return;
+  }
+  isSoundTimerOn = false;
+  timers[sound].total = 0L;
+  digitalWrite(sounds[soundCurrent].pin, LOW);
+  soundCurrent = -1;
+}
+
+/**
+   Stop the Stop state.
+
+   RUSCAL:
+   - if NOT (isStopTimerOn)
+    + returns NIL
+   - endif
+   - isStopTimerOn <- FALSE
+   - timers[stopSpecial].total <- 0
+ */
+void stopStopTimer() {
+  if (!isStopTimerOn) {
+    return;
+  }
+  isStopTimerOn = false;
+  timers[stopSpecial].total = 0L;
+}
+
+/**
+   Stop the Tie state.
+
+   RUSCAL:
+   - isTie <- FALSE
+   - isFiveSecondTimerOn <- TRUE
+   - isReadyBlinking <- TRUE
+   - isReadyTimerOn <- TRUE
+   - timers[fiveSecond].timeout <- READY_TIMEOUT
+   - timers[readySpecial].total <- 0
+   - PlaySound (ready)
+*/
+void stopTie() {
+  isTie = false;
+  isFiveSecondTimerOn = true;
+  isReadyBlinking = true;
+  isReadyTimerOn = true;
+  timers[fiveSecond].timeout = READY_TIMEOUT; // TODO: Check this change. // 2500L;
+  timers[readySpecial].total = 0L;
+  playSound(ready);
+}
+
+/**
+   Stop the Winner state.
+   
+   RUSCAL:
+   - if NOT (isWinnerTimerOn)
+    + returns NIL
+   - endif
+   - isWinnerTimerOn <- FALSE
+   - isWinnerLeftBlinking <- FALSE
+   - isWinnerRightBlinking <- FALSE
+   - isToggleOn <- TRUE
+   - isOneSecondTimerOn <- TRUE
+   - isFiveSecondTimerOn <- TRUE
+   - timers[toggle].total <- timers[toggle].total - TOGGLE_TIMER
+   - timers[oneSecond].total <- 0
+   - timers[fiveSecond].total <- 0
+   - timers[winnerSpecial].total <- 0
+   - DigitalWrite (pinLightWinnerLeft, FALSE)
+   - DigitalWrite (pinLightWinnerRight, FALSE)
+   - PlaySound (ready)
+   - if (hotSwitches[left1] = FALSE)
+    + StartReadyFromWinnerStop234 ()
+   - elseif (hotSwitches[center] = FALSE)
+    + StartReadyFromWinnerStop234 ()
+   - elseif (hotSwitches[right1] = FALSE)
+    + StartReadyFromWinnerStop234 ()
+   - elseif (hotSwitches[left3] = FALSE)
+    + StartReadyFromWinnerStop15 ()
+   - elseif (hotSwitches[right3] = FALSE)
+    + StartReadyFromWinnerStop15 ()
+   - endif
+ */
+void stopWinnerTimer() {
+  if (!isWinnerTimerOn) {
+    return;
+  }
+  isWinnerTimerOn = false;
+  isWinnerLeftBlinking = false;
+  isWinnerRightBlinking = false;
+  isToggleOn = true;
+  isOneSecondTimerOn = true;
+  isFiveSecondTimerOn = true;
+  timers[toggle].total -= TOGGLE_TIMEOUT; // TODO: Test this change. // 200L;
+  timers[oneSecond].total = 0L;
+  timers[fiveSecond].total = 0L;
+  timers[winnerSpecial].total = 0L;
+  digitalWrite(pinLightWinnerLeft, LOW);
+  digitalWrite(pinLightWinnerRight, LOW);
+  playSound(ready);
+  if (hotSwitches[left1] == LOW) {
+    startReadyFromWinnerStop234();
+  } else if (hotSwitches[center] == LOW) {
+    startReadyFromWinnerStop234();
+  } else if (hotSwitches[right1] == LOW) {
+    startReadyFromWinnerStop234();
+  } else if (hotSwitches[left3] == LOW) {
+    startReadyFromWinnerStop15();
+  } else if (hotSwitches[right3] == LOW) {
+    startReadyFromWinnerStop15();
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+// Messages ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   Empty. Reset the application.
+
+   RUSCAL:
+   - print (Millis ())
+   - print (": ")
+   - print ("reset()")
+ */
+void resetFunction() {
+  Serial.print(millis());
+  Serial.print(": ");
+  Serial.println("reset()");
+}
+
+/**
+   Empty. Start the application.
+
+   RUSCAL:
+   - print (Millis ())
+   - print (": reset(), ")
+   - print (OUTGOING_START)
+ */
+void startFunction() {
+  Serial.print(millis());
+  Serial.print(": reset(), ");
+  Serial.println(OUTGOING_START);
+}
+
+////////////////////////////////////////////////////////////////////////
+// Multi-Color LED /////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Errors //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   - if (hotSwitches[leftMax] = FALSE)
+    + if NOT (emergencyLeft)
+     - emergencyLeft <- TRUE
+    + elseif ((emergencyLeft) AND NOT (emergencyLeft2))
+     - emergencyLeft2 <- TRUE
+    + else
+     - emergencyLeft <- FALSE
+     - emergencyLeft2 <- FALSE
+     - print ("ERROR: emergency switches (left)")
+     - returns TRUE
+    + endif
+   - else
+    + emergencyLeft <- FALSE
+    + emergencyLeft2 <- FALSE
+   - endif
+   - if (hotSwitches[rightMax] = FALSE)
+    + if NOT (emergencyRight)
+     - emergencyRight <- TRUE
+    + elseif ((emergencyRight) AND NOT (emergencyRight2))
+     - emergencyRight2 <- TRUE
+    + else
+     - emergencyRight <- FALSE
+     - emergencyRight2 <- FALSE
+     - print ("ERROR: emergency switches (right)")
+     - returns TRUE
+    + elseif
+   - else
+    + emergencyRight <- FALSE
+    + emergencyRight2 <- FALSE
+   - endif
+   - returns FALSE
+ */
+bool errorCheckContactSwitches() {
+  if (hotSwitches[leftMax] == LOW) {
+    if (!emergencyLeft) {
+      emergencyLeft = true;
+    } else if (emergencyLeft && !emergencyLeft2) {
+      emergencyLeft2 = true;
+    } else {
+      emergencyLeft = false;
+      emergencyLeft2 = false;
+      Serial.println("ERROR: emergency switches (left)");
+      return true;
+    }
+  } else {
+    emergencyLeft = false;
+    emergencyLeft2 = false;
+  }
+  if (hotSwitches[rightMax] == LOW) {
+    if (!emergencyRight) {
+      emergencyRight = true;
+    } else if (emergencyRight && !emergencyRight2) {
+      emergencyRight2 = true;
+    } else {
+      emergencyRight = false;
+      emergencyRight2 = false;
+      Serial.println("ERROR: emergency switches (right)");
+      return true;
+    }
+  } else {
+    emergencyRight = false;
+    emergencyRight2 = false;
+  }
+  return false;
+}
+
+/**
+   Count the number of debounced-switches. If more than one 
+   debounced-switch is LOW, then return TRUE. Otherwise, return FALSE.
+   
+   RUSCAL:
+   - countSwitch <- 0
+   - i isoftype Num
+   - loop
+    + exitif (i >= SWITCH_SIZE)
+    + i <- i + 1
+    + if (debouncedSwitches[i] = FALSE)
+     - singleSwitch <- i
+     - countSwitch <- countSwitch + 1
+    + endif
+   - endloop
+   - if (countSwitch > 1)
+    + countSwitch2 <- 0
+    + i isoftype Num
+    + loop
+     - exitif (i >= SWITCH_SIZE)
+     - i <- i + 1
+     - if (debouncedSwitches[i] = FALSE)
+      + print (Millis ())
+      + print (": ERROR: Plural input, ")
+      + print (countSwitch2)
+      + print (", ")
+      + print (i)
+      + countSwitch2 <- countSwitch + 1
+     - endif
+    + endloop
+    + returns TRUE
+   - endif
+   - returns FALSE
 */
 bool errorCheckPluralInput() {
-  // Count the number of switch inputs occuring.
   countSwitch = 0;
-  for (unsigned int i = 0; i < SWITCH_SIZE; i++) {
+  for (int i = 0; i < SWITCH_SIZE; ++i) {
     if (debouncedSwitches[i] == LOW) {
       singleSwitch = i;
       countSwitch++;
     }
   }
-  // Block input if plural switch inputs occuring.
   if (countSwitch > 1) {
     countSwitch2 = 0;
-    for (unsigned int i = 0; i < SWITCH_SIZE; i++) {
+    for (int i = 0; i < SWITCH_SIZE; ++i) {
       if (debouncedSwitches[i] == LOW) {
         Serial.print(millis());
         Serial.print(": ERROR: Plural input, ");
         Serial.print(countSwitch2);
         Serial.print(", ");
         Serial.println(i);
-        //singleSwitch = i;
         countSwitch2++;
       }
     }
@@ -285,13 +915,13 @@ bool errorCheckPluralInput() {
   return false;
 }
 
-void resetFunction() {
-  // Print tracer.
-  Serial.print(millis());
-  Serial.print(": ");
-  Serial.println("reset()");
-}
+////////////////////////////////////////////////////////////////////////
+// Debug ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////
+// Untested Functions //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 void routeResults2() {
   // Route player 1 wins, player 2 wins, and tie.
   if (player1Score > player2Score) {
@@ -536,24 +1166,6 @@ void routeResults2() {
 }
 
 /**
-   - Set all elements of targets to FALSE;
-   - Set the element of targets[index] to TRUE.
-*/
-void setTarget(int index) {
-  ////Serial.print("setTarget(");
-  ////Serial.print(index);
-  //////Serial.print(millis()); Serial.print(": "); Serial.println(")");
-  isTenSecondTimerOn = true;
-  timers[tenSecond].total = 0L;
-  // Set all elements of targs to FALSE.
-  for (unsigned int i = 0; i < SWITCH_SIZE; ++i) {
-    targets[i] = false;
-  }
-  // Set the element of targets[index] to TRUE.
-  targets[index] = true;
-}
-
-/**
    - Set next state.
    - Set timers.
    - Set lights.
@@ -570,10 +1182,6 @@ void startStop() {
   digitalWrite(pinLightStop, HIGH);
   // Set sound.
   playSound(stop);
-}
-
-void stopCount() {
-  digitalWrite(pinCount, LOW);
 }
 
 /**
@@ -643,7 +1251,7 @@ void stopOneSecondTimer() {
     player2Index = 0;
     player1Score = 0;
     player2Score = 0;
-    for (int i = 0; i < TAPS_MAX; i++) {
+    for (int i = 0; i < TAPS_MAX; ++i) {
       player1Taps[i] = 0;
       player2Taps[i] = 0;
     }
@@ -651,52 +1259,6 @@ void stopOneSecondTimer() {
     digitalWrite(pinLightStop, LOW);
     isStopOn = false;
   }
-}
-
-/**
-   - Return if isReadyTimerOn is FALSE.
-   - Reset state.
-   - Set next state.
-   - Set timers.
-   - Set lights.
-   - Set sound.
-*/
-void stopReadyTimer() {
-  // Return if isReadyTimerOn is FALSE.
-  if (!isReadyTimerOn) {
-    return;
-  }
-  // Reset state.
-  isReadyTimerOn = false;
-  isReadyBlinking = false;
-  // Set next state.
-  isOneOn = true;
-  isOneSecondTimerOn = true;
-  // Set timers.
-  timers[readySpecial].total = 0L;
-  timers[oneSecond].total = 0L;
-  timers[fiveSecond].timeout = 5000L;
-  // Set lights.
-  digitalWrite(pinLightReady, LOW);
-  digitalWrite(pinLightOne, HIGH);
-  // Set sound.
-  playSound(one);
-}
-
-/**
-   - Return if isSoundTimerOn is off.
-   - Reset sound timer.
-*/
-void stopSoundTimer() {
-  // Return if isSoundTimerOn is off.
-  if (!isSoundTimerOn) {
-    return;
-  }
-  // Reset sound timer.
-  isSoundTimerOn = false;
-  timers[sound].total = 0L;
-  digitalWrite(sounds[soundCurrent].pin, LOW);
-  soundCurrent = -1;
 }
 
 /**
@@ -772,31 +1334,6 @@ void stopToggleTimer() {
 
 /**
    - Reset state.
-   - Set lights.
-   - Process results.
-   - Route results.
-   - Set next state.
-*/
-void stopIsTugOn() {
-  // Reset state.
-  isTugOn = false;
-  // Set lights.
-  digitalWrite(pinLightTug, LOW);
-  // Process results.
-  calculateResults();
-  preRouteResult = preRouteResults();
-  // Route results.
-  if (preRouteResult) {
-    routeResults3();
-  } else {
-    startStop();
-  }
-  // Set next state.
-  roundCurrent++;
-}
-
-/**
-   - Reset state.
    - Set next state.
    - Set timers.
    - Set sound.
@@ -818,31 +1355,6 @@ void stopSuddenDeathBlinking() {
   // Set sound.
   playSound(ready);
   // TODO: Remember to test this for a while before removing.
-  //if (isChampionLeftBlinking || isChampionRightBlinking) {
-  //  isReadyBlinking = false;
-  //  digitalWrite(pinLightReady, LOW);
-  //}
-}
-
-/**
-   - Reset state.
-   - Set next state.
-   - Set timers.
-   - Set sound.
-*/
-void stopTie() {
-  // Reset state.
-  isTie = false;
-  // Set next state.
-  isFiveSecondTimerOn = true;
-  isReadyBlinking = true;
-  isReadyTimerOn = true;
-  // Set timers.
-  timers[fiveSecond].timeout = 2500L;
-  timers[readySpecial].total = 0L;
-  // Set sound.
-  playSound(ready);
-  // TODO: Remember to test this before removing.
   //if (isChampionLeftBlinking || isChampionRightBlinking) {
   //  isReadyBlinking = false;
   //  digitalWrite(pinLightReady, LOW);
@@ -888,22 +1400,6 @@ void stopTugSequence() {
   // Reset sequence variables.
   isSequenceOn = false;
   timers[sequence].total = 0L;
-}
-
-/**
-   Perform digitalRead(int) calls, and read the results into the hotSwitches.
-*/
-void updateSwitches() {
-  for (int i = 0; i < SWITCH_SIZE; i++) {
-    debouncedSwitches[i] = HIGH;
-  }
-  hotSwitches[leftMax] = digitalRead(pinSwitchLeftMax);
-  hotSwitches[left3] = digitalRead(pinSwitchLeft3);
-  hotSwitches[left1] = digitalRead(pinSwitchLeft1);
-  hotSwitches[center] = digitalRead(pinSwitchCenter);
-  hotSwitches[right1] = digitalRead(pinSwitchRight1);
-  hotSwitches[right3] = digitalRead(pinSwitchRight3);
-  hotSwitches[rightMax] = digitalRead(pinSwitchRightMax);
 }
 
 /**
@@ -966,87 +1462,6 @@ void updateTimers() {
   // Update sequence and toggle timers regardless of state.
   timers[sequence].total += delta;
   timers[toggle].total += delta;
-}
-
-////////////////////////////////////////////////////////////////////////
-// Untested Functions //////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-void calculateResults() {
-  Serial.print(millis());
-  Serial.print(": roundCurrent: ");
-  Serial.println(roundCurrent);
-  // Calculate player 1 score.
-  if (player1Index > 0) {
-    for (int i = 0; i < player1Index - 1; i++) {
-      if ((player1Taps[i] == 0) && (player1Taps[i + 1] == 1)) {
-        player1Score++;
-      }
-    }
-  }
-  // Print player 1 score.
-  Serial.print(millis());
-  Serial.print(": player1Score: ");
-  Serial.println(player1Score);
-  // Calculate player 2 score.
-  if (player2Index > 0) {
-    for (int i = 0; i < player2Index - 1; i++) {
-      if ((player2Taps[i] == 0) && (player2Taps[i + 1] == 1)) {
-        player2Score++;
-      }
-    }
-  }
-  // Print player 2 score.
-  Serial.print(millis());
-  Serial.print(": player2Score: ");
-  Serial.println(player2Score);
-}
-
-bool errorCheckContactSwitches() {
-  // If the left leaf-switch is LOW.
-  if (hotSwitches[leftMax] == LOW) {
-    // Route the 1st, 2nd, and 3rd frames.
-    if (!emergencyLeft) {
-      emergencyLeft = true;
-    } else if (emergencyLeft && !emergencyLeft2) {
-      emergencyLeft2 = true;
-    } else {
-      emergencyLeft = false;
-      emergencyLeft2 = false;
-      Serial.println("ERROR: emergency switches (Left)");
-      return true;
-    }
-  } else {
-    emergencyLeft = false;
-    emergencyLeft2 = false;
-  }
-  // If the right leaf-switch is LOW.
-  if (hotSwitches[rightMax] == LOW) {
-    // Route the 1st, 2nd, and 3rd frames.
-    if (!emergencyRight) {
-      emergencyRight = true;
-    } else if (emergencyRight && !emergencyRight2) {
-      emergencyRight2 = true;
-    } else {
-      emergencyRight = false;
-      emergencyRight2 = false;
-      Serial.println("ERROR: emergency switches (Right)");
-      return true;
-    }
-  } else {
-    emergencyRight = false;
-    emergencyRight2 = false;
-  }
-  return false;
-}
-
-void playSound(int index) {
-  // Set next state.
-  isSoundTimerOn = true;
-  // Set timers.
-  timers[sound].total = 0L;
-  // Set sound.
-  soundCurrent = index;
-  digitalWrite(sounds[soundCurrent].pin, HIGH);
 }
 
 bool preRouteResults() {
@@ -1784,60 +2199,6 @@ void routeResults3() {
   }
 }
 
-void startFunction() {
-  // Print tracers.
-  Serial.print("start(): ");
-  Serial.print(millis()); Serial.print(": "); Serial.println(OUTGOING_START);
-}
-
-void stopStopTimer() {
-  // Return is isStopTimerOn is FALSE.
-  if (!isStopTimerOn) {
-    return;
-  }
-  // Reset state.
-  isStopTimerOn = false;
-  // Set timers.
-  timers[stopSpecial].total = 0L;
-}
-
-void stopWinnerTimer() {
-  // Return if isWinnerTimerOn is FALSE.
-  if (!isWinnerTimerOn) {
-    return;
-  }
-  // Reset state.
-  isWinnerTimerOn = false;
-  isWinnerLeftBlinking = false;
-  isWinnerRightBlinking = false;
-  // Set next state.
-  isToggleOn = true;
-  isOneSecondTimerOn = true;
-  isFiveSecondTimerOn = true;
-  // Set timers.
-  timers[toggle].total -= 200L;
-  timers[oneSecond].total = 0L;
-  timers[fiveSecond].total = 0L;
-  timers[winnerSpecial].total = 0L;
-  // Set lights.
-  digitalWrite(pinLightWinnerLeft, LOW);
-  digitalWrite(pinLightWinnerRight, LOW);
-  // Set sound.
-  playSound(ready);
-  // Route hot switches.
-  if (hotSwitches[left1] == LOW) {
-    startReadyFromWinnerStop234();
-  } else if (hotSwitches[center] == LOW) {
-    startReadyFromWinnerStop234();
-  } else if (hotSwitches[right1] == LOW) {
-    startReadyFromWinnerStop234();
-  } else if (hotSwitches[left3] == LOW) {
-    startReadyFromWinnerStop15();
-  } else if (hotSwitches[right3] == LOW) {
-    startReadyFromWinnerStop15();
-  }
-}
-
 void startReadyFromWinnerStop15() {
   // Set next state.
   isChampionLeftBlinking = true;
@@ -1863,47 +2224,6 @@ void startReadyFromWinnerStop234() {
   //}
 }
 
-void stopChampion() {
-  // Reset state.
-  isReadyBlinking = false;
-  isWinnerLeftBlinking = false;
-  isWinnerRightBlinking = false;
-  isChampionLeftBlinking = false;
-  isChampionRightBlinking = false;
-  isSuddenDeathLeftBlinking = false;
-  isSuddenDeathRightBlinking = false;
-  isReset = false;
-  isOneOn = false;
-  isTwoOn = false;
-  isThreeOn = false;
-  isTugOn = false;
-  isStopOn = false;
-  isReset = false;
-  roundCurrent = 0;
-  // Set next state.
-  isCentering = true;
-  isToggleOn = true;
-  isOneSecondTimerOn = true;
-  isFiveSecondTimerOn = true;
-  // Set timers.
-  timers[toggle].total -= 200L;
-  timers[oneSecond].total = 0L;
-  timers[fiveSecond].total = 0L;
-  // Set lights.
-  digitalWrite(pinLightChampionLeft, LOW);
-  digitalWrite(pinLightChampionRight, LOW);
-  digitalWrite(pinLightWinnerLeft, LOW);
-  digitalWrite(pinLightWinnerRight, LOW);
-  digitalWrite(pinLightSuddenDeathLeft, LOW);
-  digitalWrite(pinLightSuddenDeathRight, LOW);
-  digitalWrite(pinLightReady, LOW);
-  digitalWrite(pinLightOne, LOW);
-  digitalWrite(pinLightTwo, LOW);
-  digitalWrite(pinLightThree, LOW);
-  digitalWrite(pinLightTug, LOW);
-  digitalWrite(pinLightStop, LOW);
-}
-
 void stopTenSecondTimer() {
   // Return if isTenSecondTimerOn is FALSE.
   if (!isTenSecondTimerOn) {
@@ -1917,13 +2237,4 @@ void stopTenSecondTimer() {
   if (isChampionLeftBlinking || isChampionRightBlinking) {
     stopChampion();
   }
-}
-
-void updateButtons() {
-  // Update hotButtons array.
-  hotButtons[start] = digitalRead(pinButtonStart);
-  hotButtons[player1Left] = digitalRead(pinButtonPlayer1Left);
-  hotButtons[player1Right] = digitalRead(pinButtonPlayer1Right);
-  hotButtons[player2Left] = digitalRead(pinButtonPlayer2Left);
-  hotButtons[player2Right] = digitalRead(pinButtonPlayer2Right);
 }
