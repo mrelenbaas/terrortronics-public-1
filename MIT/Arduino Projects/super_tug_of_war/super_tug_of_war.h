@@ -174,7 +174,7 @@ enum pinEnum {
   pinSoundThree = 11,            ///< Pin 11. Three sound.
   pinSoundTug = 12,              ///< Pin 12. Tug sound.
   pinSoundSuddenDeath = 13,      ///< Pin 13. Sudden Death sound.
-  // Super Pins.
+  // Super pins.
   pinUnused5 = 14,               ///< Pin 14. Unused pin #5.
   pinUnused6 = 15,               ///< Pin 15. Unused pin #6.
   pinBuzzer = 16,                ///< Pin 16. Buzzer pin.
@@ -218,6 +218,7 @@ enum pinEnum {
   // Motor.
   pinMotorLeft = 51,             ///< Pin 51. Move left.
   pinMotorRight = 52,            ///< Pin 52. Move right.
+  // Misc.
   pinReserved2 = 53              ///< Pin 53. Reserved pin #2.
 };
 /**
