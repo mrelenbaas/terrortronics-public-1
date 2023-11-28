@@ -107,6 +107,10 @@ void calculateResults();
 void stopTugSegment();
 void stopTugSequence();
 // Routing.
+bool preRouteResults();
+void routeResults();
+void routeResults2();
+void routeResults3();
 // Timers.
 void startReadyFromWinnerStop15();
 void startReadyFromWinnerStop234();
@@ -128,11 +132,7 @@ bool errorCheckContactSwitches();
 bool errorCheckPluralInput();
 // Debug.
 
-bool preRouteResults();
 void routeButtons();
-void routeResults();
-void routeResults2();
-void routeResults3();
 void startStop();
 void stopFiveSecondTimer();
 void stopFiveSecondTimer2();
