@@ -212,7 +212,7 @@ void loop() {
    - timers[sound].total <- 0
    - soundCurrent <- index
    - DigitalWrite (sounds[soundCurrent].pin, TRUE)
- */
+*/
 void playSound(int index) {
   isSoundTimerOn = true;
   timers[sound].total = 0L;
@@ -236,7 +236,7 @@ void playSound(int index) {
    - hotButtons[player1Right] <- DigitalRead (pinButtonPlayer1Right)
    - hotButtons[player2Left] <- DigitalRead (pinButtonPlayer2Left)
    - hotButtons[player2Right] <- DigitalRead (pinButtonPlayer2Right)
- */
+*/
 void updateButtons() {
   hotButtons[start] = digitalRead(pinButtonStart);
   hotButtons[player1Left] = digitalRead(pinButtonPlayer1Left);
@@ -249,7 +249,7 @@ void updateButtons() {
 // Switches ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   Perform digitalRead(int) calls, and read the results into the 
+   Perform digitalRead(int) calls, and read the results into the
    hotSwitches.
 
    RUSCAL:
@@ -287,7 +287,7 @@ void updateSwitches() {
    @param i The micro-switch index to target.
 
    Set the micro-switch target.
-   
+
    RUSCAL:
    - isTenSecondTimerOn <- TRUE
    - timers[tenSecond].total = 0
@@ -318,11 +318,11 @@ void setTarget(int index) {
 /**
    @param i The switch index to debounce.
 
-   If the hot-switch is LOW and the block is FALSE, then update the 
-   debounce time. If the debounce time is greater than the timeout, 
+   If the hot-switch is LOW and the block is FALSE, then update the
+   debounce time. If the debounce time is greater than the timeout,
    then set the block to TRUE and the debounced-switch to LOW.
 
-   If the hot-switch is HIGH and the block is FALSE, then set the block 
+   If the hot-switch is HIGH and the block is FALSE, then set the block
    to FALSE and the debounce to ZERO.
 
    RUSCAL:
@@ -377,11 +377,11 @@ void debounceSwitchesByTime() {
 // Debounce By Position ////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   If the single pressed micro-switch is not equal to the current 
-   micro-switch, then update the current and previous micro-switch. Set 
-   the previous micro-switch to the current micro-switch. Set the 
+   If the single pressed micro-switch is not equal to the current
+   micro-switch, then update the current and previous micro-switch. Set
+   the previous micro-switch to the current micro-switch. Set the
    current micro-switch to the single pressed micro-switch.
-   
+
    RUSCAL:
    - if NOT (singleSwitch = currentSwitch)
     + previousSwitch <- currentSwitch
@@ -419,7 +419,7 @@ void debounceSwitchesByPosition() {
 /**
    Calculate the Player 1 and Player 2 scores.
 
-   Loops through each player's array of taps, and awards a point if the 
+   Loops through each player's array of taps, and awards a point if the
    current index is zero and the next index is one.
 
    RUSCAL:
@@ -491,6 +491,133 @@ void calculateResults() {
   }
 }
 
+/**
+   Pre-route the results. Determine is the currentSwitch is valid, and
+   timers[fiveSecond].totalupdate the isGameOver, isTie,
+   isFiveSecondTimerOn, and timers[fiveSecond].total variables as
+   needed.
+
+   \return TRUE if currentSwitch is an expected position. Otherwise,
+   FALSE.
+
+   RUSCAL:
+   - preRouteSwitch <- currentSwitch
+   - preRouteRoundCurrent <- roundCurrent
+   - if (player1Score > player2Score)
+    + if (roundCurrent > 5)
+     - result <- TRUE
+     - isGameOver <- TRUE
+    + elseif (roundCurrent = 4)
+     - if (currentSwitch = 2)
+      + result <- TRUE
+     - elseif (currentSwitch = 3)
+      + result <- TRUE
+     - elseif (currentSwitch = 4)
+      + result <- TRUE
+     - endif
+    + else
+     - if (currentSwitch = 5)
+*/
+bool preRouteResults() {
+  preRouteSwitch = currentSwitch;
+  preRouteRoundCurrent = roundCurrent;
+  bool result;
+  if (player1Score > player2Score) {
+    if (roundCurrent > ROUND_MAX) {
+      /*
+        if (currentSwitch == leftMax) {
+        } else if (currentSwitch == left3) {
+        } else if (currentSwitch == left1) {
+        } else if (currentSwitch == center) {
+        } else if (currentSwitch == right1) {
+        } else if (currentSwitch == right3) {
+        } else if (currentSwitch == rightMax) {
+        }
+      */
+      /*
+        switch (currentSwitch)
+        {
+        case leftMax:
+          break;
+        case left3:
+          break;
+        case left1:
+          break;
+        case center:
+          break;
+        case right1:
+          break;
+        case right3:
+          break;
+        case rightMax:
+          break;
+        default:
+          break;
+        }
+      */
+      result = true;
+      //isGameOver = true;
+    } else if (roundCurrent == ROUND_MAX) {
+      if (currentSwitch == left1) {
+        result = true;
+      } else if (currentSwitch == center) {
+        result = true;
+      } else if (currentSwitch == right1) {
+        result = true;
+      }
+    } else {
+      if (currentSwitch == right3) {
+      } else if (currentSwitch == center) {
+      } else if (currentSwitch == left1) {
+        result = true;
+      }
+    }
+  } else if (player1Score < player2Score) {
+    if (roundCurrent > ROUND_MAX) {
+      result = true;
+      //isGameOver = true;
+    } else if (roundCurrent == ROUND_MAX) {
+      if (currentSwitch == left1) {
+        result = true;
+      } else if (currentSwitch == center) {
+        result = true;
+      } else if (currentSwitch == right1) {
+        result = true;
+      }
+    } else {
+      if (currentSwitch == left1) {
+      } else if (currentSwitch == center) {
+      } else if (currentSwitch == right1) {
+        result = true;
+      }
+    }
+  } else {
+    if (roundCurrent > ROUND_MAX) {
+      result = true;
+      //isGameOver = true;
+    } else if (roundCurrent == ROUND_MAX) {
+      result = true;
+      //isFiveSecondTimerOn = true;
+      //timers[fiveSecond].total = 0L;
+    } else {
+      if (currentSwitch == left1) {
+        result = true;
+        //isTie = true;
+        //timers[fiveSecond].timeout = TIE_TIMEOUT;
+      } else if (currentSwitch == center) {
+        result = true;
+        //isTie = true;
+        //timers[fiveSecond].timeout = TIE_TIMEOUT;
+      } else if (currentSwitch == right1) {
+        result = true;
+        //isTie = true;
+        //timers[fiveSecond].timeout = TIE_TIMEOUT;
+      }
+    }
+  }
+  return false;
+}
+
 ////////////////////////////////////////////////////////////////////////
 // Tug Sequences ///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -556,14 +683,14 @@ void stopTugSequence() {
 // Timers //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   Start the Ready state from the Winner state when on the 1, or 5 
+   Start the Ready state from the Winner state when on the 1, or 5
    micro-switches.
 
    RUSCAL:
    - isChampionLeftBlinking <- TRUE
    - DigitalWrite (pinLightSuddenDeathLeft, FALSE)
    - DigitalWrite (pinLightSuddenDeathRight, FALSE)
- */
+*/
 void startReadyFromWinnerStop15() {
   isChampionLeftBlinking = true;
   digitalWrite(pinLightSuddenDeathLeft, LOW);
@@ -571,7 +698,7 @@ void startReadyFromWinnerStop15() {
 }
 
 /**
-   Start the Ready state from the Winner state when on the 2, 3, or 4 
+   Start the Ready state from the Winner state when on the 2, 3, or 4
    micro-switches.
 
    RUSCAL:
@@ -581,7 +708,7 @@ void startReadyFromWinnerStop15() {
    - timers[fiveSeconds].timeout <- READY_TIMEOUT
    - DigitalWrite (pinLightSuddenDeathLeft, FALSE)
    - DigitalWrite (pinLightSuddenDeathRight, FALSE)
- */
+*/
 void startReadyFromWinnerStop234() {
   isReadyBlinking = true;
   isReadyTimerOn = true;
@@ -606,7 +733,7 @@ void startReadyFromWinnerStop234() {
    - DigitalWrite (pinLightChampionRight, FALSE)
    - DigitalWrite (pinLightWinnerLeft, FALSE)
    - DigitalWrite (pinLightWinnerRight, FALSE)
- */
+*/
 void stopChampion() {
   // TODO: Check these changes.
   //isReadyBlinking = false;
@@ -650,7 +777,7 @@ void stopChampion() {
 
    RUSCAL:
    - DigitalWrite (pinCount, FALSE)
- */
+*/
 void stopCount() {
   digitalWrite(pinCount, LOW);
 }
@@ -747,7 +874,7 @@ void stopSoundTimer() {
    - endif
    - isStopTimerOn <- FALSE
    - timers[stopSpecial].total <- 0
- */
+*/
 void stopStopTimer() {
   if (!isStopTimerOn) {
     return;
@@ -810,7 +937,7 @@ void stopTie() {
 
 /**
    Stop the Winner state.
-   
+
    RUSCAL:
    - if NOT (isWinnerTimerOn)
     + returns NIL
@@ -839,7 +966,7 @@ void stopTie() {
    - elseif (hotSwitches[right3] = FALSE)
     + StartReadyFromWinnerStop15 ()
    - endif
- */
+*/
 void stopWinnerTimer() {
   if (!isWinnerTimerOn) {
     return;
@@ -880,11 +1007,13 @@ void stopWinnerTimer() {
    - print (Millis ())
    - print (": ")
    - print ("reset()")
- */
+   - isSuper <- FALSE
+*/
 void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
+  isSuper = false;
 }
 
 /**
@@ -894,11 +1023,13 @@ void resetFunction() {
    - print (Millis ())
    - print (": reset(), ")
    - print (OUTGOING_START)
- */
+   - isSuper <- TRUE
+*/
 void startFunction() {
   Serial.print(millis());
   Serial.print(": reset(), ");
   Serial.println(OUTGOING_START);
+  isSuper = true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -940,7 +1071,7 @@ void startFunction() {
     + emergencyRight2 <- FALSE
    - endif
    - returns FALSE
- */
+*/
 bool errorCheckContactSwitches() {
   if (hotSwitches[leftMax] == LOW) {
     if (!emergencyLeft) {
@@ -976,9 +1107,9 @@ bool errorCheckContactSwitches() {
 }
 
 /**
-   Count the number of debounced-switches. If more than one 
+   Count the number of debounced-switches. If more than one
    debounced-switch is LOW, then return TRUE. Otherwise, return FALSE.
-   
+
    RUSCAL:
    - countSwitch <- 0
    - i isoftype Num
@@ -1144,19 +1275,25 @@ void routeResults2() {
       // Set sound.
       playSound(dogThird);
     } else if (preRouteRoundCurrent == 5) {
+
       // Route switch 2, 3, and 4.
       if (preRouteSwitch == 2) {
         // Set next state.
         isSuddenDeathLeftBlinking = true;
         isSuddenDeathRightBlinking = true;
+        isFiveSecondTimerOn = true;
         // Set timers.
         timers[toggle].total = 0L;
+        timers[fiveSecond].total = 0L;
         // Set lights.
         digitalWrite(pinLightSuddenDeathRight, HIGH);
         // Set sound.
         playSound(suddenDeath);
       } else if (preRouteSwitch == 3) {
+        isFiveSecondTimerOn = true;
+        // Set timers.
         timers[toggle].total = 0L;
+        timers[fiveSecond].total = 0L;
         // Set next state.
         isSuddenDeathLeftBlinking = true;
         isSuddenDeathRightBlinking = true;
@@ -1168,8 +1305,10 @@ void routeResults2() {
       } else if (preRouteSwitch == 4) {
         // Set next state.
         isChampionRightBlinking = true;
+        isFiveSecondTimerOn = true;
         // Set timers.
         timers[toggle].total = 0L;
+        timers[fiveSecond].total = 0L;
         // Set lights.
         digitalWrite(pinLightWinnerRight, HIGH);
         digitalWrite(pinLightSuddenDeathLeft, LOW);
@@ -1511,121 +1650,6 @@ void updateTimers() {
   // Update sequence and toggle timers regardless of state.
   timers[sequence].total += delta;
   timers[toggle].total += delta;
-}
-
-bool preRouteResults() {
-  // Update preRouteSwitch/preRouteRoundCurrent with currentSwitch/roundCurrent.
-  preRouteSwitch = currentSwitch;
-  preRouteRoundCurrent = roundCurrent;
-  // Declare result.
-  bool result;
-  // Route player 1 wins, player 2 wins, and tie.
-  if (player1Score > player2Score) {
-    // Route sudden death round, final round, and normal round.
-    if (roundCurrent > 5) {
-      // Set result to TRUE.
-      result = true;
-      // Set next state.
-      isGameOver = true;
-    } else if (roundCurrent == 4) {
-      // Route switch 2, 3, and 4.
-      if (currentSwitch == 2) {
-        // Set result to TRUE.
-        result = true;
-      } else if (currentSwitch == 3) {
-        // Set result to TRUE.
-        result = true;
-      } else if (currentSwitch == 4) {
-        // Set result to TRUE.
-        result = true;
-      }
-    } else {
-      // Route switch 2, 3, and 4.
-      if (currentSwitch == 5) {
-        // Empty.
-      } else if (currentSwitch == 3) {
-        // Empty.
-      } else if (currentSwitch == 2) {
-        // Set result to TRUE.
-        result = true;
-      }
-    }
-  } else if (player1Score < player2Score) {
-    // Route sudden death round, final round, and normal round.
-    if (roundCurrent > 5) {
-      // Set result to TRUE.
-      result = true;
-      // Set next state.
-      isGameOver = true;
-    } else if (roundCurrent == 5) {
-      // Route switch 2, 3, and 4.
-      if (currentSwitch == 2) {
-        // Set result to TRUE.
-        result = true;
-      } else if (currentSwitch == 3) {
-        // Set result to TRUE.
-        result = true;
-      } else if (currentSwitch == 4) {
-        // Set result to TRUE.
-        result = true;
-      }
-    } else {
-      // Route switch 2, 3, and 4.
-      if (currentSwitch == 2) {
-        // Empty.
-      } else if (currentSwitch == 3) {
-        // Empty.
-      } else if (currentSwitch == 4) {
-        // Set result to TRUE.
-        result = true;
-      }
-    }
-  } else {
-    // Route sudden death round, final round, and normal round.
-    if (roundCurrent > 5) {
-      // Set result to TRUE.
-      result = true;
-      // Set next state.
-      isGameOver = true;
-    } else if (roundCurrent == 5) {
-      // Set result to TRUE.
-      result = true;
-      // Set next state.
-      isFiveSecondTimerOn = true;
-      // Set timers.
-      timers[fiveSecond].total = 0L;
-      //if (currentSwitch == 2) {
-      //} else if (currentSwitch == 3) {
-      //} else if (currentSwitch == 4) {
-      //}
-    } else {
-      // Route switch 2, 3, and 4.
-      if (currentSwitch == 2) {
-        // Set result to TRUE.
-        result = true;
-        // Set next state.
-        isTie = true;
-        // Set timers.
-        timers[fiveSecond].timeout = 3500L;
-      } else if (currentSwitch == 3) {
-        // Set result to TRUE.
-        result = true;
-        // Set next state.
-        isTie = true;
-        // Set timers.
-        timers[fiveSecond].timeout = 3500L;
-      } else if (currentSwitch == 4) {
-        // Set result to TRUE.
-        result = true;
-        // Set next state.
-        isTie = true;
-        // Set timers.
-        timers[fiveSecond].timeout = 3500L;
-      }
-    }
-  }
-  // Return result.
-  return false;
 }
 
 void routeButtons() {
@@ -2182,8 +2206,10 @@ void routeResults3() {
       // Set next state.
       isSuddenDeathLeftBlinking = true;
       isSuddenDeathRightBlinking = true;
+      isFiveSecondTimerOn = true;
       // Set timers.
       timers[toggle].total = 0L;
+      timers[fiveSecond].total = 0L;
       // Set lights.
       digitalWrite(pinLightSuddenDeathLeft, HIGH);
       digitalWrite(pinLightSuddenDeathRight, HIGH);
@@ -2202,9 +2228,6 @@ void routeResults3() {
         motor.moveLeft();
         setTarget(3);
       }
-      // Set five second timer.
-      timers[fiveSecond].total = 0L;
-      isFiveSecondTimerOn = true;
     } else {
       // Route switch 2, 3, and 4.
       if (preRouteSwitch == 2) {
