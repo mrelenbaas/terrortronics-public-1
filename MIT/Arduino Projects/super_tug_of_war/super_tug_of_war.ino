@@ -1276,8 +1276,8 @@ void stopReadyTimer() {
   }
   isReadyTimerOn = false;
   isReadyBlinking = false;
-  //isOneOn = true;
-  //isOneSecondTimerOn = true;
+  isOneOn = true;
+  isOneSecondTimerOn = true;
   timers[readySpecial].total = 0L;
   timers[oneSecond].total = 0L;
   timers[fiveSecond].timeout = FIVE_SECOND_TIMEOUT; // TODO: Check this change. // 5000L;

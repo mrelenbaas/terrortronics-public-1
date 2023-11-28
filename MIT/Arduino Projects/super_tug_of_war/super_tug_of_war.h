@@ -1032,5 +1032,5 @@ const unsigned long DEBUG_TIMEOUT = 60000L;
 unsigned long debugTimer = 0L;
 
 // NEW THINGS
-bool isDebug = true;
+bool isDebug = false;
 bool isSuper;
