@@ -43,7 +43,7 @@ import utility
 # Global Constants
 COLOR_BLUE = (0, 0, 255)
 """Blue."""
-FILENAME_BACKGROUND = os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'background.jpg')
+FILENAME_BACKGROUND = os.path.join(utility.get_path(), 'background.jpg')
 """Background filename."""
 ORIGIN_X = 0
 """Origin x."""
@@ -59,44 +59,44 @@ WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HEIGHT)
 """Window width and height."""
 
 PRINT = 'FPS: '
-FILENAME_MONITOR = os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'background2.jpg')
-MONITOR_FILENAMES = [os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_0.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_1.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_2.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_3.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_4.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_5.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_6.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_7.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_8.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_9.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_10.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_11.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_12.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_13.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_14.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_15.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_16.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_17.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_18.jpg'),
-                     os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'monitor_19.jpg'),]
+FILENAME_MONITOR = os.path.join(utility.get_path(), 'background2.jpg')
+MONITOR_FILENAMES = [os.path.join(utility.get_path(), 'monitor_0.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_1.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_2.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_3.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_4.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_5.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_6.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_7.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_8.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_9.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_10.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_11.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_12.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_13.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_14.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_15.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_16.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_17.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_18.jpg'),
+                     os.path.join(utility.get_path(), 'monitor_19.jpg'),]
 MONITOR_X = -int((512 * 0.20))
 MONITOR_Y = -int((512 * 0.30))
-FILENAME_CAT = os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'cat.png')
+FILENAME_CAT = os.path.join(utility.get_path(), 'cat.png')
 CAT_X = 810
 CAT_Y = 70
 CAT_X2 = CAT_X + 10
 CAT_Y2 = CAT_Y
-NUMBER_FILENAMES = [os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_0.jpg'),
-                    os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_1.jpg'),
-                    os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_2.jpg'),
-                    os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_3.jpg'),
-                    os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_4.jpg'),
-                    os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_5.jpg'),
-                    os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_6.jpg'),
-                    os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_7.jpg'),
-                    os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_8.jpg'),
-                    os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'number_9.jpg'),]
+NUMBER_FILENAMES = [os.path.join(utility.get_path(), 'number_0.jpg'),
+                    os.path.join(utility.get_path(), 'number_1.jpg'),
+                    os.path.join(utility.get_path(), 'number_2.jpg'),
+                    os.path.join(utility.get_path(), 'number_3.jpg'),
+                    os.path.join(utility.get_path(), 'number_4.jpg'),
+                    os.path.join(utility.get_path(), 'number_5.jpg'),
+                    os.path.join(utility.get_path(), 'number_6.jpg'),
+                    os.path.join(utility.get_path(), 'number_7.jpg'),
+                    os.path.join(utility.get_path(), 'number_8.jpg'),
+                    os.path.join(utility.get_path(), 'number_9.jpg'),]
 NUMBER_WIDTH = 32
 NUMBER_COUNT = int(WINDOW_WIDTH / NUMBER_WIDTH)
 NUMBER_COUNT_VERTICAL = int(WINDOW_HEIGHT / NUMBER_WIDTH)
@@ -108,7 +108,7 @@ NUMBER_X3 = NUMBER_WIDTH + NUMBER_X2
 NUMBER_Y3 = NUMBER_Y
 NUMBER_X4 = NUMBER_WIDTH + NUMBER_X3
 NUMBER_Y4 = NUMBER_Y
-FILENAME_MAGIC = os.path.join(os.sep, 'home', 'terrortronics', 'Desktop', 'arcadeCabinet', 'art', 'magic.jpg')
+FILENAME_MAGIC = os.path.join(utility.get_path(), 'magic.jpg')
 
 
 class Outputer:
