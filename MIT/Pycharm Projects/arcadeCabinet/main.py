@@ -122,7 +122,7 @@ class Main:
         self.loop()
 
     def loop(self):
-        """Main loop."""
+        """The main function."""
         while True:
             self.__gui.updater()
             self.__game.updater()
