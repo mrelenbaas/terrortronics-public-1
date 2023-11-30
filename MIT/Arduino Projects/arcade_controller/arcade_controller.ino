@@ -1,5 +1,7 @@
+#include "arcade_controller.h"
+
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(BAUD_RATE);
   // Sounds.
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
@@ -72,6 +74,9 @@ void setup() {
   digitalWrite(34, HIGH);
 }
 
+/**
+ * The main function.
+ */
 void loop() {
   Serial.print(millis());
   Serial.print(": ");
@@ -103,4 +108,35 @@ void loop() {
   Serial.print(",");
   Serial.println(digitalRead(41));
   */
+}
+
+////////////////////////////////////////////////////////////////////////
+// Messages ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   Empty. Reset the application.
+
+   RUSCAL:
+   - print (Millis ())
+   - print (": ")
+   - print ("reset()")
+*/
+void resetFunction() {
+  Serial.print(millis());
+  Serial.print(": ");
+  Serial.println("reset()");
+}
+
+/**
+   Empty. Start the application.
+
+   RUSCAL:
+   - print (Millis ())
+   - print (": reset(), ")
+   - print (OUTGOING_START)
+*/
+void startFunction() {
+  Serial.print(millis());
+  Serial.print(": reset(), ");
+  Serial.println(OUTGOING_START);
 }
