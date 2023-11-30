@@ -6,9 +6,19 @@
 Welcome to fpsGraph's documentation!
 ====================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+API
+===
+
+.. autosummary::
+   :toctree: generated
+
+   main
+   main.Something
+
+.. automodule::
+
+   main
+   main.Something
 
 
 

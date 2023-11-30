@@ -132,6 +132,14 @@ plt.legend()
 plt.show()
 
 
-def main():
-    """The main function."""
-    pass
+class Something:
+    def __init__(self):
+        pass
+
+    def main(self):
+        """The main function."""
+        pass
+
+
+if __name__ == '__main__':
+    something = Something()
