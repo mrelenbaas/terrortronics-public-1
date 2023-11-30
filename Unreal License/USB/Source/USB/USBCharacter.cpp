@@ -1,4 +1,47 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+/**
+   @file USBCharacter.cpp
+
+   @mainpage USB Project
+
+   @section description Description
+   USB communication in Unreal.
+
+   @section circuit Circuit
+   - empty
+
+   @section libraries Libraries
+   - empty
+
+   @section notes Notes
+   - empty
+
+   @section author Author
+   - Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Version: 2
+   - Date: November 29, 2023
+
+   @section ip Intellectual Property
+   Copyright (c) 2023 Bradley Elenbaas. All rights
+   reserved.
+
+   @section license License
+   Unreal license.
+
+   @section description Description
+   Empty.
+
+   @section pins Pins
+   - empty
+
+   @section reference Resources
+   - empty
+
+   @section warnings WARNINGS
+   - empty
+
+   @section ut Unit Tests
+   - empty
+*/
 
 #include "USBCharacter.h"
 
@@ -270,6 +313,9 @@ void AUSBCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 
 }
 
+/**
+   The main function.
+*/
 void AUSBCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
