@@ -1,3 +1,72 @@
+/*
+   Title: rotary_encoder_rpm_file file.
+   Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   Version: 2
+   Date: September 15, 2023
+
+   Intellectual Property:
+   Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
+
+   License:
+   This file is owned by Terrortronics / Bradley Elenbaas.
+   This file observes the MIT License.
+*/
+
+/**
+   @file rotary_encoder_rpm_controller.h
+
+   @mainpage rotary_encoder_rpm_controller
+
+   @section author Attribution
+   - Title: Rotary Encoder RPM Controller file.
+   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Version: 2
+   - Date: November 6, 2023.
+
+   @section ip Intellectual Property
+   - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
+
+   @section license License
+   Permission is hereby granted, free of charge, to any person
+   obtaining a copy of this software and associated documentation files
+   (the “Software”), to deal in the Software without restriction,
+   including without limitation the rights to use, copy, modify, merge,
+   publish, distribute, sublicense, and/or sell copies of the Software,
+   and to permit persons to whom the Software is furnished to do so,
+   subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+   @section description Description
+   Empty.
+
+   @section pins Pins
+   - empty
+
+   @section resources Resources
+   - https://www.adafruit.com/product/3405
+   - https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/pinouts
+   - https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html
+   - https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/overview
+   - https://github.com/espressif/arduino-esp32
+   - https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads
+   - https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
+   - https://docs.arduino.cc/built-in-examples/digital/toneMelody
+
+   @section warnings WARNINGS
+   - empty
+*/
+
 #include "WiFi.h"
 #include "AsyncUDP.h"
 
@@ -10,6 +79,109 @@
    The serial baud rate.
 */
 const int BAUD_RATE = 9600;
+
+////////////////////////////////////////////////////////////////////////
+// Messages ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   An enum of possible message codes.
+*/
+enum messages {
+  startMessage = 48, ///< Start message.
+  resetMessage = 49  ///< Reset message.
+};
+/**
+   The default outgoing message.
+*/
+const char OUTGOING_START[] = {
+  't',
+  'y',
+  'p',
+  'e',
+  ':',
+  'c',
+  'o',
+  'n',
+  'f',
+  'i',
+  'g',
+  ',',
+  'f',
+  'i',
+  'l',
+  'e',
+  'n',
+  'a',
+  'm',
+  'e',
+  ':',
+  'f',
+  'p',
+  's',
+  ',',
+  'f',
+  'u',
+  'n',
+  'c',
+  't',
+  'i',
+  'o',
+  'n',
+  ':',
+  'r',
+  'e',
+  's',
+  'e',
+  't',
+  ',',
+  'd',
+  'e',
+  'l',
+  'i',
+  'm',
+  'i',
+  't',
+  'e',
+  'r',
+  's',
+  ':',
+  ' ',
+  'c',
+  'm',
+  '0',
+  ';',
+  ' ',
+  'c',
+  'm',
+  '1',
+  ';',
+  ' ',
+  'c',
+  'm',
+  '2',
+  ';',
+  ' ',
+  'c',
+  'm',
+  '3',
+  ';',
+  ' ',
+  'c',
+  'm',
+  '4',
+  ';',
+  '\\',
+  'n',
+  '\0'
+};
+/**
+   The incoming message.
+*/
+int incomingMessage;
+
+////////////////////////////////////////////////////////////////////////
+// Undocumented ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 // TODO: Remember that this is the only .ino file that uses the #define convention. Other .ino files use const ints.
 // Rotary Encoder Inputs
@@ -88,116 +260,6 @@ AsyncUDP udp;
 bool isWifiConnected;
 char udpBuffer[40];
 
-// Messages.
-enum messages {
-  startMessage = 48,
-  resetMessage = 49
-};
-const char OUTGOING_START[] = {
-  't',
-  'y',
-  'p',
-  'e',
-  ':',
-  'c',
-  'o',
-  'n',
-  'f',
-  'i',
-  'g',
-  ',',
-  'f',
-  'i',
-  'l',
-  'e',
-  'n',
-  'a',
-  'm',
-  'e',
-  ':',
-  'r',
-  'o',
-  't',
-  'a',
-  'r',
-  'y',
-  '_',
-  'e',
-  'n',
-  'c',
-  'o',
-  'd',
-  'e',
-  'r',
-  '_',
-  'r',
-  'p',
-  'm',
-  '_',
-  'c',
-  'o',
-  'n',
-  't',
-  'r',
-  'o',
-  'l',
-  'l',
-  'e',
-  'r',
-  ',',
-  'f',
-  'u',
-  'n',
-  'c',
-  't',
-  'i',
-  'o',
-  'n',
-  ':',
-  'r',
-  'e',
-  's',
-  'e',
-  't',
-  ',',
-  'd',
-  'e',
-  'l',
-  'i',
-  'm',
-  'i',
-  't',
-  'e',
-  'r',
-  's',
-  ':',
-  ' ',
-  'c',
-  'm',
-  '0',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '1',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '2',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '3',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '4',
-  ';',
-  '\\',
-  'n',
-  '\0'
-};
-int incomingMessage;
+////////////////////////////////////////////////////////////////////////
+// Untested Functions //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
