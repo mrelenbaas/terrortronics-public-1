@@ -154,6 +154,9 @@ void setup() {
  * The main function.
  */
 void loop() {
+  if (isDebug) {
+    Serial.println("DEBUG");
+  }
   Serial.print(millis());
   Serial.print(": ");
   Serial.print(digitalRead(18));
@@ -213,6 +216,6 @@ void resetFunction() {
 */
 void startFunction() {
   Serial.print(millis());
-  Serial.print(": reset(), ");
+  Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
 }

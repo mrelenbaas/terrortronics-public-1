@@ -175,10 +175,13 @@ void loop() {
 }
 
 void reset() {
+  Serial.print(millis());
+  Serial.print(": ");
   Serial.println("reset()");
 }
 
 void start() {
-  Serial.print("start(): ");
+  Serial.print(millis());
+  Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
 }

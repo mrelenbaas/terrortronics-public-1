@@ -118,6 +118,8 @@ void loop() {
 }
 
 void reset() {
+  Serial.print(millis());
+  Serial.print(": ");
   Serial.println("reset()");
   isTurningJoysticksOn = false;
   isTurningJoysticksOff = true;
@@ -126,7 +128,8 @@ void reset() {
 }
 
 void start() {
-  Serial.println("start()");
+  Serial.print(millis());
+  Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
   isTurningJoysticksOff = false;
   isTurningJoysticksOn = true;
