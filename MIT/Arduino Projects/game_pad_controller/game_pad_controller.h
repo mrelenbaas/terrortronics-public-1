@@ -1,17 +1,3 @@
-/*
-   Title: game_pad_controller file.
-   Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
-   Version: 2
-   Date: September 15, 2023
-
-   Intellectual Property:
-   Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
-
-   License:
-   This file is owned by Terrortronics / Bradley Elenbaas.
-   This file observes the MIT License.
-*/
-
 /**
   @file game_pad_controller.ino
 
@@ -194,10 +180,20 @@ const char OUTGOING_START[] = {
 int incomingMessage;
 
 ////////////////////////////////////////////////////////////////////////
-// Logging /////////////////////////////////////////////////////////////
+// Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-
+/**
+   If TRUE, then print tracer statements.
+*/
 bool isLogging;
+
+////////////////////////////////////////////////////////////////////////
+// Time ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+unsigned long timePrevious;
+unsigned long timeCurrent;
+unsigned long timeDelta;
+unsigned long timeThisSecond;
 
 ////////////////////////////////////////////////////////////////////////
 // Undocumented ////////////////////////////////////////////////////////
@@ -226,12 +222,8 @@ int tracking;
 int soundDigital;
 
 const long PERIOD = 1000;
-long timePrevious;
-long timeCurrent;
-long timeDelta;
-long timeThisSecond;
-unsigned long fpsPrevious;
 unsigned long fpsCurrent;
+unsigned long fpsPrevious;
 
 // this can be used to turn profiling on and off
 #define PROFILING 1
