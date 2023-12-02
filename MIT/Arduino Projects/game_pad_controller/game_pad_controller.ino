@@ -238,10 +238,10 @@ void loop() {
     //Serial.println(incomingMessage);
     switch (incomingMessage) {
       case startMessage:
-        start();
+        startFunction();
         break;
       case resetMessage:
-        //reset();
+        //resetFunction();
         break;
       default:
         break;
@@ -255,10 +255,10 @@ void loop() {
     //Serial.println(incomingMessage);
     switch (incomingMessage) {
       case startMessage:
-        //start();
+        //startFunction();
         break;
       case resetMessage:
-        reset();
+        resetFunction();
         break;
       default:
         break;
@@ -268,18 +268,21 @@ void loop() {
   //delay(SERIAL_DELAY);
 }
 
-void reset() {
-  //Serial.println("reset()");
-  //isStarted = false;
-  //Serial.println(incomingMessage);
+void resetFunction() {
+  Serial.print(millis());
+  Serial.print(": ");
+  Serial.println("reset()");
+  isLogging = false;
   if (isStarted) {
-    //Serial.flush();
     printPinState();
   }
 }
 
-void start() {
-  Serial.print("2");
+void startFunction() {
+  Serial.print(millis());
+  Serial.print(": start(), ");
+  Serial.println(OUTGOING_START);
+  isLogging = true;
   //Serial.println(OUTGOING_START);
   isStarted = true;
 }

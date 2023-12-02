@@ -154,7 +154,7 @@ void setup() {
  * The main function.
  */
 void loop() {
-  if (isDebug) {
+  if (isLogging) {
     Serial.println("DEBUG");
   }
   Serial.print(millis());
@@ -204,6 +204,7 @@ void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
+  isLogging = false;
 }
 
 /**
@@ -218,4 +219,5 @@ void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
+  isLogging = true;
 }

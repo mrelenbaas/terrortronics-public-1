@@ -106,10 +106,10 @@ void loop() {
     incomingMessage = Serial.read();
     switch (incomingMessage) {
       case startMessage:
-        start();
+        startFunction();
         break;
       case resetMessage:
-        reset();
+        resetFunction();
         break;
       default:
         break;
@@ -117,20 +117,22 @@ void loop() {
   }
 }
 
-void reset() {
+void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
+  isLogging = false;
   isTurningJoysticksOn = false;
   isTurningJoysticksOff = true;
   delayTime = 0;
   pinIndex = 0;
 }
 
-void start() {
+void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
+  isLogging = true;
   isTurningJoysticksOff = false;
   isTurningJoysticksOn = true;
   delayTime = 0;

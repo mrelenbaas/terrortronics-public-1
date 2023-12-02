@@ -278,10 +278,10 @@ void loop() {
     incomingMessage = Serial.read();
     switch (incomingMessage) {
       case startMessage:
-        start();
+        startFunction();
         break;
       case resetMessage:
-        reset();
+        resetFunction();
         break;
       default:
         break;
@@ -291,14 +291,16 @@ void loop() {
   delay(SERIAL_DELAY);
 }
 
-void reset() {
+void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
+  isLogging = false;
 }
 
-void start() {
+void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
+  isLogging = true;
 }
