@@ -66,6 +66,8 @@
         - https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
     + Current/Previous Based:
         - https://docs.arduino.cc/built-in-examples/digital/Debounce
+   - Interrupts
+    + https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
 
    @section warnings WARNINGS
    - empty
@@ -74,11 +76,88 @@
    - empty
 */
 
+#include "common.h"
+
 ////////////////////////////////////////////////////////////////////////
 // Function Stubs //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 void resetFunction();
 void startFunction();
+bool timer();
+void interruptFunction();
+void startButtonFunction();
+void otherButtonFunction();
+
+////////////////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The board's pins.
+
+   This enumeration uses "pin" as a prefix. The other enumerations use
+   their own respective prefix.
+*/
+enum pinEnum {
+  // Sounds.
+  pinSound1 = 2,         ///< Pin 2. Ready sound.
+  pinSound2 = 3,         ///< Pin 3. Winner (Cat) sound.
+  pinSound3 = 4,         ///< Pin 4. Winner (Dog) sound.
+  pinSound4 = 5,         ///< Pin 5. Champion (Cat) sound.
+  pinSound5 = 6,         ///< Pin 6. Champion (Dog) sound.
+  pinSound6 = 7,         ///< Pin 7. Tie sound.
+  pinSound7 = 8,         ///< Pin 8. Stop sound.
+  pinSound8 = 9,         ///< Pin 9. One sound.
+  pinSound9 = 10,        ///< Pin 10. Two sound.
+  pinSound10 = 11,       ///< Pin 11. Three sound.
+  pinSound11 = 12,       ///< Pin 12. Tug sound.
+  pinSound12 = 13,       ///< Pin 13. Sudden Death sound.
+  // Super pins.
+  pinUnused5 = 14,       ///< Pin 14. Unused pin #5.
+  pinUnused6 = 15,       ///< Pin 15. Unused pin #6.
+  pinBuzzer = 16,        ///< Pin 16. Buzzer pin.
+  pinButtonTouch = 17,   ///< Pin 17. Reset button.
+  pinLightError = 18,    ///< Pin 18. Red debug LED. TODO: Make this player 2C (Left).
+  pinReset = 19,         ///< Pin 19. Connect pin to ground.
+  pinLightDebug = 20,    ///< Pin 20. Blue debug LED. TODO: Make this player 2C (Right).
+  pinCount = 21,         ///< Pin 21. The game count.
+  // Lights.
+  pinLight1 = 22,        ///< Pin 22. Left Winner light.
+  pinLight2 = 23,        ///< Pin 23. Right Winner light.
+  pinLight3 = 24,        ///< Pin 24. Left Sudden Death light.
+  pinLight4 = 25,        ///< Pin 25. Right Sudden Death light.
+  pinLight5 = 26,        ///< Pin 26. Left Champion light.
+  pinLight6 = 27,        ///< Pin 27. Right Champion light.
+  pinLight7 = 28,        ///< Pin 28. Ready light.
+  pinLight8 = 29,        ///< Pin 29. One light.
+  pinLight9 = 30,        ///< Pin 30. Two light.
+  pinLight10 = 31,       ///< Pin 31. Three light.
+  pinLight11 = 32,       ///< Pin 32. Tug light.
+  pinLight12 = 33,       ///< Pin 33. Stop light.
+  pinReserved = 34,      ///< Pin 34. Reserved pin #1.
+  // Buttons.
+  pinStart = 35,         ///< Pin 35. Start button.
+  pinUnused1 = 36,       ///< Pin 36. Unused pin #1.
+  pinButton2 = 37,       ///< Pin 37. Left Player 1 button.
+  pinButton3 = 38,       ///< Pin 38. Right Player 1 button.
+  pinButton4 = 39,       ///< Pin 39. Left Player 2 button.
+  pinUnused2 = 40,       ///< Pin 40. Unused pin #2.
+  pinButton5 = 41,       ///< Pin 41. Right Player 2 button.
+  // Switches.
+  pinSwitch1 = 42,       ///< Pin 42. Left leaf-switch.
+  pinSwitch2 = 43,       ///< Pin 43. Leftmost micro-switch.
+  pinUnused3 = 44,       ///< Pin 44. Unused pin #3.
+  pinSwitch3 = 45,       ///< Pin 44. 1st left-of-center.
+  pinSwitch4 = 46,       ///< Pin 46. Center micro-switch.
+  pinSwitch5 = 47,       ///< Pin 47. 1st right-of-center.
+  pinUnused4 = 48,       ///< Pin 48. Unused pin #4.
+  pinSwitch6 = 49,       ///< Pin 49. Right-most micro-switch.
+  pinSwitch7 = 50,       ///< Pin 50. Right leaf-switch.
+  // Motor.
+  pinMotor1 = 51,        ///< Pin 51. Move left.
+  pinMotor2 = 52,        ///< Pin 52. Move right.
+  // Misc.
+  pinReserved2 = 53      ///< Pin 53. Reserved pin #2.
+};
 
 ////////////////////////////////////////////////////////////////////////
 // Serial //////////////////////////////////////////////////////////////
@@ -95,8 +174,8 @@ const int BAUD_RATE = 9600;
    An enum of possible message codes.
 */
 enum messages {
-  startMessage = 48, ///< Start message.
-  resetMessage = 49  ///< Reset message.
+  startMessage = pinSound1, ///< Start message.
+  resetMessage = pinSound2  ///< Reset message.
 };
 /**
    The default outgoing message.
@@ -193,18 +272,66 @@ int incomingMessage;
 /**
    If TRUE, then print tracer statements.
 */
-bool isLogging;
+bool isLogging = false;
 
 ////////////////////////////////////////////////////////////////////////
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   
+   Time (in milliseconds) at the start of the previous loop.
 */
 unsigned long timePrevious;
+/**
+   Time (in milliseconds) at the start of the current loop.
+*/
 unsigned long timeCurrent;
+/**
+   The difference between the current and previous loops.
+*/
 unsigned long timeDelta;
+/**
+   The accumulated time this second.
+*/
 unsigned long timeThisSecond;
+
+////////////////////////////////////////////////////////////////////////
+// FPS /////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   Time (in milliseconds) of a single second.
+*/
+unsigned long TIME_ONE_SECOND = 3000L;
+/**
+   The current number of frames counted this second.
+*/
+unsigned long fpsCurrent;
+/**
+   The number of frames counted over the course of the previous second.
+*/
+unsigned long fpsPrevious;
+
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+unsigned long DEBOUNCE_PERIOD_START = 10L;
+unsigned long DEBOUNCE_PERIOD_STOP = 5L;
+enum buttonEnum {
+  buttonStart,
+  buttonOther
+};
+int hotButtons[] = { false, false };
+ButtonAVR buttons[] = {
+  ButtonAVR(pinStart,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            startButtonFunction),
+  ButtonAVR(14,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            otherButtonFunction)
+};
 
 ////////////////////////////////////////////////////////////////////////
 // Undocumented ////////////////////////////////////////////////////////
@@ -213,3 +340,4 @@ unsigned long timeThisSecond;
 ////////////////////////////////////////////////////////////////////////
 // Untested Functions //////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+State state = State();
