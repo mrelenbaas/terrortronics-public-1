@@ -190,9 +190,21 @@ bool isLogging;
 ////////////////////////////////////////////////////////////////////////
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+/**
+   Time (in milliseconds) at the start of the previous loop.
+*/
 unsigned long timePrevious;
+/**
+   Time (in milliseconds) at the start of the current loop.
+*/
 unsigned long timeCurrent;
+/**
+   The difference between the current and previous loops.
+*/
 unsigned long timeDelta;
+/**
+   The accumulated time this second.
+*/
 unsigned long timeThisSecond;
 
 ////////////////////////////////////////////////////////////////////////

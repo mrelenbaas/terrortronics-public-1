@@ -191,9 +191,7 @@ void loop() {
     return;
   }
   for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
-    //if (buttons[i].updateHotState() == 1) {
-    //if (buttons[i].hotState == 1) {
-    if (hotButtons[buttonStart] == 1) {
+    if (buttons[i].updateHotState() == 1) {
       //Serial.println("PRESSED 0");
       if (buttons[i].debounceByTimePress() == 1) {
         //Serial.println("PRESSED 1");
@@ -225,7 +223,9 @@ void loop() {
             if (buttons[i].debounceByTargetRelease() == 1) {
               if (state.isRunning() == 1) {
                 Serial.println("RELEASED 4 (Running)");
-                // Do nothing.
+                buttons[i].stopTargeting();
+                buttons[i].delegateFunction();
+                // Do something else.
               } else if (state.isWaiting() == 1) {
                 Serial.println("RELEASED 4 (Waiting)");
                 buttons[i].stopTargeting();
@@ -351,6 +351,7 @@ bool timer() {
 ////////////////////////////////////////////////////////////////////////
 void startButtonFunction() {
   state.startRunning();
+  Serial.println("START RUNNING");
 }
 
 void otherButtonFunction() {
