@@ -1,17 +1,10 @@
 /**
-   @file arcade_controller.h
+   @file arcade_controller.cpp
 
    @mainpage Arcade Controller Project
 
    @section description Description
    The Arcade Controller.
-
-   @section circuit Circuit
-   - Buttons.
-   - Switches.
-
-   @section libraries Libraries
-   - Serial
 
    @section notes Notes
    - The Overview section of the Doxygen docs does not include print
@@ -47,33 +40,6 @@
    ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    SOFTWARE.
-
-   @section description Description
-   Empty.
-
-   @section pins Pins
-   - empty
-
-   @section reference Resources
-   - Documentation
-    + Arduino Due Hardware:
-        - Incomplete pinout. https://docs.arduino.cc/hardware/due
-        - Complete pinout. https://forum.arduino.cc/t/due-pinout-diagram/129258
-    + Software:
-        - https://www.arduino.cc/reference/en/
-   - Debouncing
-    + Time Based:
-        - https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
-    + Current/Previous Based:
-        - https://docs.arduino.cc/built-in-examples/digital/Debounce
-   - Interrupts
-    + https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
-
-   @section warnings WARNINGS
-   - empty
-
-   @section ut Unit Tests
-   - empty
 */
 
 // Include 2nd-party libraries.
@@ -81,108 +47,144 @@
 // Include 3rd-party libraries.
 #include <MemoryFree.h>;
 
+/**
+   Pseudo-constructor that sets up the application.
+
+   RUSCAL
+   - serial.Begin (BAUD_RATE)
+   - buttons[buttonStart].StartTargeting ()
+   - state.StartWaiting ()
+
+   @startuml
+   skinparam shadowing  true
+   (*) -r-> "Begin serial"
+   -r-> "Start targeting start button"
+   -r-> "Start waiting state"
+   -r-> (*)
+   @enduml
+*/
 void setup() {
   Serial.begin(BAUD_RATE);
-
-  Serial.print(millis());
-  Serial.print(": ");
-  Serial.println("resetFunction()");
-  for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
-    Serial.print(millis());
-    Serial.print(": buttons[");
-    Serial.print(i);
-    Serial.print("], ");
-    buttons[i].printDefinitions();
-    Serial.println("");
+  if (isLogging) {
+    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+      Serial.print(millis());
+      Serial.print(": buttons[");
+      Serial.print(i);
+      Serial.print("], ");
+      buttons[i].printDefinitions();
+      Serial.println("");
+    }
   }
-  Serial.print(millis());
-  Serial.print(": ");
-  Serial.println("resetFunction()");
-
-  // Sounds.
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
-  pinMode(9, OUTPUT);
-  pinMode(10, OUTPUT);
-  pinMode(11, OUTPUT);
-  pinMode(12, OUTPUT);
-  pinMode(13, OUTPUT);
-  // Super pins.
-  //pinMode(14, INPUT_PULLUP);
-  pinMode(15, INPUT_PULLUP);
-  pinMode(18, INPUT_PULLUP);
-  pinMode(20, INPUT_PULLUP);
-  pinMode(21, OUTPUT);
-  // Lights.
-  pinMode(22, OUTPUT);
-  pinMode(23, OUTPUT);
-  pinMode(24, OUTPUT);
-  pinMode(25, OUTPUT);
-  pinMode(26, OUTPUT);
-  pinMode(27, OUTPUT);
-  pinMode(28, OUTPUT);
-  pinMode(29, OUTPUT);
-  pinMode(30, OUTPUT);
-  pinMode(31, OUTPUT);
-  pinMode(32, OUTPUT);
-  pinMode(33, OUTPUT);
-  pinMode(34, INPUT_PULLUP);
-  // Buttons.
-  //pinMode(35, INPUT_PULLUP);
-  // 36
-  //pinMode(37, INPUT_PULLUP);
-  //pinMode(38, INPUT_PULLUP);
-  //pinMode(39, INPUT_PULLUP);
-  // 40
-  //pinMode(41, INPUT_PULLUP);
-  // Switches.
-  pinMode(42, INPUT_PULLUP);
-  pinMode(43, INPUT_PULLUP);
-  pinMode(44, INPUT_PULLUP);
-  pinMode(45, INPUT_PULLUP);
-  pinMode(46, INPUT_PULLUP);
-  pinMode(47, INPUT_PULLUP);
-  pinMode(48, INPUT_PULLUP);
-  pinMode(49, INPUT_PULLUP);
-  pinMode(50, INPUT_PULLUP);
-  // Motor.
-  pinMode(51, INPUT_PULLUP);
-  pinMode(52, INPUT_PULLUP);
-  // Misc.
-  pinMode(53, INPUT_PULLUP);
-
-  digitalWrite(22, HIGH);
-  digitalWrite(23, HIGH);
-  digitalWrite(24, HIGH);
-  digitalWrite(25, HIGH);
-  digitalWrite(26, HIGH);
-  digitalWrite(27, HIGH);
-  digitalWrite(28, HIGH);
-  digitalWrite(29, HIGH);
-  digitalWrite(30, HIGH);
-  digitalWrite(31, HIGH);
-  digitalWrite(32, HIGH);
-  digitalWrite(33, HIGH);
-  digitalWrite(34, HIGH);
-  Serial.println("SETUP END");
   buttons[buttonStart].startTargeting();
   state.startWaiting();
 }
 
 /**
    The main function.
+
+   RUSCAL:
+   - if NOT (timer)
+    + returnsa NIL
+   - endif
+   - i isoftype Num
+   - loop
+    + exitif (i >= (Sizeof (buttons) / Sizeof (Button)))
+    + i <- i + 1
+    + if (buttons[i].UpdateHotState () = 1)
+     - if (buttons[i].DebounceByTimePress () = 1)
+      + if (buttons[i].DebounceByPositionPress () = 1)
+       - if (buttons[i].DebounceByBlockPress () = 1)
+        + if (buttons[i].DebounceByTargetPress () = 1)
+         - if (state.IsRunning () = 1)
+         - elseif (state.IsWaiting () = 1)
+         - endif
+        + endif
+       - endif
+      + endif
+     - endif
+    + endif
+    + else
+     - if (buttons[i].UpdateHotState () = 1)
+      + if (buttons[i].DebounceByTimeRelease () = 1)
+       - if (buttons[i].DebounceByPositionRelease () = 1)
+        + if (buttons[i].DebounceByBlockRelease () = 1)
+         - if (buttons[i].DebounceByTargetRelease () = 1)
+          + if (state.IsRunning () = 1)
+           - buttons[i].StopTargeting ()
+           - buttons[i].DelegateFunction ()
+          + elseif (state.IsWaiting () = 1)
+           -
+          + endif
+         - endif
+        + endif
+       - endif
+      + endif
+      + buttons[i].Reset ()
+     - endif
+    + endif
+
+   UML 2.0 - Sequence Diagram
+   @startuml
+   skinparam shadowing  true
+   participant "loop" as L
+   participant "timer" as T
+   participant "update hot state" as D1
+   participant "debounce by time" as D2
+   participant "debounce by position" as D3
+   participant "debounce by block" as D4
+   participant "debounce by target" as D5
+   activate T
+   activate L
+   L -> T: << update the main timer >>
+   T -> L: << return FALSE if error occurs >>
+   deactivate T
+   activate D1
+   L -> D1: << update hot state >>
+   D1 -> L: << return 1 if pressed >>
+   deactivate D1
+   activate D2
+   L -> D2: << debounce by time >>
+   D2 -> L: << return 1 if time exceeds period >>
+   deactivate D2
+   activate D3
+   L -> D3: << debounce by position >>
+   D3 -> L: << return 1 if position has changed >>
+   deactivate D3
+   activate D4
+   L -> D4: << debounce by block >>
+   D4 -> L: << return 1 if not-blocked >>
+   deactivate D4
+   activate D5
+   L -> D5: << debounce by target >>
+   D5 -> L: << return 1 if targeted >>
+   deactivate D5
+   L -> L: << route button press>>
+   activate D1
+   L -> D1: << update hot state >>
+   D1 -> L: << return 1 if not-pressed >>
+   deactivate D1
+   activate D2
+   L -> D2: << debounce by time >>
+   D2 -> L: << return 1 if time exceeds period >>
+   deactivate D2
+   activate D3
+   L -> D3: << debounce by position >>
+   D3 -> L: << return 1 if position has changed >>
+   deactivate D3
+   activate D4
+   L -> D4: << debounce by block >>
+   D4 -> L: << return 1 if blocked >>
+   deactivate D4
+   activate D5
+   L -> D5: << debounce by target >>
+   D5 -> L: << return 1 if targeted >>
+   deactivate D5
+   L -> L: << route button release >>
+   L -> L: << restart loop >>
+   deactivate L
+   @enduml
 */
 void loop() {
-  //Serial.println("HERE.");
-  //for (int i = 0; i < (sizeof(buttons) / sizeof(buttons[0])); ++i) {
-  //  Serial.println(i);
-  //}
-  //Serial.println(digitalRead(pinStart));
   if (isLogging) {
     Serial.print(millis());
     Serial.println(": ----------");
@@ -249,39 +251,22 @@ void loop() {
       Serial.println("");
     }
   }
-  /* Group B
-    Serial.print(digitalRead(14));
-    Serial.print(",");
-    Serial.print(digitalRead(15));
-    Serial.print(",");
-    Serial.print(digitalRead(44));
-    Serial.print(",");
-    Serial.println(digitalRead(48));
-  */
-  /* Group A
-    Serial.print(",");
-    Serial.print(digitalRead(35));
-    Serial.print(",");
-    Serial.print(digitalRead(37));
-    Serial.print(",");
-    Serial.print(digitalRead(38));
-    Serial.print(",");
-    Serial.print(digitalRead(39));
-    Serial.print(",");
-    Serial.println(digitalRead(41));
-  */
 }
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   Empty. Reset the application.
+   Reset the application.
 
    RUSCAL:
-   - print (Millis ())
-   - print (": ")
-   - print ("reset()")
+   - isLogging <- FALSE
+
+   @startuml
+   skinparam shadowing  true
+   (*) -right-> "Stop logging"
+   -r-> (*)
+   @enduml
 */
 void resetFunction() {
   if (isLogging) {
@@ -289,37 +274,79 @@ void resetFunction() {
     Serial.print(": ");
     Serial.println("resetFunction()");
   }
-  //isLogging = false;
+  isLogging = false;
 }
 
 /**
-   Empty. Start the application.
+   Start the application.
 
    RUSCAL:
-   - print (Millis ())
-   - print (": reset(), ")
-   - print (OUTGOING_START)
+   - isLogging <- TRUE
+
+   @startuml
+   skinparam shadowing  true
+   (*) -right-> "Start logging"
+   -r-> (*)
+   @enduml
 */
 void startFunction() {
-  isLogging = true;
   if (isLogging) {
     Serial.print(millis());
     Serial.print(": startFunction(), ");
     Serial.println(OUTGOING_START);
   }
+  isLogging = true;
 }
 
 ////////////////////////////////////////////////////////////////////////
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+/**
+   The application's primary timer.
+
+   @returns FALSE if delta is less than zero. Otherwise, TRUE.
+
+   RUSCAL:
+   - result isoftype Bool
+   - result <- TRUE
+   - timePrevious <- timeCurrent
+   - timeCurrent <- Millis ()
+   - timeDelta <- timeCurrent - timePrevious
+   - if (timeDelta < 0)
+    + result <- FALSE
+   - elseif
+   - timeThisSecond <- timeThisSecond + timeDelta
+   - if (timeThisSecond >= TIME_ONE_SECOND)
+    + fpsPrevious <- fpsCurrent
+    + fpsCurrent <- 0
+    + timeThisSecond <- timeThisSecond - TIME_ONE_SECOND
+   - fpsCurrent <- fpsCurrent + 1
+   - returns result
+
+   @startuml
+   skinparam shadowing  true
+   (*) -r-> "Instantiate result"
+   -r-> "Set previous time to current time"
+   -r-> "Set current time to polled value"
+   -r-> "Calculate delta"
+   -r-> "time delta less than 0"
+   -d-> "Set result to FALSE"
+   -u-> "time delta less than 0"
+   -r-> "Add time delta to time this second"
+   -r-> "Time this second is greater than time period"
+   -d-> "Set the previous FPS to FPS current"
+   -d-> "Set the current FPS to zero"
+   -d-> "Minus 1 second from time this second"
+   -u-> "Time this second is greater than time period"
+   -r-> "Add 1 to the current FPS"
+   -r-> (*)
+   @enduml
+*/
 bool timer() {
-  // Declare local variables.
   bool result = true;
-  // Update time.
   timePrevious = timeCurrent;
   timeCurrent = millis();
   timeDelta = timeCurrent - timePrevious;
-  // Error check the millis() timer rollover.
   if (timeDelta < 0) {
     if (isLogging) {
       Serial.print(millis());
@@ -328,32 +355,45 @@ bool timer() {
     result = false;
   }
   timeThisSecond += timeDelta;
-  // Update FPS.
   if (timeThisSecond >= TIME_ONE_SECOND) {
     fpsPrevious = fpsCurrent;
     fpsCurrent = 0;
     timeThisSecond -= TIME_ONE_SECOND;
-  } else {
-    ++fpsCurrent;
-  }
-  // Update memory profiler.
+  } //else {
+    //++fpsCurrent;
+  //}
+  ++fpsCurrent;
   if (isLogging) {
     Serial.print(millis());
     Serial.print(": freeMemory, ");
     Serial.println(freeMemory());
   }
-  // Return FALSE if the millis() timer has rolled over. Otherwise TRUE.
   return result;
 }
 
 ////////////////////////////////////////////////////////////////////////
 // Delegates ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+/**
+   The function to call when the Start button is pressed.
+
+   RUSCAL
+   - start.StartRunning ()
+
+   @startuml
+   skinparam shadowing  true
+   (*) -right-> "Start running"
+   -r-> (*)
+   @enduml
+*/
 void startButtonFunction() {
   state.startRunning();
   Serial.println("START RUNNING");
 }
 
+/**
+   Empty. The function to call then the Other button is pressed.
+*/
 void otherButtonFunction() {
   Serial.println("otherButtonFunction...");
 }

@@ -1,80 +1,299 @@
 /**
-   @file arcade_controller.h
+ * @file arcade_controller.h
+ * 
+ * @mainpage Arcade Controller Project
+ * 
+ * @section description Description
+ * The Arcade Controller.
+ * 
+ * @section notes Notes
+ * - The Overview section of the Doxygen docs does not include print
+ * statements. The inline comments are the same as the Overview
+ * section, but they do include print statements.
+ * 
+ * @section author Author
+ * - Bradley Elenbaas (mr.elenbaas@gmail.com)
+ * - Version: 2
+ * - Date: November 29, 2023
+ * 
+ * @section ip Intellectual Property
+ * Copyright (c) 2023 Bradley Elenbaas. All rights
+ * reserved.
+ * 
+ * @section license License
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation files
+ * (the “Software”), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * @section circuit Circuit
+ * - Buttons.
+ * - Switches.
+ * 
+ * @section libraries Libraries
+ * - Serial
+ * 
+ * @section description Description
+ * Empty.
 
-   @mainpage Arcade Controller Project
-
-   @section description Description
-   The Arcade Controller.
-
-   @section circuit Circuit
-   - Buttons.
-   - Switches.
-
-   @section libraries Libraries
-   - Serial
-
-   @section notes Notes
-   - The Overview section of the Doxygen docs does not include print
-   statements. The inline comments are the same as the Overview
-   section, but they do include print statements.
-
-   @section author Author
-   - Bradley Elenbaas (mr.elenbaas@gmail.com)
-   - Version: 2
-   - Date: November 29, 2023
-
-   @section ip Intellectual Property
-   Copyright (c) 2023 Bradley Elenbaas. All rights
-   reserved.
-
-   @section license License
-   Permission is hereby granted, free of charge, to any person
-   obtaining a copy of this software and associated documentation files
-   (the “Software”), to deal in the Software without restriction,
-   including without limitation the rights to use, copy, modify, merge,
-   publish, distribute, sublicense, and/or sell copies of the Software,
-   and to permit persons to whom the Software is furnished to do so,
-   subject to the following conditions:
-
-   The above copyright notice and this permission notice shall be
-   included in all copies or substantial portions of the Software.
-
-   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
-   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-   SOFTWARE.
-
-   @section description Description
-   Empty.
-
-   @section pins Pins
-   - empty
-
-   @section reference Resources
-   - Documentation
-    + Arduino Due Hardware:
-        - Incomplete pinout. https://docs.arduino.cc/hardware/due
-        - Complete pinout. https://forum.arduino.cc/t/due-pinout-diagram/129258
-    + Software:
-        - https://www.arduino.cc/reference/en/
-   - Debouncing
-    + Time Based:
-        - https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
-    + Current/Previous Based:
-        - https://docs.arduino.cc/built-in-examples/digital/Debounce
-   - Interrupts
-    + https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
-
-   @section warnings WARNINGS
-   - empty
-
-   @section ut Unit Tests
-   - empty
-*/
+ * @section pins Pins
+ * - empty
+ * 
+ * @section reference Resources
+ * - Documentation
+ *  + Arduino Due Hardware:
+ *      - Incomplete pinout. https://docs.arduino.cc/hardware/due
+ *      - Complete pinout. https://forum.arduino.cc/t/due-pinout-diagram/129258
+ *  + Software:
+ *      - https://www.arduino.cc/reference/en/
+ * - Debouncing
+ *  + Time Based:
+ *      - https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
+ *  + Current/Previous Based:
+ *      - https://docs.arduino.cc/built-in-examples/digital/Debounce
+ * - Interrupts
+ *  + https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
+ * 
+ * @section warnings WARNINGS
+ * - empty
+ * 
+ * @section ut Unit Tests
+ * - empty
+ * 
+ * @section UMLUseCase UML 2.0 - Use Case Diagram
+ * Possible Boards
+ * @startuml
+ *   skinparam shadowing true
+ *   (Arduino)
+ *   (Arduino) --> (Uno)
+ *   (Uno) --> (AVR)
+ *   (Arduino) --> (Micro)
+ *   (Micro) --> (AVR)
+ *   (Arduino) --> (Nano)
+ *   (Nano) --> (AVR)
+ *   (Arduino) --> (Due)
+ *   (Due) --> (ARM)
+ *   (Teensy) --> (LC)
+ *   (LC) --> (ARM)
+ *   (Adafruit) --> (Feather)
+ *   (Feather) --> (ESP32)
+ * @enduml
+ * Possible People
+ * - Natural language description:
+ *  1. The arcade controller automatically starts.
+ *  2. The arcade controller runs forever.
+ * @startuml
+ *   skinparam shadowing  true
+ *   skinparam actorShadowing false
+ *   Player --> Employee
+ *   Spectator --> Employee
+ *   Attendant --> Employee
+ *   Employee --> (Automatically Start)
+ *   skinparam shadowing<<with_shadow>> true
+ *   Clock --> (Automatically Start)
+ *   Clock --> (Run Forever)
+ * @enduml
+ * 
+ * @section UMLClassDiagram UML 2.0 - Class Diagram
+ * In this context, the arcade_controller.ino file is equivalent to a 
+ * class.
+ * @startuml
+ * package arcade_controller {
+ *   class arcade_controller {
+ *     + {static} BAUD_RATE : const int = 9600
+ *     + {static} OUTGOING_START : const char[0..*] = [
+ *       t,
+ *       y,
+ *       p,
+ *       e,
+ *       :,
+ *       v,
+ *       o,
+ *       n,
+ *       f,
+ *       i,
+ *       ,,
+ *       f,
+ *       i,
+ *       l,
+ *       e,
+ *       n,
+ *       a,
+ *       ,
+ *       e,
+ *       :,
+ *       f,
+ *       p,
+ *       s,
+ *       ,,
+ *       f,
+ *       u,
+ *       n,
+ *       c,
+ *       t,
+ *       i,
+ *       o,
+ *       n,
+ *       :,
+ *       r,
+ *       e,
+ *       e,
+ *       t,
+ *       ,,
+ *       d,
+ *       e,
+ *       l,
+ *       i,
+ *       m,
+ *       i,
+ *       t,
+ *       e,
+ *       r,
+ *       s,
+ *       :,
+ *        ,
+ *       c,
+ *       m,
+ *       0,
+ *       ;,
+ *        ,
+ *       c,
+ *       m,
+ *       l,
+ *       ;,
+ *        ,
+ *       c,
+ *       m,
+ *       2,
+ *       ;,
+ *        ,
+ *       c,
+ *       m,
+ *       3,
+ *       ;,
+ *        ,
+ *       c,
+ *       m,
+ *       4,
+ *       ;,
+ *       \,
+ *       n,
+ *       \0
+ *     ]
+ *     + {static} incomingMessage : int
+ *     + {static} isLogging : bool = false
+ *     + {static} timePrevious : unsigned long
+ *     + {static} timeCurrent : unsigned long
+ *     + {static} timeDelta : unsigned long
+ *     + {static} timeThisSecond : unsigned long
+ *     + {static} TIME_ONE_SECOND : unsigned long = 3000
+ *     + {static} fpsCurrent : unsigned long
+ *     + {static} fpsPrevious : unsigned long
+ *     + {static} DEBOUNCE_PERIOD_START : unsigned long = 10
+ *     + {static} DEBOUNCE_PERIOD_STOP : unsigned long = 5
+ *     + {static} buttons : ButtonARM[0..*] = [
+ *       ButtonARM,
+ *       ButtonARM
+ *     ]
+ *     + {static} state : State
+ *     ]
+ *     --
+ *     + {static} setup()
+ *     + {static} loop()
+ *     + {static} resetFunction()
+ *     + {static} startFunction()
+ *     + {static} timer()
+ *     + {static} interruptFunction()
+ *     + {static} startButtonFunction()
+ *     + {static} otherButtonFunction()
+ *   }
+ *   enum pinEnum {
+ *     pinSound1 = 2
+ *     pinSound2 = 3
+ *     pinSound3 = 4
+ *     pinSound4 = 5
+ *     pinSound5 = 6
+ *     pinSound6 = 7
+ *     pinSound7 = 8
+ *     pinSound8 = 9
+ *     pinSound9 = 10
+ *     pinSound10 = 11
+ *     pinSound11 = 12
+ *     pinSound12 = 13
+ *     pinUnused5 = 14
+ *     pinUnused6 = 15
+ *     pinBuzzer = 16
+ *     pinButtonTouch = 17
+ *     pinLightError = 18
+ *     pinReset = 19
+ *     pinLightDebug = 20
+ *     pinCount = 21
+ *     pinLight1 = 22
+ *     pinLight2 = 23
+ *     pinLight3 = 24
+ *     pinLight4 = 25
+ *     pinLight5 = 26
+ *     pinLight6 = 27
+ *     pinLight7 = 28
+ *     pinLight8 = 29
+ *     pinLight9 = 30
+ *     pinLight10 = 31
+ *     pinLight11 = 32
+ *     pinLight12 = 33
+ *     pinReserved = 34
+ *     pinStart = 35
+ *     pinUnused1 = 36
+ *     pinButton2 = 37
+ *     pinButton3 = 38
+ *     pinButton4 = 39
+ *     pinUnused2 = 40
+ *     pinButton5 = 41
+ *     pinSwitch1 = 42
+ *     pinSwitch2 = 43
+ *     pinUnused3 = 44
+ *     pinSwitch3 = 45
+ *     pinSwitch4 = 46
+ *     pinSwitch5 = 47
+ *     pinUnused4 = 48
+ *     pinSwitch6 = 49
+ *     pinSwitch7 = 50
+ *     pinMotor1 = 51
+ *     pinMotor2 = 52
+ *     pinReserved2 = 53
+ *   }
+ *   enum messages {
+ *     startMessage = pinSound1
+ *     resetmessage = pinSound2
+ *   }
+ *   enum buttonEnum {
+ *     buttonStart,
+ *     bottonOther
+ *   }
+ * }
+ * @enduml
+ * 
+ * @section todo TODO
+ * - Rename messages to messageEnum, and rename its prefixes to match.
+ * - Replace the discovery code with IoTivity code.
+ * - Rename timeThisSecond to timeAccumulated.
+ * - Align the comment styles in CPP file.
+ * - Rename isLogging to IS_LOGGING
+ */
 
 #include "common.h"
 
@@ -92,11 +311,11 @@ void otherButtonFunction();
 // Pins ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   The board's pins.
-
-   This enumeration uses "pin" as a prefix. The other enumerations use
-   their own respective prefix.
-*/
+ * The board's pins.
+ * 
+ * This enumeration uses "pin" as a prefix. The other enumerations use
+ * their own respective prefix.
+ */
 enum pinEnum {
   // Sounds.
   pinSound1 = 2,         ///< Pin 2. Ready sound.
@@ -163,23 +382,23 @@ enum pinEnum {
 // Serial //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   The serial baud rate.
-*/
+ * The serial baud rate.
+ */
 const int BAUD_RATE = 9600;
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   An enum of possible message codes.
-*/
+ * An enum of possible message codes.
+ */
 enum messages {
   startMessage = pinSound1, ///< Start message.
   resetMessage = pinSound2  ///< Reset message.
 };
 /**
-   The default outgoing message.
-*/
+ * The default outgoing message.
+ */
 const char OUTGOING_START[] = {
   't',
   'y',
@@ -262,84 +481,95 @@ const char OUTGOING_START[] = {
   '\0'
 };
 /**
-   The incoming message.
-*/
+ * The incoming message.
+ */
 int incomingMessage;
 
 ////////////////////////////////////////////////////////////////////////
 // Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   If TRUE, then print tracer statements.
-*/
+ * If TRUE, then print tracer statements.
+ */
 bool isLogging = false;
 
 ////////////////////////////////////////////////////////////////////////
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   Time (in milliseconds) at the start of the previous loop.
-*/
+ * Time (in milliseconds) at the start of the previous loop.
+ */
 unsigned long timePrevious;
 /**
-   Time (in milliseconds) at the start of the current loop.
-*/
+ * Time (in milliseconds) at the start of the current loop.
+ */
 unsigned long timeCurrent;
 /**
-   The difference between the current and previous loops.
-*/
+ * The difference between the current and previous loops.
+ */
 unsigned long timeDelta;
 /**
-   The accumulated time this second.
-*/
+ * The accumulated time this second.
+ */
 unsigned long timeThisSecond;
 
 ////////////////////////////////////////////////////////////////////////
 // FPS /////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   Time (in milliseconds) of a single second.
-*/
+ * Time (in milliseconds) of a single second.
+ */
 unsigned long TIME_ONE_SECOND = 3000L;
 /**
-   The current number of frames counted this second.
-*/
+ * The current number of frames counted this second.
+ */
 unsigned long fpsCurrent;
 /**
-   The number of frames counted over the course of the previous second.
-*/
+ * The number of frames counted over the course of the previous second.
+ */
 unsigned long fpsPrevious;
 
 ////////////////////////////////////////////////////////////////////////
 // Buttons /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+/**
+ * The debounce period before a Press is considered valid.
+ */
 unsigned long DEBOUNCE_PERIOD_START = 10L;
+/**
+ * The debounce period before a Release is considered valid.
+ */
 unsigned long DEBOUNCE_PERIOD_STOP = 5L;
+/**
+ * An enum paired with the buttons and hotButtons.
+ */
 enum buttonEnum {
-  buttonStart,
-  buttonOther
+  buttonStart,   ///< The Start button index.
+  buttonOther    ///< The Other button index.
 };
-int hotButtons[] = { false, false };
-ButtonAVR buttons[] = {
-  ButtonAVR(pinStart,
+/**
+ * An array of Button elements. Handles the buttons hot state, 
+ * debouncing, and callbacks.
+ */
+ButtonARM buttons[] = {
+  ButtonARM(pinStart,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            startButtonFunction,
-            hotButtons,
-            buttonStart),
-  ButtonAVR(14,
+            startButtonFunction),
+  ButtonARM(pinUnused5,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            otherButtonFunction,
-            hotButtons,
-            buttonOther)
+            otherButtonFunction)
 };
 
 ////////////////////////////////////////////////////////////////////////
 // State ///////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+/**
+ * The state of the game.
+ */
 State state = State();
 
 ////////////////////////////////////////////////////////////////////////
