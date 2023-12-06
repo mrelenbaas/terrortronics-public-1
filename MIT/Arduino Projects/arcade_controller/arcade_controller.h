@@ -200,8 +200,8 @@
  *     + {static} timePrevious : unsigned long
  *     + {static} timeCurrent : unsigned long
  *     + {static} timeDelta : unsigned long
- *     + {static} timeThisSecond : unsigned long
- *     + {static} TIME_ONE_SECOND : unsigned long = 3000
+ *     + {static} timeAccumulated : unsigned long
+ *     + {static} TIME_ONE_SECOND : unsigned long = 1000
  *     + {static} fpsCurrent : unsigned long
  *     + {static} fpsPrevious : unsigned long
  *     + {static} DEBOUNCE_PERIOD_START : unsigned long = 10
@@ -223,58 +223,7 @@
  *     + {static} otherButtonFunction()
  *   }
  *   enum pinEnum {
- *     pinSound1 = 2
- *     pinSound2 = 3
- *     pinSound3 = 4
- *     pinSound4 = 5
- *     pinSound5 = 6
- *     pinSound6 = 7
- *     pinSound7 = 8
- *     pinSound8 = 9
- *     pinSound9 = 10
- *     pinSound10 = 11
- *     pinSound11 = 12
- *     pinSound12 = 13
- *     pinUnused5 = 14
- *     pinUnused6 = 15
- *     pinBuzzer = 16
- *     pinButtonTouch = 17
- *     pinLightError = 18
- *     pinReset = 19
- *     pinLightDebug = 20
- *     pinCount = 21
- *     pinLight1 = 22
- *     pinLight2 = 23
- *     pinLight3 = 24
- *     pinLight4 = 25
- *     pinLight5 = 26
- *     pinLight6 = 27
- *     pinLight7 = 28
- *     pinLight8 = 29
- *     pinLight9 = 30
- *     pinLight10 = 31
- *     pinLight11 = 32
- *     pinLight12 = 33
- *     pinReserved = 34
- *     pinStart = 35
- *     pinUnused1 = 36
- *     pinButton2 = 37
- *     pinButton3 = 38
- *     pinButton4 = 39
- *     pinUnused2 = 40
- *     pinButton5 = 41
- *     pinSwitch1 = 42
- *     pinSwitch2 = 43
- *     pinUnused3 = 44
- *     pinSwitch3 = 45
- *     pinSwitch4 = 46
- *     pinSwitch5 = 47
- *     pinUnused4 = 48
- *     pinSwitch6 = 49
- *     pinSwitch7 = 50
- *     pinMotor1 = 51
- *     pinMotor2 = 52
- *     pinReserved2 = 53
+ *     pinButtonStart = 2
  *   }
  *   enum messages {
  *     startMessage = pinSound1
@@ -288,11 +237,7 @@
  * @enduml
  * 
  * @section todo TODO
- * - Rename messages to messageEnum, and rename its prefixes to match.
  * - Replace the discovery code with IoTivity code.
- * - Rename timeThisSecond to timeAccumulated.
- * - Align the comment styles in CPP file.
- * - Rename isLogging to IS_LOGGING
  */
 
 #include "common.h"
@@ -305,77 +250,17 @@ void startFunction();
 bool timer();
 void interruptFunction();
 void startButtonFunction();
-void otherButtonFunction();
+void redTopButtonFunction();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
  * The board's pins.
- * 
- * This enumeration uses "pin" as a prefix. The other enumerations use
- * their own respective prefix.
  */
 enum pinEnum {
-  // Sounds.
-  pinSound1 = 2,         ///< Pin 2. Ready sound.
-  pinSound2 = 3,         ///< Pin 3. Winner (Cat) sound.
-  pinSound3 = 4,         ///< Pin 4. Winner (Dog) sound.
-  pinSound4 = 5,         ///< Pin 5. Champion (Cat) sound.
-  pinSound5 = 6,         ///< Pin 6. Champion (Dog) sound.
-  pinSound6 = 7,         ///< Pin 7. Tie sound.
-  pinSound7 = 8,         ///< Pin 8. Stop sound.
-  pinSound8 = 9,         ///< Pin 9. One sound.
-  pinSound9 = 10,        ///< Pin 10. Two sound.
-  pinSound10 = 11,       ///< Pin 11. Three sound.
-  pinSound11 = 12,       ///< Pin 12. Tug sound.
-  pinSound12 = 13,       ///< Pin 13. Sudden Death sound.
-  // Super pins.
-  pinUnused5 = 14,       ///< Pin 14. Unused pin #5.
-  pinUnused6 = 15,       ///< Pin 15. Unused pin #6.
-  pinBuzzer = 16,        ///< Pin 16. Buzzer pin.
-  pinButtonTouch = 17,   ///< Pin 17. Reset button.
-  pinLightError = 18,    ///< Pin 18. Red debug LED. TODO: Make this player 2C (Left).
-  pinReset = 19,         ///< Pin 19. Connect pin to ground.
-  pinLightDebug = 20,    ///< Pin 20. Blue debug LED. TODO: Make this player 2C (Right).
-  pinCount = 21,         ///< Pin 21. The game count.
-  // Lights.
-  pinLight1 = 22,        ///< Pin 22. Left Winner light.
-  pinLight2 = 23,        ///< Pin 23. Right Winner light.
-  pinLight3 = 24,        ///< Pin 24. Left Sudden Death light.
-  pinLight4 = 25,        ///< Pin 25. Right Sudden Death light.
-  pinLight5 = 26,        ///< Pin 26. Left Champion light.
-  pinLight6 = 27,        ///< Pin 27. Right Champion light.
-  pinLight7 = 28,        ///< Pin 28. Ready light.
-  pinLight8 = 29,        ///< Pin 29. One light.
-  pinLight9 = 30,        ///< Pin 30. Two light.
-  pinLight10 = 31,       ///< Pin 31. Three light.
-  pinLight11 = 32,       ///< Pin 32. Tug light.
-  pinLight12 = 33,       ///< Pin 33. Stop light.
-  pinReserved = 34,      ///< Pin 34. Reserved pin #1.
-  // Buttons.
-  pinStart = 35,         ///< Pin 35. Start button.
-  pinUnused1 = 36,       ///< Pin 36. Unused pin #1.
-  pinButton2 = 37,       ///< Pin 37. Left Player 1 button.
-  pinButton3 = 38,       ///< Pin 38. Right Player 1 button.
-  pinButton4 = 39,       ///< Pin 39. Left Player 2 button.
-  pinUnused2 = 40,       ///< Pin 40. Unused pin #2.
-  pinButton5 = 41,       ///< Pin 41. Right Player 2 button.
-  // Switches.
-  pinSwitch1 = 42,       ///< Pin 42. Left leaf-switch.
-  pinSwitch2 = 43,       ///< Pin 43. Leftmost micro-switch.
-  pinUnused3 = 44,       ///< Pin 44. Unused pin #3.
-  pinSwitch3 = 45,       ///< Pin 44. 1st left-of-center.
-  pinSwitch4 = 46,       ///< Pin 46. Center micro-switch.
-  pinSwitch5 = 47,       ///< Pin 47. 1st right-of-center.
-  pinUnused4 = 48,       ///< Pin 48. Unused pin #4.
-  pinSwitch6 = 49,       ///< Pin 49. Right-most micro-switch.
-  pinSwitch7 = 50,       ///< Pin 50. Right leaf-switch.
-  // Motor.
-  pinMotor1 = 51,        ///< Pin 51. Move left.
-  pinMotor2 = 52,        ///< Pin 52. Move right.
-  // Misc.
-  pinReserved2 = 53      ///< Pin 53. Reserved pin #2.
+  pinButtonStart = 2,
+  pinButtonRedTop = 3
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -392,9 +277,9 @@ const int BAUD_RATE = 9600;
 /**
  * An enum of possible message codes.
  */
-enum messages {
-  startMessage = pinSound1, ///< Start message.
-  resetMessage = pinSound2  ///< Reset message.
+enum messageEnum {
+  messageStart = 48, ///< Start message.
+  messageReset = 49  ///< Reset message.
 };
 /**
  * The default outgoing message.
@@ -489,9 +374,13 @@ int incomingMessage;
 // Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * If TRUE, then print tracer statements.
+ * If TRUE, then print logging tracers.
  */
-bool isLogging = false;
+bool IS_LOGGING = false;
+/**
+ * If TRUE, then print debug tracers.
+ */
+bool IS_DEBUGGING = false;
 
 ////////////////////////////////////////////////////////////////////////
 // Time ////////////////////////////////////////////////////////////////
@@ -511,7 +400,7 @@ unsigned long timeDelta;
 /**
  * The accumulated time this second.
  */
-unsigned long timeThisSecond;
+unsigned long timeAccumulated;
 
 ////////////////////////////////////////////////////////////////////////
 // FPS /////////////////////////////////////////////////////////////////
@@ -519,7 +408,7 @@ unsigned long timeThisSecond;
 /**
  * Time (in milliseconds) of a single second.
  */
-unsigned long TIME_ONE_SECOND = 3000L;
+unsigned long TIME_ONE_SECOND = 1000L;
 /**
  * The current number of frames counted this second.
  */
@@ -545,23 +434,23 @@ unsigned long DEBOUNCE_PERIOD_STOP = 5L;
  */
 enum buttonEnum {
   buttonStart,   ///< The Start button index.
-  buttonOther    ///< The Other button index.
+  buttonRedTop   ///< The Other button index.
 };
 /**
  * An array of Button elements. Handles the buttons hot state, 
  * debouncing, and callbacks.
  */
 ButtonARM buttons[] = {
-  ButtonARM(pinStart,
+  ButtonARM(pinButtonStart,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
             startButtonFunction),
-  ButtonARM(pinUnused5,
+  ButtonARM(pinButtonRedTop,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            otherButtonFunction)
+            redTopButtonFunction)
 };
 
 ////////////////////////////////////////////////////////////////////////
