@@ -70,7 +70,7 @@
  *  + https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
  * 
  * @section warnings WARNINGS
- * - empty
+ * - Pin 35 releases slowly.
  * 
  * @section ut Unit Tests
  * - empty
@@ -256,11 +256,23 @@ void redTopButtonFunction();
 // Pins ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The board's pins.
+ * The board's pins. Named with the [pin + type + name] convention, 
+ * while other enums are named with the [type + name] convention.
  */
 enum pinEnum {
-  pinButtonStart = 2,
-  pinButtonRedTop = 3
+  pinButtonStart = 2,           ///< Pin 2. Start button.
+  pinButtonRedTop = 3,          ///< Pin 3. Red button (top).
+  pinButtonRedBottom = 4,       ///< Pin 4. Red button (bottom).
+  pinButtonGreenTop = 5,        ///< Pin 5. Green button (top).
+  pinButtonGreenBottom = 6,     ///< Pin 6. Green button (bottom).
+  pinButtonBlueTop = 7,         ///< Pin 7 Blue button (top).
+  pinButtonBlueBottom = 8,      ///< Pin 8. Blue button (bottom).
+  pinButtonYellowTop = 9,       ///< Pin 9. Yellow button (top).
+  pinButtonYellowBottom = 10,   ///< Pin 10. Yellow button (bottom).
+  pinButtonBlackTop = 11,       ///< Pin 11. Black button (top).
+  pinButtonBlackBottom = 12,    ///< Pin 12. Black button (bottom).
+  pinButtonWhiteTop = 13,       ///< Pin 13. White button (top).
+  pinButtonWhiteBottom = 14     ///< Pin 14. White button (bottom).
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -380,7 +392,7 @@ bool IS_LOGGING = false;
 /**
  * If TRUE, then print debug tracers.
  */
-bool IS_DEBUGGING = false;
+bool IS_DEBUGGING = true;
 
 ////////////////////////////////////////////////////////////////////////
 // Time ////////////////////////////////////////////////////////////////
@@ -450,6 +462,61 @@ ButtonARM buttons[] = {
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonRedBottom,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonGreenTop,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonGreenBottom,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonBlueTop,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonBlueBottom,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonYellowTop,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonYellowBottom,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonBlackTop,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonBlackBottom,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonWhiteTop,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            redTopButtonFunction),
+  ButtonARM(pinButtonWhiteBottom,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
             redTopButtonFunction)
 };
 
@@ -468,3 +535,6 @@ State state = State();
 ////////////////////////////////////////////////////////////////////////
 // Untested Functions //////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+int counter;
+bool IS_JUST_BUTTONS = false;
+bool someState;
