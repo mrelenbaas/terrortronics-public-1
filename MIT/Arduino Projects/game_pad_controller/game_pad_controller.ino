@@ -1,50 +1,50 @@
 /**
-  @file game_pad_controller.ino
-
-  @mainpage game_pad_controller
-
-  @section author Attribution
-  - Title: Gamepad Controller file.
-  - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
-  - Version: 2
-  - Date: November 6, 2023.
-
-  @section ip Intellectual Property
-  - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
-
-  @section license License
-  Permission is hereby granted, free of charge, to any person
-  obtaining a copy of this software and associated documentation files
-  (the “Software”), to deal in the Software without restriction,
-  including without limitation the rights to use, copy, modify, merge,
-  publish, distribute, sublicense, and/or sell copies of the Software,
-  and to permit persons to whom the Software is furnished to do so,
-  subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be
-  included in all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
-  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-  BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-  ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-  @section description Description
-  Empty.
-
-  @section pins Pins
-  - empty
-
-  @section resources Resources
-  - empty
-
-  @section warnings WARNINGS
-  - empty
-*/
+ * @file game_pad_controller.ino
+ * 
+ * @mainpage game_pad_controller
+ * 
+ * @section author Attribution
+ * - Title: Gamepad Controller file.
+ * - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+ * - Version: 2
+ * - Date: November 6, 2023.
+ * 
+ * @section ip Intellectual Property
+ * - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
+ * 
+ * @section license License
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation files
+ * (the “Software”), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * @section description Description
+ * Empty.
+ * 
+ * @section pins Pins
+ * - empty
+ * 
+ * @section resources Resources
+ * - empty
+ * 
+ * @section warnings WARNINGS
+ * - empty
+ */
 
 #include "game_pad_controller.h"
 
@@ -148,14 +148,14 @@ void setup() {
   //Serial.println("setupTimer()");
   setupTimer();
 
-  pinMode(HORIZONTAL, INPUT);
-  pinMode(VERTICAL, INPUT);
-  pinMode(WATER, INPUT);
-  pinMode(SOUND_ANALOG, INPUT);
-  pinMode(BUTTON, INPUT_PULLUP);
-  pinMode(SILICONE_BUTTON, INPUT_PULLUP);
-  pinMode(TRACKING, INPUT_PULLUP);
-  pinMode(SOUND_DIGITAL, INPUT_PULLUP);
+  pinMode(pinStickHorizontal, INPUT);
+  pinMode(pinStickVertical, INPUT);
+  pinMode(pinSensorWater, INPUT);
+  pinMode(pinSoundAnalog, INPUT);
+  pinMode(pinButtonStart, INPUT_PULLUP);
+  pinMode(pinButtonReset, INPUT_PULLUP);
+  pinMode(pinSensorTracking, INPUT_PULLUP);
+  pinMode(pinSoundDigital, INPUT_PULLUP);
 
   timeCurrent = millis();
   timePrevious = timeCurrent;
@@ -205,14 +205,14 @@ void loop() {
     ++fpsCurrent;
   }
 
-  horizontal = analogRead(HORIZONTAL);
-  vertical = analogRead(VERTICAL);
-  water = analogRead(WATER);
-  soundAnalog = analogRead(SOUND_ANALOG);
-  button = digitalRead(BUTTON);
-  siliconeButton = digitalRead(SILICONE_BUTTON);
-  tracking = digitalRead(TRACKING);
-  soundDigital = digitalRead(SOUND_DIGITAL);
+  horizontal = analogRead(pinStickHorizontal);
+  vertical = analogRead(pinStickVertical);
+  water = analogRead(pinSensorWater);
+  soundAnalog = analogRead(pinSoundAnalog);
+  button = digitalRead(pinButtonStart);
+  siliconeButton = digitalRead(pinButtonReset);
+  tracking = digitalRead(pinSensorTracking);
+  soundDigital = digitalRead(pinSoundDigital);
 
   printPinState();
 

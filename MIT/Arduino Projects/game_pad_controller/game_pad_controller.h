@@ -1,50 +1,53 @@
 /**
-  @file game_pad_controller.ino
-
-  @mainpage game_pad_controller
-
-  @section author Attribution
-  - Title: Gamepad Controller file.
-  - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
-  - Version: 2
-  - Date: November 6, 2023.
-
-  @section ip Intellectual Property
-  - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
-
-  @section license License
-  Permission is hereby granted, free of charge, to any person
-  obtaining a copy of this software and associated documentation files
-  (the “Software”), to deal in the Software without restriction,
-  including without limitation the rights to use, copy, modify, merge,
-  publish, distribute, sublicense, and/or sell copies of the Software,
-  and to permit persons to whom the Software is furnished to do so,
-  subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be
-  included in all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
-  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-  BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-  ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-  @section description Description
-  Empty.
-
-  @section pins Pins
-  - empty
-
-  @section resources Resources
-  - empty
-
-  @section warnings WARNINGS
-  - empty
-*/
+ * @file game_pad_controller.ino
+ * 
+ * @mainpage game_pad_controller
+ * 
+ * @section author Attribution
+ * - Title: Gamepad Controller file.
+ * - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+ * - Version: 2
+ * - Date: November 6, 2023.
+ * 
+ * @section ip Intellectual Property
+ * - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
+ * 
+ * @section license License
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation files
+ * (the “Software”), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * @section description Description
+ * Empty.
+ * 
+ * @section pins Pins
+ * - empty
+ * 
+ * @section resources Resources
+ * - empty
+ * 
+ * @section warnings WARNINGS
+ * - empty
+ * 
+ * @section ut Unit Tests
+ * - empty
+ */
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
@@ -57,26 +60,44 @@ void resetFunction();
 void startFunction();
 
 ////////////////////////////////////////////////////////////////////////
+// Pins ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The board's pins. Named with the [pin + type + name] convention, 
+ * while other enums are named with the [type + name] convention.
+ */
+enum pinEnum {
+  pinStickHorizontal = (int)A0,
+  pinStickVertical = (int)A1,
+  pinSensorWater = (int)A2,
+  pinSoundAnalog = (int)A3,
+  pinButtonStart = 2,
+  pinButtonReset = 3,
+  pinSensorTracking = 4,
+  pinSoundDigital = 5
+};
+
+////////////////////////////////////////////////////////////////////////
 // Serial //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   The serial baud rate.
-*/
+ * The serial baud rate.
+ */
 const int BAUD_RATE = 9600;
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   An enum of possible message codes.
-*/
+ * An enum of possible message codes.
+ */
 enum messages {
   startMessage = 48,
   resetMessage = 49
 };
 /**
-   The default outgoing message.
-*/
+ * The default outgoing message.
+ */
 const char OUTGOING_START[] = {
   't',
   'y',
@@ -175,36 +196,36 @@ const char OUTGOING_START[] = {
   '\0'
 };
 /**
-   The incoming message.
-*/
+ * The incoming message.
+ */
 int incomingMessage;
 
 ////////////////////////////////////////////////////////////////////////
 // Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   If TRUE, then print tracer statements.
-*/
+ * If TRUE, then print tracer statements.
+ */
 bool isLogging;
 
 ////////////////////////////////////////////////////////////////////////
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   Time (in milliseconds) at the start of the previous loop.
-*/
+ * Time (in milliseconds) at the start of the previous loop.
+ */
 unsigned long timePrevious;
 /**
-   Time (in milliseconds) at the start of the current loop.
-*/
+ * Time (in milliseconds) at the start of the current loop.
+ */
 unsigned long timeCurrent;
 /**
-   The difference between the current and previous loops.
-*/
+ * The difference between the current and previous loops.
+ */
 unsigned long timeDelta;
 /**
-   The accumulated time this second.
-*/
+ * The accumulated time this second.
+ */
 unsigned long timeThisSecond;
 
 ////////////////////////////////////////////////////////////////////////
@@ -212,16 +233,6 @@ unsigned long timeThisSecond;
 ////////////////////////////////////////////////////////////////////////
 
 const int SERIAL_DELAY = 10;
-
-// Pin constants.
-const int HORIZONTAL = A0;
-const int VERTICAL = A1;
-const int WATER = A2;
-const int SOUND_ANALOG = A3;
-const int BUTTON = 2;
-const int SILICONE_BUTTON = 3;
-const int TRACKING = 4;
-const int SOUND_DIGITAL = 5;
 
 // Hot keyboard.
 int horizontal;
