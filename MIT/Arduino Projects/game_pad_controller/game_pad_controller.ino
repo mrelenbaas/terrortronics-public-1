@@ -216,7 +216,8 @@ void loop() {
   if (Serial.available() > 0 && !state.isRunning()) {
     // WARNING: Remember to consume the incoming bytes.
     // The error does not occur when using the usb.c or usb.py files.
-    // The error does occur when reading/writing in a PyGame application.
+    // The error does occur when reading/writing in a PyGame 
+    // application.
     incomingMessage = Serial.read();
     //Serial.println(incomingMessage);
     switch (incomingMessage) {

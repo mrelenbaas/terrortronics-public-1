@@ -263,7 +263,8 @@ void loop() {
   if (Serial.available() > 0) {
     // WARNING: Remember to consume the incoming bytes.
     // The error does not occur when using the usb.c or usb.py files.
-    // The error does occur when reading/writing in a PyGame application.
+    // The error does occur when reading/writing in a PyGame 
+    // application.
     incomingMessage = Serial.read();
     //Serial.println(incomingMessage);
     switch (incomingMessage) {
@@ -432,17 +433,94 @@ void startButtonFunction() {
 }
 
 /**
- * Empty. The function to call then the Reset button is pressed.
+ * The function to call when the Reset button is pressed.
  */
 void resetButtonFunction() {
   Serial.println("reset()");
 }
 
 /**
- * Empty. The function to call then the Other button is pressed.
+ * The function to call when the top-red button is pressed.
  */
 void redTopButtonFunction() {
   Serial.println("redTopButtonFunction()");
+}
+
+/**
+ * The function to call when the bottom-red button is pressed.
+ */
+void redBottomButtonFunction() {
+  Serial.println("redBottomButtonFunction()");
+}
+
+/**
+ * The function to call when the top-green button is pressed.
+ */
+void greenTopButtonFunction() {
+  Serial.println("greenTopButtonFunction()");
+}
+
+/**
+ * The function to call when the bottom-green button is pressed.
+ */
+void greenBottomButtonFunction() {
+  Serial.println("greenBottomButtonFunction()");
+}
+
+/**
+ * The function to call when the blue-top button is pressed.
+ */
+void blueTopButtonFunction() {
+  Serial.println("blueTopButtonFunction()");
+}
+
+/**
+ * The function to call when the bottom-blue button is pressed.
+ */
+void blueBottomButtonFunction() {
+  Serial.println("blueBottomButtonFunction()");
+}
+
+/**
+ * The function to call when the yellow-top button is pressed.
+ */
+void yellowTopButtonFunction() {
+  Serial.println("yellowTopButtonFunction()");
+}
+
+/**
+ * The function to call when the bottom-yellow button is pressed.
+ */
+void yellowBottomButtonFunction() {
+  Serial.println("yellowBottomButtonFunction()");
+}
+
+/**
+ * The function to call when the black-top button is pressed.
+ */
+void blackTopButtonFunction() {
+  Serial.println("blackTopButtonFunction()");
+}
+
+/**
+ * The function to call when the bottom-black button is pressed.
+ */
+void blackBottomButtonFunction() {
+  Serial.println("blackBottomButtonFunction()");
+}
+
+/**
+ * The function to call when the top-white button is pressed.
+ */
+void whiteTopButtonFunction() {
+  Serial.println("whiteTopButtonFunction()");
+}
+
+/**
+ * The function to call when the bottom-white button is pressed.
+ */
+void whiteBottomButtonFunction() {
+  Serial.println("whiteBottomButtonFunction()");
 }
 
 ////////////////////////////////////////////////////////////////////////

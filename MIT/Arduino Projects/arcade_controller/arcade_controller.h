@@ -253,6 +253,17 @@ void interruptFunction();
 void startButtonFunction();
 void resetButtonFunction();
 void redTopButtonFunction();
+void redBottomButtonFunction();
+void blueTopButtonFunction();
+void blueBottomButtonFunction();
+void greenTopButtonFunction();
+void greenBottomButtonFunction();
+void yellowTopButtonFunction();
+void yellowBottomButtonFunction();
+void blackTopButtonFunction();
+void blackBottomButtonFunction();
+void whiteTopButtonFunction();
+void whiteBottomButtonFunction();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////
@@ -475,57 +486,57 @@ ButtonARM buttons[] = {
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            redBottomButtonFunction),
   ButtonARM(pinButtonGreenTop,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            blueTopButtonFunction),
   ButtonARM(pinButtonGreenBottom,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            blueBottomButtonFunction),
   ButtonARM(pinButtonBlueTop,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            greenTopButtonFunction),
   ButtonARM(pinButtonBlueBottom,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            greenBottomButtonFunction),
   ButtonARM(pinButtonYellowTop,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            yellowTopButtonFunction),
   ButtonARM(pinButtonYellowBottom,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            yellowBottomButtonFunction),
   ButtonARM(pinButtonBlackTop,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            blackTopButtonFunction),
   ButtonARM(pinButtonBlackBottom,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            blackBottomButtonFunction),
   ButtonARM(pinButtonWhiteTop,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction),
+            whiteTopButtonFunction),
   ButtonARM(pinButtonWhiteBottom,
             Timer(),
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
-            redTopButtonFunction)
+            whiteBottomButtonFunction)
 };
 
 ////////////////////////////////////////////////////////////////////////
