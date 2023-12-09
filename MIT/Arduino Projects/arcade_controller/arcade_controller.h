@@ -240,6 +240,7 @@
  * - Replace the discovery code with IoTivity code.
  */
 
+// Include 2nd-party libraries.
 #include "common.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -250,6 +251,7 @@ void startFunction();
 bool timer();
 void interruptFunction();
 void startButtonFunction();
+void resetButtonFunction();
 void redTopButtonFunction();
 
 ////////////////////////////////////////////////////////////////////////
@@ -261,18 +263,19 @@ void redTopButtonFunction();
  */
 enum pinEnum {
   pinButtonStart = 2,           ///< Pin 2. Start button.
-  pinButtonRedTop = 3,          ///< Pin 3. Red button (top).
-  pinButtonRedBottom = 4,       ///< Pin 4. Red button (bottom).
-  pinButtonGreenTop = 5,        ///< Pin 5. Green button (top).
-  pinButtonGreenBottom = 6,     ///< Pin 6. Green button (bottom).
-  pinButtonBlueTop = 7,         ///< Pin 7 Blue button (top).
-  pinButtonBlueBottom = 8,      ///< Pin 8. Blue button (bottom).
-  pinButtonYellowTop = 9,       ///< Pin 9. Yellow button (top).
-  pinButtonYellowBottom = 10,   ///< Pin 10. Yellow button (bottom).
-  pinButtonBlackTop = 11,       ///< Pin 11. Black button (top).
-  pinButtonBlackBottom = 12,    ///< Pin 12. Black button (bottom).
-  pinButtonWhiteTop = 13,       ///< Pin 13. White button (top).
-  pinButtonWhiteBottom = 14     ///< Pin 14. White button (bottom).
+  pinButtonReset = 3,           ///< Pin 3. Reset button.
+  pinButtonRedTop = 4,          ///< Pin 4. Red button (top).
+  pinButtonRedBottom = 5,       ///< Pin 5. Red button (bottom).
+  pinButtonGreenTop = 6,        ///< Pin 6. Green button (top).
+  pinButtonGreenBottom = 7,     ///< Pin 7. Green button (bottom).
+  pinButtonBlueTop = 8,         ///< Pin 8 Blue button (top).
+  pinButtonBlueBottom = 9,      ///< Pin 9. Blue button (bottom).
+  pinButtonYellowTop = 10,      ///< Pin 10. Yellow button (top).
+  pinButtonYellowBottom = 11,   ///< Pin 11. Yellow button (bottom).
+  pinButtonBlackTop = 12,       ///< Pin 12. Black button (top).
+  pinButtonBlackBottom = 13,    ///< Pin 13. Black button (bottom).
+  pinButtonWhiteTop = 14,       ///< Pin 14. White button (top).
+  pinButtonWhiteBottom = 15     ///< Pin 15. White button (bottom).
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -398,6 +401,10 @@ bool IS_DEBUGGING = true;
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
+ * Time (in milliseconds) of a single second.
+ */
+unsigned long TIME_ONE_SECOND = 1000L;
+/**
  * Time (in milliseconds) at the start of the previous loop.
  */
 unsigned long timePrevious;
@@ -417,10 +424,6 @@ unsigned long timeAccumulated;
 ////////////////////////////////////////////////////////////////////////
 // FPS /////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-/**
- * Time (in milliseconds) of a single second.
- */
-unsigned long TIME_ONE_SECOND = 1000L;
 /**
  * The current number of frames counted this second.
  */
@@ -458,6 +461,11 @@ ButtonARM buttons[] = {
             DEBOUNCE_PERIOD_START,
             DEBOUNCE_PERIOD_STOP,
             startButtonFunction),
+  ButtonARM(pinButtonReset,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            resetButtonFunction),
   ButtonARM(pinButtonRedTop,
             Timer(),
             DEBOUNCE_PERIOD_START,
@@ -536,5 +544,3 @@ State state = State();
 // Untested Functions //////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 int counter;
-bool IS_JUST_BUTTONS = false;
-bool someState;

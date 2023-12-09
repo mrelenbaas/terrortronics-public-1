@@ -46,12 +46,16 @@
  * - empty
  */
 
+// Include 2nd-party libraries.
 #include "game_pad_controller.h"
+// Include 3rd-party libraries.
+#include <MemoryFree.h>;
 
-// Arduino runs at 16 Mhz, so we have 1000 overflows per second...
-// this ISR will get hit once a millisecond
+/**
+ * Arduino runs at 16 Mhz, so we have 1000 overflows per second...
+ * This ISR will get hit once a millisecond.
+ */
 ISR(TIMER2_OVF_vect) {
-
   int_counter++;
   if (int_counter == 1000) {
     seconds++;
@@ -64,14 +68,13 @@ ISR(TIMER2_OVF_vect) {
 #if PROFILING
   prof_array[prof_line]++;
 #endif
-  TCNT2 = tcnt2;  // reset the timer for next time
+  TCNT2 = tcnt2;
 }
 
-// Timer setup code borrowed from Sebastian Wallin
-// http://popdevelop.com/2010/04/mastering-timer-interrupts-on-the-arduino/
-// further borrowed from: http://www.desert-home.com/p/super-thermostat.html
-void setupTimer (void) {
-  //Timer2 Settings:  Timer Prescaler /1024
+/**
+ * Setup the ISR timer.
+ */
+void setupTimer(void) {
   // First disable the timer overflow interrupt while we're configuring
   TIMSK2 &= ~(1 << TOIE2);
   // Configure timer2 in normal mode (pure counting, no PWM etc.)
@@ -80,11 +83,9 @@ void setupTimer (void) {
   ASSR &= ~(1 << AS2);
   // Disable Compare Match A interrupt enable (only want overflow)
   TIMSK2 &= ~(1 << OCIE2A);
-
   // Now configure the prescaler to CPU clock divided by 128
-  TCCR2B |= (1 << CS22)  | (1 << CS20); // Set bits
-  TCCR2B &= ~(1 << CS21);           // Clear bit
-
+  TCCR2B |= (1 << CS22) | (1 << CS20);  // Set bits
+  TCCR2B &= ~(1 << CS21);               // Clear bit
   /* We need to calculate a proper value to load the timer counter.
      The following loads the value 131 into the Timer 2 counter register
      The math behind this is:
@@ -92,131 +93,127 @@ void setupTimer (void) {
      (desired period) / 8us = 125.
      MAX(uint8) - 125 = 131;
   */
-  /* Save value globally for later reload in ISR */
+  // Save value globally for later reload in ISR
   tcnt2 = 131;
-
-  /* Finally load end enable the timer */
+  // Finally load end enable the timer
   TCNT2 = tcnt2;
   TIMSK2 |= (1 << TOIE2);
   sei();
 }
 
-volatile long long_waste;
-
-// because this has "PF(2)", when the processor is executing here, it
-// will cause the value in bin "2" to increase.
-// "__attribute__ ((noinline))" needed to prevent inlining of these
-// trivial functions.  The inlining by the compiler broke the profiling.
-void __attribute__ ((noinline)) big_cpu_fn_1 (void) {
-  long lo;
-  PF(2);
-  for (lo = 1L ; lo < 8600L ; lo++) {
-    long_waste += lo;
-  }
-  // DVn("1 lw ", long_waste);
-}
-
-// because this has "PF(3)", when the processor is executing here, it
-// will cause the value in bin "3" to increase.
-// "__attribute__ ((noinline))" needed to prevent inlining of these
-// trivial functions.  The inlining by the compiler broke the profiling.
-void __attribute__ ((noinline)) big_cpu_fn_2 (void) {
-  long lo;
-  PF(3);
-  for (lo = 1L ; lo < 29900L ; lo++) {
-    long_waste -= lo;
-  }
-  // DVn("2 lw ", long_waste);
-}
-
-// Pseudo-constructor.
+/**
+ * Pseudo-constructor.
+ */
 void setup() {
+  Serial.begin(BAUD_RATE);
+  if (IS_DEBUGGING) {
+    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+      Serial.print(millis());
+      Serial.print(": buttons[");
+      Serial.print(i);
+      Serial.print("], ");
+      buttons[i].printDefinitions();
+      Serial.println("");
+    }
+  }
+  buttons[buttonStart].startTargeting();
+  state.startWaiting();
+  pinMode(pinStickHorizontal, INPUT);
+  pinMode(pinStickVertical, INPUT);
+  pinMode(pinSensorWater, INPUT);
+  pinMode(pinSensorSoundAnalog, INPUT);
+  pinMode(pinSensorTracking, INPUT_PULLUP);
+  pinMode(pinSensorSoundDigital, INPUT_PULLUP);
 #if PROFILING
   PF(0);
   prof_has_dumped = 0;
   clear_profiling_data();
 #endif
-
-  Serial.begin(BAUD_RATE);
-
-  //Serial.println("setup()");
-
   int_counter = 0;
   seconds = 0;
   minutes = 0;
-
-  //Serial.println("setupTimer()");
   setupTimer();
-
-  pinMode(pinStickHorizontal, INPUT);
-  pinMode(pinStickVertical, INPUT);
-  pinMode(pinSensorWater, INPUT);
-  pinMode(pinSoundAnalog, INPUT);
-  pinMode(pinButtonStart, INPUT_PULLUP);
-  pinMode(pinButtonReset, INPUT_PULLUP);
-  pinMode(pinSensorTracking, INPUT_PULLUP);
-  pinMode(pinSoundDigital, INPUT_PULLUP);
-
-  timeCurrent = millis();
-  timePrevious = timeCurrent;
-  timeCurrent = millis();
-  timeDelta = timeCurrent - timePrevious;
-  timeThisSecond = timeDelta;
-
-  Serial.println("1");
 }
 
 /**
-   The main function.
-*/
+ * The main function.
+ */
 void loop() {
   unsigned char op;
-
-  PF(1);
-  //big_cpu_fn_1(); // goes in bin 2
-  //big_cpu_fn_2(); // goes in bin 3
-  //mydelay(20);  // goes in bin 7
-  PF(1);  // rest of this should go in profiling bin 1
-  op ^= 1;
-  digitalWrite(1, op & 1);  // toggle a pin so we can see loop rate
-  //if (int_counter < 110) {
-  //DVn("sec ", seconds);
-  //}
-#if PROFILING
-  if (seconds % 60 == 3 && !prof_has_dumped) {
-    dump_profiling_data();  // also clears profiling data
+  if (IS_LOGGING) {
+    Serial.print(millis());
+    Serial.println(": ----------");
   }
-  if (seconds % 60 == 4 && prof_has_dumped) {
-    prof_has_dumped = 0;
+  if (IS_DEBUGGING) {
+    counter = 0;
+    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+      if (buttons[i].printDefinitions() == 1) {
+        ++counter;
+      }
+    }
+    if (counter > 0) {
+      Serial.println("");
+    }
   }
-#endif
-
-  timePrevious = timeCurrent;
-  timeCurrent = millis();
-  timeDelta = timeCurrent - timePrevious;
-  timeThisSecond += timeDelta;
-  if (timeThisSecond >= PERIOD) {
-    fpsPrevious = fpsCurrent;
-    fpsCurrent = 0;
-    timeThisSecond -= PERIOD;
-    //Serial.print("FPS: ");
-    //Serial.println(fpsPrevious);
-  } else {
-    ++fpsCurrent;
+  if (!timer()) {
+    return;
+  }
+  for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+    if (buttons[i].updateHotState() == 1) {
+      //Serial.println("PRESSED 0");
+      if (buttons[i].debounceByTimePress() == 1) {
+        //Serial.println("PRESSED 1");
+        if (buttons[i].debounceByPositionPress() == 1) {
+          //Serial.println("PRESSED 2");
+          if (buttons[i].debounceByBlockPress() == 1) {
+            //Serial.println("PRESSED 3");
+            if (buttons[i].debounceByTargetPress() == 1) {
+              if (state.isRunning() == 1) {
+                //Serial.println("PRESSED 4 (Running)");
+              } else if (state.isWaiting() == 1) {
+                //Serial.println("PRESSED 4 (Waiting)");
+              }
+            }
+          }
+        }
+      }
+      //buttons[i].debounceByPosition();
+    } else {
+      //Serial.println("PRESSED 0");
+      if (buttons[i].debounceByTimeRelease() == 1) {
+        //Serial.println("RELEASED 1");
+        if (buttons[i].debounceByPositionRelease() == 1) {
+          //Serial.println("RELEASED 2");
+          if (buttons[i].debounceByBlockRelease() == 1) {
+            //Serial.println("RELEASED 3");
+            if (buttons[i].debounceByTargetRelease() == 1) {
+              if (state.isRunning() == 1) {
+                //Serial.println("RELEASED 4 (Running)");
+                buttons[i].stopTargeting();
+                buttons[i].delegateFunction();
+                // Do something else.
+              } else if (state.isWaiting() == 1) {
+                //Serial.println("RELEASED 4 (Waiting)");
+                buttons[i].stopTargeting();
+                buttons[i].delegateFunction();
+                buttons[buttonRedTop].startTargeting();
+              }
+            }
+          }
+        }
+        buttons[i].reset();
+      }
+    }
   }
 
   horizontal = analogRead(pinStickHorizontal);
   vertical = analogRead(pinStickVertical);
   water = analogRead(pinSensorWater);
-  soundAnalog = analogRead(pinSoundAnalog);
-  button = digitalRead(pinButtonStart);
-  siliconeButton = digitalRead(pinButtonReset);
+  soundAnalog = analogRead(pinSensorSoundAnalog);
   tracking = digitalRead(pinSensorTracking);
-  soundDigital = digitalRead(pinSoundDigital);
+  soundDigital = digitalRead(pinSensorSoundDigital);
 
-  printPinState();
-
-  if (Serial.available() > 0 && !isStarted) {
+  if (Serial.available() > 0 && !state.isRunning()) {
     // WARNING: Remember to consume the incoming bytes.
     // The error does not occur when using the usb.c or usb.py files.
     // The error does occur when reading/writing in a PyGame application.
@@ -233,61 +230,167 @@ void loop() {
         break;
     }
   }
-  if (Serial.available() > 0 && isStarted) {
-    // WARNING: Remember to consume the incoming bytes.
-    // The error does not occur when using the usb.c or usb.py files.
-    // The error does occur when reading/writing in a PyGame application.
-    incomingMessage = Serial.read();
-    //Serial.println(incomingMessage);
-    switch (incomingMessage) {
-      case startMessage:
-        //startFunction();
-        break;
-      case resetMessage:
-        resetFunction();
-        break;
-      default:
-        break;
-    }
+  PF(1);
+  op ^= 1;
+#if PROFILING
+  if (seconds % 60 == 3 && !prof_has_dumped) {
+    dump_profiling_data();
   }
-
-  //delay(SERIAL_DELAY);
+  if (seconds % 60 == 4 && prof_has_dumped) {
+    prof_has_dumped = 0;
+  }
+#endif
 }
 
+////////////////////////////////////////////////////////////////////////
+// Messages ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * Reset the application.
+ * 
+ * RUSCAL:
+ * - IS_LOGGING <- FALSE
+ * 
+ * @startuml
+ * skinparam shadowing  true
+ * (*) -right-> "Stop logging"
+ * -r-> (*)
+ * @enduml
+ */
 void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
-  isLogging = false;
-  if (isStarted) {
-    printPinState();
-  }
+  IS_LOGGING = false;
 }
 
+/**
+ * Start the application.
+ * 
+ * RUSCAL:
+ * - IS_LOGGING <- TRUE
+ * 
+ * @startuml
+ * skinparam shadowing  true
+ * (*) -right-> "Start logging"
+ * -r-> (*)
+ * @enduml
+ */
 void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
-  isLogging = true;
-  //Serial.println(OUTGOING_START);
-  isStarted = true;
+  IS_LOGGING = true;
 }
 
-void printPinState() {
-  Serial.print("0: ");
-  Serial.print(horizontal);
-  Serial.print(", ");
-  Serial.print(vertical);
-  Serial.print(", ");
-  Serial.print(water);
-  Serial.print(", ");
-  Serial.print(soundAnalog);
-  Serial.print(", ");
-  Serial.print(button);
-  Serial.print(", ");
-  Serial.print(siliconeButton);
-  Serial.print(", ");
-  Serial.print(tracking);
-  Serial.print(", ");
-  Serial.println(soundDigital);
+////////////////////////////////////////////////////////////////////////
+// Time ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The application's primary timer.
+ * 
+ * @returns FALSE if delta is less than zero. Otherwise, TRUE.
+ * 
+ * RUSCAL:
+ * - result isoftype Bool
+ * - result <- TRUE
+ * - timePrevious <- timeCurrent
+ * - timeCurrent <- Millis ()
+ * - timeDelta <- timeCurrent - timePrevious
+ * - if (timeDelta < 0)
+ *  + result <- FALSE
+ * - elseif
+ * - timeAccumulated <- timeAccumulated + timeDelta
+ * - if (timeAccumulated >= TIME_ONE_SECOND)
+ *  + fpsPrevious <- fpsCurrent
+ *  + fpsCurrent <- 0
+ *  + timeAccumulated <- timeAccumulated - TIME_ONE_SECOND
+ * - else
+ *  + fpsCurrent <- fpsCurrent + 1
+ * - endif
+ * - returns result
+ * 
+ * @startuml
+ * skinparam shadowing  true
+ * (*) -r-> "Instantiate result"
+ * -r-> "Set previous time to current time"
+ * -r-> "Set current time to polled value"
+ * -r-> "Calculate delta"
+ * -r-> "time delta less than 0"
+ * -d-> "Set result to FALSE"
+ * -u-> "time delta less than 0"
+ * -r-> "Add time delta to time this second"
+ * -r-> "Time this second is greater than time period"
+ * -d-> "Set the previous FPS to FPS current"
+ * -d-> "Set the current FPS to zero"
+ * -d-> "Minus 1 second from time this second"
+ * -u-> "Time this second is greater than time period"
+ * -r-> "Else add 1 to the current FPS"
+ * -r-> (*)
+ * @enduml
+ */
+bool timer() {
+  bool result = true;
+  timePrevious = timeCurrent;
+  timeCurrent = millis();
+  timeDelta = timeCurrent - timePrevious;
+  if (timeDelta < 0) {
+    if (IS_LOGGING) {
+      Serial.print(millis());
+      Serial.print(": ERROR, timeDelta < 0");
+    }
+    result = false;
+  }
+  timeAccumulated += timeDelta;
+  if (timeAccumulated >= TIME_ONE_SECOND) {
+    if (IS_LOGGING || IS_DEBUGGING) {
+      Serial.print(millis());
+      Serial.print(": FPS, ");
+      Serial.println(fpsCurrent);
+      Serial.print(millis());
+      Serial.print(": freeMemory, ");
+      Serial.println(freeMemory());
+    }
+    fpsPrevious = fpsCurrent;
+    fpsCurrent = 0;
+    timeAccumulated -= TIME_ONE_SECOND;
+  } else {
+    ++fpsCurrent;
+  }
+  return result;
 }
+
+////////////////////////////////////////////////////////////////////////
+// Delegates ///////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The function to call when the Start button is pressed.
+ * 
+ * RUSCAL
+ * - start.StartRunning ()
+ * 
+ * @startuml
+ * skinparam shadowing  true
+ * (*) -right-> "Start running"
+ * -r-> (*)
+ * @enduml
+ */
+void startButtonFunction() {
+  state.startRunning();
+  Serial.println("startButtonFunction()");
+}
+
+/**
+ * Empty. The function to call then the Reset button is pressed.
+ */
+void resetButtonFunction() {
+  Serial.println("reset()");
+}
+
+////////////////////////////////////////////////////////////////////////
+// Undocumented ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Untested Functions //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////

@@ -40,7 +40,9 @@
  * - empty
  * 
  * @section resources Resources
- * - empty
+ * - Timer
+ *  + http://popdevelop.com/2010/04/mastering-timer-interrupts-on-the-arduino/
+ *  + http://www.desert-home.com/p/super-thermostat.html
  * 
  * @section warnings WARNINGS
  * - empty
@@ -49,15 +51,53 @@
  * - empty
  */
 
-#include <avr/interrupt.h>
+// Include 1st-party libraries.
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <HardwareSerial.h>
+// Include 2nd-party libraries.
+#include "common.h"
+
+////////////////////////////////////////////////////////////////////////
+// Profiler Library ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * Turn profiling on and off.
+ */
+#define PROFILING 1
+/**
+ * this needs to be true in at least one file.
+ */
+#define PROFILING_MAIN 1
+/**
+ * Override the number of bins.
+ */
+#define MAXPROF 8
+#include "profiler.h"
+/**
+ * Counter for ISR time.
+ */
+volatile unsigned int int_counter;
+/**
+ * ISR time (seconds).
+ */
+volatile unsigned char seconds;
+/**
+ * ISR timer (minutes).
+ */
+volatile unsigned char minutes;
+/**
+ * Used to store timer value.
+ */
+unsigned int tcnt2;
 
 ////////////////////////////////////////////////////////////////////////
 // Function Stubs //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 void resetFunction();
 void startFunction();
+void startButtonFunction();
+void resetButtonFunction();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////
@@ -67,14 +107,14 @@ void startFunction();
  * while other enums are named with the [type + name] convention.
  */
 enum pinEnum {
-  pinStickHorizontal = (int)A0,
-  pinStickVertical = (int)A1,
-  pinSensorWater = (int)A2,
-  pinSoundAnalog = (int)A3,
-  pinButtonStart = 2,
-  pinButtonReset = 3,
-  pinSensorTracking = 4,
-  pinSoundDigital = 5
+  pinStickHorizontal = (int)A0,     ///< Pin A0. Stick (horizontal).
+  pinStickVertical = (int)A1,       ///< Pin A1. Stick (vertical).
+  pinSensorWater = (int)A2,         ///< Pin A2. Water sensor.
+  pinSensorSoundAnalog = (int)A3,   ///< Pin A3. Analog sound sensor.
+  pinButtonStart = 2,               ///< Pin 2. Start button.
+  pinButtonReset = 3,               ///< Pin 3. Reset button.
+  pinSensorTracking = 4,            ///< Pin 4. Tracking sensor.
+  pinSensorSoundDigital = 5         ///< Pin 5. Digital sound sensor.
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -204,13 +244,21 @@ int incomingMessage;
 // Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * If TRUE, then print tracer statements.
+ * If TRUE, then print logging tracers.
  */
-bool isLogging;
+bool IS_LOGGING = false;
+/**
+ * If TRUE, then print debug tracers.
+ */
+bool IS_DEBUGGING = true;
 
 ////////////////////////////////////////////////////////////////////////
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+/**
+ * Time (in milliseconds) of a single second.
+ */
+unsigned long TIME_ONE_SECOND = 1000L;
 /**
  * Time (in milliseconds) at the start of the previous loop.
  */
@@ -226,53 +274,76 @@ unsigned long timeDelta;
 /**
  * The accumulated time this second.
  */
-unsigned long timeThisSecond;
+unsigned long timeAccumulated;
 
 ////////////////////////////////////////////////////////////////////////
-// Undocumented ////////////////////////////////////////////////////////
+// FPS /////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+/**
+ * The current number of frames counted this second.
+ */
+unsigned long fpsCurrent;
+/**
+ * The number of frames counted over the course of the previous second.
+ */
+unsigned long fpsPrevious;
 
-const int SERIAL_DELAY = 10;
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The debounce period before a Press is considered valid.
+ */
+unsigned long DEBOUNCE_PERIOD_START = 10L;
+/**
+ * The debounce period before a Release is considered valid.
+ */
+unsigned long DEBOUNCE_PERIOD_STOP = 5L;
+/**
+ * An enum paired with the buttons and hotButtons.
+ */
+enum buttonEnum {
+  buttonStart,   ///< The Start button index.
+  buttonRedTop   ///< The Other button index.
+};
+/**
+ * An array of Button elements. Handles the buttons hot state, 
+ * debouncing, and callbacks.
+ */
+ButtonAVR buttons[] = {
+  ButtonAVR(pinButtonStart,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            startButtonFunction),
+  ButtonAVR(pinButtonReset,
+            Timer(),
+            DEBOUNCE_PERIOD_START,
+            DEBOUNCE_PERIOD_STOP,
+            resetButtonFunction),
+};
 
 // Hot keyboard.
 int horizontal;
 int vertical;
 int water;
 int soundAnalog;
-int button;
-int siliconeButton;
 int tracking;
 int soundDigital;
 
-const long PERIOD = 1000;
-unsigned long fpsCurrent;
-unsigned long fpsPrevious;
+////////////////////////////////////////////////////////////////////////
+// State ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+ * The state of the game.
+ */
+State state = State();
 
-// this can be used to turn profiling on and off
-#define PROFILING 1
-// this needs to be true in at least ONE .c, .cpp, or .ino file in your sketch
-#define PROFILING_MAIN 1
-// override the number of bins
-#define MAXPROF 8
-#include "profiler.h"
-
-// some handy macros for printing debugging values
-//#define DL(x) Serial.print(x)
-//#define DLn(x) Serial.println(x)
-//#define DV(m, v) do{Serial.print(m);Serial.print(v);Serial.print(" ");}while(0)
-//#define DVn(m, v) do{Serial.print(m);Serial.println(v);}while(0)
-
-// more handy macros but unused in this example
-#define InterruptOff  do{TIMSK2 &= ~(1<<TOIE2)}while(0)
-#define InterruptOn  do{TIMSK2 |= (1<<TOIE2)}while(0)
-
-// stuff used for time keeping in our ISR
-volatile unsigned int int_counter;
-volatile unsigned char seconds, minutes;
-unsigned int tcnt2; // used to store timer value
-
-bool isStarted;
+////////////////////////////////////////////////////////////////////////
+// Undocumented ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////
 // Untested Functions //////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+int counter;
