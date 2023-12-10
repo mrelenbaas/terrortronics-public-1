@@ -118,8 +118,10 @@ void setup() {
   }
   buttons[buttonStart].startTargeting();
   state.startWaiting();
-  pinMode(pinStickHorizontal, INPUT);
-  pinMode(pinStickVertical, INPUT);
+  pinMode(pinStickLeftHorizontal, INPUT);
+  pinMode(pinStickLeftVertical, INPUT);
+  pinMode(pinStickRightHorizontal, INPUT);
+  pinMode(pinStickRightVertical, INPUT);
   pinMode(pinSensorWater, INPUT);
   pinMode(pinSensorSoundAnalog, INPUT);
   pinMode(pinSensorTracking, INPUT_PULLUP);
@@ -206,17 +208,27 @@ void loop() {
     }
   }
 
-  horizontal = analogRead(pinStickHorizontal);
-  vertical = analogRead(pinStickVertical);
+  leftHorizontal = analogRead(pinStickLeftHorizontal);
+  leftVertical = analogRead(pinStickLeftVertical);
+  rightHorizontal = analogRead(pinStickRightHorizontal);
+  rightVertical = analogRead(pinStickRightVertical);
   water = analogRead(pinSensorWater);
   soundAnalog = analogRead(pinSensorSoundAnalog);
   tracking = digitalRead(pinSensorTracking);
   soundDigital = digitalRead(pinSensorSoundDigital);
 
+  //Serial.print(leftHorizontal);
+  //Serial.print(", ");
+  //Serial.print(leftVertical);
+  //Serial.print(", ");
+  //Serial.print(rightHorizontal);
+  //Serial.print(", ");
+  //Serial.println(rightVertical);
+
   if (Serial.available() > 0 && !state.isRunning()) {
     // WARNING: Remember to consume the incoming bytes.
     // The error does not occur when using the usb.c or usb.py files.
-    // The error does occur when reading/writing in a PyGame 
+    // The error does occur when reading/writing in a PyGame
     // application.
     incomingMessage = Serial.read();
     //Serial.println(incomingMessage);

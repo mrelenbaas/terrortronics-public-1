@@ -107,14 +107,16 @@ void resetButtonFunction();
  * while other enums are named with the [type + name] convention.
  */
 enum pinEnum {
-  pinStickHorizontal = (int)A0,     ///< Pin A0. Stick (horizontal).
-  pinStickVertical = (int)A1,       ///< Pin A1. Stick (vertical).
-  pinSensorWater = (int)A2,         ///< Pin A2. Water sensor.
-  pinSensorSoundAnalog = (int)A3,   ///< Pin A3. Analog sound sensor.
-  pinButtonStart = 2,               ///< Pin 2. Start button.
-  pinButtonReset = 3,               ///< Pin 3. Reset button.
-  pinSensorTracking = 4,            ///< Pin 4. Tracking sensor.
-  pinSensorSoundDigital = 5         ///< Pin 5. Digital sound sensor.
+  pinStickLeftHorizontal = (int)A0,    ///< Pin A0. L-Stick horizontal.
+  pinStickLeftVertical = (int)A1,      ///< Pin A1. L-Stick vertical.
+  pinStickRightHorizontal = (int)A2,   ///< Pin A2. R-Stick horizontal.
+  pinStickRightVertical = (int)A3,     ///< Pin A3. R-Stick vertical.
+  pinSensorWater = (int)A4,            ///< Pin A2. Water sensor.
+  pinSensorSoundAnalog = (int)A5,      ///< Pin A3. Analog sound sensor.
+  pinButtonStart = 2,                  ///< Pin 2. Start button.
+  pinButtonReset = 3,                  ///< Pin 3. Reset button.
+  pinSensorTracking = 4,               ///< Pin 4. Tracking sensor.
+  pinSensorSoundDigital = 5            ///< Pin 5. Digital sound sensor.
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -289,6 +291,20 @@ unsigned long fpsCurrent;
 unsigned long fpsPrevious;
 
 ////////////////////////////////////////////////////////////////////////
+// Thumb Sticks ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+enum thumbStickEnum {
+  thumbStickLeft,
+  thumbStickRight
+};
+
+ThumbStick thumbSticks[] = {
+  ThumbStick(A0, A1),
+  ThumbStick(A2, A3)
+};
+
+////////////////////////////////////////////////////////////////////////
 // Buttons /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
@@ -327,13 +343,21 @@ ButtonAVR buttons[] = {
 // Thumb Stick /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The horizontal direction on the analog thumb stick.
+ * The horizontal direction on the left analog thumb stick.
  */
-int horizontal;
+int leftHorizontal;
 /**
- * The vertical direction on the analog thumb stick.
+ * The vertical direction on the left analog thumb stick.
  */
-int vertical;
+int leftVertical;
+/**
+ * The horizontal direction on the right analog thumb stick.
+ */
+int rightHorizontal;
+/**
+ * The vertical direction on the right analog thumb stick.
+ */
+int rightVertical;
 
 ////////////////////////////////////////////////////////////////////////
 // Sensors /////////////////////////////////////////////////////////////
