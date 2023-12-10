@@ -53,6 +53,7 @@
  * - empty
  */
 
+// Include 2nd-party libraries.
 #include "rotary_encoder_rpm_controller.h"
 
 void IRAM_ATTR updateEncoder() {

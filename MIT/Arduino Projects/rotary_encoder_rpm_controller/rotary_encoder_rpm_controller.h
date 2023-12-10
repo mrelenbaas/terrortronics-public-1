@@ -53,9 +53,10 @@
  * - empty
  */
 
+// Include 1st-party libraries.
 #include "WiFi.h"
 #include "AsyncUDP.h"
-
+// Include 3rd-party libraries.
 #include "pitches.h"
 
 ////////////////////////////////////////////////////////////////////////

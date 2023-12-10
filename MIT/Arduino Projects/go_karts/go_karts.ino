@@ -46,6 +46,7 @@
  * - empty
  */
 
+// Include 2nd-party libraries.
 #include "go_karts.h"
 
 void openNewTerminal() {
