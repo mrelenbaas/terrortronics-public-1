@@ -33,6 +33,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
+ * @section circuit Circuit
+ * - Board
+ *  + Arduino Uno R3
+ * - Buttons
+ * 
+ * @section libraries Libraries
+ * - Serial
+ * 
  * @section description Description
  * Empty.
  * 
@@ -293,15 +301,19 @@ unsigned long fpsPrevious;
 ////////////////////////////////////////////////////////////////////////
 // Thumb Sticks ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-
+/**
+ * An enum paired with the thumbSticks.
+ */
 enum thumbStickEnum {
-  thumbStickLeft,
-  thumbStickRight
+  thumbStickLeft,   ///< the left thumb stick.
+  thumbStickRight   ///< The right thumb stick.
 };
-
+/**
+ * An array of ThumbStick elements. Handles the thumb sticks hot state.
+ */
 ThumbStick thumbSticks[] = {
-  ThumbStick(A0, A1),
-  ThumbStick(A2, A3)
+  ThumbStick(pinStickLeftHorizontal, pinStickLeftVertical),
+  ThumbStick(pinStickRightHorizontal, pinStickRightVertical)
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -316,11 +328,11 @@ unsigned long DEBOUNCE_PERIOD_START = 10L;
  */
 unsigned long DEBOUNCE_PERIOD_STOP = 5L;
 /**
- * An enum paired with the buttons and hotButtons.
+ * An enum paired with the buttons.
  */
 enum buttonEnum {
   buttonStart,   ///< The Start button index.
-  buttonRedTop   ///< The Other button index.
+  buttonReset    ///< The Reset button index.
 };
 /**
  * An array of Button elements. Handles the buttons hot state, 
@@ -338,26 +350,6 @@ ButtonAVR buttons[] = {
             DEBOUNCE_PERIOD_STOP,
             resetButtonFunction),
 };
-
-////////////////////////////////////////////////////////////////////////
-// Thumb Stick /////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-/**
- * The horizontal direction on the left analog thumb stick.
- */
-int leftHorizontal;
-/**
- * The vertical direction on the left analog thumb stick.
- */
-int leftVertical;
-/**
- * The horizontal direction on the right analog thumb stick.
- */
-int rightHorizontal;
-/**
- * The vertical direction on the right analog thumb stick.
- */
-int rightVertical;
 
 ////////////////////////////////////////////////////////////////////////
 // Sensors /////////////////////////////////////////////////////////////

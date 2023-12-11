@@ -143,8 +143,8 @@ void setup() {
 void loop() {
   unsigned char op;
   if (IS_LOGGING) {
-    Serial.print(millis());
-    Serial.println(": ----------");
+    //Serial.print(millis());
+    //Serial.println(": ----------");
   }
   if (IS_DEBUGGING) {
     counter = 0;
@@ -198,7 +198,7 @@ void loop() {
                 //Serial.println("RELEASED 4 (Waiting)");
                 buttons[i].stopTargeting();
                 buttons[i].delegateFunction();
-                buttons[buttonRedTop].startTargeting();
+                buttons[buttonReset].startTargeting();
               }
             }
           }
@@ -207,23 +207,19 @@ void loop() {
       }
     }
   }
+  for (int i = 0; i < (sizeof(thumbSticks) / sizeof(ThumbStick)); ++i) {
+    thumbSticks[i].updateHotState();
+    Serial.print("(");
+    thumbSticks[i].printDefinitions();
+    Serial.print("), ");
+  }
+  Serial.println();
+  //Serial.println(analogRead(A0));
 
-  leftHorizontal = analogRead(pinStickLeftHorizontal);
-  leftVertical = analogRead(pinStickLeftVertical);
-  rightHorizontal = analogRead(pinStickRightHorizontal);
-  rightVertical = analogRead(pinStickRightVertical);
   water = analogRead(pinSensorWater);
   soundAnalog = analogRead(pinSensorSoundAnalog);
   tracking = digitalRead(pinSensorTracking);
   soundDigital = digitalRead(pinSensorSoundDigital);
-
-  //Serial.print(leftHorizontal);
-  //Serial.print(", ");
-  //Serial.print(leftVertical);
-  //Serial.print(", ");
-  //Serial.print(rightHorizontal);
-  //Serial.print(", ");
-  //Serial.println(rightVertical);
 
   if (Serial.available() > 0 && !state.isRunning()) {
     // WARNING: Remember to consume the incoming bytes.
