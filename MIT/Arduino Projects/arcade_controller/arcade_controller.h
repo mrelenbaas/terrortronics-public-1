@@ -7,9 +7,7 @@
  * The Arcade Controller.
  * 
  * @section notes Notes
- * - The Overview section of the Doxygen docs does not include print
- * statements. The inline comments are the same as the Overview
- * section, but they do include print statements.
+ * - RUSCAL documentation excludes print statements.
  * 
  * @section author Author
  * - Bradley Elenbaas (mr.elenbaas@gmail.com)
@@ -42,8 +40,12 @@
  * SOFTWARE.
  * 
  * @section circuit Circuit
- * - Buttons.
- * - Switches.
+ * - Board
+ *  + Arduino Due
+ *   - The Arduino Due uses "weak" pull-up resistors that are 50k-150k Ohm.
+ * - Buttons
+ * \image html arcade_controller_buttons_pullup_resistors.png
+ * \image latex arcade_controller_buttons_pullup_resistors.eps
  * 
  * @section libraries Libraries
  * - Serial
@@ -52,7 +54,19 @@
  * Empty.
 
  * @section pins Pins
- * - empty
+ * - Pin 2. The start button.
+ * - Pin 3. The red, top button.
+ * - Pin 4. The red, bottom button.
+ * - Pin 5. The green, top button.
+ * - Pin 6. The green, bottom button.
+ * - Pin 7. The blue, top button.
+ * - Pin 8. The blue, bottom button.
+ * - Pin 9. The yellow, top button.
+ * - Pin 10. The yellow, bottom button.
+ * - Pin 11. The black, top button.
+ * - Pin 12. The black, bottom button.
+ * - Pin 13. The white, top, button.
+ * - Pin 14. The white, bottom button.
  * 
  * @section reference Resources
  * - Documentation
@@ -73,7 +87,8 @@
  * - Pin 35 releases slowly.
  * 
  * @section ut Unit Tests
- * - empty
+ * - Button shall respond promptly.
+ *  + Set IS_DEBUGGING to true. Observe buttons responding as expected in the usb.exe application.
  * 
  * @section UMLUseCase UML 2.0 - Use Case Diagram
  * Possible Boards
