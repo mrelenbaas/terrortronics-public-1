@@ -172,7 +172,7 @@ bool isLogging;
 ////////////////////////////////////////////////////////////////////////
  
 // Pins.
-const int PIN_ONE = 2;
+const int PIN_ONE = 3;
 const int PIN_TWO = 4;
 const int PIN_THREE = 7;
 const int PIN_FOUR = 8;

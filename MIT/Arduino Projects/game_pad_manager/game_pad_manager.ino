@@ -33,6 +33,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
+ * @section circuit Circuit
+ * - Board
+ *  + Arduino Uno
+ * - Buttons
+ * 
+ * @section libraries Libraries
+ * - Serial
+ * 
  * @section description Description
  * Empty.
  * 
@@ -47,22 +55,28 @@
  */
 
 // Include 2nd-party libraries.
-#include "joystick_manager.h"
+#include "game_pad_manager.h"
 
 // Pseudo-constructor.
 void setup() {
   Serial.begin(BAUD_RATE);
-  //Serial.flush();
+  Serial.flush();
   for (int i = 0; i < PINS_SIZE; i++) {
     pinMode(PINS[i], OUTPUT);
   }
-  currentTime = millis();
+  pinMode(2, INPUT_PULLUP);
+  pinMode(13, OUTPUT);
 }
 
 /**
  * The main function.
  */
 void loop() {
+  if (digitalRead(2) == LOW) {
+    digitalWrite(13, HIGH);
+  } else {
+    digitalWrite(13, LOW);
+  }
   //delay(SERIAL_DELAY);
   Serial.println(millis());
   previousTime = currentTime;
@@ -77,7 +91,7 @@ void loop() {
     if (pinIndex >= PINS_SIZE) {
       isTurningJoysticksOn = false;
     }
-  } else if (isTurningJoysticksOff /*&& delayTime >= DELAY_BETWEEN_JOYSTICKS*/) { 
+  } else if (isTurningJoysticksOff) { 
     //digitalWrite(PINS[pinIndex], LOW);
     delayTime = 0;
     //pinIndex++;
@@ -107,6 +121,7 @@ void loop() {
     }
   }
 }
+
 
 void resetFunction() {
   Serial.print(millis());
