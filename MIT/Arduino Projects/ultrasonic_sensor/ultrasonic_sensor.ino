@@ -33,6 +33,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
+ * @section circuit Circuit
+ * - Board
+ *  + Teensy LC
+ * - Buttons
+ * 
+ * @section libraries Libraries
+ * - Serial
+ * 
  * @section description Description
  * Empty.
  * 
@@ -64,12 +72,23 @@ void setup() {
   pinMode(SOUND_ANALOG, INPUT);
   pinMode(SOUND_DIGITAL, INPUT_PULLUP);
   pinMode(PAPER, INPUT_PULLUP);
+  pinMode(2, INPUT_PULLUP);
+  pinMode(12, OUTPUT);
 }
 
 /**
  * The main function.
 */
 void loop() {
+  if (digitalRead(2) == LOW) {
+    Serial.println("ON");
+    digitalWrite(12, HIGH);
+    digitalWrite(LED, HIGH);
+  } else {
+    Serial.println("OFF");
+    digitalWrite(12, LOW);
+    digitalWrite(LED, LOW);
+  }
   timePrevious = timeCurrent;
   timeCurrent = millis();
   timeDelta = timeCurrent - timePrevious;
@@ -79,9 +98,9 @@ void loop() {
     fpsCurrent = 0;
     timeThisSecond -= PERIOD;
     if (led) {
-      digitalWrite(LED, HIGH);
+      //digitalWrite(LED, HIGH);
     } else {
-      digitalWrite(LED, LOW);
+      //digitalWrite(LED, LOW);
     }
     led = !led;
     Serial.print("FPS: ");

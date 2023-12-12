@@ -33,6 +33,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
+ * @section circuit Circuit
+ * - Board
+ *  + Arduino Micro
+ * - Buttons
+ * 
+ * @section libraries Libraries
+ * - Serial
+ * 
  * @section description Description
  * Empty.
  * 

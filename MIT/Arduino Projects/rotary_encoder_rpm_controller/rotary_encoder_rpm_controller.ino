@@ -33,6 +33,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
+ * @section circuit Circuit
+ * - Board
+ *  + Adafruit Feather HUZZAH ESP32
+ * - Buttons
+ * 
+ * @section libraries Libraries
+ * - Serial
+ * 
  * @section description Description
  * Empty.
  * 
@@ -74,6 +82,7 @@ void setup() {
   pinMode(YELLOW_LED, OUTPUT);
   pinMode(BLUE_LED, OUTPUT);
   pinMode(GREEN_LED, OUTPUT);
+  pinMode(21, INPUT_PULLUP);
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -184,6 +193,20 @@ void loop() {
   } else {
     btnState3 = false;
     digitalWrite(GREEN_LED, LOW);
+  }
+
+  if (digitalRead(21) == LOW) {
+    Serial.println("ON");
+    digitalWrite(RED_LED, HIGH);
+    digitalWrite(GREEN_LED, HIGH);
+    digitalWrite(BLUE_LED, HIGH);
+    digitalWrite(YELLOW_LED, HIGH);
+  } else {
+    Serial.println("OFF");
+    digitalWrite(RED_LED, LOW);
+    digitalWrite(GREEN_LED, LOW);
+    digitalWrite(BLUE_LED, LOW);
+    digitalWrite(YELLOW_LED, LOW);
   }
 
   if (counter > INDEX_MAX) {

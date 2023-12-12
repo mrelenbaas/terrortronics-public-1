@@ -177,7 +177,7 @@ bool isLogging;
 ////////////////////////////////////////////////////////////////////////
 
 #define TRIGGER_PIN 11
-#define ECHO_PIN 12
+#define ECHO_PIN 13
 #define TRIGGER_PIN_1 9
 #define ECHO_PIN_1 10
 #define TRIGGER_PIN_2 7
