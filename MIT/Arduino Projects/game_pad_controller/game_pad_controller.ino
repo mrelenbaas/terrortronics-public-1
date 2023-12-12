@@ -118,14 +118,8 @@ void setup() {
   }
   buttons[buttonStart].startTargeting();
   state.startWaiting();
-  pinMode(pinStickLeftHorizontal, INPUT);
-  pinMode(pinStickLeftVertical, INPUT);
-  pinMode(pinStickRightHorizontal, INPUT);
-  pinMode(pinStickRightVertical, INPUT);
-  pinMode(pinSensorWater, INPUT);
-  pinMode(pinSensorSoundAnalog, INPUT);
-  pinMode(pinSensorTracking, INPUT_PULLUP);
-  pinMode(pinSensorSoundDigital, INPUT_PULLUP);
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
 #if PROFILING
   PF(0);
   prof_has_dumped = 0;
@@ -141,21 +135,15 @@ void setup() {
  * The main function.
  */
 void loop() {
+  if (digitalRead(pinButtonStart) == LOW) {
+    digitalWrite(13, HIGH);
+  } else {
+    digitalWrite(13, LOW);
+  }
   unsigned char op;
   if (IS_LOGGING) {
     //Serial.print(millis());
     //Serial.println(": ----------");
-  }
-  if (IS_DEBUGGING) {
-    counter = 0;
-    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
-      if (buttons[i].printDefinitions() == 1) {
-        ++counter;
-      }
-    }
-    if (counter > 0) {
-      Serial.println("");
-    }
   }
   if (!timer()) {
     return;
@@ -209,17 +197,35 @@ void loop() {
   }
   for (int i = 0; i < (sizeof(thumbSticks) / sizeof(ThumbStick)); ++i) {
     thumbSticks[i].updateHotState();
+  }
+  water.updateHotState();
+  proximity.updateHotState();
+  soundDigital.updateHotState();
+  soundAnalog.updateHotState();
+  if (IS_DEBUGGING) {
+    counter = 0;
+    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+      if (buttons[i].printDefinitions() == 1) {
+        ++counter;
+      }
+    }
+    if (counter > 0) {
+      Serial.println("");
+    }
+  }
+  for (int i = 0; i < (sizeof(thumbSticks) / sizeof(ThumbStick)); ++i) {
     Serial.print("(");
     thumbSticks[i].printDefinitions();
     Serial.print("), ");
   }
+  water.printDefinitions();
+  Serial.print(", ");
+  proximity.printDefinitions();
+  Serial.print(", ");
+  soundDigital.printDefinitions();
+  Serial.print(", ");
+  soundAnalog.printDefinitions();
   Serial.println();
-  //Serial.println(analogRead(A0));
-
-  water = analogRead(pinSensorWater);
-  soundAnalog = analogRead(pinSensorSoundAnalog);
-  tracking = digitalRead(pinSensorTracking);
-  soundDigital = digitalRead(pinSensorSoundDigital);
 
   if (Serial.available() > 0 && !state.isRunning()) {
     // WARNING: Remember to consume the incoming bytes.

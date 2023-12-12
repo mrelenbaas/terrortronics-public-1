@@ -4,6 +4,26 @@
 ////////////////////////////////////////////////////////////////////////
 // Constructors ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+Proximity::Proximity(int pin) {
+  this->pin = pin;
+  pinMode(pin, INPUT);
+}
+
+SoundAnalog::SoundAnalog(int pin) {
+  this->pin = pin;
+  pinMode(pin, INPUT);
+}
+
+SoundDigital::SoundDigital(int pin) {
+  this->pin = pin;
+  pinMode(pin, INPUT);
+}
+
+Water::Water(int pin) {
+  this->pin = pin;
+  pinMode(pin, INPUT);
+}
+
 ThumbStick::ThumbStick(int pinHorizontal, int pinVertical) {
   this->pinHorizontal = pinHorizontal;
   this->pinVertical = pinVertical;
@@ -65,9 +85,62 @@ void Timer::pseudoConstructor(unsigned long periodStart,
 ////////////////////////////////////////////////////////////////////////
 // Print Statements ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+int SoundDigital::printDefinitions() {
+  int result = 0;
+  if (this->stateHot) {
+    Serial.print(this->stateHot);
+    result = 1;
+  }
+  return result;
+}
+
+int SoundAnalog::printDefinitions() {
+  int result = 0;
+  if (this->stateHot) {
+    Serial.print(this->stateHot);
+    result = 1;
+  }
+  return result;
+}
+
+int Proximity::printDefinitions() {
+  int result = 0;
+  if (this->stateHot) {
+    Serial.print(this->stateHot);
+    result = 1;
+  }
+  return result;
+}
+
+int Water::printDefinitions() {
+  int result = 0;
+  if (this->stateHot) {
+    Serial.print(this->stateHot);
+    result = 1;
+  }
+  return result;
+}
+
+int ThumbStick::printDefinitions() {
+  int result = 0;
+  if (this->stateHotHorizontal) {
+    Serial.print(this->stateHotHorizontal);
+    if (this->stateHotVertical) {
+      Serial.print(", ");
+    }
+    result = 1;
+  }
+  if (this->stateHotVertical) {
+    if (!this->stateHotHorizontal) {
+      Serial.print("0.0, ");
+    }
+    Serial.print(this->stateHotVertical);
+    result = 1;
+  }
+  return result;
+}
+
 int Button::printDefinitions() {
-  //Serial.print("pin=");
-  //Serial.print(this->pin);
   int result = 0;
   if (this->stateHot) {
     Serial.print(this->stateHot);
@@ -80,12 +153,28 @@ int Button::printDefinitions() {
 // Interrupts //////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 void ButtonARM::interruptFunction() {
-  //this->updateHotState();
+  // Empty.
 }
 
 ////////////////////////////////////////////////////////////////////////
 // Updates /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+void SoundDigital::updateHotState() {
+  stateHot = digitalRead(pin);
+}
+
+void SoundAnalog::updateHotState() {
+  stateHot = analogRead(pin);
+}
+
+void Proximity::updateHotState() {
+  stateHot = digitalRead(pin);
+}
+
+void Water::updateHotState() {
+  stateHot = analogRead(pin);
+}
+
 void ThumbStick::updateHotState() {
   stateHotHorizontal = analogRead(pinHorizontal);
   stateHotVertical = analogRead(pinVertical);

@@ -19,15 +19,56 @@ class Timer {
     unsigned long periodStop;
 };
 
+class SoundDigital {
+  public:
+    SoundDigital(int);
+    int printDefinitions();
+    void updateHotState();
+  private:
+    int pin;
+    bool stateHot;
+};
+
+class SoundAnalog {
+  public:
+    SoundAnalog(int);
+    int printDefinitions();
+    void updateHotState();
+  private:
+    int pin;
+    float stateHot;
+};
+
+class Proximity {
+  public:
+    Proximity(int);
+    int printDefinitions();
+    void updateHotState();
+  private:
+    int pin;
+    bool stateHot;
+};
+
+class Water {
+  public:
+    Water(int);
+    int printDefinitions();
+    void updateHotState();
+  private:
+    int pin;
+    float stateHot;
+};
+
 class ThumbStick {
   public:
     ThumbStick(int, int);
+    int printDefinitions();
     void updateHotState();
   private:
-    bool pinHorizontal;
-    bool pinVertical;
-    bool stateHotHorizontal;
-    bool stateHotVertical;
+    int pinHorizontal;
+    int pinVertical;
+    float stateHotHorizontal;
+    float stateHotVertical;
 };
 
 class Button {
@@ -95,6 +136,7 @@ class State {
   private:
     int state = -1;
 };
+
 //int state = -1;
 enum stateEnum {
   stateRunning,
