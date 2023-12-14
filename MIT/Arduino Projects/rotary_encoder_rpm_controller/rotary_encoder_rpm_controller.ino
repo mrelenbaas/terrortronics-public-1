@@ -146,16 +146,68 @@ void setup() {
    The main function.
 */
 void loop() {
-  if (digitalRead(21) == LOW) {
+  /*
+    if (digitalRead(21) == LOW) {
     digitalWrite(RED_LED, HIGH);
     digitalWrite(YELLOW_LED, HIGH);
     digitalWrite(BLUE_LED, HIGH);
     digitalWrite(GREEN_LED, HIGH);
-  } else {
+    } else {
     digitalWrite(RED_LED, LOW);
     digitalWrite(YELLOW_LED, LOW);
     digitalWrite(BLUE_LED, LOW);
     digitalWrite(GREEN_LED, LOW);
+    }
+  */
+  for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+    if (buttons[i].updateHotState() == 1) {
+      //Serial.println("PRESSED 0");
+      if (buttons[i].debounceByTimePress() == 1) {
+        //Serial.println("PRESSED 1");
+        if (buttons[i].debounceByPositionPress() == 1) {
+          //Serial.println("PRESSED 2");
+          if (buttons[i].debounceByBlockPress() == 1) {
+            //Serial.println("PRESSED 3");
+            if (buttons[i].debounceByTargetPress() == 1) {
+              if (state.isRunning() == 1) {
+                //Serial.println("PRESSED 4 (Running)");
+              } else if (state.isWaiting() == 1) {
+                //Serial.println("PRESSED 4 (Waiting)");
+              }
+            }
+            buttons[i].delegateFunctionPress();
+          }
+        }
+      }
+      //buttons[i].debounceByPosition();
+    } else {
+      //Serial.println("PRESSED 0");
+      if (buttons[i].debounceByTimeRelease() == 1) {
+        //Serial.println("RELEASED 1");
+        if (buttons[i].debounceByPositionRelease() == 1) {
+          //Serial.println("RELEASED 2");
+          if (buttons[i].debounceByBlockRelease() == 1) {
+            //Serial.println("RELEASED 3");
+            if (buttons[i].debounceByTargetRelease() == 1) {
+              if (state.isRunning() == 1) {
+                //Serial.println("RELEASED 4 (Running)");
+                buttons[i].stopTargeting();
+                buttons[i].delegateFunctionPress();
+                // Do something else.
+              } else if (state.isWaiting() == 1) {
+                //Serial.println("RELEASED 4 (Waiting)");
+                buttons[i].stopTargeting();
+                //buttons[i].delegateFunctionRelease();
+                state.startRunning();
+                buttons[buttonReset].startTargeting();
+              }
+            }
+            buttons[i].delegateFunctionRelease();
+          }
+        }
+        buttons[i].reset();
+      }
+    }
   }
   /*
     if (isRecordingFlag) {
@@ -326,4 +378,30 @@ void startFunction() {
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
   isLogging = true;
+}
+
+void startButtonFunctionPress() {
+  digitalWrite(RED_LED, HIGH);
+  digitalWrite(YELLOW_LED, HIGH);
+  digitalWrite(BLUE_LED, HIGH);
+  digitalWrite(GREEN_LED, HIGH);
+  Serial.println("startButtonFunction()");
+}
+
+void startButtonFunctionRelease() {
+  digitalWrite(RED_LED, LOW);
+  digitalWrite(YELLOW_LED, LOW);
+  digitalWrite(BLUE_LED, LOW);
+  digitalWrite(GREEN_LED, LOW);
+}
+
+/**
+   Empty. The function to call then the Reset button is pressed.
+*/
+void resetButtonFunctionPress() {
+  Serial.println("reset()");
+}
+
+void resetButtonFunctionRelease() {
+
 }

@@ -29,7 +29,7 @@
    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
    BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF d  paOR IN
    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    SOFTWARE.
 
@@ -56,6 +56,8 @@
 // Include 1st-party libraries.
 #include "WiFi.h"
 #include "AsyncUDP.h"
+// Include 2nd-party libraries.
+#include "common.h"
 // Include 3rd-party libraries.
 #include "pitches.h"
 
@@ -77,6 +79,8 @@ enum pinEnum {
   // A5. Avoid - I2C.
   // 2. Avoid - I2C.
   // 3. Avoid - I2C.
+  pinButtonStart = 21,
+  pinButtonReset = 20
   // 20. Avoid - I2C.
   // 21. Avoid - I2C.
 };
@@ -88,6 +92,53 @@ enum pinEnum {
    The serial baud rate.
 */
 const int BAUD_RATE = 9600;
+
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The debounce period before a Press is considered valid.
+*/
+unsigned long DEBOUNCE_PERIOD_START = 10L;
+/**
+   The debounce period before a Release is considered valid.
+*/
+unsigned long DEBOUNCE_PERIOD_STOP = 5L;
+/**
+   An enum paired with the buttons.
+*/
+enum buttonEnum {
+  buttonStart,   ///< The Start button index.
+  buttonReset    ///< The Reset button index.
+};
+/**
+   An array of Button elements. Handles the buttons hot state,
+   debouncing, and callbacks.
+*/
+ButtonAVR buttons[] = {
+  ButtonAVR(
+    pinButtonStart,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    startButtonFunctionPress,
+    startButtonFunctionRelease)/*,
+  ButtonAVR(
+    pinButtonReset,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    resetButtonFunctionPress,
+    resetButtonFunctionRelease),*/
+};
+
+////////////////////////////////////////////////////////////////////////
+// State ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The state of the game.
+*/
+State state = State();
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////

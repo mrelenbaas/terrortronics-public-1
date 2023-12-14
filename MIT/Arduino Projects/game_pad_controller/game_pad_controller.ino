@@ -118,9 +118,8 @@ void setup() {
   }
   buttons[buttonStart].startTargeting();
   state.startWaiting();
-  pinMode(pinButtonStart, INPUT_PULLUP);
+  //pinMode(pinButtonStart, INPUT_PULLUP);
   pinMode(13, OUTPUT);
-  digitalWrite(13, HIGH);
 #if PROFILING
   PF(0);
   prof_has_dumped = 0;
@@ -136,11 +135,6 @@ void setup() {
    The main function.
 */
 void loop() {
-  if (digitalRead(pinButtonStart) == LOW) {
-    digitalWrite(13, HIGH);
-  } else {
-    digitalWrite(13, LOW);
-  }
   unsigned char op;
   if (IS_LOGGING) {
     //Serial.print(millis());
@@ -165,6 +159,7 @@ void loop() {
                 //Serial.println("PRESSED 4 (Waiting)");
               }
             }
+            buttons[i].delegateFunctionPress();
           }
         }
       }
@@ -181,15 +176,17 @@ void loop() {
               if (state.isRunning() == 1) {
                 //Serial.println("RELEASED 4 (Running)");
                 buttons[i].stopTargeting();
-                buttons[i].delegateFunction();
+                buttons[i].delegateFunctionPress();
                 // Do something else.
               } else if (state.isWaiting() == 1) {
                 //Serial.println("RELEASED 4 (Waiting)");
                 buttons[i].stopTargeting();
-                buttons[i].delegateFunction();
+                //buttons[i].delegateFunctionRelease();
+                state.startRunning();
                 buttons[buttonReset].startTargeting();
               }
             }
+            buttons[i].delegateFunctionRelease();
           }
         }
         buttons[i].reset();
@@ -391,16 +388,24 @@ bool timer() {
    -r-> (*)
    @enduml
 */
-void startButtonFunction() {
-  state.startRunning();
+void startButtonFunctionPress() {
+  digitalWrite(13, HIGH);
   Serial.println("startButtonFunction()");
+}
+
+void startButtonFunctionRelease() {
+  digitalWrite(13, LOW);
 }
 
 /**
    Empty. The function to call then the Reset button is pressed.
 */
-void resetButtonFunction() {
+void resetButtonFunctionPress() {
   Serial.println("reset()");
+}
+
+void resetButtonFunctionRelease() {
+
 }
 
 ////////////////////////////////////////////////////////////////////////

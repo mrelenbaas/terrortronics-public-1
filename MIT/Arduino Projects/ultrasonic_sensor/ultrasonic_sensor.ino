@@ -72,7 +72,6 @@ void setup() {
   pinMode(SOUND_ANALOG, INPUT);
   pinMode(SOUND_DIGITAL, INPUT_PULLUP);
   pinMode(PAPER, INPUT_PULLUP);
-  pinMode(pinButtonStart, INPUT_PULLUP);
   pinMode(13, OUTPUT);
 }
 
@@ -80,14 +79,55 @@ void setup() {
    The main function.
 */
 void loop() {
-  if (digitalRead(pinButtonStart) == LOW) {
-    Serial.println("ON");
-    digitalWrite(13, HIGH);
-    digitalWrite(LED, HIGH);
-  } else {
-    Serial.println("OFF");
-    digitalWrite(13, LOW);
-    digitalWrite(LED, LOW);
+  for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+    if (buttons[i].updateHotState() == 1) {
+      //Serial.println("PRESSED 0");
+      if (buttons[i].debounceByTimePress() == 1) {
+        //Serial.println("PRESSED 1");
+        if (buttons[i].debounceByPositionPress() == 1) {
+          //Serial.println("PRESSED 2");
+          if (buttons[i].debounceByBlockPress() == 1) {
+            //Serial.println("PRESSED 3");
+            if (buttons[i].debounceByTargetPress() == 1) {
+              if (state.isRunning() == 1) {
+                //Serial.println("PRESSED 4 (Running)");
+              } else if (state.isWaiting() == 1) {
+                //Serial.println("PRESSED 4 (Waiting)");
+              }
+            }
+            buttons[i].delegateFunctionPress();
+          }
+        }
+      }
+      //buttons[i].debounceByPosition();
+    } else {
+      //Serial.println("PRESSED 0");
+      if (buttons[i].debounceByTimeRelease() == 1) {
+        //Serial.println("RELEASED 1");
+        if (buttons[i].debounceByPositionRelease() == 1) {
+          //Serial.println("RELEASED 2");
+          if (buttons[i].debounceByBlockRelease() == 1) {
+            //Serial.println("RELEASED 3");
+            if (buttons[i].debounceByTargetRelease() == 1) {
+              if (state.isRunning() == 1) {
+                //Serial.println("RELEASED 4 (Running)");
+                buttons[i].stopTargeting();
+                buttons[i].delegateFunctionPress();
+                // Do something else.
+              } else if (state.isWaiting() == 1) {
+                //Serial.println("RELEASED 4 (Waiting)");
+                buttons[i].stopTargeting();
+                //buttons[i].delegateFunctionRelease();
+                state.startRunning();
+                buttons[buttonReset].startTargeting();
+              }
+            }
+            buttons[i].delegateFunctionRelease();
+          }
+        }
+        buttons[i].reset();
+      }
+    }
   }
   timePrevious = timeCurrent;
   timeCurrent = millis();
@@ -193,4 +233,26 @@ void startFunction() {
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
   isLogging = true;
+}
+
+void startButtonFunctionPress() {
+  Serial.println("startButtonFunction()");
+  digitalWrite(13, HIGH);
+  digitalWrite(LED, HIGH);
+}
+
+void startButtonFunctionRelease() {
+  digitalWrite(13, LOW);
+  digitalWrite(LED, LOW);
+}
+
+/**
+   Empty. The function to call then the Reset button is pressed.
+*/
+void resetButtonFunctionPress() {
+  Serial.println("reset()");
+}
+
+void resetButtonFunctionRelease() {
+
 }

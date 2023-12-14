@@ -104,8 +104,6 @@ unsigned int tcnt2;
 ////////////////////////////////////////////////////////////////////////
 void resetFunction();
 void startFunction();
-void startButtonFunction();
-void resetButtonFunction();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////
@@ -336,7 +334,7 @@ unsigned long fpsPrevious;
 ////////////////////////////////////////////////////////////////////////
 // Thumb Sticks ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-/**
+/*
    An enum paired with the thumbSticks.
 */
 enum thumbStickEnum {
@@ -374,16 +372,20 @@ enum buttonEnum {
    debouncing, and callbacks.
 */
 ButtonAVR buttons[] = {
-  ButtonAVR(pinButtonStart,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  startButtonFunction),
-  ButtonAVR(pinButtonReset,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  resetButtonFunction),
+  ButtonAVR(
+    pinButtonStart,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    startButtonFunctionPress,
+    startButtonFunctionRelease),
+  ButtonAVR(
+    pinButtonReset,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    resetButtonFunctionPress,
+    resetButtonFunctionRelease),
 };
 
 ////////////////////////////////////////////////////////////////////////

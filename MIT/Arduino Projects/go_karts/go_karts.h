@@ -46,8 +46,8 @@
    - empty
 */
 
-// Include 1st-party libraries.
-//#include "Keyboard.h"
+// Include 2nd-party libraries.
+#include "common.h"
 
 ////////////////////////////////////////////////////////////////////////
 // Function Stubs //////////////////////////////////////////////////////
@@ -67,7 +67,8 @@ enum pinEnum {
   // A5. Avoid - I2C.
   // 2. Avoid - I2C.
   // 3. Avoid - I2C.
-  pinButtonStart = 4
+  pinButtonStart = 4,
+  pinButtonReset = 5
   // 20. Avoid - I2C.
   // 21. Avoid - I2C.
 };
@@ -194,6 +195,53 @@ int incomingMessage;
 bool isLogging;
 
 ////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The debounce period before a Press is considered valid.
+*/
+unsigned long DEBOUNCE_PERIOD_START = 10L;
+/**
+   The debounce period before a Release is considered valid.
+*/
+unsigned long DEBOUNCE_PERIOD_STOP = 5L;
+/**
+   An enum paired with the buttons.
+*/
+enum buttonEnum {
+  buttonStart,   ///< The Start button index.
+  buttonReset    ///< The Reset button index.
+};
+/**
+   An array of Button elements. Handles the buttons hot state,
+   debouncing, and callbacks.
+*/
+ButtonAVR buttons[] = {
+  ButtonAVR(
+    pinButtonStart,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    startButtonFunctionPress,
+    startButtonFunctionRelease),
+  ButtonAVR(
+    pinButtonReset,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    resetButtonFunctionPress,
+    resetButtonFunctionRelease),
+};
+
+////////////////////////////////////////////////////////////////////////
+// State ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The state of the game.
+*/
+State state = State();
+
+////////////////////////////////////////////////////////////////////////
 // Undocumented ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
@@ -211,14 +259,67 @@ bool isLogging;
   };
 */
 
-const long DELAY_AFTER_SPACE = 2000;
-const long DELAY_AFTER_BUTTON_RELEASE = 20; // Debounce.
 const long DELAY_BETWEEN_KEY_PRESS = 10;
-
-bool buttonBlock;
-bool buttonBlockResult;
 
 ////////////////////////////////////////////////////////////////////////
 // Untested Functions //////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 bool isBlocked;
+char WORD_ADMIN[] = {
+  'a',
+  'd',
+  'm',
+  'i',
+  'n'
+};
+char WORD_PASSWORD[] = {
+  'p',
+  'a',
+  's',
+  's',
+  'w',
+  'o',
+  'r',
+  'd',
+};
+char WORD_SERVER[] = {
+  '.',
+  '/',
+  'i',
+  'o',
+  't',
+  'i',
+  'v',
+  'i',
+  't',
+  'y',
+  '-',
+  'l',
+  'i',
+  't',
+  'e',
+  '/',
+  'p',
+  'o',
+  'r',
+  't',
+  '/',
+  'l',
+  'i',
+  'n',
+  'u',
+  'x',
+  '/',
+  's',
+  'i',
+  'm',
+  'p',
+  'l',
+  'e',
+  's',
+  'e',
+  'r',
+  'v',
+  'e',
+  'r'
+};

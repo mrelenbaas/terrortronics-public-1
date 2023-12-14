@@ -48,6 +48,8 @@
    - empty
 */
 
+// Include 2nd-party libraries.
+#include "common.h"
 // Include 3rd-party libraries.
 #include <NewPing.h>
 
@@ -69,7 +71,8 @@ enum pinEnum {
   // A5. Avoid - I2C.
   // 2. Avoid - I2C.
   // 3. Avoid - I2C.
-  pinButtonStart = 4
+  pinButtonStart = 4,
+  pinButtonReset = 5
   // 20. Avoid - I2C.
   // 21. Avoid - I2C.
 };
@@ -188,6 +191,53 @@ int incomingMessage;
    If TRUE, then print tracer statements.
 */
 bool isLogging;
+
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The debounce period before a Press is considered valid.
+*/
+unsigned long DEBOUNCE_PERIOD_START = 10L;
+/**
+   The debounce period before a Release is considered valid.
+*/
+unsigned long DEBOUNCE_PERIOD_STOP = 5L;
+/**
+   An enum paired with the buttons.
+*/
+enum buttonEnum {
+  buttonStart,   ///< The Start button index.
+  buttonReset    ///< The Reset button index.
+};
+/**
+   An array of Button elements. Handles the buttons hot state,
+   debouncing, and callbacks.
+*/
+ButtonAVR buttons[] = {
+  ButtonAVR(
+    pinButtonStart,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    startButtonFunctionPress,
+    startButtonFunctionRelease),
+  ButtonAVR(
+    pinButtonReset,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    resetButtonFunctionPress,
+    resetButtonFunctionRelease),
+};
+
+////////////////////////////////////////////////////////////////////////
+// State ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The state of the game.
+*/
+State state = State();
 
 ////////////////////////////////////////////////////////////////////////
 // Undocumented ////////////////////////////////////////////////////////
