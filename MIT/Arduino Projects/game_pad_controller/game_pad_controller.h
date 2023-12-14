@@ -1,63 +1,63 @@
 /**
- * @file game_pad_controller.ino
- * 
- * @mainpage game_pad_controller
- * 
- * @section author Attribution
- * - Title: Gamepad Controller file.
- * - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
- * - Version: 2
- * - Date: November 6, 2023.
- * 
- * @section ip Intellectual Property
- * - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
- * 
- * @section license License
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the “Software”), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- * 
- * @section circuit Circuit
- * - Board
- *  + Arduino Uno R3
- * - Buttons
- * 
- * @section libraries Libraries
- * - Serial
- * 
- * @section description Description
- * Empty.
- * 
- * @section pins Pins
- * - empty
- * 
- * @section resources Resources
- * - Timer
- *  + http://popdevelop.com/2010/04/mastering-timer-interrupts-on-the-arduino/
- *  + http://www.desert-home.com/p/super-thermostat.html
- * 
- * @section warnings WARNINGS
- * - empty
- * 
- * @section ut Unit Tests
- * - empty
- */
+   @file game_pad_controller.ino
+
+   @mainpage game_pad_controller
+
+   @section author Attribution
+   - Title: Gamepad Controller file.
+   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Version: 2
+   - Date: November 6, 2023.
+
+   @section ip Intellectual Property
+   - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
+
+   @section license License
+   Permission is hereby granted, free of charge, to any person
+   obtaining a copy of this software and associated documentation files
+   (the “Software”), to deal in the Software without restriction,
+   including without limitation the rights to use, copy, modify, merge,
+   publish, distribute, sublicense, and/or sell copies of the Software,
+   and to permit persons to whom the Software is furnished to do so,
+   subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+   @section circuit Circuit
+   - Board
+    + Arduino Uno R3
+   - Buttons
+
+   @section libraries Libraries
+   - Serial
+
+   @section description Description
+   Empty.
+
+   @section pins Pins
+   - empty
+
+   @section resources Resources
+   - Timer
+    + http://popdevelop.com/2010/04/mastering-timer-interrupts-on-the-arduino/
+    + http://www.desert-home.com/p/super-thermostat.html
+
+   @section warnings WARNINGS
+   - empty
+
+   @section ut Unit Tests
+   - empty
+*/
 
 // Include 1st-party libraries.
 #include <avr/io.h>
@@ -70,33 +70,33 @@
 // Profiler Library ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * Turn profiling on and off.
- */
+   Turn profiling on and off.
+*/
 #define PROFILING 1
 /**
- * this needs to be true in at least one file.
- */
+   this needs to be true in at least one file.
+*/
 #define PROFILING_MAIN 1
 /**
- * Override the number of bins.
- */
+   Override the number of bins.
+*/
 #define MAXPROF 8
 #include "profiler.h"
 /**
- * Counter for ISR time.
- */
+   Counter for ISR time.
+*/
 volatile unsigned int int_counter;
 /**
- * ISR time (seconds).
- */
+   ISR time (seconds).
+*/
 volatile unsigned char seconds;
 /**
- * ISR timer (minutes).
- */
+   ISR timer (minutes).
+*/
 volatile unsigned char minutes;
 /**
- * Used to store timer value.
- */
+   Used to store timer value.
+*/
 unsigned int tcnt2;
 
 ////////////////////////////////////////////////////////////////////////
@@ -111,43 +111,49 @@ void resetButtonFunction();
 // Pins ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The board's pins. Named with the [pin + type + name] convention, 
- * while other enums are named with the [type + name] convention.
- */
+   The board's pins. Named with the [pin + type + name] convention,
+   while other enums are named with the [type + name] convention.
+*/
 enum pinEnum {
+  // A4. Avoid - I2C.
+  // A5. Avoid - I2C.
+  // 2. Avoid - I2C.
+  // 3. Avoid - I2C.
   pinStickLeftHorizontal = (int)A0,    ///< Pin A0. L-Stick horizontal.
   pinStickLeftVertical = (int)A1,      ///< Pin A1. L-Stick vertical.
   pinStickRightHorizontal = (int)A2,   ///< Pin A2. R-Stick horizontal.
   pinStickRightVertical = (int)A3,     ///< Pin A3. R-Stick vertical.
-  pinSensorWater = (int)A4,            ///< Pin A2. Water sensor.
-  pinSensorSoundAnalog = (int)A5,      ///< Pin A3. Analog sound sensor.
-  pinButtonStart = 2,                  ///< Pin 2. Start button.
-  pinButtonReset = 3,                  ///< Pin 3. Reset button.
-  pinSensorProximity = 4,               ///< Pin 4. Tracking sensor.
-  pinSensorSoundDigital = 5            ///< Pin 5. Digital sound sensor.
+  //pinSensorWater = (int)A4,            ///< Pin A2. Water sensor.
+  //pinSensorSoundAnalog = (int)A5,      ///< Pin A3. Analog sound sensor.
+  pinButtonStart = 4,                  ///< Pin 2. Start button.
+  pinButtonReset = 5,                  ///< Pin 3. Reset button.
+  //pinSensorProximity = 4,               ///< Pin 4. Tracking sensor.
+  //pinSensorSoundDigital = 5            ///< Pin 5. Digital sound sensor.
+  // 20. Avoid - I2C.
+  // 21. Avoid - I2C.
 };
 
 ////////////////////////////////////////////////////////////////////////
 // Serial //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The serial baud rate.
- */
+   The serial baud rate.
+*/
 const int BAUD_RATE = 9600;
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * An enum of possible message codes.
- */
+   An enum of possible message codes.
+*/
 enum messages {
   startMessage = 48,
   resetMessage = 49
 };
 /**
- * The default outgoing message.
- */
+   The default outgoing message.
+*/
 const char OUTGOING_START[] = {
   't',
   'y',
@@ -246,100 +252,100 @@ const char OUTGOING_START[] = {
   '\0'
 };
 /**
- * The incoming message.
- */
+   The incoming message.
+*/
 int incomingMessage;
 
 ////////////////////////////////////////////////////////////////////////
 // Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * If TRUE, then print logging tracers.
- */
+   If TRUE, then print logging tracers.
+*/
 bool IS_LOGGING = false;
 /**
- * If TRUE, then print debug tracers.
- */
+   If TRUE, then print debug tracers.
+*/
 bool IS_DEBUGGING = true;
 
 ////////////////////////////////////////////////////////////////////////
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * Time (in milliseconds) of a single second.
- */
+   Time (in milliseconds) of a single second.
+*/
 unsigned long TIME_ONE_SECOND = 1000L;
 /**
- * Time (in milliseconds) at the start of the previous loop.
- */
+   Time (in milliseconds) at the start of the previous loop.
+*/
 unsigned long timePrevious;
 /**
- * Time (in milliseconds) at the start of the current loop.
- */
+   Time (in milliseconds) at the start of the current loop.
+*/
 unsigned long timeCurrent;
 /**
- * The difference between the current and previous loops.
- */
+   The difference between the current and previous loops.
+*/
 unsigned long timeDelta;
 /**
- * The accumulated time this second.
- */
+   The accumulated time this second.
+*/
 unsigned long timeAccumulated;
 
 ////////////////////////////////////////////////////////////////////////
 // FPS /////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The current number of frames counted this second.
- */
+   The current number of frames counted this second.
+*/
 unsigned long fpsCurrent;
 /**
- * The number of frames counted over the course of the previous second.
- */
+   The number of frames counted over the course of the previous second.
+*/
 unsigned long fpsPrevious;
 
 ////////////////////////////////////////////////////////////////////////
 // Sound ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * A digital sound sensor.
- */
-SoundDigital soundDigital = SoundDigital(pinSensorSoundDigital);
+   A digital sound sensor.
+*/
+//SoundDigital soundDigital = SoundDigital(pinSensorSoundDigital);
 
 /**
- * A analog sound sensor.
- */
-SoundAnalog soundAnalog = SoundAnalog(pinSensorSoundAnalog);
+   A analog sound sensor.
+*/
+//SoundAnalog soundAnalog = SoundAnalog(pinSensorSoundAnalog);
 
 ////////////////////////////////////////////////////////////////////////
 // Proximity ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * A proximity sensor.
- */
-Proximity proximity = Proximity(pinSensorProximity);
+   A proximity sensor.
+*/
+//Proximity proximity = Proximity(pinSensorProximity);
 
 ////////////////////////////////////////////////////////////////////////
 // Water ///////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * A water sensor.
- */
-Water water = Water(pinSensorWater);
+   A water sensor.
+*/
+//Water water = Water(pinSensorWater);
 
 ////////////////////////////////////////////////////////////////////////
 // Thumb Sticks ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * An enum paired with the thumbSticks.
- */
+   An enum paired with the thumbSticks.
+*/
 enum thumbStickEnum {
   thumbStickLeft,   ///< the left thumb stick.
   thumbStickRight   ///< The right thumb stick.
 };
 /**
- * An array of ThumbStick elements. Handles the thumb sticks hot state.
- */
+   An array of ThumbStick elements. Handles the thumb sticks hot state.
+*/
 ThumbStick thumbSticks[] = {
   ThumbStick(pinStickLeftHorizontal, pinStickLeftVertical),
   ThumbStick(pinStickRightHorizontal, pinStickRightVertical)
@@ -349,43 +355,43 @@ ThumbStick thumbSticks[] = {
 // Buttons /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The debounce period before a Press is considered valid.
- */
+   The debounce period before a Press is considered valid.
+*/
 unsigned long DEBOUNCE_PERIOD_START = 10L;
 /**
- * The debounce period before a Release is considered valid.
- */
+   The debounce period before a Release is considered valid.
+*/
 unsigned long DEBOUNCE_PERIOD_STOP = 5L;
 /**
- * An enum paired with the buttons.
- */
+   An enum paired with the buttons.
+*/
 enum buttonEnum {
   buttonStart,   ///< The Start button index.
   buttonReset    ///< The Reset button index.
 };
 /**
- * An array of Button elements. Handles the buttons hot state, 
- * debouncing, and callbacks.
- */
+   An array of Button elements. Handles the buttons hot state,
+   debouncing, and callbacks.
+*/
 ButtonAVR buttons[] = {
   ButtonAVR(pinButtonStart,
-            Timer(),
-            DEBOUNCE_PERIOD_START,
-            DEBOUNCE_PERIOD_STOP,
-            startButtonFunction),
+  Timer(),
+  DEBOUNCE_PERIOD_START,
+  DEBOUNCE_PERIOD_STOP,
+  startButtonFunction),
   ButtonAVR(pinButtonReset,
-            Timer(),
-            DEBOUNCE_PERIOD_START,
-            DEBOUNCE_PERIOD_STOP,
-            resetButtonFunction),
+  Timer(),
+  DEBOUNCE_PERIOD_START,
+  DEBOUNCE_PERIOD_STOP,
+  resetButtonFunction),
 };
 
 ////////////////////////////////////////////////////////////////////////
 // State ///////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The state of the game.
- */
+   The state of the game.
+*/
 State state = State();
 
 ////////////////////////////////////////////////////////////////////////

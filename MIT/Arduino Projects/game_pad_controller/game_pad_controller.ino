@@ -1,50 +1,50 @@
 /**
- * @file game_pad_controller.ino
- * 
- * @mainpage game_pad_controller
- * 
- * @section author Attribution
- * - Title: Gamepad Controller file.
- * - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
- * - Version: 2
- * - Date: November 6, 2023.
- * 
- * @section ip Intellectual Property
- * - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
- * 
- * @section license License
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the “Software”), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- * 
- * @section description Description
- * Empty.
- * 
- * @section pins Pins
- * - empty
- * 
- * @section resources Resources
- * - empty
- * 
- * @section warnings WARNINGS
- * - empty
- */
+   @file game_pad_controller.ino
+
+   @mainpage game_pad_controller
+
+   @section author Attribution
+   - Title: Gamepad Controller file.
+   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Version: 2
+   - Date: November 6, 2023.
+
+   @section ip Intellectual Property
+   - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
+
+   @section license License
+   Permission is hereby granted, free of charge, to any person
+   obtaining a copy of this software and associated documentation files
+   (the “Software”), to deal in the Software without restriction,
+   including without limitation the rights to use, copy, modify, merge,
+   publish, distribute, sublicense, and/or sell copies of the Software,
+   and to permit persons to whom the Software is furnished to do so,
+   subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+   @section description Description
+   Empty.
+
+   @section pins Pins
+   - empty
+
+   @section resources Resources
+   - empty
+
+   @section warnings WARNINGS
+   - empty
+*/
 
 // Include 2nd-party libraries.
 #include "game_pad_controller.h"
@@ -52,9 +52,9 @@
 #include <MemoryFree.h>;
 
 /**
- * Arduino runs at 16 Mhz, so we have 1000 overflows per second...
- * This ISR will get hit once a millisecond.
- */
+   Arduino runs at 16 Mhz, so we have 1000 overflows per second...
+   This ISR will get hit once a millisecond.
+*/
 ISR(TIMER2_OVF_vect) {
   int_counter++;
   if (int_counter == 1000) {
@@ -72,8 +72,8 @@ ISR(TIMER2_OVF_vect) {
 }
 
 /**
- * Setup the ISR timer.
- */
+   Setup the ISR timer.
+*/
 void setupTimer(void) {
   // First disable the timer overflow interrupt while we're configuring
   TIMSK2 &= ~(1 << TOIE2);
@@ -102,8 +102,8 @@ void setupTimer(void) {
 }
 
 /**
- * Pseudo-constructor.
- */
+   Pseudo-constructor.
+*/
 void setup() {
   Serial.begin(BAUD_RATE);
   if (IS_DEBUGGING) {
@@ -118,6 +118,7 @@ void setup() {
   }
   buttons[buttonStart].startTargeting();
   state.startWaiting();
+  pinMode(pinButtonStart, INPUT_PULLUP);
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
 #if PROFILING
@@ -132,8 +133,8 @@ void setup() {
 }
 
 /**
- * The main function.
- */
+   The main function.
+*/
 void loop() {
   if (digitalRead(pinButtonStart) == LOW) {
     digitalWrite(13, HIGH);
@@ -198,10 +199,10 @@ void loop() {
   for (int i = 0; i < (sizeof(thumbSticks) / sizeof(ThumbStick)); ++i) {
     thumbSticks[i].updateHotState();
   }
-  water.updateHotState();
-  proximity.updateHotState();
-  soundDigital.updateHotState();
-  soundAnalog.updateHotState();
+  //water.updateHotState();
+  //proximity.updateHotState();
+  //soundDigital.updateHotState();
+  //soundAnalog.updateHotState();
   if (IS_DEBUGGING) {
     counter = 0;
     for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
@@ -218,13 +219,13 @@ void loop() {
     thumbSticks[i].printDefinitions();
     Serial.print("), ");
   }
-  water.printDefinitions();
-  Serial.print(", ");
-  proximity.printDefinitions();
-  Serial.print(", ");
-  soundDigital.printDefinitions();
-  Serial.print(", ");
-  soundAnalog.printDefinitions();
+  //water.printDefinitions();
+  //Serial.print(", ");
+  //proximity.printDefinitions();
+  //Serial.print(", ");
+  //soundDigital.printDefinitions();
+  //Serial.print(", ");
+  //soundAnalog.printDefinitions();
   Serial.println();
 
   if (Serial.available() > 0 && !state.isRunning()) {
@@ -261,17 +262,17 @@ void loop() {
 // Messages ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * Reset the application.
- * 
- * RUSCAL:
- * - IS_LOGGING <- FALSE
- * 
- * @startuml
- * skinparam shadowing  true
- * (*) -right-> "Stop logging"
- * -r-> (*)
- * @enduml
- */
+   Reset the application.
+
+   RUSCAL:
+   - IS_LOGGING <- FALSE
+
+   @startuml
+   skinparam shadowing  true
+   (*) -right-> "Stop logging"
+   -r-> (*)
+   @enduml
+*/
 void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
@@ -280,17 +281,17 @@ void resetFunction() {
 }
 
 /**
- * Start the application.
- * 
- * RUSCAL:
- * - IS_LOGGING <- TRUE
- * 
- * @startuml
- * skinparam shadowing  true
- * (*) -right-> "Start logging"
- * -r-> (*)
- * @enduml
- */
+   Start the application.
+
+   RUSCAL:
+   - IS_LOGGING <- TRUE
+
+   @startuml
+   skinparam shadowing  true
+   (*) -right-> "Start logging"
+   -r-> (*)
+   @enduml
+*/
 void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
@@ -302,48 +303,48 @@ void startFunction() {
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The application's primary timer.
- * 
- * @returns FALSE if delta is less than zero. Otherwise, TRUE.
- * 
- * RUSCAL:
- * - result isoftype Bool
- * - result <- TRUE
- * - timePrevious <- timeCurrent
- * - timeCurrent <- Millis ()
- * - timeDelta <- timeCurrent - timePrevious
- * - if (timeDelta < 0)
- *  + result <- FALSE
- * - elseif
- * - timeAccumulated <- timeAccumulated + timeDelta
- * - if (timeAccumulated >= TIME_ONE_SECOND)
- *  + fpsPrevious <- fpsCurrent
- *  + fpsCurrent <- 0
- *  + timeAccumulated <- timeAccumulated - TIME_ONE_SECOND
- * - else
- *  + fpsCurrent <- fpsCurrent + 1
- * - endif
- * - returns result
- * 
- * @startuml
- * skinparam shadowing  true
- * (*) -r-> "Instantiate result"
- * -r-> "Set previous time to current time"
- * -r-> "Set current time to polled value"
- * -r-> "Calculate delta"
- * -r-> "time delta less than 0"
- * -d-> "Set result to FALSE"
- * -u-> "time delta less than 0"
- * -r-> "Add time delta to time this second"
- * -r-> "Time this second is greater than time period"
- * -d-> "Set the previous FPS to FPS current"
- * -d-> "Set the current FPS to zero"
- * -d-> "Minus 1 second from time this second"
- * -u-> "Time this second is greater than time period"
- * -r-> "Else add 1 to the current FPS"
- * -r-> (*)
- * @enduml
- */
+   The application's primary timer.
+
+   @returns FALSE if delta is less than zero. Otherwise, TRUE.
+
+   RUSCAL:
+   - result isoftype Bool
+   - result <- TRUE
+   - timePrevious <- timeCurrent
+   - timeCurrent <- Millis ()
+   - timeDelta <- timeCurrent - timePrevious
+   - if (timeDelta < 0)
+    + result <- FALSE
+   - elseif
+   - timeAccumulated <- timeAccumulated + timeDelta
+   - if (timeAccumulated >= TIME_ONE_SECOND)
+    + fpsPrevious <- fpsCurrent
+    + fpsCurrent <- 0
+    + timeAccumulated <- timeAccumulated - TIME_ONE_SECOND
+   - else
+    + fpsCurrent <- fpsCurrent + 1
+   - endif
+   - returns result
+
+   @startuml
+   skinparam shadowing  true
+   (*) -r-> "Instantiate result"
+   -r-> "Set previous time to current time"
+   -r-> "Set current time to polled value"
+   -r-> "Calculate delta"
+   -r-> "time delta less than 0"
+   -d-> "Set result to FALSE"
+   -u-> "time delta less than 0"
+   -r-> "Add time delta to time this second"
+   -r-> "Time this second is greater than time period"
+   -d-> "Set the previous FPS to FPS current"
+   -d-> "Set the current FPS to zero"
+   -d-> "Minus 1 second from time this second"
+   -u-> "Time this second is greater than time period"
+   -r-> "Else add 1 to the current FPS"
+   -r-> (*)
+   @enduml
+*/
 bool timer() {
   bool result = true;
   timePrevious = timeCurrent;
@@ -379,25 +380,25 @@ bool timer() {
 // Delegates ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The function to call when the Start button is pressed.
- * 
- * RUSCAL
- * - start.StartRunning ()
- * 
- * @startuml
- * skinparam shadowing  true
- * (*) -right-> "Start running"
- * -r-> (*)
- * @enduml
- */
+   The function to call when the Start button is pressed.
+
+   RUSCAL
+   - start.StartRunning ()
+
+   @startuml
+   skinparam shadowing  true
+   (*) -right-> "Start running"
+   -r-> (*)
+   @enduml
+*/
 void startButtonFunction() {
   state.startRunning();
   Serial.println("startButtonFunction()");
 }
 
 /**
- * Empty. The function to call then the Reset button is pressed.
- */
+   Empty. The function to call then the Reset button is pressed.
+*/
 void resetButtonFunction() {
   Serial.println("reset()");
 }

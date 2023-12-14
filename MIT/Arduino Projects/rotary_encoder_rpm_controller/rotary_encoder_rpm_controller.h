@@ -1,57 +1,57 @@
 /**
- * @file rotary_encoder_rpm_controller.h
- * 
- * @mainpage rotary_encoder_rpm_controller
- * 
- * @section author Attribution
- * - Title: Rotary Encoder RPM Controller file.
- * - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
- * - Version: 2
- * - Date: November 6, 2023.
- * 
- * @section ip Intellectual Property
- * - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
- * 
- * @section license License
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the “Software”), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- * 
- * @section description Description
- * Empty.
- * 
- * @section pins Pins
- * - empty
- * 
- * @section resources Resources
- * - https://www.adafruit.com/product/3405
- * - https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/pinouts
- * - https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html
- * - https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/overview
- * - https://github.com/espressif/arduino-esp32
- * - https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads
- * - https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
- * - https://docs.arduino.cc/built-in-examples/digital/toneMelody
- * 
- * @section warnings WARNINGS
- * - empty
- */
+   @file rotary_encoder_rpm_controller.h
+
+   @mainpage rotary_encoder_rpm_controller
+
+   @section author Attribution
+   - Title: Rotary Encoder RPM Controller file.
+   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Version: 2
+   - Date: November 6, 2023.
+
+   @section ip Intellectual Property
+   - Copyright (c) 2023 Bradley Elenbaas. All rights reserved.
+
+   @section license License
+   Permission is hereby granted, free of charge, to any person
+   obtaining a copy of this software and associated documentation files
+   (the “Software”), to deal in the Software without restriction,
+   including without limitation the rights to use, copy, modify, merge,
+   publish, distribute, sublicense, and/or sell copies of the Software,
+   and to permit persons to whom the Software is furnished to do so,
+   subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+   @section description Description
+   Empty.
+
+   @section pins Pins
+   - empty
+
+   @section resources Resources
+   - https://www.adafruit.com/product/3405
+   - https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/pinouts
+   - https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html
+   - https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/overview
+   - https://github.com/espressif/arduino-esp32
+   - https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads
+   - https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
+   - https://docs.arduino.cc/built-in-examples/digital/toneMelody
+
+   @section warnings WARNINGS
+   - empty
+*/
 
 // Include 1st-party libraries.
 #include "WiFi.h"
@@ -66,26 +66,42 @@ void resetFunction();
 void startFunction();
 
 ////////////////////////////////////////////////////////////////////////
+// Pins ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The board's pins. Named with the [pin + type + name] convention,
+   while other enums are named with the [type + name] convention.
+*/
+enum pinEnum {
+  // A4. Avoid - I2C.
+  // A5. Avoid - I2C.
+  // 2. Avoid - I2C.
+  // 3. Avoid - I2C.
+  // 20. Avoid - I2C.
+  // 21. Avoid - I2C.
+};
+
+////////////////////////////////////////////////////////////////////////
 // Serial //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * The serial baud rate.
- */
+   The serial baud rate.
+*/
 const int BAUD_RATE = 9600;
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * An enum of possible message codes.
- */
+   An enum of possible message codes.
+*/
 enum messages {
   startMessage = 48, ///< Start message.
   resetMessage = 49  ///< Reset message.
 };
 /**
- * The default outgoing message.
- */
+   The default outgoing message.
+*/
 const char OUTGOING_START[] = {
   't',
   'y',
@@ -168,16 +184,16 @@ const char OUTGOING_START[] = {
   '\0'
 };
 /**
- * The incoming message.
- */
+   The incoming message.
+*/
 int incomingMessage;
 
 ////////////////////////////////////////////////////////////////////////
 // Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
- * If TRUE, then print tracer statements.
- */
+   If TRUE, then print tracer statements.
+*/
 bool isLogging;
 
 ////////////////////////////////////////////////////////////////////////
