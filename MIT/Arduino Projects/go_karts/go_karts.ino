@@ -88,6 +88,7 @@ void setup() {
   //for (int i = 0; i < PINS_SIZE; i++) {
   //  pinMode(PINS[i], INPUT_PULLUP);
   //}
+  pinMode(pinSensorProximity, INPUT_PULLUP);
   pinMode(13, OUTPUT);
 }
 
@@ -145,6 +146,63 @@ void loop() {
       }
     }
   }
+  /*
+    //Serial.println(digitalRead(6));
+    if (digitalRead(pinSensorProximity) == LOW) {
+    Serial.println("ON");
+    //digitalWrite(pinButtonStart, HIGH);
+    } else {
+    Serial.println("");
+    //digitalWrite(pinButtonStart, LOW);
+    }
+  */
+  //for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+  if (proximity.updateHotState() == 1) {
+    //Serial.println("PRESSED 0");
+    if (proximity.debounceByTimePress() == 1) {
+      //Serial.println("PRESSED 1");
+      if (proximity.debounceByPositionPress() == 1) {
+        //Serial.println("PRESSED 2");
+        if (proximity.debounceByBlockPress() == 1) {
+          //Serial.println("PRESSED 3");
+          if (proximity.debounceByTargetPress() == 1) {
+            if (state.isRunning() == 1) {
+              //Serial.println("PRESSED 4 (Running)");
+            } else if (state.isWaiting() == 1) {
+              //Serial.println("PRESSED 4 (Waiting)");
+            }
+          }
+          proximity.delegateFunctionPress();
+        }
+      }
+    }
+    //buttons[i].debounceByPosition();
+  } else {
+    //Serial.println("RELEASED 0");
+    if (proximity.debounceByTimeRelease() == 1) {
+      //Serial.println("RELEASED 1");
+      if (proximity.debounceByPositionRelease() == 1) {
+        //Serial.println("RELEASED 2");
+        if (proximity.debounceByBlockRelease() == 1) {
+          //Serial.println("RELEASED 3");
+          if (proximity.debounceByTargetRelease() == 1) {
+            if (state.isRunning() == 1) {
+              //Serial.println("RELEASED 4 (Running)");
+              proximity.stopTargeting();
+              proximity.delegateFunctionPress();
+              // Do something else.
+            } else if (state.isWaiting() == 1) {
+              //Serial.println("RELEASED 4 (Waiting)");
+              proximity.stopTargeting();
+              //buttons[i].delegateFunctionRelease();
+            }
+          }
+          proximity.delegateFunctionRelease();
+        }
+      }
+      proximity.reset();
+    }
+  }
   if (Serial.available() > 0) {
     // WARNING: Remember to consume the incoming bytes.
     // The error does not occur when using the usb.c or usb.py files.
@@ -152,10 +210,10 @@ void loop() {
     // application.
     incomingMessage = Serial.read();
     switch (incomingMessage) {
-      case startMessage:
+      case messageStart:
         startFunction();
         break;
-      case resetMessage:
+      case messageReset:
         resetFunction();
         break;
       default:
@@ -168,213 +226,220 @@ void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
-  isLogging = false;
+  IS_LOGGING = false;
 }
 
 void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
-  isLogging = true;
+  IS_LOGGING = true;
 }
 
+////////////////////////////////////////////////////////////////////////
+// Delegates ///////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 void startButtonFunctionPress() {
   digitalWrite(13, HIGH);
   Serial.println("startButtonFunction()");
-  if (!isBlocked) {
-    Keyboard.press(KEY_LEFT_ALT);
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.press(KEY_TAB);
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release(KEY_LEFT_ALT);
-    Keyboard.release(KEY_TAB);
-    Keyboard.press('a');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('a');
-    Keyboard.press('d');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('d');
-    Keyboard.press('m');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('m');
-    Keyboard.press('i');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('i');
-    Keyboard.press('n');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('n');
-    Keyboard.press(KEY_TAB);
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release(KEY_TAB);
-    Keyboard.press('p');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('p');
-    Keyboard.press('a');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('a');
-    Keyboard.press('s');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('s');
-    Keyboard.press('s');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('s');
-    Keyboard.press('w');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('w');
-    Keyboard.press('o');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('o');
-    Keyboard.press('r');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('r');
-    Keyboard.press('d');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('d');
-    Keyboard.press(KEY_RETURN);
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release(KEY_RETURN);
+  IF (!IS_DEBUGGING) {
+    if (!isBlocked) {
+      // Replace this section with automatic connection to the network.
+      Keyboard.press(KEY_LEFT_ALT);
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.press(KEY_TAB);
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release(KEY_LEFT_ALT);
+      Keyboard.release(KEY_TAB);
+      Keyboard.press('a');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('a');
+      Keyboard.press('d');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('d');
+      Keyboard.press('m');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('m');
+      Keyboard.press('i');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('i');
+      Keyboard.press('n');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('n');
+      Keyboard.press(KEY_TAB);
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release(KEY_TAB);
+      Keyboard.press('p');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('p');
+      Keyboard.press('a');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('a');
+      Keyboard.press('s');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('s');
+      Keyboard.press('s');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('s');
+      Keyboard.press('w');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('w');
+      Keyboard.press('o');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('o');
+      Keyboard.press('r');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('r');
+      Keyboard.press('d');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('d');
+      Keyboard.press(KEY_RETURN);
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release(KEY_RETURN);
 
-    delay(5000);
-    Keyboard.press(KEY_LEFT_CTRL);
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.press('q');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release(KEY_LEFT_CTRL);
-    Keyboard.release('q');
+      delay(5000);
+      Keyboard.press(KEY_LEFT_CTRL);
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.press('q');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release(KEY_LEFT_CTRL);
+      Keyboard.release('q');
 
-    delay(5000);
-    Keyboard.press(KEY_LEFT_CTRL);
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.press(KEY_LEFT_ALT);
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.press('t');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release(KEY_LEFT_CTRL);
-    Keyboard.release(KEY_LEFT_ALT);
-    Keyboard.release('t');
+      // Keep this section below.
+      delay(5000);
+      Keyboard.press(KEY_LEFT_CTRL);
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.press(KEY_LEFT_ALT);
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.press('t');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release(KEY_LEFT_CTRL);
+      Keyboard.release(KEY_LEFT_ALT);
+      Keyboard.release('t');
 
-    delay(10000);
-    Keyboard.press('.');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('.');
-    Keyboard.press('/');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('/');
-    Keyboard.press('i');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('i');
-    Keyboard.press('o');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('o');
-    Keyboard.press('t');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('t');
-    Keyboard.press('i');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('i');
-    Keyboard.press('v');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('v');
-    Keyboard.press('i');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('i');
-    Keyboard.press('t');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('t');
-    Keyboard.press('y');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('y');
-    Keyboard.press('-');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('-');
-    Keyboard.press('l');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('l');
-    Keyboard.press('i');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('i');
-    Keyboard.press('t');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('t');
-    Keyboard.press('e');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('e');
-    Keyboard.press('/');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('/');
-    Keyboard.press('p');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('p');
-    Keyboard.press('o');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('o');
-    Keyboard.press('r');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('r');
-    Keyboard.press('t');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('t');
-    Keyboard.press('/');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('/');
-    Keyboard.press('l');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('l');
-    Keyboard.press('i');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('i');
-    Keyboard.press('n');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('n');
-    Keyboard.press('u');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('u');
-    Keyboard.press('x');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('x');
-    Keyboard.press('/');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('/');
-    Keyboard.press('s');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('s');
-    Keyboard.press('i');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('i');
-    Keyboard.press('m');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('m');
-    Keyboard.press('p');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('p');
-    Keyboard.press('l');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('l');
-    Keyboard.press('e');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('e');
-    Keyboard.press('s');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('s');
-    Keyboard.press('e');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('e');
-    Keyboard.press('r');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('r');
-    Keyboard.press('v');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('v');
-    Keyboard.press('e');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('e');
-    Keyboard.press('r');
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release('r');
-    Keyboard.press(KEY_RETURN);
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.release(KEY_RETURN);
-    isBlocked = true;
+      delay(10000);
+      Keyboard.press('.');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('.');
+      Keyboard.press('/');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('/');
+      Keyboard.press('i');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('i');
+      Keyboard.press('o');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('o');
+      Keyboard.press('t');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('t');
+      Keyboard.press('i');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('i');
+      Keyboard.press('v');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('v');
+      Keyboard.press('i');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('i');
+      Keyboard.press('t');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('t');
+      Keyboard.press('y');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('y');
+      Keyboard.press('-');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('-');
+      Keyboard.press('l');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('l');
+      Keyboard.press('i');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('i');
+      Keyboard.press('t');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('t');
+      Keyboard.press('e');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('e');
+      Keyboard.press('/');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('/');
+      Keyboard.press('p');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('p');
+      Keyboard.press('o');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('o');
+      Keyboard.press('r');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('r');
+      Keyboard.press('t');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('t');
+      Keyboard.press('/');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('/');
+      Keyboard.press('l');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('l');
+      Keyboard.press('i');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('i');
+      Keyboard.press('n');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('n');
+      Keyboard.press('u');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('u');
+      Keyboard.press('x');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('x');
+      Keyboard.press('/');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('/');
+      Keyboard.press('s');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('s');
+      Keyboard.press('i');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('i');
+      Keyboard.press('m');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('m');
+      Keyboard.press('p');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('p');
+      Keyboard.press('l');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('l');
+      Keyboard.press('e');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('e');
+      Keyboard.press('s');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('s');
+      Keyboard.press('e');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('e');
+      Keyboard.press('r');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('r');
+      Keyboard.press('v');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('v');
+      Keyboard.press('e');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('e');
+      Keyboard.press('r');
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release('r');
+      Keyboard.press(KEY_RETURN);
+      delay(DELAY_BETWEEN_KEY_PRESS);
+      Keyboard.release(KEY_RETURN);
+      isBlocked = true;
+    }
   }
 }
 
@@ -391,4 +456,14 @@ void resetButtonFunctionPress() {
 
 void resetButtonFunctionRelease() {
 
+}
+
+void proximityButtonFunctionPress() {
+  Serial.println("proximityButtonFunctionPress()");
+  lights[lightDebug].turnOn();
+}
+
+void proximityButtonFunctionRelease() {
+  Serial.println("proximityButtonFunctionRelease()");
+  lights[lightDebug].turnOff();
 }

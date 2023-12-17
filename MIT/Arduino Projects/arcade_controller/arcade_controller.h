@@ -265,20 +265,30 @@ void resetFunction();
 void startFunction();
 bool timer();
 void interruptFunction();
-void startButtonFunction();
-void resetButtonFunction();
-void redTopButtonFunction();
-void redBottomButtonFunction();
-void blueTopButtonFunction();
-void blueBottomButtonFunction();
-void greenTopButtonFunction();
-void greenBottomButtonFunction();
-void yellowTopButtonFunction();
-void yellowBottomButtonFunction();
-void blackTopButtonFunction();
-void blackBottomButtonFunction();
-void whiteTopButtonFunction();
-void whiteBottomButtonFunction();
+void redTopButtonFunctionPress();
+void redTopButtonFunctionRelease();
+void redBottomButtonFunctionPress();
+void redBottomButtonFunctionRelease();
+void blueTopButtonFunctionPress();
+void blueTopButtonFunctionRelease();
+void blueBottomButtonFunctionPress();
+void blueBottomButtonFunctionRelease();
+void greenTopButtonFunctionPress();
+void greenTopButtonFunctionRelease();
+void greenBottomButtonFunctionPress();
+void greenBottomButtonFunctionRelease();
+void yellowTopButtonFunctionPress();
+void yellowTopButtonFunctionRelease();
+void yellowBottomButtonFunctionPress();
+void yellowBottomButtonFunctionRelease();
+void blackTopButtonFunctionPress();
+void blackTopButtonFunctionRelease();
+void blackBottomButtonFunctionPress();
+void blackBottomButtonFunctionRelease();
+void whiteTopButtonFunctionPress();
+void whiteTopButtonFunctionRelease();
+void whiteBottomButtonFunctionPress();
+void whiteBottomButtonFunctionRelease();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////
@@ -301,6 +311,7 @@ enum pinEnum {
   pinButtonBlueTop = 10,       ///< Pin 8 Blue button (top).
   pinButtonBlueBottom = 11,    ///< Pin 9. Blue button (bottom).
   pinButtonYellowTop = 12,     ///< Pin 10. Yellow button (top).
+  pinLightDebug = 13,
   pinButtonYellowBottom = 14,  ///< Pin 11. Yellow button (bottom).
   pinButtonBlackTop = 15,      ///< Pin 12. Black button (top).
   pinButtonBlackBottom = 16,   ///< Pin 13. Black button (bottom).
@@ -310,14 +321,6 @@ enum pinEnum {
   // 21. Avoid - I2C.
   pinGround = 53
 };
-
-////////////////////////////////////////////////////////////////////////
-// Serial //////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-/**
-   The serial baud rate.
-*/
-const int BAUD_RATE = 9600;
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
@@ -489,76 +492,115 @@ enum buttonEnum {
    debouncing, and callbacks.
 */
 ButtonARM buttons[] = {
-  ButtonARM(pinButtonStart,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  startButtonFunction),
-  ButtonARM(pinButtonReset,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  resetButtonFunction),
-  ButtonARM(pinButtonRedTop,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  redTopButtonFunction),
-  ButtonARM(pinButtonRedBottom,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  redBottomButtonFunction),
-  ButtonARM(pinButtonGreenTop,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  blueTopButtonFunction),
-  ButtonARM(pinButtonGreenBottom,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  blueBottomButtonFunction),
-  ButtonARM(pinButtonBlueTop,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  greenTopButtonFunction),
-  ButtonARM(pinButtonBlueBottom,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  greenBottomButtonFunction),
-  ButtonARM(pinButtonYellowTop,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  yellowTopButtonFunction),
-  ButtonARM(pinButtonYellowBottom,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  yellowBottomButtonFunction),
-  ButtonARM(pinButtonBlackTop,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  blackTopButtonFunction),
-  ButtonARM(pinButtonBlackBottom,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  blackBottomButtonFunction),
-  ButtonARM(pinButtonWhiteTop,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  whiteTopButtonFunction),
-  ButtonARM(pinButtonWhiteBottom,
-  Timer(),
-  DEBOUNCE_PERIOD_START,
-  DEBOUNCE_PERIOD_STOP,
-  whiteBottomButtonFunction)
+  ButtonARM(
+    pinButtonStart,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    startButtonFunctionPress,
+    startButtonFunctionRelease),
+  ButtonARM(
+    pinButtonReset,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    resetButtonFunctionPress,
+    resetButtonFunctionRelease),
+  ButtonARM(
+    pinButtonRedTop,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    redTopButtonFunctionPress,
+    redTopButtonFunctionRelease),
+  ButtonARM(
+    pinButtonRedBottom,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    redBottomButtonFunctionPress,
+    redBottomButtonFunctionRelease),
+  ButtonARM(
+    pinButtonGreenTop,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    blueTopButtonFunctionPress,
+    blueTopButtonFunctionRelease),
+  ButtonARM(
+    pinButtonGreenBottom,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    blueBottomButtonFunctionPress,
+    blueBottomButtonFunctionRelease),
+  ButtonARM(
+    pinButtonBlueTop,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    greenTopButtonFunctionPress,
+    greenTopButtonFunctionRelease),
+  ButtonARM(
+    pinButtonBlueBottom,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    greenBottomButtonFunctionPress,
+    greenBottomButtonFunctionRelease),
+  ButtonARM(
+    pinButtonYellowTop,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    yellowTopButtonFunctionPress,
+    yellowTopButtonFunctionRelease),
+  ButtonARM(
+    pinButtonYellowBottom,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    yellowBottomButtonFunctionPress,
+    yellowBottomButtonFunctionRelease),
+  ButtonARM(
+    pinButtonBlackTop,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    blackTopButtonFunctionPress,
+    blackTopButtonFunctionRelease),
+  ButtonARM(
+    pinButtonBlackBottom,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    blackBottomButtonFunctionPress,
+    blackBottomButtonFunctionRelease),
+  ButtonARM(
+    pinButtonWhiteTop,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    whiteTopButtonFunctionPress,
+    whiteTopButtonFunctionRelease),
+  ButtonARM(
+    pinButtonWhiteBottom,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    whiteBottomButtonFunctionPress,
+    whiteBottomButtonFunctionRelease)
+};
+
+////////////////////////////////////////////////////////////////////////
+// Lights //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+enum lightEnum {
+  lightDebug
+};
+
+Light lights[] = {
+  Light(pinLightDebug)
 };
 
 ////////////////////////////////////////////////////////////////////////

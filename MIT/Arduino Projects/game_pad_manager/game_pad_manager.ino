@@ -157,10 +157,10 @@ void loop() {
     // application.
     incomingMessage = Serial.read();
     switch (incomingMessage) {
-      case startMessage:
+      case messageStart:
         startFunction();
         break;
-      case resetMessage:
+      case messageReset:
         resetFunction();
         break;
       default:
@@ -174,7 +174,7 @@ void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
-  isLogging = false;
+  IS_LOGGING = false;
   isTurningJoysticksOn = false;
   isTurningJoysticksOff = true;
   delayTime = 0;
@@ -185,7 +185,7 @@ void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
-  isLogging = true;
+  IS_LOGGING = true;
   isTurningJoysticksOff = false;
   isTurningJoysticksOn = true;
   delayTime = 0;

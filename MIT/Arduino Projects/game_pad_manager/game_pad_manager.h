@@ -69,17 +69,9 @@ enum pinEnum {
   // 3. Avoid - I2C.
   pinButtonStart = 4,
   pinButtonReset = 5
-                   // 20. Avoid - I2C.
-                   // 21. Avoid - I2C.
+  // 20. Avoid - I2C.
+  // 21. Avoid - I2C.
 };
-
-////////////////////////////////////////////////////////////////////////
-// Serial //////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-/**
-   The serial baud rate.
-*/
-const int BAUD_RATE = 9600;
 
 ////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
@@ -87,9 +79,9 @@ const int BAUD_RATE = 9600;
 /**
    An enum of possible message codes.
 */
-enum messages {
-  startMessage = 48, ///< Start message.
-  resetMessage = 49  ///< Reset message.
+enum messageEnum {
+  messageStart = 48, ///< Start message.
+  messageReset = 49  ///< Reset message.
 };
 /**
    The default outgoing message.
@@ -184,9 +176,49 @@ int incomingMessage;
 // Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   If TRUE, then print tracer statements.
+   If TRUE, then print logging tracers.
 */
-bool isLogging;
+bool IS_LOGGING = false;
+/**
+   If TRUE, then print debug tracers.
+*/
+bool IS_DEBUGGING = true;
+
+////////////////////////////////////////////////////////////////////////
+// Time ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   Time (in milliseconds) of a single second.
+*/
+unsigned long TIME_ONE_SECOND = 1000L;
+/**
+   Time (in milliseconds) at the start of the previous loop.
+*/
+unsigned long timePrevious;
+/**
+   Time (in milliseconds) at the start of the current loop.
+*/
+unsigned long timeCurrent;
+/**
+   The difference between the current and previous loops.
+*/
+unsigned long timeDelta;
+/**
+   The accumulated time this second.
+*/
+unsigned long timeAccumulated;
+
+////////////////////////////////////////////////////////////////////////
+// FPS /////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The current number of frames counted this second.
+*/
+unsigned long fpsCurrent;
+/**
+   The number of frames counted over the course of the previous second.
+*/
+unsigned long fpsPrevious;
 
 ////////////////////////////////////////////////////////////////////////
 // Buttons /////////////////////////////////////////////////////////////

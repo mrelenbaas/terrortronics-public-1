@@ -119,7 +119,9 @@ void setup() {
   buttons[buttonStart].startTargeting();
   state.startWaiting();
   //pinMode(pinButtonStart, INPUT_PULLUP);
-  pinMode(13, OUTPUT);
+  //pinMode(13, OUTPUT);
+  //pinMode(6, INPUT);
+  //pinMode(7, OUTPUT);
 #if PROFILING
   PF(0);
   prof_has_dumped = 0;
@@ -193,6 +195,63 @@ void loop() {
       }
     }
   }
+  /*
+  if (digitalRead(6) == HIGH) {
+    lights[lightDebug].turnOn();
+    Serial.println("PRESSED");
+  } else {
+    lights[lightDebug].turnOff();
+    Serial.println("RELEASED");
+  }
+  */
+  //for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+  if (proximity.updateHotState() == 1) {
+    //Serial.println("PRESSED 0");
+    if (proximity.debounceByTimePress() == 1) {
+      //Serial.println("PRESSED 1");
+      if (proximity.debounceByPositionPress() == 1) {
+        //Serial.println("PRESSED 2");
+        if (proximity.debounceByBlockPress() == 1) {
+          //Serial.println("PRESSED 3");
+          if (proximity.debounceByTargetPress() == 1) {
+            if (state.isRunning() == 1) {
+              //Serial.println("PRESSED 4 (Running)");
+            } else if (state.isWaiting() == 1) {
+              //Serial.println("PRESSED 4 (Waiting)");
+            }
+          }
+          proximity.delegateFunctionPress();
+        }
+      }
+    }
+    //buttons[i].debounceByPosition();
+  } else {
+    //Serial.println("RELEASED 0");
+    if (proximity.debounceByTimeRelease() == 1) {
+      //Serial.println("RELEASED 1");
+      if (proximity.debounceByPositionRelease() == 1) {
+        //Serial.println("RELEASED 2");
+        if (proximity.debounceByBlockRelease() == 1) {
+          //Serial.println("RELEASED 3");
+          if (proximity.debounceByTargetRelease() == 1) {
+            if (state.isRunning() == 1) {
+              //Serial.println("RELEASED 4 (Running)");
+              proximity.stopTargeting();
+              proximity.delegateFunctionPress();
+              // Do something else.
+            } else if (state.isWaiting() == 1) {
+              //Serial.println("RELEASED 4 (Waiting)");
+              proximity.stopTargeting();
+              //buttons[i].delegateFunctionRelease();
+            }
+          }
+          proximity.delegateFunctionRelease();
+        }
+      }
+      proximity.reset();
+    }
+  }
+  //}
   for (int i = 0; i < (sizeof(thumbSticks) / sizeof(ThumbStick)); ++i) {
     thumbSticks[i].updateHotState();
   }
@@ -210,11 +269,12 @@ void loop() {
     if (counter > 0) {
       Serial.println("");
     }
-  }
-  for (int i = 0; i < (sizeof(thumbSticks) / sizeof(ThumbStick)); ++i) {
-    Serial.print("(");
-    thumbSticks[i].printDefinitions();
-    Serial.print("), ");
+    for (int i = 0; i < (sizeof(thumbSticks) / sizeof(ThumbStick)); ++i) {
+      Serial.print("(");
+      thumbSticks[i].printDefinitions();
+      Serial.print("), ");
+    }
+    Serial.println();
   }
   //water.printDefinitions();
   //Serial.print(", ");
@@ -223,7 +283,6 @@ void loop() {
   //soundDigital.printDefinitions();
   //Serial.print(", ");
   //soundAnalog.printDefinitions();
-  Serial.println();
 
   if (Serial.available() > 0 && !state.isRunning()) {
     // WARNING: Remember to consume the incoming bytes.
@@ -233,10 +292,10 @@ void loop() {
     incomingMessage = Serial.read();
     //Serial.println(incomingMessage);
     switch (incomingMessage) {
-      case startMessage:
+      case messageStart:
         startFunction();
         break;
-      case resetMessage:
+      case messageReset:
         //resetFunction();
         break;
       default:
@@ -389,12 +448,12 @@ bool timer() {
    @enduml
 */
 void startButtonFunctionPress() {
-  digitalWrite(13, HIGH);
   Serial.println("startButtonFunction()");
+  lights[lightDebug].turnOn();
 }
 
 void startButtonFunctionRelease() {
-  digitalWrite(13, LOW);
+  lights[lightDebug].turnOff();
 }
 
 /**
@@ -406,6 +465,16 @@ void resetButtonFunctionPress() {
 
 void resetButtonFunctionRelease() {
 
+}
+
+void proximityButtonFunctionPress() {
+  Serial.println("proximityButtonFunctionPress()");
+  lights[lightDebug].turnOn();
+}
+
+void proximityButtonFunctionRelease() {
+  Serial.println("proximityButtonFunctionRelease()");
+  lights[lightDebug].turnOff();
 }
 
 ////////////////////////////////////////////////////////////////////////

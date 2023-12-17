@@ -78,6 +78,10 @@ void setup() {
   }
   buttons[buttonStart].startTargeting();
   state.startWaiting();
+  //lights[lightDebug].turnOn();
+  //pinMode(13, OUTPUT);
+  //digitalWrite(13, HIGH);
+  //lights[lightDebug].turnOn();
 }
 
 /**
@@ -233,12 +237,13 @@ void loop() {
               //Serial.println("PRESSED 4");
               //state.startRunning();
             }
+            buttons[i].delegateFunctionPress();
           }
         }
       }
       //buttons[i].debounceByPosition();
     } else {
-      //Serial.println("PRESSED 0");
+      //Serial.println("RELEASED 0");
       if (buttons[i].debounceByTimeRelease() == 1) {
         //Serial.println("RELEASED 1");
         if (buttons[i].debounceByPositionRelease() == 1) {
@@ -249,15 +254,15 @@ void loop() {
               if (state.isRunning() == 1) {
                 //Serial.println("RELEASED 4 (Running)");
                 buttons[i].stopTargeting();
-                buttons[i].delegateFunction();
+                buttons[i].delegateFunctionRelease();
                 // Do something else.
               } else if (state.isWaiting() == 1) {
                 //Serial.println("RELEASED 4 (Waiting)");
                 buttons[i].stopTargeting();
-                buttons[i].delegateFunction();
                 buttons[buttonRedTop].startTargeting();
               }
             }
+            buttons[i].delegateFunctionRelease();
           }
         }
         buttons[i].reset();
@@ -431,99 +436,156 @@ bool timer() {
    -r-> (*)
    @enduml
 */
-void startButtonFunction() {
-  state.startRunning();
+void startButtonFunctionPress() {
   Serial.println("startButtonFunction()");
+  lights[lightDebug].turnOn();
+}
+
+void startButtonFunctionRelease() {
+  Serial.println("startButtonFunction()");
+  lights[lightDebug].turnOff();
+  state.startRunning();
 }
 
 /**
    The function to call when the Reset button is pressed.
 */
-void resetButtonFunction() {
+void resetButtonFunctionPress() {
+  Serial.println("reset()");
+}
+
+void resetButtonFunctionRelease() {
   Serial.println("reset()");
 }
 
 /**
    The function to call when the top-red button is pressed.
 */
-void redTopButtonFunction() {
+void redTopButtonFunctionPress() {
+  Serial.println("redTopButtonFunction()");
+}
+
+void redTopButtonFunctionRelease() {
   Serial.println("redTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-red button is pressed.
 */
-void redBottomButtonFunction() {
+void redBottomButtonFunctionPress() {
+  Serial.println("redBottomButtonFunction()");
+}
+
+void redBottomButtonFunctionRelease() {
   Serial.println("redBottomButtonFunction()");
 }
 
 /**
    The function to call when the top-green button is pressed.
 */
-void greenTopButtonFunction() {
+void greenTopButtonFunctionPress() {
+  Serial.println("greenTopButtonFunction()");
+}
+
+void greenTopButtonFunctionRelease() {
   Serial.println("greenTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-green button is pressed.
 */
-void greenBottomButtonFunction() {
+void greenBottomButtonFunctionPress() {
+  Serial.println("greenBottomButtonFunction()");
+}
+
+void greenBottomButtonFunctionRelease() {
   Serial.println("greenBottomButtonFunction()");
 }
 
 /**
    The function to call when the blue-top button is pressed.
 */
-void blueTopButtonFunction() {
+void blueTopButtonFunctionPress() {
+  Serial.println("blueTopButtonFunction()");
+}
+
+void blueTopButtonFunctionRelease() {
   Serial.println("blueTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-blue button is pressed.
 */
-void blueBottomButtonFunction() {
+void blueBottomButtonFunctionPress() {
+  Serial.println("blueBottomButtonFunction()");
+}
+void blueBottomButtonFunctionRelease() {
   Serial.println("blueBottomButtonFunction()");
 }
 
 /**
    The function to call when the yellow-top button is pressed.
 */
-void yellowTopButtonFunction() {
+void yellowTopButtonFunctionPress() {
+  Serial.println("yellowTopButtonFunction()");
+}
+
+void yellowTopButtonFunctionRelease() {
   Serial.println("yellowTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-yellow button is pressed.
 */
-void yellowBottomButtonFunction() {
+void yellowBottomButtonFunctionPress() {
+  Serial.println("yellowBottomButtonFunction()");
+}
+
+void yellowBottomButtonFunctionRelease() {
   Serial.println("yellowBottomButtonFunction()");
 }
 
 /**
    The function to call when the black-top button is pressed.
 */
-void blackTopButtonFunction() {
+void blackTopButtonFunctionPress() {
+  Serial.println("blackTopButtonFunction()");
+}
+
+void blackTopButtonFunctionRelease() {
   Serial.println("blackTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-black button is pressed.
 */
-void blackBottomButtonFunction() {
+void blackBottomButtonFunctionPress() {
+  Serial.println("blackBottomButtonFunction()");
+}
+
+void blackBottomButtonFunctionRelease() {
   Serial.println("blackBottomButtonFunction()");
 }
 
 /**
    The function to call when the top-white button is pressed.
 */
-void whiteTopButtonFunction() {
+void whiteTopButtonFunctionPress() {
+  Serial.println("whiteTopButtonFunction()");
+}
+
+void whiteTopButtonFunctionRelease() {
   Serial.println("whiteTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-white button is pressed.
 */
-void whiteBottomButtonFunction() {
+void whiteBottomButtonFunctionPress() {
+  Serial.println("whiteBottomButtonFunction()");
+}
+
+void whiteBottomButtonFunctionRelease() {
   Serial.println("whiteBottomButtonFunction()");
 }
 

@@ -61,25 +61,26 @@
 
 void setup() {
   Serial.begin(BAUD_RATE);
-  timeCurrent = millis();
-  timePrevious = timeCurrent;
-  timeCurrent = millis();
-  timeDelta = timeCurrent - timePrevious;
-  timeThisSecond = timeDelta;
-  pinMode(AVOID_PIN, INPUT);
-  pinMode(METAL_PIN, INPUT);
-  pinMode(LED, OUTPUT);
-  pinMode(SOUND_ANALOG, INPUT);
-  pinMode(SOUND_DIGITAL, INPUT_PULLUP);
-  pinMode(PAPER, INPUT_PULLUP);
-  pinMode(13, OUTPUT);
+  //timeCurrent = millis();
+  //timePrevious = timeCurrent;
+  //timeCurrent = millis();
+  //timeDelta = timeCurrent - timePrevious;
+  //timeThisSecond = timeDelta;
+  //pinMode(AVOID_PIN, INPUT);
+  //pinMode(METAL_PIN, INPUT);
+  //pinMode(LED, OUTPUT);
+  //pinMode(SOUND_ANALOG, INPUT);
+  //pinMode(SOUND_DIGITAL, INPUT_PULLUP);
+  //pinMode(PAPER, INPUT_PULLUP);
+  //pinMode(4, INPUT_PULLUP);
+  pinMode(pinLightDebug, OUTPUT); // Remember that the Teensy doesn't let you do pinMode early, or something? Because I need to do it again for it to work.
 }
 
 /**
    The main function.
 */
 void loop() {
-  for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+  for (unsigned int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) { // TODO: Use unsigned int for other for loops.
     if (buttons[i].updateHotState() == 1) {
       //Serial.println("PRESSED 0");
       if (buttons[i].debounceByTimePress() == 1) {
@@ -129,6 +130,16 @@ void loop() {
       }
     }
   }
+  /*
+  if (digitalRead(4) == LOW) {
+    //digitalWrite(13, HIGH);
+    lights[lightDebug].turnOn();
+  } else {
+    //digitalWrite(13, LOW);
+    lights[lightDebug].turnOff();
+  }
+  */
+  /*
   timePrevious = timeCurrent;
   timeCurrent = millis();
   timeDelta = timeCurrent - timePrevious;
@@ -149,11 +160,12 @@ void loop() {
   //  ++fpsCurrent;
   //}
   //delay(50);
-  avoid = digitalRead(AVOID_PIN);
-  metal = analogRead(METAL_PIN);
-  soundAnalog = analogRead(SOUND_ANALOG);
-  soundDigital = digitalRead(SOUND_DIGITAL);
-  paper = digitalRead(PAPER);
+  */
+  //avoid = digitalRead(AVOID_PIN);
+  //metal = analogRead(METAL_PIN);
+  //soundAnalog = analogRead(SOUND_ANALOG);
+  //soundDigital = digitalRead(SOUND_DIGITAL);
+  //paper = digitalRead(PAPER);
   /*
     if (sonarIndex == 0) {
     unsigned int distance = sonar.ping_cm();
@@ -208,10 +220,10 @@ void loop() {
     // application.
     incomingMessage = Serial.read();
     switch (incomingMessage) {
-      case startMessage:
+      case messageStart:
         startFunction();
         break;
-      case resetMessage:
+      case messageReset:
         resetFunction();
         break;
       default:
@@ -225,25 +237,23 @@ void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
-  isLogging = false;
+  IS_LOGGING = false;
 }
 
 void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
-  isLogging = true;
+  IS_LOGGING = true;
 }
 
 void startButtonFunctionPress() {
   Serial.println("startButtonFunction()");
-  digitalWrite(13, HIGH);
-  digitalWrite(LED, HIGH);
+  lights[lightDebug].turnOn();
 }
 
 void startButtonFunctionRelease() {
-  digitalWrite(13, LOW);
-  digitalWrite(LED, LOW);
+  lights[lightDebug].turnOff();
 }
 
 /**

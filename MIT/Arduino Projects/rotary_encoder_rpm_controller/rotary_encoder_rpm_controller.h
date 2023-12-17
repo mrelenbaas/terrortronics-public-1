@@ -74,7 +74,8 @@ void startFunction();
    The board's pins. Named with the [pin + type + name] convention,
    while other enums are named with the [type + name] convention.
 */
-enum pinEnum {
+enum pinEnum {./iotivity-lite/port/linux/simpleserver
+
   // A4. Avoid - I2C.
   // A5. Avoid - I2C.
   // 2. Avoid - I2C.
@@ -94,61 +95,14 @@ enum pinEnum {
 const int BAUD_RATE = 9600;
 
 ////////////////////////////////////////////////////////////////////////
-// Buttons /////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-/**
-   The debounce period before a Press is considered valid.
-*/
-unsigned long DEBOUNCE_PERIOD_START = 10L;
-/**
-   The debounce period before a Release is considered valid.
-*/
-unsigned long DEBOUNCE_PERIOD_STOP = 5L;
-/**
-   An enum paired with the buttons.
-*/
-enum buttonEnum {
-  buttonStart,   ///< The Start button index.
-  buttonReset    ///< The Reset button index.
-};
-/**
-   An array of Button elements. Handles the buttons hot state,
-   debouncing, and callbacks.
-*/
-ButtonAVR buttons[] = {
-  ButtonAVR(
-    pinButtonStart,
-    Timer(),
-    DEBOUNCE_PERIOD_START,
-    DEBOUNCE_PERIOD_STOP,
-    startButtonFunctionPress,
-    startButtonFunctionRelease)/*,
-  ButtonAVR(
-    pinButtonReset,
-    Timer(),
-    DEBOUNCE_PERIOD_START,
-    DEBOUNCE_PERIOD_STOP,
-    resetButtonFunctionPress,
-    resetButtonFunctionRelease),*/
-};
-
-////////////////////////////////////////////////////////////////////////
-// State ///////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-/**
-   The state of the game.
-*/
-State state = State();
-
-////////////////////////////////////////////////////////////////////////
 // Messages ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
    An enum of possible message codes.
 */
-enum messages {
-  startMessage = 48, ///< Start message.
-  resetMessage = 49  ///< Reset message.
+enum messageEnum {
+  messageStart = 48, ///< Start message.
+  messageReset = 49  ///< Reset message.
 };
 /**
    The default outgoing message.
@@ -243,14 +197,112 @@ int incomingMessage;
 // Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   If TRUE, then print tracer statements.
+   If TRUE, then print logging tracers.
 */
-bool isLogging;
+bool IS_LOGGING = false;
+/**
+   If TRUE, then print debug tracers.
+*/
+bool IS_DEBUGGING = true;
+
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The debounce period before a Press is considered valid.
+*/
+unsigned long DEBOUNCE_PERIOD_START = 10L;
+/**
+   The debounce period before a Release is considered valid.
+*/
+unsigned long DEBOUNCE_PERIOD_STOP = 5L;
+/**
+   An enum paired with the buttons.
+*/
+enum buttonEnum {
+  buttonStart,   ///< The Start button index.
+  buttonReset    ///< The Reset button index.
+};
+/**
+   An array of Button elements. Handles the buttons hot state,
+   debouncing, and callbacks.
+*/
+ButtonAVR buttons[] = {
+  ButtonAVR(
+    pinButtonStart,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    startButtonFunctionPress,
+    startButtonFunctionRelease)/*,
+  ButtonAVR(
+    pinButtonReset,
+    Timer(),
+    DEBOUNCE_PERIOD_START,
+    DEBOUNCE_PERIOD_STOP,
+    resetButtonFunctionPress,
+    resetButtonFunctionRelease),*/
+};
+
+////////////////////////////////////////////////////////////////////////
+// State ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The state of the game.
+*/
+State state = State();
+
+////////////////////////////////////////////////////////////////////////
+// Time ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   Time (in milliseconds) of a single second.
+*/
+unsigned long TIME_ONE_SECOND = 1000L;
+/**
+   Time (in milliseconds) at the start of the previous loop.
+*/
+unsigned long timePrevious;
+/**
+   Time (in milliseconds) at the start of the current loop.
+*/
+unsigned long timeCurrent;
+/**
+   The difference between the current and previous loops.
+*/
+unsigned long timeDelta;
+/**
+   The accumulated time this second.
+*/
+unsigned long timeAccumulated;
+
+////////////////////////////////////////////////////////////////////////
+// FPS /////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The current number of frames counted this second.
+*/
+unsigned long fpsCurrent;
+/**
+   The number of frames counted over the course of the previous second.
+*/
+unsigned long fpsPrevious;
+
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// State ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/**
+   The state of the game.
+*/
+State state = State();
 
 ////////////////////////////////////////////////////////////////////////
 // Undocumented ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-
 // TODO: Remember that this is the only .ino file that uses the #define convention. Other .ino files use const ints.
 // Rotary Encoder Inputs
 #define CLK 22
