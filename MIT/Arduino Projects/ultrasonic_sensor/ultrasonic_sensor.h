@@ -193,10 +193,6 @@ bool IS_DEBUGGING = true;
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   Time (in milliseconds) of a single second.
-*/
-unsigned long TIME_ONE_SECOND = 1000L;
-/**
    Time (in milliseconds) at the start of the previous loop.
 */
 unsigned long timePrevious;
@@ -286,39 +282,39 @@ State state = State();
 ////////////////////////////////////////////////////////////////////////
 // Undocumented ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-#define TRIGGER_PIN 11
-#define ECHO_PIN 13
-#define TRIGGER_PIN_1 9
-#define ECHO_PIN_1 10
-#define TRIGGER_PIN_2 7
-#define ECHO_PIN_2 8
-#define TRIGGER_PIN_3 5
-#define ECHO_PIN_3 6
-#define TRIGGER_PIN_4 3
+//#define TRIGGER_PIN 11
+//#define ECHO_PIN 13
+//#define TRIGGER_PIN_1 9
+//#define ECHO_PIN_1 10
+//#define TRIGGER_PIN_2 7
+//#define ECHO_PIN_2 8
+//#define TRIGGER_PIN_3 5
+//#define ECHO_PIN_3 6
+//#define TRIGGER_PIN_4 3
 //#define ECHO_PIN_4 4
-#define MAX_DISTANCE 200
+//#define MAX_DISTANCE 200
 //#define AVOID_PIN 13
-#define METAL_PIN 14
-#define LED 15
-#define SOUND_ANALOG 16
-#define SOUND_DIGITAL 17
-#define PAPER 18
+//#define METAL_PIN 14
+//#define LED 15
+//#define SOUND_ANALOG 16
+//#define SOUND_DIGITAL 17
+//#define PAPER 18
 
 // NewPing setup of pins and maximum distance
-NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
-NewPing sonar1(TRIGGER_PIN_1, ECHO_PIN_1, MAX_DISTANCE);
-NewPing sonar2(TRIGGER_PIN_2, ECHO_PIN_2, MAX_DISTANCE);
-NewPing sonar3(TRIGGER_PIN_3, ECHO_PIN_3, MAX_DISTANCE);
+//NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
+//NewPing sonar1(TRIGGER_PIN_1, ECHO_PIN_1, MAX_DISTANCE);
+//NewPing sonar2(TRIGGER_PIN_2, ECHO_PIN_2, MAX_DISTANCE);
+//NewPing sonar3(TRIGGER_PIN_3, ECHO_PIN_3, MAX_DISTANCE);
 //NewPing sonar4(TRIGGER_PIN_4, ECHO_PIN_4, MAX_DISTANCE);
-bool avoid;
-int metal;
-bool led;
-int soundAnalog;
-bool soundDigital;
-bool paper;
+//bool avoid;
+//int metal;
+//bool led;
+//int soundAnalog;
+//bool soundDigital;
+//bool paper;
 
-int sonarIndex = 0;
-const int SONAR_MAX = 5;
+//int sonarIndex = 0;
+//const int SONAR_MAX = 5;
 
 //const long PERIOD = 1000;
 //long timePrevious;

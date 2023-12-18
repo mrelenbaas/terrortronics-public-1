@@ -1,14 +1,6 @@
 #include "Arduino.h"
 #include "common.h"
 
-////////////////////////////////////////////////////////////////////////
-// Constructors ////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-Proximity::Proximity(int pin) {
-  this->pin = pin;
-  pinMode(pin, INPUT);
-}
-
 SoundAnalog::SoundAnalog(int pin) {
   this->pin = pin;
   pinMode(pin, INPUT);
@@ -31,16 +23,21 @@ ThumbStick::ThumbStick(int pinHorizontal, int pinVertical) {
   pinMode(pinVertical, INPUT);
 }
 
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
 Button::Button(int pin,
                Timer timer,
                unsigned long periodStart,
                unsigned long periodStop,
-               void (*delegateFunction)()) {
+               void (*delegateFunctionPress)(),
+               void (*delegateFunctionRelease)()) {
   this->pin = pin;
   this->timer = timer;
   this->timer.pseudoConstructor(periodStart, periodStop);
-  this->delegateFunction = (*delegateFunction);
-  //this->thisButton = this;
+  this->delegateFunctionPress = (*delegateFunctionPress);
+  this->delegateFunctionRelease = (*delegateFunctionRelease);
   pinMode(pin, INPUT_PULLUP);
 }
 
@@ -48,12 +45,14 @@ ButtonARM::ButtonARM(int pin,
                      Timer timer,
                      unsigned long periodStart,
                      unsigned long periodStop,
-                     void (*delegateFunction)()) 
+                     void (*delegateFunctionPress)(),
+                     void (*delegateFunctionRelease)()) 
           : Button(pin,
                    timer,
                    periodStart,
                    periodStop,
-                   delegateFunction) {
+                   delegateFunctionPress,
+                   delegateFunctionRelease) {
   attachInterrupt(
     digitalPinToInterrupt(pin),
     interruptFunction,
@@ -64,13 +63,30 @@ ButtonAVR::ButtonAVR(int pin,
                      Timer timer,
                      unsigned long periodStart,
                      unsigned long periodStop,
-                     void (*delegateFunction)())
+                     void (*delegateFunctionPress)(),
+                     void (*delegateFunctionRelease)())
           : Button(pin,
                    timer,
                    periodStart,
                    periodStop,
-                   delegateFunction) {
+                   delegateFunctionPress,
+                   delegateFunctionRelease) {
   // Empty.
+}
+
+Proximity::Proximity(int pin,
+                    Timer timer,
+                    unsigned long periodStart,
+                    unsigned long periodStop,
+                    void (*delegateFunctionPress)(),
+                    void (*delegateFunctionRelease)()) 
+          : Button(pin,
+                   timer,
+                   periodStart,
+                   periodStop,
+                   delegateFunctionPress,
+                   delegateFunctionRelease) {
+  pinMode(pin, INPUT);
 }
 
 //Timer::Timer(const unsigned long period) {
@@ -80,6 +96,23 @@ void Timer::pseudoConstructor(unsigned long periodStart,
                               unsigned long periodStop) {
   this->periodStart = periodStart;
   this->periodStop = periodStop;
+}
+
+////////////////////////////////////////////////////////////////////////
+// Lights //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+Light::Light(int pin) {
+  this->pin = pin;
+  pinMode(pin, OUTPUT);
+}
+
+void Light::turnOn() {
+  digitalWrite(pin, HIGH);
+}
+
+void Light::turnOff() {
+  digitalWrite(pin, LOW);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -103,6 +136,7 @@ int SoundAnalog::printDefinitions() {
   return result;
 }
 
+/*
 int Proximity::printDefinitions() {
   int result = 0;
   if (this->stateHot) {
@@ -111,6 +145,7 @@ int Proximity::printDefinitions() {
   }
   return result;
 }
+*/
 
 int Water::printDefinitions() {
   int result = 0;
@@ -165,10 +200,6 @@ void SoundDigital::updateHotState() {
 
 void SoundAnalog::updateHotState() {
   stateHot = analogRead(pin);
-}
-
-void Proximity::updateHotState() {
-  stateHot = digitalRead(pin);
 }
 
 void Water::updateHotState() {

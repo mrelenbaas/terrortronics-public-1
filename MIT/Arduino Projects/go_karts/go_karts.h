@@ -192,10 +192,6 @@ bool IS_DEBUGGING = true;
 // Time ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
-   Time (in milliseconds) of a single second.
-*/
-unsigned long TIME_ONE_SECOND = 1000L;
-/**
    Time (in milliseconds) at the start of the previous loop.
 */
 unsigned long timePrevious;

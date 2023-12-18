@@ -242,7 +242,7 @@ void startFunction() {
 void startButtonFunctionPress() {
   digitalWrite(13, HIGH);
   Serial.println("startButtonFunction()");
-  IF (!IS_DEBUGGING) {
+  if (!IS_DEBUGGING) {
     if (!isBlocked) {
       // Replace this section with automatic connection to the network.
       Keyboard.press(KEY_LEFT_ALT);

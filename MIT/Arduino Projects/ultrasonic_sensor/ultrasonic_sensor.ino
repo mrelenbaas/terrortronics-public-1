@@ -203,6 +203,7 @@ void loop() {
     Serial.print(soundDigital);
     Serial.println(" cm7");
   */
+  /*
   Serial.print(paper);
   Serial.println(" cm8");
   ++sonarIndex;
@@ -213,6 +214,7 @@ void loop() {
   }
 
   ++fpsCurrent;
+  */
   if (Serial.available() > 0) {
     // WARNING: Remember to consume the incoming bytes.
     // The error does not occur when using the usb.c or usb.py files.
