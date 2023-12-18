@@ -5,7 +5,7 @@
 
    @section author Attribution
    - Title: Ultrasonic Sensors file.
-   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Author: Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
    - Date: November 6, 2023.
 
@@ -34,30 +34,40 @@
    SOFTWARE.
 
    @section description Description
-   Empty.
+   - Empty.
+
+   @section notes Notes
+   - Empty.
+
+   @section warnings WARNINGS
+   - Empty.
+
+   @section libraries Libraries
+   - Serial
+
+   @section circuit Circuit
+   - Empty.
 
    @section pins Pins
-   - empty
+   - Empty.
 
    @section resources Resources
    - https://randomnerdtutorials.com/complete-guide-for-ultrasonic-sensor-hc-sr04/
    - https://learn.sparkfun.com/tutorials/installing-an-arduino-library/all
    - https://stackoverflow.com/questions/1637332/static-const-vs-define
 
-   @section warnings WARNINGS
-   - empty
+   @section ut Unit Tests
+   - Empty.
 */
 
-// Include 2nd-party libraries.
+// 2nd-party libraries.
 #include "common.h"
-// Include 3rd-party libraries.
+// 3rd-party libraries.
 #include <NewPing.h>
 
 ////////////////////////////////////////////////////////////////////////
 // Function Stubs //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-void resetFunction();
-void startFunction();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////

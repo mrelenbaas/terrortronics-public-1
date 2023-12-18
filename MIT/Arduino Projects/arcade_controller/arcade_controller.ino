@@ -3,14 +3,6 @@
 
    @mainpage Arcade Controller Project
 
-   @section description Description
-   The Arcade Controller.
-
-   @section notes Notes
-   - The Overview section of the Doxygen docs does not include print
-   statements. The inline comments are the same as the Overview
-   section, but they do include print statements.
-
    @section author Author
    - Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
@@ -42,9 +34,9 @@
    SOFTWARE.
 */
 
-// Include 2nd-party libraries.
+// 2nd-party libraries.
 #include "arcade_controller.h"
-// Include 3rd-party libraries.
+// 3rd-party libraries.
 #include <MemoryFree.h>;
 
 /**

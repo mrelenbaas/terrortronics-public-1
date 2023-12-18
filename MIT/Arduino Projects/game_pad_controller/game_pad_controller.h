@@ -5,7 +5,7 @@
 
    @section author Attribution
    - Title: Gamepad Controller file.
-   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Author: Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
    - Date: November 6, 2023.
 
@@ -33,37 +33,40 @@
    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    SOFTWARE.
 
+   @section description Description
+   - Empty.
+
+   @section notes Notes
+   - Empty.
+
+   @section warnings WARNINGS
+   - Empty.
+
+   @section libraries Libraries
+   - Serial
+
    @section circuit Circuit
    - Board
     + Arduino Uno R3
    - Buttons
 
-   @section libraries Libraries
-   - Serial
-
-   @section description Description
-   Empty.
-
    @section pins Pins
-   - empty
+   - Empty.
 
    @section resources Resources
    - Timer
     + http://popdevelop.com/2010/04/mastering-timer-interrupts-on-the-arduino/
     + http://www.desert-home.com/p/super-thermostat.html
 
-   @section warnings WARNINGS
-   - empty
-
    @section ut Unit Tests
-   - empty
+   - Empty.
 */
 
-// Include 1st-party libraries.
+// 1st-party libraries.
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <HardwareSerial.h>
-// Include 2nd-party libraries.
+// 2nd-party libraries.
 #include "common.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -102,8 +105,6 @@ unsigned int tcnt2;
 ////////////////////////////////////////////////////////////////////////
 // Function Stubs //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-void resetFunction();
-void startFunction();
 void proximityButtonFunctionPress();
 void proximityButtonFunctionRelease();
 

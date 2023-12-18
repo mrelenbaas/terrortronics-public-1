@@ -3,12 +3,6 @@
 
    @mainpage Arcade Controller Project
 
-   @section description Description
-   The Arcade Controller.
-
-   @section notes Notes
-   - RUSCAL documentation excludes print statements.
-
    @section author Author
    - Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
@@ -39,6 +33,18 @@
    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    SOFTWARE.
 
+   @section description Description
+   - Empty.
+
+   @section notes Notes
+   - Empty.
+
+   @section warnings WARNINGS
+   - Pin 35 releases slowly.
+
+   @section libraries Libraries
+   - Serial
+
    @section circuit Circuit
    - Board
     + Arduino Due
@@ -46,12 +52,6 @@
    - Buttons
    \image html arcade_controller_buttons_pullup_resistors.png
    \image latex arcade_controller_buttons_pullup_resistors.eps
-
-   @section libraries Libraries
-   - Serial
-
-   @section description Description
-   Empty.
 
    @section pins Pins
    - Pin 2. The start button.
@@ -82,9 +82,6 @@
         - https://docs.arduino.cc/built-in-examples/digital/Debounce
    - Interrupts
     + https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
-
-   @section warnings WARNINGS
-   - Pin 35 releases slowly.
 
    @section ut Unit Tests
    - Button shall respond promptly.
@@ -255,14 +252,12 @@
    - Replace the discovery code with IoTivity code.
 */
 
-// Include 2nd-party libraries.
+// 2nd-party libraries.
 #include "common.h"
 
 ////////////////////////////////////////////////////////////////////////
 // Function Stubs //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-void resetFunction();
-void startFunction();
 bool timer();
 void interruptFunction();
 void redTopButtonFunctionPress();

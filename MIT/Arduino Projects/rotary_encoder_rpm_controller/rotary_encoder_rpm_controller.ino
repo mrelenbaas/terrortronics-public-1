@@ -5,7 +5,7 @@
 
    @section author Attribution
    - Title: Rotary Encoder RPM Controller file.
-   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Author: Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
    - Date: November 6, 2023.
 
@@ -32,36 +32,9 @@
    ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    SOFTWARE.
-
-   @section circuit Circuit
-   - Board
-    + Adafruit Feather HUZZAH ESP32
-   - Buttons
-
-   @section libraries Libraries
-   - Serial
-
-   @section description Description
-   Empty.
-
-   @section pins Pins
-   - empty
-
-   @section resources Resources
-   - https://www.adafruit.com/product/3405
-   - https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/pinouts
-   - https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html
-   - https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/overview
-   - https://github.com/espressif/arduino-esp32
-   - https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads
-   - https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
-   - https://docs.arduino.cc/built-in-examples/digital/toneMelody
-
-   @section warnings WARNINGS
-   - empty
 */
 
-// Include 2nd-party libraries.
+// 2nd-party libraries.
 #include "rotary_encoder_rpm_controller.h"
 
 void IRAM_ATTR updateEncoder() {

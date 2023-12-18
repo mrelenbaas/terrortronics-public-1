@@ -5,7 +5,7 @@
 
    @section author Attribution
    - Title: Joystick Manager file.
-   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Author: Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
    - Date: November 6, 2023.
 
@@ -54,7 +54,7 @@
    - empty
 */
 
-// Include 2nd-party libraries.
+// 2nd-party libraries.
 #include "game_pad_manager.h"
 
 // Pseudo-constructor.

@@ -5,7 +5,7 @@
 
    @section author Attribution
    - Title: GoKarts file.
-   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Author: Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
    - Date: November 6, 2023.
 
@@ -32,31 +32,11 @@
    ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    SOFTWARE.
-
-   @section circuit Circuit
-   - Board
-    + Arduino Micro
-   - Buttons
-
-   @section libraries Libraries
-   - Serial
-
-   @section description Description
-   Empty.
-
-   @section pins Pins
-   - empty
-
-   @section resources Resources
-   - empty
-
-   @section warnings WARNINGS
-   - empty
 */
 
-// Include 1st-part libraries.
+// 1st-part libraries.
 #include "Keyboard.h"
-// Include 2nd-party libraries.
+// 2nd-party libraries.
 #include "go_karts.h"
 
 /*

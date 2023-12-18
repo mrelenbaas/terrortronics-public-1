@@ -5,7 +5,7 @@
 
    @section author Attribution
    - Title: Rotary Encoder RPM Controller file.
-   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Author: Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
    - Date: November 6, 2023.
 
@@ -34,10 +34,22 @@
    SOFTWARE.
 
    @section description Description
-   Empty.
+   - Empty.
+
+   @section notes Notes
+   - Empty.
+
+   @section warnings WARNINGS
+   - Empty.
+
+   @section libraries Libraries
+   - Serial
+
+   @section circuit Circuit
+   - Empty.
 
    @section pins Pins
-   - empty
+   - Empty.
 
    @section resources Resources
    - https://www.adafruit.com/product/3405
@@ -49,23 +61,21 @@
    - https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
    - https://docs.arduino.cc/built-in-examples/digital/toneMelody
 
-   @section warnings WARNINGS
-   - empty
+   @section ut Unit Tests
+   - Empty.
 */
 
-// Include 1st-party libraries.
+// 1st-party libraries.
 #include "WiFi.h"
 #include "AsyncUDP.h"
-// Include 2nd-party libraries.
+// 2nd-party libraries.
 #include "common.h"
-// Include 3rd-party libraries.
+// 3rd-party libraries.
 #include "pitches.h"
 
 ////////////////////////////////////////////////////////////////////////
 // Function Stubs //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-void resetFunction();
-void startFunction();
 
 ////////////////////////////////////////////////////////////////////////
 // Pins ////////////////////////////////////////////////////////////////

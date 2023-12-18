@@ -5,7 +5,7 @@
 
    @section author Attribution
    - Title: GoKarts file.
-   - Author: Terrortronics / Bradley Elenbaas (mr.elenbaas@gmail.com)
+   - Author: Bradley Elenbaas (mr.elenbaas@gmail.com)
    - Version: 2
    - Date: November 6, 2023.
 
@@ -34,26 +34,36 @@
    SOFTWARE.
 
    @section description Description
-   Empty.
+   - Empty.
 
-   @section pins Pins
-   - empty
-
-   @section resources Resources
-   - empty
+   @section notes Notes
+   - Empty.
 
    @section warnings WARNINGS
-   - empty
+   - Empty.
+
+   @section libraries Libraries
+   - Serial
+
+   @section circuit Circuit
+   - Empty.
+
+   @section pins Pins
+   - Empty.
+
+   @section resources Resources
+   - Empty.
+
+   @section ut Unit Tests
+   - Empty.
 */
 
-// Include 2nd-party libraries.
+// 2nd-party libraries.
 #include "common.h"
 
 ////////////////////////////////////////////////////////////////////////
 // Function Stubs //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-void resetFunction();
-void startFunction();
 void proximityButtonFunctionPress();
 void proximityButtonFunctionRelease();
 
