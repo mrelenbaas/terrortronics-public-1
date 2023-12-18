@@ -39,67 +39,55 @@
 
 // 2nd-party libraries.
 #include "ultrasonic_sensor.h"
+// 3rd-party libraries.
+#include <MemoryFree.h>
 
 void setup() {
   Serial.begin(BAUD_RATE);
-  //timeCurrent = millis();
-  //timePrevious = timeCurrent;
-  //timeCurrent = millis();
-  //timeDelta = timeCurrent - timePrevious;
-  //timeThisSecond = timeDelta;
-  //pinMode(AVOID_PIN, INPUT);
-  //pinMode(METAL_PIN, INPUT);
-  //pinMode(LED, OUTPUT);
-  //pinMode(SOUND_ANALOG, INPUT);
-  //pinMode(SOUND_DIGITAL, INPUT_PULLUP);
-  //pinMode(PAPER, INPUT_PULLUP);
-  //pinMode(4, INPUT_PULLUP);
-  pinMode(pinLightDebug, OUTPUT); // Remember that the Teensy doesn't let you do pinMode early, or something? Because I need to do it again for it to work.
 }
 
 /**
    The main function.
 */
 void loop() {
+  result = sentinelTimer.updateGuard();
+  if (result == 0) {
+    return;
+  } else if (result == 1) {
+    fps.increment();
+  } else if (result == 2) {
+    Serial.print(millis());
+    Serial.print(", FPS: ");
+    Serial.print(fps.getFPS());
+    Serial.print(", freeMemory: ");
+    Serial.print(freeMemory());
+    Serial.println();
+    fps.reset();
+  }
   for (unsigned int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) { // TODO: Use unsigned int for other for loops.
     if (buttons[i].updateHotState() == 1) {
-      //Serial.println("PRESSED 0");
       if (buttons[i].debounceByTimePress() == 1) {
-        //Serial.println("PRESSED 1");
         if (buttons[i].debounceByPositionPress() == 1) {
-          //Serial.println("PRESSED 2");
           if (buttons[i].debounceByBlockPress() == 1) {
-            //Serial.println("PRESSED 3");
             if (buttons[i].debounceByTargetPress() == 1) {
               if (state.isRunning() == 1) {
-                //Serial.println("PRESSED 4 (Running)");
               } else if (state.isWaiting() == 1) {
-                //Serial.println("PRESSED 4 (Waiting)");
               }
             }
             buttons[i].delegateFunctionPress();
           }
         }
       }
-      //buttons[i].debounceByPosition();
     } else {
-      //Serial.println("PRESSED 0");
       if (buttons[i].debounceByTimeRelease() == 1) {
-        //Serial.println("RELEASED 1");
         if (buttons[i].debounceByPositionRelease() == 1) {
-          //Serial.println("RELEASED 2");
           if (buttons[i].debounceByBlockRelease() == 1) {
-            //Serial.println("RELEASED 3");
             if (buttons[i].debounceByTargetRelease() == 1) {
               if (state.isRunning() == 1) {
-                //Serial.println("RELEASED 4 (Running)");
                 buttons[i].stopTargeting();
                 buttons[i].delegateFunctionPress();
-                // Do something else.
               } else if (state.isWaiting() == 1) {
-                //Serial.println("RELEASED 4 (Waiting)");
                 buttons[i].stopTargeting();
-                //buttons[i].delegateFunctionRelease();
                 state.startRunning();
                 buttons[buttonReset].startTargeting();
               }
@@ -111,96 +99,7 @@ void loop() {
       }
     }
   }
-  /*
-  if (digitalRead(4) == LOW) {
-    //digitalWrite(13, HIGH);
-    lights[lightDebug].turnOn();
-  } else {
-    //digitalWrite(13, LOW);
-    lights[lightDebug].turnOff();
-  }
-  */
-  /*
-  timePrevious = timeCurrent;
-  timeCurrent = millis();
-  timeDelta = timeCurrent - timePrevious;
-  timeThisSecond += timeDelta;
-  if (timeThisSecond >= PERIOD) {
-    fpsPrevious = fpsCurrent;
-    fpsCurrent = 0;
-    timeThisSecond -= PERIOD;
-    if (led) {
-      //digitalWrite(LED, HIGH);
-    } else {
-      //digitalWrite(LED, LOW);
-    }
-    led = !led;
-    Serial.print("FPS: ");
-    Serial.println(fpsPrevious);
-  }// else {
-  //  ++fpsCurrent;
-  //}
-  //delay(50);
-  */
-  //avoid = digitalRead(AVOID_PIN);
-  //metal = analogRead(METAL_PIN);
-  //soundAnalog = analogRead(SOUND_ANALOG);
-  //soundDigital = digitalRead(SOUND_DIGITAL);
-  //paper = digitalRead(PAPER);
-  /*
-    if (sonarIndex == 0) {
-    unsigned int distance = sonar.ping_cm();
-    Serial.print(distance);
-    Serial.println(" cm0");
-    } else if (sonarIndex == 1) {
-    unsigned int distance1 = sonar1.ping_cm();
-    Serial.print(distance1);
-    Serial.println(" cm1");
-    } else if (sonarIndex == 2) {
-    unsigned int distance2 = sonar2.ping_cm();
-    Serial.print(distance2);
-    Serial.println(" cm2");
-    } else if (sonarIndex == 3) {
-    unsigned int distance3 = sonar3.ping_cm();
-    Serial.print(distance3);
-    Serial.println(" cm3");
-    } else if (sonarIndex == 4) {
-    unsigned int distance4 = sonar4.ping_cm();
-    Serial.print(distance4);
-    Serial.println(" cm4");
-    }
-  */
-  /*
-    Serial.print(avoid);
-    Serial.println(" cm5");
-  */
-  /*
-    Serial.print(metal);
-    Serial.println(" cm6");
-  */
-  /*
-    Serial.print(soundAnalog);
-    Serial.print(", ");
-    Serial.print(soundDigital);
-    Serial.println(" cm7");
-  */
-  /*
-  Serial.print(paper);
-  Serial.println(" cm8");
-  ++sonarIndex;
-  if (sonarIndex >= SONAR_MAX) {
-    sonarIndex = 0;
-  } else {
-    //++fpsCurrent;
-  }
-
-  ++fpsCurrent;
-  */
   if (Serial.available() > 0) {
-    // WARNING: Remember to consume the incoming bytes.
-    // The error does not occur when using the usb.c or usb.py files.
-    // The error does occur when reading/writing in a PyGame
-    // application.
     incomingMessage = Serial.read();
     switch (incomingMessage) {
       case messageStart:
@@ -213,23 +112,21 @@ void loop() {
         break;
     }
   }
-  //delay(10);
 }
 
+////////////////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 void resetFunction() {
-  Serial.print(millis());
-  Serial.print(": ");
-  Serial.println("reset()");
 }
 
 void startFunction() {
-  Serial.print(millis());
-  Serial.print(": start(), ");
-  Serial.println(OUTGOING_START);
 }
 
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 void startButtonFunctionPress() {
-  Serial.println("startButtonFunction()");
   lights[lightDebug].turnOn();
 }
 
@@ -241,9 +138,15 @@ void startButtonFunctionRelease() {
    Empty. The function to call then the Reset button is pressed.
 */
 void resetButtonFunctionPress() {
-  Serial.println("reset()");
 }
 
 void resetButtonFunctionRelease() {
-
 }
+
+////////////////////////////////////////////////////////////////////////
+// Undocumented ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Untested Functions //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////s

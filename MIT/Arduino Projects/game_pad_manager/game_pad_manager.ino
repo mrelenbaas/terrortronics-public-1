@@ -59,6 +59,8 @@
 
 // 2nd-party libraries.
 #include "game_pad_manager.h"
+// 3rd-party libraries.
+#include <MemoryFree.h>
 
 // Pseudo-constructor.
 void setup() {
@@ -76,6 +78,27 @@ void setup() {
    The main function.
 */
 void loop() {
+  result = sentinelTimer.updateGuard();
+  if (result == 0) {
+    return;
+  } else if (result == 1) {
+    fps.increment();
+  } else if (result == 2) {
+    Serial.print(millis());
+    Serial.print(", FPS: ");
+    Serial.print(fps.getFPS());
+    Serial.print(", freeMemory: ");
+    Serial.print(freeMemory());
+    Serial.println();
+    fps.reset();
+  }
+  /*
+    if (digitalRead(4) == LOW) {
+    digitalWrite(13, HIGH);
+    } else {
+    digitalWrite(13, LOW);
+    }
+  */
   for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
     if (buttons[i].updateHotState() == 1) {
       //Serial.println("PRESSED 0");
@@ -126,9 +149,6 @@ void loop() {
       }
     }
   }
-
-  //delay(SERIAL_DELAY);
-  Serial.println(millis());
   previousTime = currentTime;
   currentTime = millis();
   deltaTime = currentTime - previousTime;
@@ -172,11 +192,10 @@ void loop() {
   }
 }
 
-
+////////////////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////s
 void resetFunction() {
-  Serial.print(millis());
-  Serial.print(": ");
-  Serial.println("reset()");
   isTurningJoysticksOn = false;
   isTurningJoysticksOff = true;
   delayTime = 0;
@@ -184,31 +203,34 @@ void resetFunction() {
 }
 
 void startFunction() {
-  Serial.print(millis());
-  Serial.print(": start(), ");
-  Serial.println(OUTGOING_START);
   isTurningJoysticksOff = false;
   isTurningJoysticksOn = true;
   delayTime = 0;
   pinIndex = 0;
 }
 
+////////////////////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 void startButtonFunctionPress() {
-  digitalWrite(13, HIGH);
-  Serial.println("startButtonFunction()");
 }
 
 void startButtonFunctionRelease() {
-  digitalWrite(13, LOW);
 }
 
 /**
    Empty. The function to call then the Reset button is pressed.
 */
 void resetButtonFunctionPress() {
-  Serial.println("reset()");
 }
 
 void resetButtonFunctionRelease() {
-
 }
+
+////////////////////////////////////////////////////////////////////////
+// Undocumented ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Untested Functions //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////

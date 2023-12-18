@@ -40,7 +40,7 @@
 // 2nd-party libraries.
 #include "arcade_controller.h"
 // 3rd-party libraries.
-#include <MemoryFree.h>;
+#include <MemoryFree.h>
 
 /**
    Pseudo-constructor that sets up the application.
@@ -60,24 +60,6 @@
 */
 void setup() {
   Serial.begin(BAUD_RATE);
-  pinMode(4, INPUT_PULLUP);
-  //pinMode(53, OUTPUT);
-  /*
-    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
-      Serial.print(millis());
-      Serial.print(": buttons[");
-      Serial.print(i);
-      Serial.print("], ");
-      buttons[i].printDefinitions();
-      Serial.println("");
-    }
-  */
-  //buttons[buttonStart].startTargeting();
-  //state.startWaiting();
-  //lights[lightDebug].turnOn();
-  //pinMode(13, OUTPUT);
-  //digitalWrite(13, HIGH);
-  //lights[lightDebug].turnOn();
 }
 
 /**
@@ -194,67 +176,43 @@ void setup() {
    @enduml
 */
 void loop() {
-  //if (digitalRead(4) == LOW) {
-  //  digitalWrite(53, LOW);
-  //} else {
-  //  digitalWrite(53, HIGH);
-  //}
-  /*
-    counter = 0;
-    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
-    if (buttons[i].printDefinitions() == 1) {
-      ++counter;
-    }
-    }
-    if (counter > 0) {
-    digitalWrite(53, LOW);
-    Serial.println("");
-    } else {
-    digitalWrite(53, HIGH);
-    }
-  */
-  if (!timer()) {
+  result = sentinelTimer.updateGuard();
+  if (result == 0) {
     return;
+  } else if (result == 1) {
+    fps.increment();
+  } else if (result == 2) {
+    Serial.print(millis());
+    Serial.print(", FPS: ");
+    Serial.print(fps.getFPS());
+    Serial.print(", freeMemory: ");
+    Serial.print(freeMemory());
+    Serial.println();
+    fps.reset();
   }
   for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
     if (buttons[i].updateHotState() == 1) {
-      //Serial.println("PRESSED 0");
       if (buttons[i].debounceByTimePress() == 1) {
-        //Serial.println("PRESSED 1");
         if (buttons[i].debounceByPositionPress() == 1) {
-          //Serial.println("PRESSED 2");
           if (buttons[i].debounceByBlockPress() == 1) {
-            //Serial.println("PRESSED 3");
             if (buttons[i].debounceByTargetPress() == 1) {
               if (state.isRunning() == 1) {
-                //Serial.println("PRESSED 4 (Running)");
               } else if (state.isWaiting() == 1) {
-                //Serial.println("PRESSED 4 (Waiting)");
               }
-              //Serial.println("PRESSED 4");
-              //state.startRunning();
             }
             buttons[i].delegateFunctionPress();
           }
         }
       }
-      //buttons[i].debounceByPosition();
     } else {
-      //Serial.println("RELEASED 0");
       if (buttons[i].debounceByTimeRelease() == 1) {
-        //Serial.println("RELEASED 1");
         if (buttons[i].debounceByPositionRelease() == 1) {
-          //Serial.println("RELEASED 2");
           if (buttons[i].debounceByBlockRelease() == 1) {
-            //Serial.println("RELEASED 3");
             if (buttons[i].debounceByTargetRelease() == 1) {
               if (state.isRunning() == 1) {
-                //Serial.println("RELEASED 4 (Running)");
                 buttons[i].stopTargeting();
                 buttons[i].delegateFunctionRelease();
-                // Do something else.
               } else if (state.isWaiting() == 1) {
-                //Serial.println("RELEASED 4 (Waiting)");
                 buttons[i].stopTargeting();
                 buttons[buttonRedTop].startTargeting();
               }
@@ -266,17 +224,10 @@ void loop() {
       }
     }
   }
-  /*
-    if (Serial.available() > 0) {
-    // WARNING: Remember to consume the incoming bytes.
-    // The error does not occur when using the usb.c or usb.py files.
-    // The error does occur when reading/writing in a PyGame
-    // application.
+  if (Serial.available() > 0) {
     incomingMessage = Serial.read();
-    //Serial.println(incomingMessage);
     switch (incomingMessage) {
       case messageStart:
-        //startFunction();
         break;
       case messageReset:
         resetFunction();
@@ -284,20 +235,11 @@ void loop() {
       default:
         break;
     }
-    }
-    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
-      Serial.print(millis());
-      Serial.print(": digitalRead(, ");
-      Serial.print(i);
-      Serial.print("), ");
-      buttons[i].printDefinitions();
-      Serial.println("");
-    }
-  */
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
-// Messages ////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
    Reset the application.
@@ -311,16 +253,12 @@ void loop() {
    @enduml
 */
 void resetFunction() {
-  Serial.print(millis());
-  Serial.print(": ");
-  Serial.println("resetFunction()");
 }
 
 /**
    Start the application.
 
    RUSCAL:
-   - IS_LOGGING <- TRUE
 
    @startuml
    skinparam shadowing  true
@@ -329,86 +267,10 @@ void resetFunction() {
    @enduml
 */
 void startFunction() {
-  Serial.print(millis());
-  Serial.print(": startFunction(), ");
-  Serial.println(OUTGOING_START);
 }
 
 ////////////////////////////////////////////////////////////////////////
-// Time ////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-/**
-   The application's primary timer.
-
-   @returns FALSE if delta is less than zero. Otherwise, TRUE.
-
-   RUSCAL:
-   - result isoftype Bool
-   - result <- TRUE
-   - timePrevious <- timeCurrent
-   - timeCurrent <- Millis ()
-   - timeDelta <- timeCurrent - timePrevious
-   - if (timeDelta < 0)
-    + result <- FALSE
-   - elseif
-   - timeAccumulated <- timeAccumulated + timeDelta
-   - if (timeAccumulated >= TIME_ONE_SECOND)
-    + fpsPrevious <- fpsCurrent
-    + fpsCurrent <- 0
-    + timeAccumulated <- timeAccumulated - TIME_ONE_SECOND
-   - else
-    + fpsCurrent <- fpsCurrent + 1
-   - endif
-   - returns result
-
-   @startuml
-   skinparam shadowing  true
-   (*) -r-> "Instantiate result"
-   -r-> "Set previous time to current time"
-   -r-> "Set current time to polled value"
-   -r-> "Calculate delta"
-   -r-> "time delta less than 0"
-   -d-> "Set result to FALSE"
-   -u-> "time delta less than 0"
-   -r-> "Add time delta to time this second"
-   -r-> "Time this second is greater than time period"
-   -d-> "Set the previous FPS to FPS current"
-   -d-> "Set the current FPS to zero"
-   -d-> "Minus 1 second from time this second"
-   -u-> "Time this second is greater than time period"
-   -r-> "Else add 1 to the current FPS"
-   -r-> (*)
-   @enduml
-*/
-bool timer() {
-  bool result = true;
-  timePrevious = timeCurrent;
-  timeCurrent = millis();
-  timeDelta = timeCurrent - timePrevious;
-  if (timeDelta < 0) {
-    Serial.print(millis());
-    Serial.print(": ERROR, timeDelta < 0");
-    result = false;
-  }
-  timeAccumulated += timeDelta;
-  if (timeAccumulated >= TIME_ONE_SECOND) {
-    Serial.print(millis());
-    Serial.print(": FPS, ");
-    Serial.println(fpsCurrent);
-    Serial.print(millis());
-    Serial.print(": freeMemory, ");
-    Serial.println(freeMemory());
-    fpsPrevious = fpsCurrent;
-    fpsCurrent = 0;
-    timeAccumulated -= TIME_ONE_SECOND;
-  } else {
-    ++fpsCurrent;
-  }
-  return result;
-}
-
-////////////////////////////////////////////////////////////////////////
-// Delegates ///////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 /**
    The function to call when the Start button is pressed.
@@ -423,12 +285,10 @@ bool timer() {
    @enduml
 */
 void startButtonFunctionPress() {
-  Serial.println("startButtonFunction()");
   lights[lightDebug].turnOn();
 }
 
 void startButtonFunctionRelease() {
-  Serial.println("startButtonFunction()");
   lights[lightDebug].turnOff();
   state.startRunning();
 }
@@ -437,142 +297,116 @@ void startButtonFunctionRelease() {
    The function to call when the Reset button is pressed.
 */
 void resetButtonFunctionPress() {
-  Serial.println("reset()");
 }
 
 void resetButtonFunctionRelease() {
-  Serial.println("reset()");
 }
 
 /**
    The function to call when the top-red button is pressed.
 */
 void redTopButtonFunctionPress() {
-  Serial.println("redTopButtonFunction()");
 }
 
 void redTopButtonFunctionRelease() {
-  Serial.println("redTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-red button is pressed.
 */
 void redBottomButtonFunctionPress() {
-  Serial.println("redBottomButtonFunction()");
 }
 
 void redBottomButtonFunctionRelease() {
-  Serial.println("redBottomButtonFunction()");
 }
 
 /**
    The function to call when the top-green button is pressed.
 */
 void greenTopButtonFunctionPress() {
-  Serial.println("greenTopButtonFunction()");
 }
 
 void greenTopButtonFunctionRelease() {
-  Serial.println("greenTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-green button is pressed.
 */
 void greenBottomButtonFunctionPress() {
-  Serial.println("greenBottomButtonFunction()");
 }
 
 void greenBottomButtonFunctionRelease() {
-  Serial.println("greenBottomButtonFunction()");
 }
 
 /**
    The function to call when the blue-top button is pressed.
 */
 void blueTopButtonFunctionPress() {
-  Serial.println("blueTopButtonFunction()");
 }
 
 void blueTopButtonFunctionRelease() {
-  Serial.println("blueTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-blue button is pressed.
 */
 void blueBottomButtonFunctionPress() {
-  Serial.println("blueBottomButtonFunction()");
 }
 void blueBottomButtonFunctionRelease() {
-  Serial.println("blueBottomButtonFunction()");
 }
 
 /**
    The function to call when the yellow-top button is pressed.
 */
 void yellowTopButtonFunctionPress() {
-  Serial.println("yellowTopButtonFunction()");
 }
 
 void yellowTopButtonFunctionRelease() {
-  Serial.println("yellowTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-yellow button is pressed.
 */
 void yellowBottomButtonFunctionPress() {
-  Serial.println("yellowBottomButtonFunction()");
 }
 
 void yellowBottomButtonFunctionRelease() {
-  Serial.println("yellowBottomButtonFunction()");
 }
 
 /**
    The function to call when the black-top button is pressed.
 */
 void blackTopButtonFunctionPress() {
-  Serial.println("blackTopButtonFunction()");
 }
 
 void blackTopButtonFunctionRelease() {
-  Serial.println("blackTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-black button is pressed.
 */
 void blackBottomButtonFunctionPress() {
-  Serial.println("blackBottomButtonFunction()");
 }
 
 void blackBottomButtonFunctionRelease() {
-  Serial.println("blackBottomButtonFunction()");
 }
 
 /**
    The function to call when the top-white button is pressed.
 */
 void whiteTopButtonFunctionPress() {
-  Serial.println("whiteTopButtonFunction()");
 }
 
 void whiteTopButtonFunctionRelease() {
-  Serial.println("whiteTopButtonFunction()");
 }
 
 /**
    The function to call when the bottom-white button is pressed.
 */
 void whiteBottomButtonFunctionPress() {
-  Serial.println("whiteBottomButtonFunction()");
 }
 
 void whiteBottomButtonFunctionRelease() {
-  Serial.println("whiteBottomButtonFunction()");
 }
 
 ////////////////////////////////////////////////////////////////////////

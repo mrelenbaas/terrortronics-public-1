@@ -41,83 +41,58 @@
 #include "Keyboard.h"
 // 2nd-party libraries.
 #include "go_karts.h"
-
-/*
-  void openNewTerminal() {
-  Keyboard.press(KEY_LEFT_CTRL);
-  Keyboard.press(KEY_LEFT_ALT);
-  Keyboard.press('t');
-  Keyboard.releaseAll();
-  delay(DELAY_AFTER_SPACE);
-  }
-*/
-
-/*
-  void pressKeys(String keys) {
-  buttonBlock = true;
-  for (int i = 0; i < keys.length(); i++) {
-    Keyboard.press(keys[i]);
-    delay(DELAY_BETWEEN_KEY_PRESS);
-    Keyboard.releaseAll();
-  }
-  Keyboard.write(KEY_RETURN);
-  }
-*/
+// 3rd-party libraries.
+#include <MemoryFree.h>
 
 void setup() {
   Serial.begin(BAUD_RATE);
   Keyboard.begin();
-
-  //for (int i = 0; i < PINS_SIZE; i++) {
-  //  pinMode(PINS[i], INPUT_PULLUP);
-  //}
-  pinMode(pinSensorProximity, INPUT_PULLUP);
-  pinMode(13, OUTPUT);
+  //pinMode(pinSensorProximity, INPUT_PULLUP);
+  //pinMode(13, OUTPUT);
 }
 
 /**
    The main function.
 */
 void loop() {
+  result = sentinelTimer.updateGuard();
+  if (result == 0) {
+    return;
+  } else if (result == 1) {
+    fps.increment();
+  } else if (result == 2) {
+    Serial.print(millis());
+    Serial.print(", FPS: ");
+    Serial.print(fps.getFPS());
+    Serial.print(", freeMemory: ");
+    Serial.print(freeMemory());
+    Serial.println();
+    fps.reset();
+  }
   for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
     if (buttons[i].updateHotState() == 1) {
-      //Serial.println("PRESSED 0");
       if (buttons[i].debounceByTimePress() == 1) {
-        //Serial.println("PRESSED 1");
         if (buttons[i].debounceByPositionPress() == 1) {
-          //Serial.println("PRESSED 2");
           if (buttons[i].debounceByBlockPress() == 1) {
-            //Serial.println("PRESSED 3");
             if (buttons[i].debounceByTargetPress() == 1) {
               if (state.isRunning() == 1) {
-                //Serial.println("PRESSED 4 (Running)");
               } else if (state.isWaiting() == 1) {
-                //Serial.println("PRESSED 4 (Waiting)");
               }
             }
             buttons[i].delegateFunctionPress();
           }
         }
       }
-      //buttons[i].debounceByPosition();
     } else {
-      //Serial.println("PRESSED 0");
       if (buttons[i].debounceByTimeRelease() == 1) {
-        //Serial.println("RELEASED 1");
         if (buttons[i].debounceByPositionRelease() == 1) {
-          //Serial.println("RELEASED 2");
           if (buttons[i].debounceByBlockRelease() == 1) {
-            //Serial.println("RELEASED 3");
             if (buttons[i].debounceByTargetRelease() == 1) {
               if (state.isRunning() == 1) {
-                //Serial.println("RELEASED 4 (Running)");
                 buttons[i].stopTargeting();
                 buttons[i].delegateFunctionPress();
-                // Do something else.
               } else if (state.isWaiting() == 1) {
-                //Serial.println("RELEASED 4 (Waiting)");
                 buttons[i].stopTargeting();
-                //buttons[i].delegateFunctionRelease();
                 state.startRunning();
                 buttons[buttonReset].startTargeting();
               }
@@ -129,30 +104,13 @@ void loop() {
       }
     }
   }
-  /*
-    //Serial.println(digitalRead(6));
-    if (digitalRead(pinSensorProximity) == LOW) {
-    Serial.println("ON");
-    //digitalWrite(pinButtonStart, HIGH);
-    } else {
-    Serial.println("");
-    //digitalWrite(pinButtonStart, LOW);
-    }
-  */
-  //for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
   if (proximity.updateHotState() == 1) {
-    //Serial.println("PRESSED 0");
     if (proximity.debounceByTimePress() == 1) {
-      //Serial.println("PRESSED 1");
       if (proximity.debounceByPositionPress() == 1) {
-        //Serial.println("PRESSED 2");
         if (proximity.debounceByBlockPress() == 1) {
-          //Serial.println("PRESSED 3");
           if (proximity.debounceByTargetPress() == 1) {
             if (state.isRunning() == 1) {
-              //Serial.println("PRESSED 4 (Running)");
             } else if (state.isWaiting() == 1) {
-              //Serial.println("PRESSED 4 (Waiting)");
             }
           }
           proximity.delegateFunctionPress();
@@ -161,23 +119,15 @@ void loop() {
     }
     //buttons[i].debounceByPosition();
   } else {
-    //Serial.println("RELEASED 0");
     if (proximity.debounceByTimeRelease() == 1) {
-      //Serial.println("RELEASED 1");
       if (proximity.debounceByPositionRelease() == 1) {
-        //Serial.println("RELEASED 2");
         if (proximity.debounceByBlockRelease() == 1) {
-          //Serial.println("RELEASED 3");
           if (proximity.debounceByTargetRelease() == 1) {
             if (state.isRunning() == 1) {
-              //Serial.println("RELEASED 4 (Running)");
               proximity.stopTargeting();
               proximity.delegateFunctionPress();
-              // Do something else.
             } else if (state.isWaiting() == 1) {
-              //Serial.println("RELEASED 4 (Waiting)");
               proximity.stopTargeting();
-              //buttons[i].delegateFunctionRelease();
             }
           }
           proximity.delegateFunctionRelease();
@@ -187,10 +137,6 @@ void loop() {
     }
   }
   if (Serial.available() > 0) {
-    // WARNING: Remember to consume the incoming bytes.
-    // The error does not occur when using the usb.c or usb.py files.
-    // The error does occur when reading/writing in a PyGame
-    // application.
     incomingMessage = Serial.read();
     switch (incomingMessage) {
       case messageStart:
@@ -205,26 +151,21 @@ void loop() {
   }
 }
 
+////////////////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 void resetFunction() {
-  Serial.print(millis());
-  Serial.print(": ");
-  Serial.println("reset()");
 }
 
 void startFunction() {
-  Serial.print(millis());
-  Serial.print(": start(), ");
-  Serial.println(OUTGOING_START);
 }
 
 ////////////////////////////////////////////////////////////////////////
-// Delegates ///////////////////////////////////////////////////////////
+// Buttons /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 void startButtonFunctionPress() {
-  digitalWrite(13, HIGH);
-  Serial.println("startButtonFunction()");
+  lights[lightDebug].turnOn();
   if (!isBlocked) {
-    // Replace this section with automatic connection to the network.
     Keyboard.press(KEY_LEFT_ALT);
     delay(DELAY_BETWEEN_KEY_PRESS);
     Keyboard.press(KEY_TAB);
@@ -276,7 +217,6 @@ void startButtonFunctionPress() {
     Keyboard.press(KEY_RETURN);
     delay(DELAY_BETWEEN_KEY_PRESS);
     Keyboard.release(KEY_RETURN);
-
     delay(5000);
     Keyboard.press(KEY_LEFT_CTRL);
     delay(DELAY_BETWEEN_KEY_PRESS);
@@ -284,8 +224,6 @@ void startButtonFunctionPress() {
     delay(DELAY_BETWEEN_KEY_PRESS);
     Keyboard.release(KEY_LEFT_CTRL);
     Keyboard.release('q');
-
-    // Keep this section below.
     delay(5000);
     Keyboard.press(KEY_LEFT_CTRL);
     delay(DELAY_BETWEEN_KEY_PRESS);
@@ -296,7 +234,6 @@ void startButtonFunctionPress() {
     Keyboard.release(KEY_LEFT_CTRL);
     Keyboard.release(KEY_LEFT_ALT);
     Keyboard.release('t');
-
     delay(10000);
     Keyboard.press('.');
     delay(DELAY_BETWEEN_KEY_PRESS);
@@ -423,26 +360,34 @@ void startButtonFunctionPress() {
 }
 
 void startButtonFunctionRelease() {
-  digitalWrite(13, LOW);
+  lights[lightDebug].turnOff();
+  state.startRunning();
 }
 
 /**
    Empty. The function to call then the Reset button is pressed.
 */
 void resetButtonFunctionPress() {
-  Serial.println("reset()");
 }
 
 void resetButtonFunctionRelease() {
-
 }
 
 void proximityButtonFunctionPress() {
-  Serial.println("proximityButtonFunctionPress()");
-  lights[lightDebug].turnOn();
+  startButtonFunctionPress();
+  pinMode(pinButtonStart, OUTPUT);
+  digitalWrite(pinButtonStart, LOW);
 }
 
 void proximityButtonFunctionRelease() {
-  Serial.println("proximityButtonFunctionRelease()");
-  lights[lightDebug].turnOff();
+  startButtonFunctionRelease();
+  pinMode(pinButtonStart, INPUT_PULLUP);
 }
+
+////////////////////////////////////////////////////////////////////////
+// Undocumented ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Untested Functions //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
