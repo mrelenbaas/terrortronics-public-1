@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////////
+// Doxygen Comments ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 /**
    @file rotary_encoder_rpm_controller.h
 
@@ -96,99 +99,8 @@ enum pinEnum {
 };
 
 ////////////////////////////////////////////////////////////////////////
-// Messages ////////////////////////////////////////////////////////////
+// Serial //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-/**
-   An enum of possible message codes.
-*/
-enum messageEnum {
-  messageStart = 48, ///< Start message.
-  messageReset = 49  ///< Reset message.
-};
-/**
-   The default outgoing message.
-*/
-const char OUTGOING_START[] = {
-  't',
-  'y',
-  'p',
-  'e',
-  ':',
-  'c',
-  'o',
-  'n',
-  'f',
-  'i',
-  'g',
-  ',',
-  'f',
-  'i',
-  'l',
-  'e',
-  'n',
-  'a',
-  'm',
-  'e',
-  ':',
-  'f',
-  'p',
-  's',
-  ',',
-  'f',
-  'u',
-  'n',
-  'c',
-  't',
-  'i',
-  'o',
-  'n',
-  ':',
-  'r',
-  'e',
-  's',
-  'e',
-  't',
-  ',',
-  'd',
-  'e',
-  'l',
-  'i',
-  'm',
-  'i',
-  't',
-  'e',
-  'r',
-  's',
-  ':',
-  ' ',
-  'c',
-  'm',
-  '0',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '1',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '2',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '3',
-  ';',
-  ' ',
-  'c',
-  'm',
-  '4',
-  ';',
-  '\\',
-  'n',
-  '\0'
-};
 /**
    The incoming message.
 */
@@ -197,14 +109,7 @@ int incomingMessage;
 ////////////////////////////////////////////////////////////////////////
 // Logs ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-/**
-   If TRUE, then print logging tracers.
-*/
-bool IS_LOGGING = false;
-/**
-   If TRUE, then print debug tracers.
-*/
-bool IS_DEBUGGING = true;
+logging = Logging(false, true);
 
 ////////////////////////////////////////////////////////////////////////
 // Buttons /////////////////////////////////////////////////////////////
@@ -228,22 +133,22 @@ enum buttonEnum {
    An array of Button elements. Handles the buttons hot state,
    debouncing, and callbacks.
 */
-ButtonAVR buttons[] = {
-  ButtonAVR(
-    pinButtonStart,
-    Timer(),
-    DEBOUNCE_PERIOD_START,
-    DEBOUNCE_PERIOD_STOP,
-    startButtonFunctionPress,
-    startButtonFunctionRelease)/*,
-  ButtonAVR(
+//ButtonAVR buttons[] = {
+//  ButtonAVR(
+//    pinButtonStart,
+//    Timer(),
+//    DEBOUNCE_PERIOD_START,
+//    DEBOUNCE_PERIOD_STOP,
+//    startButtonFunctionPress,
+//    startButtonFunctionRelease),
+  /*ButtonAVR(
     pinButtonReset,
     Timer(),
     DEBOUNCE_PERIOD_START,
     DEBOUNCE_PERIOD_STOP,
     resetButtonFunctionPress,
     resetButtonFunctionRelease),*/
-};
+//};
 
 ////////////////////////////////////////////////////////////////////////
 // State ///////////////////////////////////////////////////////////////

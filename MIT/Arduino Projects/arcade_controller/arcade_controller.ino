@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////////
+// Doxygen Comments ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 /**
    @file arcade_controller.cpp
 
@@ -57,8 +60,9 @@
 */
 void setup() {
   Serial.begin(BAUD_RATE);
-  pinMode(53, OUTPUT);
-  if (IS_DEBUGGING) {
+  pinMode(4, INPUT_PULLUP);
+  //pinMode(53, OUTPUT);
+  /*
     for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
       Serial.print(millis());
       Serial.print(": buttons[");
@@ -67,9 +71,9 @@ void setup() {
       buttons[i].printDefinitions();
       Serial.println("");
     }
-  }
-  buttons[buttonStart].startTargeting();
-  state.startWaiting();
+  */
+  //buttons[buttonStart].startTargeting();
+  //state.startWaiting();
   //lights[lightDebug].turnOn();
   //pinMode(13, OUTPUT);
   //digitalWrite(13, HIGH);
@@ -190,24 +194,25 @@ void setup() {
    @enduml
 */
 void loop() {
-  if (IS_LOGGING) {
-    Serial.print(millis());
-    Serial.println(": ----------");
-  }
-  if (IS_DEBUGGING) {
+  //if (digitalRead(4) == LOW) {
+  //  digitalWrite(53, LOW);
+  //} else {
+  //  digitalWrite(53, HIGH);
+  //}
+  /*
     counter = 0;
     for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
-      if (buttons[i].printDefinitions() == 1) {
-        ++counter;
-      }
+    if (buttons[i].printDefinitions() == 1) {
+      ++counter;
+    }
     }
     if (counter > 0) {
-      digitalWrite(53, LOW);
-      Serial.println("");
+    digitalWrite(53, LOW);
+    Serial.println("");
     } else {
-      digitalWrite(53, HIGH);
+    digitalWrite(53, HIGH);
     }
-  }
+  */
   if (!timer()) {
     return;
   }
@@ -261,7 +266,8 @@ void loop() {
       }
     }
   }
-  if (Serial.available() > 0) {
+  /*
+    if (Serial.available() > 0) {
     // WARNING: Remember to consume the incoming bytes.
     // The error does not occur when using the usb.c or usb.py files.
     // The error does occur when reading/writing in a PyGame
@@ -278,8 +284,7 @@ void loop() {
       default:
         break;
     }
-  }
-  if (IS_LOGGING) {
+    }
     for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
       Serial.print(millis());
       Serial.print(": digitalRead(, ");
@@ -288,7 +293,7 @@ void loop() {
       buttons[i].printDefinitions();
       Serial.println("");
     }
-  }
+  */
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -298,7 +303,6 @@ void loop() {
    Reset the application.
 
    RUSCAL:
-   - IS_LOGGING <- FALSE
 
    @startuml
    skinparam shadowing  true
@@ -307,12 +311,9 @@ void loop() {
    @enduml
 */
 void resetFunction() {
-  if (IS_LOGGING) {
-    Serial.print(millis());
-    Serial.print(": ");
-    Serial.println("resetFunction()");
-  }
-  IS_LOGGING = false;
+  Serial.print(millis());
+  Serial.print(": ");
+  Serial.println("resetFunction()");
 }
 
 /**
@@ -328,12 +329,9 @@ void resetFunction() {
    @enduml
 */
 void startFunction() {
-  if (IS_LOGGING) {
-    Serial.print(millis());
-    Serial.print(": startFunction(), ");
-    Serial.println(OUTGOING_START);
-  }
-  IS_LOGGING = true;
+  Serial.print(millis());
+  Serial.print(": startFunction(), ");
+  Serial.println(OUTGOING_START);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -388,22 +386,18 @@ bool timer() {
   timeCurrent = millis();
   timeDelta = timeCurrent - timePrevious;
   if (timeDelta < 0) {
-    if (IS_LOGGING) {
-      Serial.print(millis());
-      Serial.print(": ERROR, timeDelta < 0");
-    }
+    Serial.print(millis());
+    Serial.print(": ERROR, timeDelta < 0");
     result = false;
   }
   timeAccumulated += timeDelta;
   if (timeAccumulated >= TIME_ONE_SECOND) {
-    if (IS_LOGGING || IS_DEBUGGING) {
-      Serial.print(millis());
-      Serial.print(": FPS, ");
-      Serial.println(fpsCurrent);
-      Serial.print(millis());
-      Serial.print(": freeMemory, ");
-      Serial.println(freeMemory());
-    }
+    Serial.print(millis());
+    Serial.print(": FPS, ");
+    Serial.println(fpsCurrent);
+    Serial.print(millis());
+    Serial.print(": freeMemory, ");
+    Serial.println(freeMemory());
     fpsPrevious = fpsCurrent;
     fpsCurrent = 0;
     timeAccumulated -= TIME_ONE_SECOND;

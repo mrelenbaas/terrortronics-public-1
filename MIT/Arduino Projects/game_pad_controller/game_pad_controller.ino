@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////////
+// Doxygen Comments ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 /**
    @file game_pad_controller.ino
 
@@ -94,22 +97,16 @@ void setupTimer(void) {
 */
 void setup() {
   Serial.begin(BAUD_RATE);
-  if (IS_DEBUGGING) {
-    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
-      Serial.print(millis());
-      Serial.print(": buttons[");
-      Serial.print(i);
-      Serial.print("], ");
-      buttons[i].printDefinitions();
-      Serial.println("");
-    }
+  for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+    Serial.print(millis());
+    Serial.print(": buttons[");
+    Serial.print(i);
+    Serial.print("], ");
+    buttons[i].printDefinitions();
+    Serial.println("");
   }
   buttons[buttonStart].startTargeting();
   state.startWaiting();
-  //pinMode(pinButtonStart, INPUT_PULLUP);
-  //pinMode(13, OUTPUT);
-  //pinMode(6, INPUT);
-  //pinMode(7, OUTPUT);
 #if PROFILING
   PF(0);
   prof_has_dumped = 0;
@@ -126,10 +123,6 @@ void setup() {
 */
 void loop() {
   unsigned char op;
-  if (IS_LOGGING) {
-    //Serial.print(millis());
-    //Serial.println(": ----------");
-  }
   if (!timer()) {
     return;
   }
@@ -184,13 +177,13 @@ void loop() {
     }
   }
   /*
-  if (digitalRead(6) == HIGH) {
+    if (digitalRead(6) == HIGH) {
     lights[lightDebug].turnOn();
     Serial.println("PRESSED");
-  } else {
+    } else {
     lights[lightDebug].turnOff();
     Serial.println("RELEASED");
-  }
+    }
   */
   //for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
   if (proximity.updateHotState() == 1) {
@@ -247,23 +240,21 @@ void loop() {
   //proximity.updateHotState();
   //soundDigital.updateHotState();
   //soundAnalog.updateHotState();
-  if (IS_DEBUGGING) {
-    counter = 0;
-    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
-      if (buttons[i].printDefinitions() == 1) {
-        ++counter;
-      }
+  counter = 0;
+  for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+    if (buttons[i].printDefinitions() == 1) {
+      ++counter;
     }
-    if (counter > 0) {
-      Serial.println("");
-    }
-    for (int i = 0; i < (sizeof(thumbSticks) / sizeof(ThumbStick)); ++i) {
-      Serial.print("(");
-      thumbSticks[i].printDefinitions();
-      Serial.print("), ");
-    }
-    Serial.println();
   }
+  if (counter > 0) {
+    Serial.println("");
+  }
+  for (int i = 0; i < (sizeof(thumbSticks) / sizeof(ThumbStick)); ++i) {
+    Serial.print("(");
+    thumbSticks[i].printDefinitions();
+    Serial.print("), ");
+  }
+  Serial.println();
   //water.printDefinitions();
   //Serial.print(", ");
   //proximity.printDefinitions();
@@ -309,7 +300,6 @@ void loop() {
    Reset the application.
 
    RUSCAL:
-   - IS_LOGGING <- FALSE
 
    @startuml
    skinparam shadowing  true
@@ -321,14 +311,12 @@ void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
-  IS_LOGGING = false;
 }
 
 /**
    Start the application.
 
    RUSCAL:
-   - IS_LOGGING <- TRUE
 
    @startuml
    skinparam shadowing  true
@@ -340,7 +328,6 @@ void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
-  IS_LOGGING = true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -395,22 +382,18 @@ bool timer() {
   timeCurrent = millis();
   timeDelta = timeCurrent - timePrevious;
   if (timeDelta < 0) {
-    if (IS_LOGGING) {
-      Serial.print(millis());
-      Serial.print(": ERROR, timeDelta < 0");
-    }
+    Serial.print(millis());
+    Serial.print(": ERROR, timeDelta < 0");
     result = false;
   }
   timeAccumulated += timeDelta;
   if (timeAccumulated >= TIME_ONE_SECOND) {
-    if (IS_LOGGING || IS_DEBUGGING) {
-      Serial.print(millis());
-      Serial.print(": FPS, ");
-      Serial.println(fpsCurrent);
-      Serial.print(millis());
-      Serial.print(": freeMemory, ");
-      Serial.println(freeMemory());
-    }
+    Serial.print(millis());
+    Serial.print(": FPS, ");
+    Serial.println(fpsCurrent);
+    Serial.print(millis());
+    Serial.print(": freeMemory, ");
+    Serial.println(freeMemory());
     fpsPrevious = fpsCurrent;
     fpsCurrent = 0;
     timeAccumulated -= TIME_ONE_SECOND;
@@ -457,12 +440,10 @@ void resetButtonFunctionRelease() {
 
 void proximityButtonFunctionPress() {
   Serial.println("proximityButtonFunctionPress()");
-  lights[lightDebug].turnOn();
 }
 
 void proximityButtonFunctionRelease() {
   Serial.println("proximityButtonFunctionRelease()");
-  lights[lightDebug].turnOff();
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////////
+// Doxygen Comments ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 /**
    @file joystick_manager.ino
 
@@ -174,7 +177,6 @@ void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
-  IS_LOGGING = false;
   isTurningJoysticksOn = false;
   isTurningJoysticksOff = true;
   delayTime = 0;
@@ -185,7 +187,6 @@ void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
-  IS_LOGGING = true;
   isTurningJoysticksOff = false;
   isTurningJoysticksOn = true;
   delayTime = 0;

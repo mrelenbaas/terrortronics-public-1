@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////////
+// Doxygen Comments ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 /**
    @file ultrasonic_sensors.ino
 
@@ -217,14 +220,12 @@ void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
-  IS_LOGGING = false;
 }
 
 void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
-  IS_LOGGING = true;
 }
 
 void startButtonFunctionPress() {

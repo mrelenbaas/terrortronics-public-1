@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////////
+// Doxygen Comments ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 /**
    @file rotary_encoder_rpm_controller.ino
 
@@ -112,27 +115,26 @@ void setup() {
   attachInterrupt(CLK, updateEncoder, CHANGE);
   attachInterrupt(DT, updateEncoder, CHANGE);
 
-  pinMode(21, INPUT_PULLUP);
+  //pinMode(21, INPUT_PULLUP);
 }
 
 /**
    The main function.
 */
 void loop() {
-  /*
-    if (digitalRead(21) == LOW) {
+  if (digitalRead(21) == LOW) {
     digitalWrite(RED_LED, HIGH);
     digitalWrite(YELLOW_LED, HIGH);
     digitalWrite(BLUE_LED, HIGH);
     digitalWrite(GREEN_LED, HIGH);
-    } else {
+  } else {
     digitalWrite(RED_LED, LOW);
     digitalWrite(YELLOW_LED, LOW);
     digitalWrite(BLUE_LED, LOW);
     digitalWrite(GREEN_LED, LOW);
-    }
-  */
-  for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
+  }
+  /*
+    for (int i = 0; i < (sizeof(buttons) / sizeof(Button)); ++i) {
     if (buttons[i].updateHotState() == 1) {
       //Serial.println("PRESSED 0");
       if (buttons[i].debounceByTimePress() == 1) {
@@ -181,7 +183,8 @@ void loop() {
         buttons[i].reset();
       }
     }
-  }
+    }
+  */
   /*
     if (isRecordingFlag) {
     isRecordingFlag = false;
@@ -343,14 +346,12 @@ void resetFunction() {
   Serial.print(millis());
   Serial.print(": ");
   Serial.println("reset()");
-  IS_LOGGING = false;
 }
 
 void startFunction() {
   Serial.print(millis());
   Serial.print(": start(), ");
   Serial.println(OUTGOING_START);
-  IS_LOGGING = true;
 }
 
 void startButtonFunctionPress() {
